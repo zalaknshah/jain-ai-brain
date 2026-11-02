@@ -24,10 +24,13 @@ python -m venv .venv
 python -m jace.cli health
 python -m jace.cli ask "How can I move through a crowded room?"
 python -m jace.cli remember demo-user "The user prefers quiet spoken responses"
+python -m jace.cli simulate
 python -m jace.cli serve
 ```
 
 The HTTP service listens on `http://127.0.0.1:8787`.
+
+For a browser voice console, run `python -m http.server 8080 --directory web` in a second terminal and open `http://127.0.0.1:8080`. Chrome-based browsers provide speech recognition and speech synthesis; the text API remains usable when browser audio is unavailable.
 
 ```bash
 curl -X POST http://127.0.0.1:8787/v1/think \
@@ -42,20 +45,28 @@ curl -X POST http://127.0.0.1:8787/v1/think \
 - `POST /v1/think` with `"learn": true` — additionally persist only explicit preference/fact statements from that turn.
 - `POST /v1/memory` — add a user memory only after the Pratikramana alignment filter.
 - `GET /v1/memory/<user_id>` — inspect that user's stored memories.
+- `DELETE /v1/memory/<user_id>` — delete that user's memories and graph nodes.
 - `GET /v1/canonical/search?q=...` — search immutable canonical principles.
+- `GET /v1/graph/search?q=...&user_id=...` — inspect activated GraphRAG nodes and scores.
+- `POST /v1/simulate/motion` — run a hardware-free safety decision against a sensor observation.
 
 ## Project layout
 
 - `src/jace/ethics.py` — Ahimsa, Aparigraha, and safety policy checks.
 - `src/jace/syadvada.py` — deterministic sevenfold perspective evaluator.
 - `src/jace/canonical.py` — read-only canonical knowledge store.
+- `src/jace/corpus.py` — provenance-aware reviewed-text ingestion.
 - `src/jace/cognitive_graph.py` — persistent activation graph and iterative GraphRAG loop.
+- `src/jace/simulator.py` — conservative motion decisions for simulator testing.
 - `src/jace/memory.py` — SQLite continuous memory with sanitisation and audit trail.
 - `src/jace/reasoner.py` — local deterministic reasoner plus an optional HTTP LLM adapter.
 - `src/jace/engine.py` — orchestration of the complete cognitive loop.
 - `src/jace/api.py` — standard-library HTTP API.
 - `integrations/` — optional voice and ROS 2 boundaries; hardware is never enabled by default.
+- `web/index.html` — dependency-free browser voice console using the Web Speech API.
 - `scripts/train_qlora.py` — guarded Unsloth/QLoRA training entry point.
+- `scripts/ingest_corpus.py` — convert reviewed text files into canonical records.
+- `scripts/evaluate.py` — run checked-in safety regression cases.
 
 ## Design boundaries
 
@@ -68,6 +79,32 @@ The canonical store is read-only at runtime and contains principles and referenc
 3. Shared terms create weighted `aligned_with` edges to canonical principles; canonical nodes and edges cannot be changed by dialogue.
 4. A later query activates matching seeds, expands through related principles and memories for at most two hops, and reranks the result.
 5. The reasoner receives only selected context. No automatic model-weight training occurs in production; reviewed datasets can be used by `scripts/train_qlora.py`.
+
+### Corpus ingestion
+
+The repository includes a small principles file for the MVP, not a claim to contain the complete Agamas. Add only reviewed and legally usable source text:
+
+```bash
+python scripts/ingest_corpus.py texts/tattvartha.txt \
+  --output data/corpus.json \
+  --work "Tattvartha Sutra" \
+  --source "Edition, translator, page or URL" \
+  --language en --license "record the applicable licence" \
+  --tag ahimsa --tag anekantavada --verified
+```
+
+Every generated chunk contains a stable hash, work, edition/source, location, language, licence, and review flag. A generated paraphrase is labelled as interpretation and is not presented as a quotation.
+
+Point a deployment at an ingested corpus with `JACE_CANONICAL_PATH=data/corpus.json`.
+
+### Container and checks
+
+```bash
+docker compose up --build
+python scripts/evaluate.py
+```
+
+GitHub Actions runs the unit tests and safety evaluation on every push and pull request.
 
 Run checks with:
 

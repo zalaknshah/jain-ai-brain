@@ -1,0 +1,14 @@
+services:
+  jace:
+    build: .
+    ports:
+      - "8787:8787"
+    environment:
+      JACE_HOST: 0.0.0.0
+      JACE_PORT: 8787
+      JACE_DB_PATH: /app/data/jace.sqlite3
+    volumes:
+      - jace-data:/app/data
+
+volumes:
+  jace-data:

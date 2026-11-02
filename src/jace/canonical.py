@@ -16,7 +16,8 @@ class CanonicalStore:
 
     def __init__(self, path: str | Path | None = None) -> None:
         root = Path(__file__).resolve().parents[2]
-        self.path = Path(path) if path else root / "data" / "canonical.json"
+        package_path = Path(__file__).resolve().parent / "data" / "canonical.json"
+        self.path = Path(path) if path else (root / "data" / "canonical.json" if (root / "data" / "canonical.json").exists() else package_path)
         raw = json.loads(self.path.read_text(encoding="utf-8"))
         self._entries = tuple(CanonicalEntry(**item) for item in raw)
 
@@ -29,7 +30,7 @@ class CanonicalStore:
             return []
 
         def score(entry: CanonicalEntry) -> int:
-            haystack = " ".join([entry.title, entry.principle, entry.guidance, *entry.tags]).lower()
+            haystack = " ".join(filter(None, [entry.title, entry.principle, entry.guidance, entry.source, entry.work, entry.edition, entry.location, *entry.tags])).lower()
             return sum(1 for term in terms if term in haystack)
 
         ranked = sorted(self._entries, key=lambda item: (-score(item), item.entry_id))

@@ -3,9 +3,10 @@ from __future__ import annotations
 import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 from .engine import CognitiveEngine
+from .simulator import decide_motion
 
 
 class JaceHandler(BaseHTTPRequestHandler):
@@ -43,12 +44,33 @@ class JaceHandler(BaseHTTPRequestHandler):
             query = parse_qs(parsed.query).get("q", [""])[0]
             self._send(200, {"entries": [item.to_dict() for item in self.engine.canonical.search(query)]})
             return
+        if parsed.path == "/v1/graph/search":
+            params = parse_qs(parsed.query)
+            query = params.get("q", [""])[0]
+            user_id = params.get("user_id", [""])[0]
+            if not query or not user_id:
+                self._send(400, {"error": "q and user_id are required"})
+                return
+            hits = self.engine.graph.retrieve(query, user_id)
+            self._send(200, {"hits": [{"node_id": hit.node_id, "node_type": hit.node_type, "title": hit.title, "content": hit.content, "score": hit.score, "depth": hit.depth, "source_id": hit.source_id} for hit in hits]})
+            return
         if parsed.path.startswith("/v1/memory/"):
-            user_id = parsed.path.removeprefix("/v1/memory/")
+            user_id = unquote(parsed.path.removeprefix("/v1/memory/"))
             if not user_id:
                 self._send(400, {"error": "user_id is required"})
                 return
             self._send(200, {"memories": [item.to_dict() for item in self.engine.memory.list(user_id)]})
+            return
+        self._send(404, {"error": "not found"})
+
+    def do_DELETE(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path.startswith("/v1/memory/"):
+            user_id = unquote(parsed.path.removeprefix("/v1/memory/"))
+            if not user_id:
+                self._send(400, {"error": "user_id is required"})
+                return
+            self._send(200, {"deleted": self.engine.forget_user(user_id), "user_id": user_id})
             return
         self._send(404, {"error": "not found"})
 
@@ -67,6 +89,11 @@ class JaceHandler(BaseHTTPRequestHandler):
             if self.path == "/v1/memory":
                 memory, notes = self.engine.remember(str(body.get("user_id", "")), str(body.get("content", "")))
                 self._send(201 if memory else 422, {"accepted": memory is not None, "memory": memory.to_dict() if memory else None, "notes": notes})
+                return
+            if self.path == "/v1/simulate/motion":
+                if not isinstance(body.get("observation"), dict):
+                    raise ValueError("observation must be an object")
+                self._send(200, {"decision": decide_motion(body["observation"]).to_dict()})
                 return
             self._send(404, {"error": "not found"})
         except ValueError as exc:

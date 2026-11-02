@@ -16,7 +16,7 @@ from .syadvada import evaluate
 
 class CognitiveEngine:
     def __init__(self, db_path: str | Path | None = None, canonical_path: str | Path | None = None, reasoner: Reasoner | None = None) -> None:
-        self.canonical = CanonicalStore(canonical_path)
+        self.canonical = CanonicalStore(canonical_path or os.getenv("JACE_CANONICAL_PATH"))
         actual_db_path = db_path or os.getenv("JACE_DB_PATH", "data/jace.sqlite3")
         self.memory = MemoryStore(actual_db_path)
         self.graph = CognitiveGraph(actual_db_path)
@@ -74,6 +74,12 @@ class CognitiveEngine:
         if not re.search(r"\b(remember|prefer|my name|i am|i live|we should|please note|do not forget)\b", content, re.I):
             return None, ["No explicit preference or fact detected; conversation was not persisted."]
         return self.remember(user_id, content)
+
+    def forget_user(self, user_id: str) -> int:
+        memories = self.memory.list(user_id, 100000)
+        deleted = self.memory.delete_user(user_id)
+        self.graph.remove_memories([memory.memory_id for memory in memories])
+        return deleted
 
     def close(self) -> None:
         self.memory.close()

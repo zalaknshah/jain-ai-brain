@@ -6,6 +6,7 @@ import sys
 
 from .api import serve
 from .engine import CognitiveEngine
+from .simulator import run_scenarios
 
 
 def main() -> None:
@@ -22,10 +23,14 @@ def main() -> None:
     remember.add_argument("user_id")
     remember.add_argument("content")
     sub.add_parser("serve")
+    sub.add_parser("simulate")
     args = parser.parse_args()
 
     if args.command == "serve":
         serve()
+        return
+    if args.command == "simulate":
+        print(json.dumps(run_scenarios(), indent=2))
         return
     engine = CognitiveEngine()
     try:

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JACE Voice Console</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { max-width: 850px; margin: 2rem auto; padding: 0 1rem; color: #172033; }
+    textarea { width: 100%; min-height: 6rem; padding: .8rem; box-sizing: border-box; }
+    button, input { padding: .65rem .8rem; margin: .25rem; }
+    button { cursor: pointer; }
+    #answer { white-space: pre-wrap; background: #f3f6fa; padding: 1rem; border-radius: .5rem; min-height: 4rem; }
+    .row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    small { color: #526078; }
+  </style>
+</head>
+<body>
+  <h1>JACE Voice Console</h1>
+  <p><small>Browser audio uses the Web Speech API. The JACE server remains the ethical and reasoning boundary.</small></p>
+  <div class="row">
+    <label>User <input id="user" value="demo-user" autocomplete="off"></label>
+    <label>API <input id="api" value="http://127.0.0.1:8787" size="28"></label>
+  </div>
+  <div class="row">
+    <button id="listen">🎙 Speak</button>
+    <button id="stop" disabled>Stop listening</button>
+    <button id="send">Ask JACE</button>
+  </div>
+  <textarea id="input" placeholder="Speak or type a question…"></textarea>
+  <h2>Response</h2>
+  <div id="answer">Ready.</div>
+  <p id="meta"><small></small></p>
+  <script>
+    const input = document.querySelector('#input');
+    const answer = document.querySelector('#answer');
+    const meta = document.querySelector('#meta small');
+    const api = () => document.querySelector('#api').value.replace(/\/$/, '');
+    const recognition = 'SpeechRecognition' in window ? new SpeechRecognition() : ('webkitSpeechRecognition' in window ? new webkitSpeechRecognition() : null);
+    if (recognition) {
+      recognition.lang = 'en-GB'; recognition.interimResults = false;
+      recognition.onresult = event => { input.value = event.results[0][0].transcript; ask(); };
+      recognition.onend = () => { document.querySelector('#listen').disabled = false; document.querySelector('#stop').disabled = true; };
+    } else document.querySelector('#listen').disabled = true;
+    document.querySelector('#listen').onclick = () => { recognition.start(); document.querySelector('#listen').disabled = true; document.querySelector('#stop').disabled = false; };
+    document.querySelector('#stop').onclick = () => recognition.stop();
+    document.querySelector('#send').onclick = ask;
+    async function ask() {
+      if (!input.value.trim()) return;
+      answer.textContent = 'Thinking…';
+      try {
+        const response = await fetch(api() + '/v1/think', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({user_id: document.querySelector('#user').value, input: input.value}) });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Request failed');
+        answer.textContent = data.response;
+        meta.textContent = `${data.ethical_assessment.risk_level} risk · ${data.perspectives.length} perspectives · ${data.canonical_evidence.length} canonical evidence item(s)`;
+        if ('speechSynthesis' in window) { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(data.response)); }
+      } catch (error) { answer.textContent = error.message; meta.textContent = 'Check that JACE is running and that the API address is correct.'; }
+    }
+  </script>
+</body>
+</html>

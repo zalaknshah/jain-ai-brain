@@ -2,8 +2,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from jace.corpus import ingest_files
 from jace.engine import CognitiveEngine
 from jace.ethics import assess, sanitise_memory
+from jace.simulator import decide_motion
 from jace.syadvada import evaluate
 
 
@@ -43,6 +45,35 @@ class JaceTests(unittest.TestCase):
                 self.assertIsNone(memory)
                 memory, _ = engine.learn_from_conversation("user-1", "Remember that I prefer quiet rooms")
                 self.assertIsNotNone(memory)
+            finally:
+                engine.close()
+
+    def test_corpus_ingestion_preserves_provenance(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "text.txt"
+            output = Path(directory) / "corpus.json"
+            source.write_text("Ahimsa asks us to reduce injury.", encoding="utf-8")
+            self.assertEqual(ingest_files([source], output, work="Test work", source="Test edition", verified=True), 1)
+            record = __import__("json").loads(output.read_text(encoding="utf-8"))[0]
+            self.assertEqual(record["work"], "Test work")
+            self.assertEqual(record["source"], "Test edition")
+            self.assertTrue(record["verified"])
+
+    def test_simulator_halts_for_living_obstacle(self):
+        decision = decide_motion({"distance_m": 0.2, "living_entity": True})
+        self.assertEqual(decision.action, "HALT_AND_REROUTE")
+        self.assertFalse(decision.executable)
+
+    def test_forget_user_removes_memory_and_graph_node(self):
+        with tempfile.TemporaryDirectory() as directory:
+            engine = CognitiveEngine(db_path=Path(directory) / "jace.sqlite3")
+            try:
+                memory, _ = engine.remember("user-1", "I prefer gentle movement")
+                self.assertIsNotNone(memory)
+                before = engine.graph.stats()["nodes"]
+                self.assertEqual(engine.forget_user("user-1"), 1)
+                self.assertEqual(engine.memory.list("user-1"), [])
+                self.assertEqual(engine.graph.stats()["nodes"], before - 1)
             finally:
                 engine.close()
 

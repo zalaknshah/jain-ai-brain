@@ -73,10 +73,18 @@ Fine-tuning is a separate, reviewed offline process. Never feed raw private conv
 
 ## Production progression
 
-1. Replace the sample canonical records with reviewed, licensed corpus records.
+1. Replace the sample canonical records with reviewed, licensed corpus records using `scripts/ingest_corpus.py`.
 2. Add multilingual source and response metadata for English, Hindi, and Gujarati.
 3. Add embedding retrieval and graph entity extraction behind `CognitiveGraph`.
 4. Run an adversarial evaluation set covering harm, privacy, bias, uncertainty, and action proposals.
 5. Add Pipecat/LiveKit transport and Faster-Whisper/Kokoro only after the text API is stable.
 6. Connect the ROS 2 bridge to MuJoCo/Webots/Isaac Sim with a simulator-only allowlist.
 7. Host the API or UI on a free tier only after rate limits, authentication, secret management, and a data-retention policy are configured.
+
+## Simulator contract
+
+`jace simulate` and `POST /v1/simulate/motion` exercise the same high-level motion policy without requiring Isaac Sim, MuJoCo, Webots, ROS 2, or a GPU. A living entity, fragile object, close obstacle, or uncertain sensor result produces `HALT_AND_REROUTE`; a clear path produces only a slow, confirmation-gated proposal. The result is intentionally not executable motor control.
+
+## Deployment
+
+The root `Dockerfile` runs the standard-library HTTP service and `docker-compose.yml` persists the SQLite data volume. This is suitable for a small private deployment or as the basis of a Hugging Face Space. Public hosting must add authentication, request limits, HTTPS, secret management, and an explicit memory-retention policy before exposing it to users.

@@ -78,7 +78,7 @@ class CognitiveGraph:
         for entry in entries:
             self._connection.execute(
                 "INSERT OR IGNORE INTO graph_nodes(node_id, node_type, title, content, source_id, immutable) VALUES (?, 'canonical', ?, ?, ?, 1)",
-                (f"canonical:{entry.entry_id}", entry.title, f"{entry.principle} {entry.guidance}", entry.entry_id),
+                (f"canonical:{entry.entry_id}", entry.title, f"{entry.principle} {entry.guidance} {entry.source} {entry.work or ''} {' '.join(entry.tags)}", entry.entry_id),
             )
         for left in entries:
             for right in entries:
@@ -160,6 +160,13 @@ class CognitiveGraph:
             "nodes": self._connection.execute("SELECT COUNT(*) FROM graph_nodes").fetchone()[0],
             "edges": self._connection.execute("SELECT COUNT(*) FROM graph_edges").fetchone()[0],
         }
+
+    def remove_memories(self, memory_ids: list[int]) -> None:
+        for memory_id in memory_ids:
+            node_id = f"memory:{memory_id}"
+            self._connection.execute("DELETE FROM graph_edges WHERE from_id = ? OR to_id = ?", (node_id, node_id))
+            self._connection.execute("DELETE FROM graph_nodes WHERE node_id = ? AND immutable = 0", (node_id,))
+        self._connection.commit()
 
     def close(self) -> None:
         self._connection.close()

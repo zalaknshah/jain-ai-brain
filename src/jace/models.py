@@ -43,6 +43,12 @@ class CanonicalEntry:
     guidance: str
     source: str
     tags: list[str] = field(default_factory=list)
+    work: str | None = None
+    language: str = "en"
+    edition: str | None = None
+    location: str | None = None
+    license: str | None = None
+    verified: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
