@@ -6,3 +6,5 @@ data/jace.sqlite3
 dist/
 build/
 *.egg-info/
+.opencode/omnirush.json
+.opencode/omnirush/inbox/
