@@ -18,6 +18,9 @@ Requires Python 3.10+.
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 # Linux/macOS: source .venv/bin/activate
+# If running directly from the checkout without installation:
+# Windows cmd: set PYTHONPATH=src
+# Linux/macOS: export PYTHONPATH=src
 python -m jace.cli health
 python -m jace.cli ask "How can I move through a crowded room?"
 python -m jace.cli remember demo-user "The user prefers quiet spoken responses"
