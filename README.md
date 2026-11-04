@@ -232,3 +232,7 @@ The [explicit cleaning-planner screen](docs/CLEANING_PLANNER_SCREEN.md) now supp
 ### Review an explicit wardrobe inventory
 
 The [wardrobe planner](docs/WARDROBE_PLANNER.md) takes explicitly confirmed item quantities, condition/fit/use/ownership/preservation choices and category minimums. It produces conditional item-specific reuse/repair/uncertainty checks and bounded possible-surplus review, without donation, disposal, purchases or model calls. Counts are declarations, not measured savings or an optimized wardrobe. The dedicated screen is linked from the conversation console.
+
+### Review context before an answer
+
+The separate `web/context.html` flow previews available sources and scoped private memories without a model call. All candidates start unchecked; one explicit confirmation selects the exact context for a local answer, or a separately chosen configured reasoner. The server rechecks ownership, expiry and source/memory/configuration revisions and adds no hidden retrieval results. Existing ordinary chat is unchanged. See [API, CLI, privacy boundaries and test evidence](docs/CONTEXT_REVIEW.md). This is selection control, not semantic verification or a trained reasoning system.

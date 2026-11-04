@@ -248,7 +248,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == '/health':
             # Public liveness must not reveal private memory/graph statistics.
-            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1})
+            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1, 'context_review_protocol': 1})
             return
         subject = self._authorize()
         if subject is None:
@@ -416,6 +416,23 @@ class JaceHandler(BaseHTTPRequestHandler):
             user_id = body.get('user_id', subject)
             if user_id != subject:
                 self._send(403, {'error': 'access to this user is not allowed'})
+                return
+            if self.path == '/v1/context/preview':
+                self._body_keys(body, {'user_id', 'input', 'memory_scope'})
+                self._send(200, self.engine.preview_context(subject, self._text(body, 'input'),
+                    memory_scope=body.get('memory_scope', DEFAULT_SCOPE)))
+                return
+            if self.path == '/v1/context/answer':
+                self._body_keys(body, {'user_id', 'input', 'memory_scope', 'sources', 'memories',
+                    'expected_request_revision', 'expected_corpus_revision', 'confirm_context',
+                    'reasoner_mode', 'expected_reasoner_revision'})
+                if 'expected_reasoner_revision' in body:
+                    validate_memory_revision(body['expected_reasoner_revision'])
+                self._send(200, self.engine.answer_selected_context(subject, self._text(body, 'input'),
+                    memory_scope=body.get('memory_scope', DEFAULT_SCOPE), sources=body.get('sources'), memories=body.get('memories'),
+                    expected_request_revision=body.get('expected_request_revision'), expected_corpus_revision=body.get('expected_corpus_revision'),
+                    confirm_context=body.get('confirm_context', False), reasoner_mode=body.get('reasoner_mode', 'local'),
+                    expected_reasoner_revision=body.get('expected_reasoner_revision')))
                 return
             if self.path == '/v1/wardrobe-inventories':
                 self._body_keys(body, {'user_id', 'inventory', 'memory_scope', 'expires_at', 'confirm_save'})

@@ -18,9 +18,11 @@ from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .models import ActionProposal, ThoughtResult, utc_now
 from .model_output import checked_text
 from .practical import plan_for
-from .reasoner import LocalReasoner, Reasoner, configured_reasoner
+from .reasoner import HttpJsonReasoner, LocalReasoner, Reasoner, configured_reasoner
 from .syadvada import evaluate
 from .temporal import recall_time, eligible_for_recall
+from .context_review import (MAX_CONTEXT_BYTES, MAX_PREVIEW_BYTES, LIMITS as CONTEXT_LIMITS,
+    bounded_payload, fingerprint, question, source_selection, memory_selection, selections, reasoner_descriptor, reasoner_snapshot)
 
 
 def synchronized(method):
@@ -63,6 +65,10 @@ class CognitiveEngine:
                 perspectives=evaluate(request), canonical_evidence=[],
                 memories_used=[], action=None, created_at=utc_now(), memory_scope=memory_scope,
             )
+        evidence, memories, _ = self._retrieve_context(user_id, request, memory_scope)
+        return self._answer_context(user_id, request, memory_scope, assessment, evidence, memories, self.reasoner)
+
+    def _retrieve_context(self, user_id, request, memory_scope):
         context_time = recall_time()
         graph_hits = self.graph.retrieve(request, user_id, max_hops=2, max_nodes=12, at=context_time, memory_scope=memory_scope)
         plan = plan_for(request)
@@ -89,9 +95,12 @@ class CognitiveEngine:
             if memory.memory_id not in seen_memories:
                 memories.append(memory)
                 seen_memories.add(memory.memory_id)
+        return evidence, memories, context_time
+
+    def _answer_context(self, user_id, request, memory_scope, assessment, evidence, memories, reasoner):
         perspectives = evaluate(request, [item.principle for item in evidence])
         try:
-            response, action = self.reasoner.respond(request, assessment, perspectives, evidence, memories)
+            response, action = reasoner.respond(request, assessment, perspectives, evidence, memories)
             checked_text(response, 'reasoner response', 32768, allow_crlf=True)
             if action is not None:
                 if not isinstance(action, ActionProposal) or action.requires_confirmation is not True or not isinstance(action.parameters, dict):
@@ -125,6 +134,94 @@ class CognitiveEngine:
             created_at=utc_now(),
             memory_scope=memory_scope,
         )
+
+    @synchronized
+    def preview_context(self, user_id: str, request: str, *, memory_scope: str = DEFAULT_SCOPE) -> dict:
+        request, memory_scope, request_revision = question(user_id, request, memory_scope)
+        assessment = assess(request)
+        evidence, memories, at = [], [], recall_time()
+        if assessment.allowed:
+            # Snapshot all authoritative reads together, then release the read
+            # transaction before any later model operation.
+            with self.memory.connection:
+                self.memory.connection.execute('BEGIN')
+                evidence, memories, at = self._retrieve_context(user_id, request, memory_scope)
+        context = {'canonical_evidence':[{'entry':item.to_dict(), 'revision':source_selection(item)['revision']} for item in evidence],
+                   'memories':[item.to_dict() for item in memories]}
+        bounded_payload(context, MAX_CONTEXT_BYTES, 'preview context')
+        result = {'protocol':1, 'user_id':user_id, 'input':request, 'memory_scope':memory_scope,
+                  'context_at':at, 'request_revision':request_revision,
+                  'corpus_revision':fingerprint([item.to_dict() for item in self.canonical.all()]),
+                  'blocked':not assessment.allowed, 'ethical_assessment':assessment.to_dict(),
+                  'configured_reasoner':reasoner_descriptor(self.reasoner), 'limits':list(CONTEXT_LIMITS), **context}
+        bounded_payload(result, MAX_PREVIEW_BYTES, 'context preview')
+        return result
+
+    @synchronized
+    def answer_selected_context(self, user_id: str, request: str, *, sources, memories,
+                                expected_request_revision: str, expected_corpus_revision: str,
+                                confirm_context: bool = False, memory_scope: str = DEFAULT_SCOPE,
+                                reasoner_mode: str = 'local', expected_reasoner_revision: str | None = None) -> dict:
+        if confirm_context is not True:
+            raise ValueError('explicit confirm_context=true is required before answering with selected context')
+        request, memory_scope, request_revision = question(user_id, request, memory_scope)
+        for value in (expected_request_revision, expected_corpus_revision):
+            validate_memory_revision(value)
+        if reasoner_mode not in ('local', 'configured'):
+            raise ValueError('reasoner_mode must be local or configured')
+        selected_sources, selected_memories = selections(sources, 'source'), selections(memories, 'memory')
+        corpus = self.canonical.all()
+        corpus_revision = fingerprint([item.to_dict() for item in corpus])
+        if request_revision != expected_request_revision or corpus_revision != expected_corpus_revision:
+            raise MemoryConflictError('Question, owner, scope or admitted corpus changed after review; preview again.')
+        configured = self.reasoner
+        descriptor, configuration = reasoner_snapshot(configured) if reasoner_mode == 'configured' else (None, None)
+        if reasoner_mode == 'configured':
+            validate_memory_revision(expected_reasoner_revision)
+            if descriptor['kind'] == 'unavailable':
+                raise ValueError('custom reasoners cannot be used in selected-context mode')
+            if descriptor['revision'] != expected_reasoner_revision:
+                raise MemoryConflictError('Configured reasoner destination changed after review; preview again.')
+        elif expected_reasoner_revision is not None:
+            raise ValueError('local mode must not include a configured-reasoner revision')
+        assessment = assess(request)
+        if not assessment.allowed:
+            raise ValueError('This request cannot be answered through context review because the input harm gate rejected it.')
+        by_id = {item.entry_id:item for item in corpus}
+        evidence, captured = [], []
+        for selected in selected_sources:
+            entry = by_id.get(selected['entry_id'])
+            if entry is None or source_selection(entry) != selected:
+                raise MemoryConflictError('A selected source changed or is no longer admitted; preview again.')
+            evidence.append(entry)
+        at = recall_time()
+        with self.memory.connection:
+            self.memory.connection.execute('BEGIN')
+            for selected in selected_memories:
+                memory = self.memory.get_owned(user_id, selected['memory_id'])
+                if memory.memory_scope != memory_scope:
+                    raise LookupError('selected memory not found in this scope')
+                if not eligible_for_recall(memory.expires_at, at) or memory_selection(memory) != selected:
+                    raise MemoryConflictError('A selected memory changed or expired after review; preview again.')
+                captured.append(memory)
+        bounded_payload({'canonical_evidence':[item.to_dict() for item in evidence],
+                         'memories':[item.to_dict() for item in captured]}, MAX_CONTEXT_BYTES, 'selected context')
+        # No retrieval, graph supplement, learning or action execution here.
+        # Freeze the reviewed HTTP destination/model/credential into an isolated
+        # standard adapter. Later mutations to the configured instance cannot
+        # redirect this already captured request or substitute its transport.
+        selected_reasoner = LocalReasoner()
+        if reasoner_mode == 'configured' and descriptor['kind'] == 'http_json':
+            url, api_key, model = configuration
+            selected_reasoner = HttpJsonReasoner(url, api_key=api_key, model=model)
+        result = self._answer_context(user_id, request, memory_scope, assessment, evidence, captured,
+                                      selected_reasoner).to_dict()
+        result['action'] = None
+        result['context_review'] = {'protocol':1,'reasoner_mode':reasoner_mode,'request_revision':request_revision,
+            'corpus_revision':corpus_revision,'sources':selected_sources,'memories':selected_memories,
+            'selected_at':at,'configured_reasoner':descriptor}
+        bounded_payload(result, MAX_PREVIEW_BYTES, 'selected-context answer')
+        return result
 
     @synchronized
     def remember(self, user_id: str, content: str, *, expires_at: str | None = None, memory_scope: str = DEFAULT_SCOPE):

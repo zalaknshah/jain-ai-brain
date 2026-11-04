@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JACE Context Review</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #172033; color-scheme: light; }
+    body { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+    input, select, button { padding: .65rem; margin: .25rem; } button { cursor: pointer; }
+    textarea { box-sizing: border-box; width: 100%; min-height: 7rem; padding: .8rem; }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    section, fieldset { margin: 1rem 0; padding: 1rem; border: 1px solid #ccd4df; }
+    pre, li { white-space: pre-wrap; overflow-wrap: anywhere; } li { margin: .8rem 0; }
+    small { color: #526078; } [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Conversation</a> · <a href="memory.html">Memory expiry and deletion</a> · <a href="cleaning.html">Cleaning planner</a> · <a href="wardrobe.html">Wardrobe planner</a></nav>
+  <h1>Review context before answering</h1>
+  <p>First retrieve candidates from your API without calling a model or saving a memory. Then explicitly select the sources and private memories to use for one answer. No extra retrieved context is added. Nothing is selected or sent automatically.</p>
+  <div class="row">
+    <label>User <input id="user" value="demo-user" autocomplete="off"></label>
+    <label>Memory scope <input id="scope" value="default" maxlength="64" autocomplete="off" spellcheck="false"></label>
+    <label>API <input id="api" value="http://127.0.0.1:8787" size="28" autocomplete="off"></label>
+    <label>API token <input id="token" type="password" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <p><small>Use your assigned token only for a trusted HTTPS or local loopback API. Tokens and this review are not stored in browser storage or copied between pages. Scopes separate context, not same-owner permissions.</small></p>
+  <label for="question">Your question, reviewed by you</label>
+  <textarea id="question" maxlength="10000" autocomplete="off" placeholder="Type a question to preview its available context…"></textarea>
+  <p><small>Preview sends this question, account and scope to your API for local retrieval. It does not contact the configured model provider. This page has no microphone, speech or hardware controls.</small></p>
+  <button id="preview">Preview available context</button><button id="cancel">Cancel and clear</button>
+  <p id="status" role="status" aria-live="polite">Ready. Nothing has been retrieved or sent.</p>
+  <section id="review" hidden aria-labelledby="review-title">
+    <h2 id="review-title">Candidates, not selected</h2>
+    <pre id="review-info"></pre>
+    <h3>Source candidates</h3><ul id="sources" aria-label="Source candidates"></ul>
+    <h3>Private memory candidates</h3><ul id="memories" aria-label="Private memory candidates"></ul>
+    <p><small>Every checkbox starts off. Select only material you have reviewed. Source metadata and verification labels are API claims, not verification performed by this browser. An empty selection is allowed.</small></p>
+    <h3>Ethical assessment</h3><pre id="assessment"></pre>
+    <h3>Limits</h3><ul id="limits"></ul>
+    <fieldset>
+      <legend>Choose how to answer</legend>
+      <label>Reasoner <select id="mode"><option value="local">Local only, no model provider</option><option value="configured" id="configured-option">Configured reasoner</option></select></label>
+      <pre id="target"></pre>
+      <p><label><input id="confirm" type="checkbox"> <span id="consent-text"></span></label></p>
+      <button id="answer" disabled>Answer once with this selected context</button>
+    </fieldset>
+  </section>
+  <section id="result" hidden aria-labelledby="result-title">
+    <h2 id="result-title">Answer from the reviewed selection</h2>
+    <pre id="response"></pre><pre id="receipt"></pre>
+    <h3>Sources used</h3><ul id="used-sources"></ul>
+    <h3>Private memories used</h3><ul id="used-memories"></ul>
+    <p><small>The receipt checks selected records and revisions, not factual accuracy or whether sources support the generated answer. Generated content remains unverified. This is a snapshot. Later expiry or deletion cannot retract an answer or context already sent. No memory was learned or updated, and no action was executed. A new answer needs a fresh preview and confirmation.</small></p>
+  </section>
+  <p><small>Changing the question, scope, account or API invalidates the review. Cancellation stops this browser waiting; a submitted request may already have reached the reasoner. No request is automatically retried. API confirmation is a caller assertion, not proof of human review.</small></p>
+  <script src="context-review.js"></script>
+</body>
+</html>

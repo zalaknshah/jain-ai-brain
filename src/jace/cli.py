@@ -28,6 +28,19 @@ def main() -> None:
     ask.add_argument("--user", default="local-user")
     ask.add_argument("--memory-scope", type=validate_memory_scope, default="default")
     ask.add_argument("--learn", action="store_true", help="persist only an explicit preference/fact in this turn")
+    for command in ('preview-context', 'answer-context'):
+        review = sub.add_parser(command, help='review selected context without automatic learning; explicit consent required to answer')
+        review.add_argument('user_id')
+        review.add_argument('input')
+        review.add_argument('--memory-scope', type=validate_memory_scope, default='default')
+        if command == 'answer-context':
+            review.add_argument('--expected-request-revision', required=True)
+            review.add_argument('--expected-corpus-revision', required=True)
+            review.add_argument('--source', nargs=2, action='append', default=[], metavar=('ID', 'REVISION'))
+            review.add_argument('--memory', nargs=2, action='append', default=[], metavar=('ID', 'REVISION'))
+            review.add_argument('--reasoner-mode', choices=('local', 'configured'), default='local')
+            review.add_argument('--expected-reasoner-revision')
+            review.add_argument('--confirm-context', action='store_true', help='approve this question and exact selected records; configured mode may transmit them to the configured provider')
     remember = sub.add_parser("remember")
     remember.add_argument("user_id")
     remember.add_argument("content")
@@ -150,6 +163,20 @@ def main() -> None:
                 payload["learned_memory"] = memory.to_dict() if memory else None
                 payload["learning_notes"] = notes
             print(json.dumps(payload, indent=2, ensure_ascii=False))
+        elif args.command in ('preview-context', 'answer-context'):
+            try:
+                if args.command == 'preview-context':
+                    result = engine.preview_context(args.user_id, args.input, memory_scope=args.memory_scope)
+                else:
+                    result = engine.answer_selected_context(args.user_id, args.input, memory_scope=args.memory_scope,
+                        sources=[{'entry_id':ident, 'revision':revision} for ident,revision in args.source],
+                        memories=[{'memory_id':int(ident), 'revision':revision} for ident,revision in args.memory],
+                        expected_request_revision=args.expected_request_revision, expected_corpus_revision=args.expected_corpus_revision,
+                        confirm_context=args.confirm_context, reasoner_mode=args.reasoner_mode,
+                        expected_reasoner_revision=args.expected_reasoner_revision)
+                print(json.dumps(result, indent=2, ensure_ascii=False))
+            except (LookupError, ValueError) as error:
+                parser.exit(2, str(error) + '\n')
         elif args.command in ('save-cleaning-profile', 'update-cleaning-profile'):
             try:
                 profile = validate_profile(dict(surface=args.surface, water_policy=args.water_policy,
