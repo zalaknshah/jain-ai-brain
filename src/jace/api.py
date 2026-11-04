@@ -13,7 +13,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from .auth import ApiAuthorization
 from .engine import CognitiveEngine
 from .limits import PeerRateLimiter, bounded_int
-from .memory import MemoryDeletionConsentRequired
+from .memory import MemoryDeletionConsentRequired, MemoryConflictError, validate_memory_revision
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .model_output import strict_json
 from .simulator import decide_motion
@@ -238,7 +238,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header('Access-Control-Allow-Origin', origin)
         self.send_header('Vary', 'Origin')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-JACE-Confirm-Delete, X-JACE-Confirm-Audit-Cleanup')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-JACE-Confirm-Delete, X-JACE-Confirm-Audit-Cleanup, X-JACE-If-Memory-Revision')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
         self.send_header('Connection', 'close')
         self.end_headers()
@@ -248,7 +248,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == '/health':
             # Public liveness must not reveal private memory/graph statistics.
-            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1})
+            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1})
             return
         subject = self._authorize()
         if subject is None:
@@ -265,8 +265,11 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(500, {'error': 'internal server error'})
             return
         if parsed.path == '/v1/canonical/search':
-            query = parse_qs(parsed.query).get('q', [''])[0]
-            self._send(200, {'entries': [item.to_dict() for item in self.engine.canonical.search(query)]})
+            try:
+                query = parse_qs(parsed.query).get('q', [''])[0]
+                self._send(200, {'entries': [item.to_dict() for item in self.engine.canonical.search(query)]})
+            except ValueError as error:
+                self._send(400, {'error': str(error)})
             return
         if parsed.path == '/v1/memory-scopes':
             try:
@@ -296,9 +299,14 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(403, {'error': 'access to this user is not allowed'})
                 return
             try:
-                params = self._scope_query(parsed, {'memory_scope'})
+                params = self._scope_query(parsed, {'memory_scope', 'before_id', 'limit'})
                 scope = validate_memory_scope(params.get('memory_scope', DEFAULT_SCOPE))
-                self._send(200, {'memory_scope': scope, 'memories': [item.to_dict() for item in self.engine.list_memories(subject, memory_scope=scope)]})
+                for field in ('before_id', 'limit'):
+                    if field in params and re.fullmatch(r'[1-9][0-9]{0,18}', params[field]) is None:
+                        raise ValueError(f'{field} must be a canonical positive integer')
+                self._send(200, self.engine.memory_page(subject, memory_scope=scope,
+                    before_id=int(params['before_id']) if 'before_id' in params else None,
+                    limit=int(params['limit']) if 'limit' in params else 20))
             except ValueError as error:
                 self._send(400, {'error': str(error)})
             return
@@ -322,10 +330,16 @@ class JaceHandler(BaseHTTPRequestHandler):
                     self._send(409, {'error': 'audit cleanup confirmation must be a single explicit choice',
                                      'required_header': 'X-JACE-Confirm-Audit-Cleanup: all-unattributed-for-owner'})
                     return
+                revisions = self.headers.get_all('X-JACE-If-Memory-Revision', [])
+                if len(revisions) > 1:
+                    raise ValueError('exactly one expected memory revision is permitted')
+                expected_revision = validate_memory_revision(revisions[0]) if revisions else None
                 cleanup = bool(audit_choices)
                 deleted = self.engine.forget_memory(subject, memory_id, confirm_delete=True,
-                                                    confirm_unattributed_audit_cleanup=cleanup)
+                                                    confirm_unattributed_audit_cleanup=cleanup, expected_revision=expected_revision)
                 self._send(200, {'deleted': deleted, 'memory_id': memory_id, 'user_id': subject})
+            except MemoryConflictError as error:
+                self._send(409, {'error': str(error)})
             except MemoryDeletionConsentRequired as error:
                 self._send(409, {'error': str(error), 'unattributed_audit_entries': error.unattributed_audit_entries,
                                 'required_header': 'X-JACE-Confirm-Audit-Cleanup: all-unattributed-for-owner'})
@@ -359,16 +373,19 @@ class JaceHandler(BaseHTTPRequestHandler):
                 return
             if 'memory_scope' in body:
                 raise ValueError('memory_scope cannot be changed by correction or expiration; create a separate memory explicitly')
+            expected_revision = validate_memory_revision(body['expected_revision']) if 'expected_revision' in body else None
             if self.path == '/v1/memory-expiration':
-                self._body_keys(body, {'user_id', 'memory_id', 'expires_at'})
+                self._body_keys(body, {'user_id', 'memory_id', 'expires_at', 'expected_revision'})
                 if 'expires_at' not in body:
                     raise ValueError('expires_at is required; use null only to explicitly remove expiration')
-                memory = self.engine.set_memory_expiration(subject, body.get('memory_id'), body['expires_at'])
+                memory = self.engine.set_memory_expiration(subject, body.get('memory_id'), body['expires_at'], expected_revision=expected_revision)
                 self._send(200, {'memory': memory.to_dict()})
                 return
-            self._body_keys(body, {'user_id', 'memory_id', 'content'})
-            memory, notes = self.engine.correct_memory(subject, body.get('memory_id'), self._text(body, 'content'))
+            self._body_keys(body, {'user_id', 'memory_id', 'content', 'expected_revision'})
+            memory, notes = self.engine.correct_memory(subject, body.get('memory_id'), self._text(body, 'content'), expected_revision=expected_revision)
             self._send(200 if memory else 422, {'accepted': memory is not None, 'memory': memory.to_dict() if memory else None, 'notes': notes})
+        except MemoryConflictError as error:
+            self._send(409, {'error': str(error)})
         except LookupError:
             self._send(404, {'error': 'memory not found'})
         except (TimeoutError, ConnectionError, OSError):

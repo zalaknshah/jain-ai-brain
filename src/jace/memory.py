@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 import heapq
+import re
 from pathlib import Path
 
 from .ethics import sanitise_memory
@@ -16,6 +17,16 @@ class MemoryDeletionConsentRequired(ValueError):
     def __init__(self, count: int) -> None:
         self.unattributed_audit_entries = count
         super().__init__(f'Deletion also removes all {count} unattributed audit entries for this owner across all memory scopes, including legacy entries. Explicit cleanup confirmation is required; other active memories and attributable audits are preserved.')
+
+
+class MemoryConflictError(ValueError):
+    pass
+
+
+def validate_memory_revision(revision: str) -> str:
+    if not isinstance(revision, str) or re.fullmatch(r'[a-f0-9]{64}', revision) is None:
+        raise ValueError('expected_revision must be a lowercase SHA-256 memory-state fingerprint')
+    return revision
 
 
 class MemoryStore:
@@ -103,6 +114,37 @@ class MemoryStore:
             (user_id, memory_scope, -1 if limit is None else limit) if memory_scope is not None else (user_id, -1 if limit is None else limit),
         ).fetchall()
         return [Memory(row["id"], row["user_id"], row["content"], row["created_at"], row["source"], row["updated_at"], row["expires_at"], row["memory_scope"]) for row in rows]
+
+    def get_owned(self, user_id: str, memory_id: int) -> Memory:
+        row = self._connection.execute(
+            "SELECT id, user_id, content, created_at, source, updated_at, expires_at, memory_scope FROM memories WHERE user_id = ? AND id = ?",
+            (user_id, memory_id)).fetchone()
+        if row is None:
+            raise LookupError('memory not found')
+        return Memory(row['id'], row['user_id'], row['content'], row['created_at'], row['source'],
+                      row['updated_at'], row['expires_at'], row['memory_scope'])
+
+    def check_revision(self, user_id: str, memory_id: int, expected_revision: str | None) -> None:
+        if expected_revision is not None:
+            validate_memory_revision(expected_revision)
+            if self.get_owned(user_id, memory_id).revision != expected_revision:
+                raise MemoryConflictError('Memory changed after review. Reload it before making this change.')
+
+    def page(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE, before_id: int | None = None,
+             limit: int = 20) -> dict:
+        memory_scope = validate_memory_scope(memory_scope)
+        result_limit(limit)
+        if before_id is not None and (type(before_id) is not int or not 1 <= before_id <= 2**63 - 1):
+            raise ValueError('before_id must be a positive 64-bit integer')
+        rows = self._connection.execute(
+            "SELECT id, user_id, content, created_at, source, updated_at, expires_at, memory_scope FROM memories WHERE user_id = ? AND memory_scope = ?"
+            + (" AND id < ?" if before_id is not None else "") + " ORDER BY id DESC LIMIT ?",
+            (user_id, memory_scope, before_id, limit + 1) if before_id is not None else (user_id, memory_scope, limit + 1),
+        ).fetchall()
+        memories = [Memory(row['id'], row['user_id'], row['content'], row['created_at'], row['source'],
+                           row['updated_at'], row['expires_at'], row['memory_scope']) for row in rows[:limit]]
+        return {'memory_scope': memory_scope, 'memories': [memory.to_dict() for memory in memories],
+                'next_before_id': memories[-1].memory_id if len(rows) > limit else None}
 
     def scopes(self, user_id: str) -> list[str]:
         rows = self._connection.execute("SELECT DISTINCT memory_scope FROM memories WHERE user_id = ? ORDER BY memory_scope", (user_id,))

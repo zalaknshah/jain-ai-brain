@@ -136,13 +136,11 @@ class CognitiveEngine:
         return memory, notes
 
     @synchronized
-    def correct_memory(self, user_id: str, memory_id: int, content: str):
-        if not user_id.strip():
-            raise ValueError("user_id is required")
-        if isinstance(memory_id, bool) or not isinstance(memory_id, int) or memory_id <= 0:
-            raise ValueError("memory_id must be a positive integer")
+    def correct_memory(self, user_id: str, memory_id: int, content: str, *, expected_revision: str | None = None):
+        self._validate_memory_identity(user_id, memory_id)
         with self.memory.connection:
             self.memory.connection.execute("BEGIN IMMEDIATE")
+            self.memory.check_revision(user_id, memory_id, expected_revision)
             memory, notes = self.memory.replace(user_id, memory_id, content, commit=False)
             if memory:
                 self.graph.remove_memories([memory_id], commit=False)
@@ -181,10 +179,11 @@ class CognitiveEngine:
             raise ValueError('memory_id must be a positive 64-bit integer')
 
     @synchronized
-    def set_memory_expiration(self, user_id: str, memory_id: int, expires_at: str | None):
+    def set_memory_expiration(self, user_id: str, memory_id: int, expires_at: str | None, *, expected_revision: str | None = None):
         self._validate_memory_identity(user_id, memory_id)
         with self.memory.connection:
             self.memory.connection.execute('BEGIN IMMEDIATE')
+            self.memory.check_revision(user_id, memory_id, expected_revision)
             memory = self.memory.set_expiration(user_id, memory_id, expires_at, commit=False)
         # Graph reads expiry from the owned memory row, never a separate copy.
         return memory
@@ -196,7 +195,7 @@ class CognitiveEngine:
 
     @synchronized
     def forget_memory(self, user_id: str, memory_id: int, *, confirm_delete: bool = False,
-                      confirm_unattributed_audit_cleanup: bool = False) -> int:
+                      confirm_unattributed_audit_cleanup: bool = False, expected_revision: str | None = None) -> int:
         self._validate_memory_identity(user_id, memory_id)
         if type(confirm_delete) is not bool or type(confirm_unattributed_audit_cleanup) is not bool:
             raise ValueError('deletion confirmations must be boolean')
@@ -204,6 +203,7 @@ class CognitiveEngine:
             raise ValueError('explicit single-memory deletion confirmation is required')
         with self.memory.connection:
             self.memory.connection.execute('BEGIN IMMEDIATE')
+            self.memory.check_revision(user_id, memory_id, expected_revision)
             deleted = self.memory.delete_one(user_id, memory_id,
                 confirm_unattributed_audit_cleanup=confirm_unattributed_audit_cleanup, commit=False)
             self.graph.remove_memories([memory_id], commit=False)
@@ -212,6 +212,11 @@ class CognitiveEngine:
     @synchronized
     def list_memories(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE):
         return self.memory.list(user_id, memory_scope=validate_memory_scope(memory_scope))
+
+    @synchronized
+    def memory_page(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE, before_id: int | None = None,
+                    limit: int = 20) -> dict:
+        return self.memory.page(user_id, memory_scope=memory_scope, before_id=before_id, limit=limit)
 
     @synchronized
     def list_memory_scopes(self, user_id: str):

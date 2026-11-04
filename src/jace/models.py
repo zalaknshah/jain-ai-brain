@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import hashlib
+import json
+
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -65,8 +68,14 @@ class Memory:
     expires_at: str | None = None
     memory_scope: str = "default"
 
+    @property
+    def revision(self) -> str:
+        """Fingerprint of this complete stored state, not a secret or version clock."""
+        payload = json.dumps(asdict(self), sort_keys=True, ensure_ascii=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode('ascii')).hexdigest()
+
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        return {**asdict(self), "revision": self.revision}
 
 
 @dataclass(frozen=True)
