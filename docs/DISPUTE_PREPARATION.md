@@ -2,6 +2,8 @@
 
 The original business-partner example has an authored chat checklist. This separate feature lets the user enter a specific decision, reported positions, fact-status groups and two to four candidate options, then produces a comparison worksheet. Changed declarations change the worksheet and review questions. It does not decide who is right, select an option, understand motives, mediate a dispute or send anything to a partner.
 
+A [dedicated form and local-review screen](DISPUTE_SCREEN.md) is also available from the console. Its real browser behavior remains unverified.
+
 The builder is stateless. It does not initialize an engine, retrieve sources or memories, call a model, save case details, contact anyone or create a commitment. An API server can already have an engine/database for other routes; this route does not access them. Ordinary chat remains unchanged and does not automatically enter this workflow or extract these fields.
 
 ## Local CLI
@@ -53,4 +55,4 @@ Every free-text field separately passes through the existing limited English har
 
 `tests/test_dispute_preparation.py` covers changed inputs, unknown positions, disputed/claimed agreement, option ordering, all risk-flag combinations, nested-field screening, exact schemas, Unicode/byte limits, private errors, authenticated API behavior, no engine/provider/memory access, and CLI execution with intentionally unusable model/corpus configuration. Tests use original fictional data and local loopback HTTP only.
 
-This slice provides the local builder, CLI and API. It adds no browser screen, real-browser test, source corpus, trained reasoning, partner communication, saved dispute history or external integration. The example is not legal or business advice and should not be treated as a real agreement.
+The workflow provides a local builder, CLI, API and separately tested review screen. It adds no real-browser qualification, source corpus, trained reasoning, partner communication, saved dispute history or external integration. The example is not legal or business advice and should not be treated as a real agreement.

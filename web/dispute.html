@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JACE Dispute Preparation</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #172033; color-scheme: light; }
+    body { max-width: 920px; margin: 2rem auto; padding: 0 1rem; }
+    nav { line-height: 1.8; } input, select, button, textarea { font: inherit; padding: .65rem; margin: .2rem 0; }
+    button { cursor: pointer; } button:disabled { cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    fieldset, section { margin: 1rem 0; padding: 1rem; border: 1px solid #ccd4df; border-radius: .4rem; }
+    label { display: block; margin: .6rem 0; } textarea { display: block; width: 100%; box-sizing: border-box; min-height: 4rem; }
+    .row input { max-width: 100%; box-sizing: border-box; } pre, li, p { overflow-wrap: anywhere; }
+    pre, li { white-space: pre-wrap; } li { margin: .7rem 0; } small { color: #526078; }
+    .notice { background: #fff8e5; padding: .8rem; } [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Conversation</a> · <a href="cleaning.html">Cleaning planner</a> · <a href="wardrobe.html">Wardrobe planner</a> · <a href="context.html">Context review</a></nav>
+  <h1>Prepare a partner discussion</h1>
+  <p>Enter your reported positions and candidate options. Review the exact worksheet locally, then choose whether to send it to your trusted JACE API for a stateless comparison. This is preparation, not mediation, a verdict, legal advice or a recommendation.</p>
+  <p class="notice">No case is saved by this feature, sent to a model or sent to a partner. Your browser, API server, proxy or other surrounding software may still retain details. Cancel cannot recall information already sent. Do not enter passwords or information you do not want that API to receive.</p>
+  <div class="row">
+    <label>User <input id="user" value="demo-user" autocomplete="off" spellcheck="false"></label>
+    <label>API origin <input id="api" value="http://127.0.0.1:8787" size="28" autocomplete="off" spellcheck="false"></label>
+    <label>API token <input id="token" type="password" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <p><small>Use your assigned token only with a trusted HTTPS or local loopback API. No token or draft is stored in browser storage or copied from another page. Changing the account, token or destination clears private case fields and results.</small></p>
+  <fieldset>
+    <legend>Decision and reported positions</legend>
+    <label>Decision under discussion, at most 500 characters <textarea id="decision" maxlength="500" autocomplete="off" spellcheck="false"></textarea></label>
+    <label>Your position, or leave blank if not supplied <textarea id="my-position" maxlength="500" autocomplete="off" spellcheck="false"></textarea></label>
+    <label>Partner's position as you report it, or leave blank if unknown <textarea id="partner-position" maxlength="500" autocomplete="off" spellcheck="false"></textarea></label>
+    <small>Use a single line per position. Matching positions do not establish agreement, motives or consent.</small>
+  </fieldset>
+  <fieldset>
+    <legend>Fact status, all based on your report</legend>
+    <p><small>One entry per line, at most eight entries in each group and 400 characters per entry. Empty groups remain empty. These labels do not independently establish truth.</small></p>
+    <label>Reported agreed facts <textarea id="facts-agreed" autocomplete="off" spellcheck="false"></textarea></label>
+    <label>Disputed claims <textarea id="facts-disputed" autocomplete="off" spellcheck="false"></textarea></label>
+    <label>Unknowns <textarea id="facts-unknown" autocomplete="off" spellcheck="false"></textarea></label>
+  </fieldset>
+  <fieldset>
+    <legend>Explicit concern flags</legend>
+    <p><small>Choose every field. “Not flagged” is your declaration, not an assessment that the situation is safe or free of deadlines or obligations.</small></p>
+    <div class="row">
+      <label>Safety or coercion concern <select id="risk-safety"><option value="">Choose…</option><option value="true">Concern flagged</option><option value="false">Not flagged by me</option></select></label>
+      <label>Formal deadline <select id="risk-deadline"><option value="">Choose…</option><option value="true">Concern flagged</option><option value="false">Not flagged by me</option></select></label>
+      <label>Binding commitment <select id="risk-commitment"><option value="">Choose…</option><option value="true">Concern flagged</option><option value="false">Not flagged by me</option></select></label>
+    </div>
+  </fieldset>
+  <section aria-labelledby="options-title">
+    <h2 id="options-title">Two to four candidate options</h2>
+    <p>Choose every fit, reversibility and agreement field explicitly. These are your assessments, not verified facts. If a position is blank, its fit must be unknown. Options stay in your entered order and are never ranked.</p>
+    <div id="options"></div><button id="add" type="button">Add another option</button>
+  </section>
+  <button id="review" type="button">Review locally, do not send</button>
+  <button id="cancel" type="button">Cancel and clear private fields</button>
+  <p id="status" role="status" aria-live="polite">Ready. Nothing is sent automatically.</p>
+  <section id="review-panel" hidden aria-labelledby="review-title">
+    <h2 id="review-title">Exact worksheet to review</h2>
+    <p id="destination"></p><pre id="worksheet-preview"></pre>
+    <p><small>This local shape check is preliminary. The API remains responsible for schema and its limited English harm filter. No semantic, legal or safety assessment has been performed.</small></p>
+    <label><input id="confirm" type="checkbox"> I reviewed these details and want this one worksheet sent to the displayed API for a stateless comparison.</label>
+    <button id="prepare" type="button" disabled>Send this worksheet for comparison</button>
+  </section>
+  <section id="result" hidden aria-labelledby="result-title">
+    <h2 id="result-title">Preparation only, no recommended option</h2>
+    <p id="receipt"></p><p id="risk-notice" class="notice"></p>
+    <h3>Entered reports, not verified facts</h3><pre id="reported"></pre>
+    <h3>Declared concerns</h3><ul id="notices"></ul>
+    <h3>Clarifying questions</h3><ul id="questions"></ul>
+    <h3>Options in entered order</h3><ol id="comparisons"></ol>
+    <h3>Limits</h3><ul id="limits"></ul>
+  </section>
+  <script src="dispute-preparation.js"></script>
+</body>
+</html>
