@@ -62,6 +62,8 @@ curl -X POST http://127.0.0.1:8787/v1/think \
 - `GET /v1/graph/search?q=...&user_id=...` — inspect activated GraphRAG nodes and scores.
 - `POST /v1/simulate/motion` — run a hardware-free safety decision against a sensor observation.
 
+Whole-owner deletion applies to every memory scope, including expired records. It requires an owner path with no query, path parameters or fragment; absolute-form URLs are also rejected. A scoped list URL such as `/v1/memory/alice?memory_scope=work` is rejected for deletion rather than silently deleting other scopes. The single-item headers `X-JACE-Confirm-Delete`, `X-JACE-Confirm-Audit-Cleanup` and `X-JACE-If-Memory-Revision` are also rejected on this whole-owner route, even if empty; use `/v1/memory-item/<memory_id>` for those conditions. The existing plain whole-owner DELETE remains destructive without an additional confirmation header. This validation is not proof of human consent and does not add scoped bulk deletion, change direct engine/CLI deletion behavior or replace standard-library URL parsing and leading-slash normalization.
+
 ## Project layout
 
 - `src/jace/ethics.py` — Ahimsa, Aparigraha, and safety policy checks.

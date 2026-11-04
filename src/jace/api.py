@@ -382,6 +382,15 @@ class JaceHandler(BaseHTTPRequestHandler):
             if user_id != subject:
                 self._send(403, {'error': 'access to this user is not allowed'})
                 return
+            # This endpoint removes all of the owner's scopes. Never silently
+            # discard a scoped-list query or a single-item deletion condition.
+            if self.path != parsed.path or parsed.params:
+                self._send(400, {'error': 'whole-owner deletion requires an owner path without query parameters, path parameters or fragments'})
+                return
+            if any(self.headers.get_all(name, []) for name in
+                   ('X-JACE-Confirm-Delete', 'X-JACE-Confirm-Audit-Cleanup', 'X-JACE-If-Memory-Revision')):
+                self._send(400, {'error': 'single-item deletion headers are not accepted for whole-owner deletion; use the memory-item endpoint'})
+                return
             self._send(200, {'deleted': self.engine.forget_user(subject), 'user_id': subject})
             return
         self._send(404, {'error': 'not found'})
