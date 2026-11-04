@@ -61,6 +61,9 @@ class Memory:
     content: str
     created_at: str
     source: str = "user"
+    updated_at: str | None = None
+    expires_at: str | None = None
+    memory_scope: str = "default"
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -88,11 +91,13 @@ class ThoughtResult:
     memories_used: list[Memory]
     action: ActionProposal | None
     created_at: str
+    memory_scope: str = "default"
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "request_id": self.request_id,
             "user_id": self.user_id,
+            "memory_scope": self.memory_scope,
             "input": self.input,
             "response": self.response,
             "ethical_assessment": self.ethical_assessment.to_dict(),

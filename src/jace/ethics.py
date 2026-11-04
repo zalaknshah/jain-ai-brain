@@ -10,7 +10,14 @@ _HARM_PATTERNS = {
     "weapon or explosive use": r"\b(bomb|explosive|weapon|gun|ammunition|detonate)\b",
     "destructive intent": r"\b(destroy|burn down|sabotage|wipe out|eradicate)\b",
 }
-_PREVENTION_MARKERS = re.compile(r"\b(prevent|avoid|stop|de-escalat|protect|safely|safety|defend against)\b", re.I)
+# A generic word such as "safely" must not override a harmful instruction.
+_PREVENTION_MARKERS = re.compile(
+    r"\b(?:prevent|avoid|stop|de-escalate|defend against)\s+"
+    r"(?:(?:a|an|the|any|further|physical)\s+){0,3}"
+    r"(?:attack|assault|injury|harm|violence|killing|hurting|poisoning|shooting|stabbing)\b", re.I,
+)
+_LIVING_ENTITIES = re.compile(r"\b(?:insects?|bugs?|animals?|creatures?|people|persons?)\b", re.I)
+_CRUSHING_ACTIONS = re.compile(r"\b(?:step on|stomp on|trample|crush|squash)\b", re.I)
 _RESOURCE_MARKERS = re.compile(r"\b(waste|discard|throw away|consume|use up|hoard|buy more|maximum power)\b", re.I)
 _SECRET_PATTERNS = [
     re.compile(r"\b(?:api[_ -]?key|password|token|secret)\s*[:=]\s*\S+", re.I),
@@ -24,15 +31,20 @@ def assess(text: str) -> EthicalAssessment:
     This is a policy boundary, not a claim that regex can understand ethics. A
     production model can add evidence, but it must not bypass this gate.
     """
-    lowered = text.lower()
+    # Mask only the specific harm expression governed by prevention. A safe
+    # phrase elsewhere in the request cannot pardon a separate harmful clause.
+    prevention = bool(_PREVENTION_MARKERS.search(text))
+    lowered = _PREVENTION_MARKERS.sub(" ", text.lower())
     reasons: list[str] = []
     harmful = []
     for label, pattern in _HARM_PATTERNS.items():
         if re.search(pattern, lowered):
             harmful.append(label)
 
-    prevention = bool(_PREVENTION_MARKERS.search(text))
-    if harmful and not prevention:
+    if _LIVING_ENTITIES.search(lowered) and _CRUSHING_ACTIONS.search(lowered):
+        harmful.append("physical harm to living beings")
+
+    if harmful:
         reasons.extend(f"Detected {item}." for item in harmful)
         return EthicalAssessment(
             allowed=False,
@@ -43,8 +55,8 @@ def assess(text: str) -> EthicalAssessment:
             safer_alternative="I can help prevent harm, de-escalate, create distance, or contact appropriate emergency support.",
         )
 
-    if harmful and prevention:
-        reasons.append("The request contains harm-related language but is framed as prevention or protection.")
+    if prevention:
+        reasons.append("A recognized prevention phrase qualifies its specific harm expression.")
 
     aparigraha_score = 0.45 if _RESOURCE_MARKERS.search(text) else 0.85
     if aparigraha_score < 0.6:

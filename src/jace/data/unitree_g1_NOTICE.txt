@@ -1,0 +1,12 @@
+Modified G1 MJX headless diagnostic asset
+
+Original model copyright (c) 2016-2023 HangZhou YuShu TECHNOLOGY CO.,LTD. (Unitree Robotics).
+Distributed under the accompanying BSD-3-Clause license, unitree_g1_LICENSE.txt.
+
+Source: Google DeepMind MuJoCo Menagerie, unitree_g1/g1_mjx.xml and scene_mjx.xml
+https://github.com/google-deepmind/mujoco_menagerie/tree/98a70c569c4c1b6da467a20012f766ee1f8dc521/unitree_g1
+The source describes derivation from Unitree's G1 robot model and the addition of primitive collision shapes/contact pairs.
+
+JACE modifications remove 35 zero-density visual mesh geoms and 35 mesh assets plus the unused visual default and mesh directory attribute. The scene include filename is changed. Explicit body inertias, articulated joints, collision shapes/pairs, actuators, solver settings and source keyframes are retained. XML formatting is regenerated. Original source files, hashes and reproducible derivation are included in the source checkout.
+
+This is a modified diagnostic model, not a validated robot/controller, standing or locomotion implementation, or hardware safety claim. No pretrained policy is included or loaded. Names identify source attribution, not endorsement.

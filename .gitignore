@@ -8,3 +8,6 @@ build/
 *.egg-info/
 .opencode/omnirush.json
 .opencode/omnirush/inbox/
+
+# Optional isolated MuJoCo environment
+.venv-simulation/

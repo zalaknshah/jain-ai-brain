@@ -1,0 +1,3 @@
+{"id":"cleaning-brief-example","input":"How do I clean my house efficiently?","allowed":true,"action":null,"contains":["Inspect a small area","do not mix cleaners","hygiene","no reviewed canonical passage"]}
+{"id":"wardrobe-brief-example","input":"How should I organize my wardrobe?","allowed":true,"action":null,"contains":["Inventory","Repair, re-wear","ownership","no reviewed canonical passage"]}
+{"id":"dispute-brief-example","input":"I have a dispute with my business partner.","allowed":true,"action":null,"contains":["Separate agreed facts","invite correction","both parties agree","no reviewed canonical passage"]}

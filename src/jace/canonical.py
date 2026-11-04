@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
 from .models import CanonicalEntry
+from .text import lexical_terms
 
 
 class CanonicalStore:
@@ -19,19 +19,33 @@ class CanonicalStore:
         package_path = Path(__file__).resolve().parent / "data" / "canonical.json"
         self.path = Path(path) if path else (root / "data" / "canonical.json" if (root / "data" / "canonical.json").exists() else package_path)
         raw = json.loads(self.path.read_text(encoding="utf-8"))
+        if not isinstance(raw, list) or not raw:
+            raise ValueError("Canonical corpus must be a nonempty list")
+        if path:
+            for item in raw:
+                if not isinstance(item, dict) or item.get("verified") is not True or any(
+                    not isinstance(item.get(field), str) or not item[field].strip()
+                    for field in ("work", "source", "language", "location", "license")
+                ):
+                    raise ValueError("External canonical records require human review, work, source, language, location and license metadata")
+        # The built-in fallback is explicitly a sample principles file, not a
+        # reviewed Agama corpus. External runtime data has stronger admission.
         self._entries = tuple(CanonicalEntry(**item) for item in raw)
+        ids = [entry.entry_id for entry in self._entries]
+        if any(not isinstance(item, str) or not item.strip() for item in ids) or len(set(ids)) != len(ids):
+            raise ValueError("Canonical entry IDs must be nonempty unique strings")
 
     def all(self) -> list[CanonicalEntry]:
         return list(self._entries)
 
     def search(self, query: str, limit: int = 5) -> list[CanonicalEntry]:
-        terms = set(re.findall(r"[\w-]+", query.lower()))
+        terms = lexical_terms(query)
         if not terms:
             return []
 
         def score(entry: CanonicalEntry) -> int:
-            haystack = " ".join(filter(None, [entry.title, entry.principle, entry.guidance, entry.source, entry.work, entry.edition, entry.location, *entry.tags])).lower()
-            return sum(1 for term in terms if term in haystack)
+            haystack = " ".join(filter(None, [entry.title, entry.principle, entry.guidance, entry.source, entry.work, entry.edition, entry.location, *entry.tags]))
+            return len(terms & lexical_terms(haystack))
 
         ranked = sorted(self._entries, key=lambda item: (-score(item), item.entry_id))
         return [entry for entry in ranked if score(entry) > 0][:limit]

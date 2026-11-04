@@ -30,6 +30,7 @@ def main() -> None:
     parser.add_argument("--license", dest="license_name")
     parser.add_argument("--tag", action="append", default=[])
     parser.add_argument("--verified", action="store_true", help="mark as reviewed by a human; do not use for unreviewed text")
+    parser.add_argument("--draft", action="store_true", help="write review-only records; unreviewed drafts cannot be loaded as an external runtime corpus")
     parser.add_argument("--chunk-size", type=int, default=220)
     parser.add_argument("--overlap", type=int, default=40)
     args = parser.parse_args()
@@ -44,6 +45,7 @@ def main() -> None:
         license_name=args.license_name,
         tags=args.tag,
         verified=args.verified,
+        draft=args.draft,
         chunk_size=args.chunk_size,
         overlap=args.overlap,
     )

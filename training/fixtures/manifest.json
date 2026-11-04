@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "data_kind": "synthetic",
+  "source": "Original repository smoke fixtures, not private memory or religious source texts.",
+  "license": "MIT",
+  "rights_reviewed": true,
+  "content_reviewed": true,
+  "contains_personal_data": false,
+  "train_sha256": "7574a27048a1a9453d0e84c4489425fcaf06cbce2559c0c40548bea035a2c6a4",
+  "evaluation_sha256": "98d5496f017c2a377f140114719403790327a66069a427c11ff932d5a780c8a0"
+}

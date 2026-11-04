@@ -1,0 +1,18 @@
+<!-- Original JACE test fixture under the repository's MIT license.
+     One constrained slider, not a humanoid or a licensed third-party robot. -->
+<mujoco model="jace-slider-fixture">
+  <option timestep="0.01" gravity="0 0 0" integrator="implicitfast"/>
+  <worldbody>
+    <geom name="floor_visual_only" type="plane" size="12 2 0.1" contype="0" conaffinity="0" rgba="0.8 0.8 0.8 1"/>
+    <body name="slider" pos="0 0 0.15">
+      <joint name="travel" type="slide" axis="1 0 0" damping="1" range="0 3" limited="true"/>
+      <geom name="robot" type="sphere" size="0.1" mass="1" rgba="0.1 0.4 0.8 1"/>
+    </body>
+    <body name="obstacle_body" mocap="true" pos="10 0 0.15">
+      <geom name="obstacle" type="sphere" size="0.1" rgba="0.8 0.3 0.2 1"/>
+    </body>
+  </worldbody>
+  <actuator>
+    <velocity name="slider_velocity" joint="travel" kv="30" ctrlrange="0 0.25" ctrllimited="true" forcerange="-10 10" forcelimited="true"/>
+  </actuator>
+</mujoco>

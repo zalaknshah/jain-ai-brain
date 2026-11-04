@@ -1,0 +1,3 @@
+{"id":"train-alpha","instruction":"In this synthetic fixture, alpha is labeled blue. Repeat alpha's label.","response":"blue"}
+{"id":"train-beta","instruction":"In this synthetic fixture, beta is labeled green. Repeat beta's label.","response":"green"}
+{"id":"train-gamma","instruction":"In this synthetic fixture, gamma is labeled amber. Repeat gamma's label.","response":"amber"}

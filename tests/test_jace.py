@@ -53,7 +53,7 @@ class JaceTests(unittest.TestCase):
             source = Path(directory) / "text.txt"
             output = Path(directory) / "corpus.json"
             source.write_text("Ahimsa asks us to reduce injury.", encoding="utf-8")
-            self.assertEqual(ingest_files([source], output, work="Test work", source="Test edition", verified=True), 1)
+            self.assertEqual(ingest_files([source], output, work="Test work", source="Test edition", verified=True, license_name="CC0-1.0"), 1)
             record = __import__("json").loads(output.read_text(encoding="utf-8"))[0]
             self.assertEqual(record["work"], "Test work")
             self.assertEqual(record["source"], "Test edition")

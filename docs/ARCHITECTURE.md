@@ -22,7 +22,7 @@ The system separates three kinds of information:
 
 | Store | Mutable? | Purpose |
 | --- | --- | --- |
-| `data/canonical.json` | No at runtime | Verified principles and operational guidance |
+| `data/canonical.json` | No at runtime | Unverified sample principles by default; external sources require review declarations |
 | `memories` SQLite table | Yes, user-scoped | Preferences, environmental facts, and approved conversation memories |
 | `graph_nodes` / `graph_edges` | Dynamic nodes only | Associative activation between memories and canonical principles |
 
@@ -60,10 +60,10 @@ Do not train or retrieve an unverified generated summary as if it were a canonic
 Runtime learning is memory formation, not live weight training:
 
 1. A user or application submits an explicit memory.
-2. The Pratikramana filter rejects direct harmful instructions and redacts likely credentials.
+2. The Pratikramana filter rejects recognized direct harmful instructions and redacts likely credentials. It remains an English pattern filter, not a semantic safety guarantee.
 3. Accepted content is scoped to the user and written to the audit-backed SQLite store.
 4. The graph links the memory to related canonical principles.
-5. Users can inspect or delete their memories.
+5. Authorized users can inspect or delete their memories. New audit rows omit content; deletion also removes historical audit rows and associated graph nodes/edges. Backup and storage-remnant erasure is a separate operator responsibility.
 
 Fine-tuning is a separate, reviewed offline process. Never feed raw private conversations directly into QLoRA training.
 
@@ -83,8 +83,8 @@ Fine-tuning is a separate, reviewed offline process. Never feed raw private conv
 
 ## Simulator contract
 
-`jace simulate` and `POST /v1/simulate/motion` exercise the same high-level motion policy without requiring Isaac Sim, MuJoCo, Webots, ROS 2, or a GPU. A living entity, fragile object, close obstacle, or uncertain sensor result produces `HALT_AND_REROUTE`; a clear path produces only a slow, confirmation-gated proposal. The result is intentionally not executable motor control.
+`jace simulate` and `POST /v1/simulate/motion` exercise the same high-level motion policy without requiring Isaac Sim, MuJoCo, Webots, ROS 2, or a GPU. Missing, malformed or non-finite sensor data produces a stop proposal. A living entity, fragile object, close obstacle, or uncertain sensor result produces `HALT_AND_REROUTE`; a clear path produces only a slow, confirmation-gated proposal. The result is intentionally not executable motor control. The optional `simulate-physics` CLI separately exercises actual MuJoCo stepping in an original one-axis fixture; see `docs/SIMULATION.md` for its explicit simulation confirmation, measured clearances and remaining limitations.
 
 ## Deployment
 
-The root `Dockerfile` runs the standard-library HTTP service and `docker-compose.yml` persists the SQLite data volume. This is suitable for a small private deployment or as the basis of a Hugging Face Space. Public hosting must add authentication, request limits, HTTPS, secret management, and an explicit memory-retention policy before exposing it to users.
+The root `Dockerfile` runs the standard-library HTTP service and `docker-compose.yml` persists the SQLite data volume. This is suitable for a small private deployment or as the basis of a Hugging Face Space. HTTP requests now require operator-configured bearer tokens bound to individual user IDs, except for a minimal public health endpoint. No credentials are created automatically. Public hosting still needs request limits, HTTPS, an audited credential lifecycle, secret management and an explicit memory-retention policy before exposing it to users.

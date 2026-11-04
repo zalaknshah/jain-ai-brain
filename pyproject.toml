@@ -9,8 +9,12 @@ description = "Local-first Jain AI Cognitive Engine reference implementation"
 requires-python = ">=3.10"
 dependencies = []
 
+[project.optional-dependencies]
+simulation = ["mujoco==3.17.0"]
+
 [project.scripts]
 jace = "jace.cli:main"
+jace-train = "jace.training_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -19,4 +23,4 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-jace = ["data/*.json"]
+jace = ["data/*.json", "data/*.xml", "data/*.txt"]

@@ -1,0 +1,78 @@
+<!-- Original MIT-licensed JACE fixture. Fixed pelvis, simplified human-shaped
+     links, nine hinges. Not a real robot model or a gait/balance simulation. -->
+<mujoco model="jace-anchored-articulation-fixture">
+  <compiler angle="radian"/>
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="implicitfast"/>
+  <default>
+    <joint damping="2" armature="0.02" limited="true"/>
+    <geom type="capsule" size="0.035" density="600"/>
+    <position kp="150" kv="15" ctrllimited="true" forcelimited="true" forcerange="-15 15"/>
+  </default>
+  <worldbody>
+    <geom name="floor_visual_only" type="plane" size="5 5 0.1" contype="0" conaffinity="0" rgba="0.8 0.8 0.8 1"/>
+    <body name="pelvis_fixed" pos="0 0 1">
+      <geom name="torso_geom" fromto="0 0 0 0 0 0.4" size="0.12" mass="8"/>
+      <body name="head" pos="0 0 0.6">
+        <joint name="neck" type="hinge" axis="0 0 1" range="-0.4 0.4"/>
+        <geom name="head_geom" type="sphere" size="0.09" mass="1.4"/>
+      </body>
+      <body name="left_upper_arm" pos="0 0.22 0.4">
+        <joint name="left_shoulder" type="hinge" axis="0 -1 0" range="-0.1 0.65"/>
+        <geom name="left_upper_arm_geom" fromto="0 0 0 0 0 -0.28" size="0.04" mass="1"/>
+        <body name="left_forearm" pos="0 0 -0.28">
+          <joint name="left_elbow" type="hinge" axis="0 -1 0" range="0 0.9"/>
+          <geom name="left_forearm_geom" fromto="0 0 0 0 0 -0.25" size="0.035" mass="0.7"/>
+          <geom name="left_hand_geom" type="sphere" pos="0 0 -0.25" size="0.05" mass="0.2"/>
+        </body>
+      </body>
+      <body name="right_upper_arm" pos="0 -0.22 0.4">
+        <joint name="right_shoulder" type="hinge" axis="0 -1 0" range="-0.1 0.65"/>
+        <geom name="right_upper_arm_geom" fromto="0 0 0 0 0 -0.28" size="0.04" mass="1"/>
+        <body name="right_forearm" pos="0 0 -0.28">
+          <joint name="right_elbow" type="hinge" axis="0 -1 0" range="0 0.9"/>
+          <geom name="right_forearm_geom" fromto="0 0 0 0 0 -0.25" size="0.035" mass="0.7"/>
+          <geom name="right_hand_geom" type="sphere" pos="0 0 -0.25" size="0.05" mass="0.2"/>
+        </body>
+      </body>
+      <body name="left_thigh" pos="0 0.10 0">
+        <joint name="left_hip" type="hinge" axis="0 1 0" range="-0.25 0.25"/>
+        <geom name="left_thigh_geom" fromto="0 0 0 0 0 -0.4" size="0.055" mass="3"/>
+        <body name="left_shin" pos="0 0 -0.4">
+          <joint name="left_knee" type="hinge" axis="0 1 0" range="0 0.5"/>
+          <geom name="left_shin_geom" fromto="0 0 0 0 0 -0.4" size="0.045" mass="2"/>
+          <geom name="left_foot_geom" type="box" pos="0 0 -0.43" size="0.10 0.055 0.04" mass="0.5"/>
+        </body>
+      </body>
+      <body name="right_thigh" pos="0 -0.10 0">
+        <joint name="right_hip" type="hinge" axis="0 1 0" range="-0.25 0.25"/>
+        <geom name="right_thigh_geom" fromto="0 0 0 0 0 -0.4" size="0.055" mass="3"/>
+        <body name="right_shin" pos="0 0 -0.4">
+          <joint name="right_knee" type="hinge" axis="0 1 0" range="0 0.5"/>
+          <geom name="right_shin_geom" fromto="0 0 0 0 0 -0.4" size="0.045" mass="2"/>
+          <geom name="right_foot_geom" type="box" pos="0 0 -0.43" size="0.10 0.055 0.04" mass="0.5"/>
+        </body>
+      </body>
+    </body>
+    <body name="obstacle_body" mocap="true" pos="4 0.22 1.05">
+      <geom name="obstacle" type="sphere" size="0.10" rgba="0.8 0.3 0.2 1"/>
+    </body>
+  </worldbody>
+  <!-- Adjacent joint contours overlap at the fixed root. Exclude only these
+       connected body pairs, not nonadjacent links or the obstacle. -->
+  <contact>
+    <exclude body1="pelvis_fixed" body2="head"/>
+    <exclude body1="pelvis_fixed" body2="left_thigh"/>
+    <exclude body1="pelvis_fixed" body2="right_thigh"/>
+  </contact>
+  <actuator>
+    <position name="neck" joint="neck" ctrlrange="-0.4 0.4"/>
+    <position name="left_shoulder" joint="left_shoulder" ctrlrange="-0.1 0.65"/>
+    <position name="left_elbow" joint="left_elbow" ctrlrange="0 0.9"/>
+    <position name="right_shoulder" joint="right_shoulder" ctrlrange="-0.1 0.65"/>
+    <position name="right_elbow" joint="right_elbow" ctrlrange="0 0.9"/>
+    <position name="left_hip" joint="left_hip" ctrlrange="-0.25 0.25"/>
+    <position name="left_knee" joint="left_knee" ctrlrange="0 0.5"/>
+    <position name="right_hip" joint="right_hip" ctrlrange="-0.25 0.25"/>
+    <position name="right_knee" joint="right_knee" ctrlrange="0 0.5"/>
+  </actuator>
+</mujoco>

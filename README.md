@@ -28,13 +28,18 @@ python -m jace.cli simulate
 python -m jace.cli serve
 ```
 
-The HTTP service listens on `http://127.0.0.1:8787`.
+The HTTP service listens on `http://127.0.0.1:8787`. The CLI remains usable without HTTP credentials. HTTP access other than `/health` is disabled until an operator configures `JACE_AUTH_TOKENS` in the process environment. This JSON object maps each existing bearer token to one user ID. Tokens must be at least 32 non-whitespace ASCII characters and should be cryptographically random. Do not put actual tokens in Git, command history, logs, or shared browser storage. This project does not generate, provision, or save credentials for you.
 
-For a browser voice console, run `python -m http.server 8080 --directory web` in a second terminal and open `http://127.0.0.1:8080`. Chrome-based browsers provide speech recognition and speech synthesis; the text API remains usable when browser audio is unavailable.
+Clients send `Authorization: Bearer <assigned token>`. The token's user ID is authoritative; another `user_id` receives HTTP 403. Missing/invalid credentials receive 401, and an unconfigured service receives 503. `/health` is public but does not disclose memory or graph counts. Configure credentials through your deployment's authorized secret mechanism before using HTTP; use the CLI meanwhile.
+
+The browser console accepts an assigned token in a password field and keeps it only in the current page. Its User value must match the token's user ID. CORS allows only `http://127.0.0.1:8080` and `http://localhost:8080` by default; set explicit origins with `JACE_ALLOWED_ORIGINS`. Never send bearer tokens over public plaintext HTTP. Public hosting still needs HTTPS, rate limiting, retention policies and an operator-reviewed authentication lifecycle.
+
+For a browser voice console, run `python -m http.server 8080 --directory web` in a second terminal and open `http://127.0.0.1:8080`. Speech recognition and playback depend on browser/device support; the text API remains usable when audio is unavailable. Dictation is never sent to JACE until you review the transcript and click Ask JACE.
 
 ```bash
 curl -X POST http://127.0.0.1:8787/v1/think \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $JACE_CLIENT_TOKEN" \
   -d '{"user_id":"demo-user","input":"How should I approach a fragile object?"}'
 ```
 
@@ -43,9 +48,14 @@ curl -X POST http://127.0.0.1:8787/v1/think \
 - `GET /health` — runtime and adapter status.
 - `POST /v1/think` — analyse a request and return a response, seven perspectives, evidence, and any proposed action.
 - `POST /v1/think` with `"learn": true` — additionally persist only explicit preference/fact statements from that turn.
-- `POST /v1/memory` — add a user memory only after the Pratikramana alignment filter.
-- `GET /v1/memory/<user_id>` — inspect that user's stored memories.
-- `DELETE /v1/memory/<user_id>` — delete that user's memories and graph nodes.
+- `POST /v1/memory` — add a user memory only after the Pratikramana alignment filter; optional `expires_at` controls future recall.
+- `PATCH /v1/memory` with `memory_id` and `content` — explicitly correct an owned memory after the alignment filter; memory and graph update atomically. Other users' memory IDs return 404.
+- `PATCH /v1/memory-expiration` with `memory_id` and `expires_at` — explicitly set an owned memory's recall expiry, or use `null` to remove expiry.
+- `GET /v1/memory/<user_id>?memory_scope=home` — inspect that owner's stored memories in the chosen scope (default: `default`).
+- `GET /v1/memory-scopes` — list the authenticated owner's named memory scopes.
+- `GET /v1/memory-item/<memory_id>` — preview deletion of one owned memory and any legacy audit cleanup warning.
+- `DELETE /v1/memory-item/<memory_id>` — explicitly confirmed deletion of one owned item; any unattributed audit cleanup requires a separate choice.
+- `DELETE /v1/memory/<user_id>` — delete that user's active memories, graph nodes/edges and audit records. This is logical deletion from the live database, not a guarantee of erasure from backups, SQLite storage remnants or an external model provider.
 - `GET /v1/canonical/search?q=...` — search immutable canonical principles.
 - `GET /v1/graph/search?q=...&user_id=...` — inspect activated GraphRAG nodes and scores.
 - `POST /v1/simulate/motion` — run a hardware-free safety decision against a sensor observation.
@@ -58,19 +68,22 @@ curl -X POST http://127.0.0.1:8787/v1/think \
 - `src/jace/corpus.py` — provenance-aware reviewed-text ingestion.
 - `src/jace/cognitive_graph.py` — persistent activation graph and iterative GraphRAG loop.
 - `src/jace/simulator.py` — conservative motion decisions for simulator testing.
+- `src/jace/physics.py` — optional real MuJoCo closed-loop slider fixture; no hardware.
+- `src/jace/articulated.py` and `src/jace/reaching.py` — original fixed-base articulated physics and bounded planar hand-target planning; no gait or hardware.
 - `src/jace/memory.py` — SQLite continuous memory with sanitisation and audit trail.
-- `src/jace/reasoner.py` — local deterministic reasoner plus an optional HTTP LLM adapter.
+- `src/jace/reasoner.py` — local deterministic reasoner plus an optional structured HTTP model adapter.
+- `src/jace/model_output.py` — mechanical source-ID/exact-excerpt checks, not semantic grounding.
 - `src/jace/engine.py` — orchestration of the complete cognitive loop.
 - `src/jace/api.py` — standard-library HTTP API.
 - `integrations/` — optional voice and ROS 2 boundaries; hardware is never enabled by default.
 - `web/index.html` — dependency-free browser voice console using the Web Speech API.
-- `scripts/train_qlora.py` — guarded Unsloth/QLoRA training entry point.
+- `scripts/train_qlora.py` — explicit offline synthetic-only training preflight and bounded run interface; real backend execution remains unverified.
 - `scripts/ingest_corpus.py` — convert reviewed text files into canonical records.
 - `scripts/evaluate.py` — run checked-in safety regression cases.
 
 ## Design boundaries
 
-The canonical store is read-only at runtime and contains principles and references rather than an unverified claim to reproduce all Agama texts. User memory is separate, user-scoped, removable, and filtered before persistence. The built-in reasoner is a deterministic fallback; production deployments can implement `Reasoner` with a locally hosted or remote model while retaining the ethical gate and output schema.
+The canonical store is read-only at runtime and contains principles and references rather than an unverified claim to reproduce all Agama texts. User memory is separate, user-scoped, removable, and filtered before persistence. HTTP identity is bound to the configured bearer token; an arbitrary user ID is not authorization. New audit events do not duplicate memory text, and forgetting a user also removes their historical audit records. The built-in reasoner is a deterministic fallback; production deployments can implement `Reasoner` with a locally hosted or remote model while retaining the ethical gate and output schema.
 
 ### Continuous GraphRAG loop
 
@@ -78,7 +91,7 @@ The canonical store is read-only at runtime and contains principles and referenc
 2. Only an accepted, sanitised memory is written to SQLite and added as a dynamic graph node.
 3. Shared terms create weighted `aligned_with` edges to canonical principles; canonical nodes and edges cannot be changed by dialogue.
 4. A later query activates matching seeds, expands through related principles and memories for at most two hops, and reranks the result.
-5. The reasoner receives only selected context. No automatic model-weight training occurs in production; reviewed datasets can be used by `scripts/train_qlora.py`.
+5. The reasoner receives only selected context. No automatic model-weight training occurs in production; the separate `scripts/train_qlora.py` interface currently admits only explicitly reviewed synthetic fixtures and requires explicit run consent.
 
 ### Corpus ingestion
 
@@ -93,7 +106,9 @@ python scripts/ingest_corpus.py texts/tattvartha.txt \
   --tag ahimsa --tag anekantavada --verified
 ```
 
-Every generated chunk contains a stable hash, work, edition/source, location, language, licence, and review flag. A generated paraphrase is labelled as interpretation and is not presented as a quotation.
+Runtime ingestion requires `--verified` and a recorded `--license`; these are human declarations, not an automated legal or scholarly validation. Use `--draft` for review-only output, which cannot be loaded as an external runtime corpus until its required metadata and review are complete. External records must include work, source, location, language, license and `verified: true`. The built-in six-record fallback remains clearly labeled sample principles.
+
+Every generated chunk contains a hash stable across checkout paths, work, edition/source, location, language, licence, and review flag. A generated paraphrase is labelled as interpretation and is not presented as a quotation.
 
 Point a deployment at an ingested corpus with `JACE_CANONICAL_PATH=data/corpus.json`.
 
@@ -104,10 +119,96 @@ docker compose up --build
 python scripts/evaluate.py
 ```
 
-GitHub Actions runs the unit tests and safety evaluation on every push and pull request.
+The checks below are runnable locally. This branch does not contain a GitHub Actions workflow, and no remote CI result is claimed. Any future CI configuration must be introduced on `main` under the repository owner's main-only workflow policy; feature branches must not contain or trigger workflows.
 
 Run checks with:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
+
+## Current implementation limits
+
+This is an early local reference prototype, not the complete research vision. It contains six sample principles, a lexical graph and a deterministic fallback. It does not include the complete Agamas, a trained model, a working QLoRA trainer, real-time duplex voice, a free-base humanoid controller or a verified public deployment. The optional HTTP adapter sends the request and selected context to the operator's configured endpoint; obtain appropriate consent and review provider retention before enabling it.
+
+The policy gate is a first-pass English pattern filter. Rejected inputs are stopped before any model call, and generated text is checked with the same limited filter, but neither mechanism proves harmlessness or Jain correctness. Missing or invalid simulator sensor values produce a stop proposal. No simulator decision is executable motor control.
+
+See [implementation status](docs/IMPLEMENTATION_STATUS.md) for the remaining delivery gates.
+
+### Explicit memory corrections and consent
+
+Browser chat does not save conversations by default. Check “Remember an explicit preference or fact from this message” only when you want the current message considered for storage. The same narrow learning filter applies to text and spoken messages; this is not automatic extraction of every conversation.
+
+Use `PATCH /v1/memory` with your bearer token and a JSON body containing `memory_id` and `content` to replace a mistaken preference. The CLI equivalent is `python -m jace.cli correct-memory USER_ID MEMORY_ID "corrected preference"`. A correction preserves the memory ID and creation time, records an update time, and replaces graph content in one transaction. Rejected corrections leave the prior memory intact. This supports explicit correction, not automatic resolution of every contradictory statement.
+
+### Corpus version isolation
+
+Each graph instance retrieves only canonical nodes from the exact admitted corpus content loaded at startup. Content-addressed namespaces prevent a changed or removed record, an older unreviewed sample, or another engine using the same database from silently entering that instance's canonical results. Prior corpus nodes stay on disk for non-destructive compatibility, so graph statistics can include historical nodes. Private memories remain user-scoped and are not erased when a corpus changes.
+
+Browser learning consent applies to one submitted message. The checkbox is consumed before the request starts, including when the request fails; a later message requires a new choice.
+
+### Unicode lexical retrieval
+
+Canonical, memory and graph search preserve combining marks in Hindi/Gujarati and normalize equivalent Unicode spellings. Retrieval matches words rather than arbitrary substrings. This is same-language lexical matching, not translation or multilingual semantic reasoning; the built-in six sample principles remain English, and automatic memory phrase detection remains English-only.
+
+### Bounded practical-answer fallback
+
+Without a model, three authored scenario plans now cover the brief's household-cleaning, wardrobe-organization and business-partner-dispute examples. They provide distinct steps, trade-offs and a clarifying question, and propose no physical action. Recognized compound requests and known software/negation cases receive a transparent generic fallback. Topic detection is lexical, so other false positives and missed requests remain possible; it does not understand intent or arbitrary negation. These templates are not trained reasoning or expert advice.
+
+Responses separate practical suggestions from retrieved passages. Built-in samples never count as reviewed Agama citations. External source references copy only admitted record IDs, work/source/location metadata and passage text; declared review/licensing still requires human verification. The templates do not interpret or reconcile private memory preferences.
+
+The offline evaluation script forces the local fallback and built-in fixture even when model/corpus environment variables are set. Its eight checked-in cases are regressions, not a scholarly or model-quality benchmark.
+
+### Local HTTP service bounds
+
+The local server admits at most 16 simultaneous connections by default and returns 503 when full. Headers and bodies must finish within one absolute 10-second read deadline, including slow byte-by-byte sends. Targets are limited to 8 KiB, headers to 16 KiB after standard-library parsing, and JSON bodies to 64 KiB. Ambiguous Content-Length and Transfer-Encoding framing are rejected. Each connection handles one request and closes.
+
+A bounded in-process token bucket allows a burst of 30 requests per peer address and replenishes 60 per minute by default, including health and preflight requests. Excess requests receive 429 with Retry-After. Accounting tracks at most 1,024 addresses; only fully replenished idle records expire. Forwarded-address headers are deliberately ignored, so users behind a proxy/NAT share its limit. See .env.example for finite positive limits.
+
+The read deadline ends before application work. It does not cancel a running reasoner, limit CPU execution time, or solve cross-user blocking on the engine lock. Shutdown waits for admitted handlers. These local bounds are not production readiness: TLS, a hardened deployment server, distributed abuse controls, operator-managed token rotation/revocation, monitoring and reviewed capacity limits remain necessary.
+
+### Voice turn controls and verification limits
+
+The browser adapter offers English (`en-IN`), Hindi (`hi-IN`) and Gujarati (`gu-IN`) recognition preferences. It asks the user to review the transcript before submission, requires per-message learning consent, ignores superseded responses, and cancels playback/listening on request or connection changes. Read-aloud is opt-in and uses an available matching voice. Selecting a voice language does not translate text or make the English template/ethics engine multilingual.
+
+Stop/cancel affects this page, not work already accepted by the server. An opted-in memory may already have been saved before cancellation. Requests are not automatically retried. Changing account/token/API fields clears the previous draft and response and invalidates pending callbacks. Changing the user or API destination also clears the previous token, requiring the assigned token again. Tokens are still kept only in page memory. Playback requests abort of active dictation and waits for the browser's recognition-ended event before speaking. If that event never arrives, playback remains blocked and can be cancelled. Actual microphone shutdown timing still requires real-device verification.
+
+Browser speech recognition has [limited support and can send audio to a browser-provider web service](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition). Language tags select a [recognition preference](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition/lang), not a guarantee of availability. Playback uses the [voices actually available on the current device](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices).
+
+The Node-based script harness covers transcript review, repeated/interrupted/denied recognition, consent, cancellation, stale responses, account changes and voice selection. It does not verify a real microphone, pronunciation, real browser media behavior, recognition accuracy or latency. No audio recording was made during these tests. Full-duplex transport, actual STT/TTS models, VAD/barge-in and multilingual reasoning remain separate work.
+
+### Optional real physics integration
+
+A CPU-only MuJoCo adapter now runs an original one-axis slider scene through geometry-derived observations, bounded simulated actuation and measured contacts. Six fixtures cover clear/blocked paths, a tagged living obstacle, intrusion, sensor loss and uncertainty. Motion requires explicit simulation-only opt-in. See [the simulation setup, evidence and limits](docs/SIMULATION.md). This is actual physics stepping, but not humanoid simulation, vision, walking, routing or hardware control.
+
+### Fixed-base articulation step
+
+An original nine-hinge humanoid-shaped fixture now exercises a slow shoulder/elbow posture transition under real MuJoCo dynamics and gravity. It has simulation-only consent, bounded actuators, latched holding on uncertainty, whole-model obstacle clearance checks and explicit contact/failure reporting. [Articulation setup and adversarial evidence](docs/ARTICULATION.md) distinguish six bounded cases from an intentionally unavoidable overlap. Its pelvis is fixed: this is not walking, standing balance, perception or real hardware qualification.
+
+### Bounded hand-target simulation
+
+The optional MuJoCo fixture can now solve a left-hand world-coordinate goal, verify its kinematics, and execute a confirmed simulation through the existing stop controller. Use `python -m jace.cli simulate-reach --target 0.3793621956 0.22 1.0707036952 --plan-only` to preview, then replace `--plan-only` with `--confirm-simulation` to run. Reports measure actual endpoint error and distinguish reach, hold, short horizon and contact failure. This is two-joint planar control on a fixed-base model, not walking, perception, grasping or hardware control. See [the articulated fixture](docs/ARTICULATION.md#cartesian-hand-targets).
+
+### Free-base diagnostic, not walking
+
+A separately licensed, explicitly modified G1 model now exercises a true free root and 29 joints in a capped subprocess. Its source neutral servos lose upright posture after about 1.02 simulated seconds; the diagnostic records that failure instead of claiming standing or gait. It loads no pretrained policy and exposes no hardware bridge. See [source, BSD notices, limits and expected failures](docs/FREEBASE_DIAGNOSTIC.md).
+
+### Forget a single memory
+
+Use `python -m jace.cli memories USER` to review recent IDs, then `python -m jace.cli forget-memory USER ID` for a non-destructive preview. Deletion requires `--confirm-delete`. If unattributed audit entries exist, a separate explicit choice is required before removing all such entries for that owner; other active memories and attributable audits stay intact. See [confirmation, API and deletion limits](docs/MEMORY_DELETION.md).
+
+### Temporary memories
+
+Use `remember USER "temporary preference" --expires-at 2026-12-01T18:00:00Z` or `set-memory-expiration USER ID --at TIMESTAMP` to stop future recall at an explicit time. Both direct and graph retrieval exclude expired records; review and deletion remain available. `--never` explicitly removes expiry. Corrections preserve expiry, and dates are never inferred from conversation. See [time boundaries, API and retention limits](docs/MEMORY_EXPIRATION.md).
+
+### Offline training preparation
+
+The old print-only trainer is replaced by a bounded, explicit-consent implementation with synthetic train/held-out admission, local safetensors restrictions, resource caps, diagnostic evaluation and adapter-only export. Default invocation performs preflight only. No GPU/model training has been validated, and no collected texts or private memories are admitted. See [requirements, evidence and unverified backend limits](docs/OFFLINE_TRAINING.md).
+
+### Model response checks
+
+The optional HTTP adapter now requires a bounded JSON answer/citations contract. Cited IDs and exact excerpts must match reviewed records retrieved for that request; source metadata is rendered locally and generated prose remains explicitly unverified. Redirects and public plaintext endpoints are rejected, provider refusals remain refusals, and malformed outputs fall back locally. See [contract, privacy and unverified safety/provider limits](docs/MODEL_OUTPUT_BOUNDARY.md).
+
+### Separate memory contexts
+
+Use `--memory-scope home` or `--memory-scope work` with remembering, asking and memory review to keep unrelated contexts separate. HTTP requests and the conversation console expose the same selector. Existing records stay in `default`; no scope is inferred and no implicit union is performed. Scopes do not restrict another client holding the same owner token. See [migration, API, console compatibility and ownership limits](docs/MEMORY_SCOPES.md).

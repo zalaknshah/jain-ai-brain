@@ -8,7 +8,7 @@
     :root { color-scheme: light; font-family: system-ui, sans-serif; }
     body { max-width: 850px; margin: 2rem auto; padding: 0 1rem; color: #172033; }
     textarea { width: 100%; min-height: 6rem; padding: .8rem; box-sizing: border-box; }
-    button, input { padding: .65rem .8rem; margin: .25rem; }
+    button, input, select { padding: .65rem .8rem; margin: .25rem; }
     button { cursor: pointer; }
     #answer { white-space: pre-wrap; background: #f3f6fa; padding: 1rem; border-radius: .5rem; min-height: 4rem; }
     .row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
@@ -17,46 +17,33 @@
 </head>
 <body>
   <h1>JACE Voice Console</h1>
-  <p><small>Browser audio uses the Web Speech API. The JACE server remains the ethical and reasoning boundary.</small></p>
+  <p><small>Browser audio uses the Web Speech API and may use your browser provider's service. Availability varies by browser and language. Review recognized text before sending it to JACE. API access requires an operator-configured token bound to your user ID.</small></p>
   <div class="row">
     <label>User <input id="user" value="demo-user" autocomplete="off"></label>
+    <label>Memory scope <input id="memory-scope" value="default" maxlength="64" autocomplete="off" spellcheck="false" aria-describedby="scope-help"></label>
     <label>API <input id="api" value="http://127.0.0.1:8787" size="28"></label>
+    <label>API token <input id="token" type="password" autocomplete="off" spellcheck="false"></label>
   </div>
   <div class="row">
-    <button id="listen">🎙 Speak</button>
+    <label>Voice language <select id="language">
+      <option value="en-IN">English</option><option value="hi-IN">Hindi</option><option value="gu-IN">Gujarati</option>
+    </select></label>
+    <button id="listen">🎙 Dictate</button>
     <button id="stop" disabled>Stop listening</button>
     <button id="send">Ask JACE</button>
+    <button id="cancel">Stop reply / cancel listening</button>
+    <label><input id="learn" type="checkbox"> Remember an explicit preference or fact from this message</label>
   </div>
+  <p id="scope-help"><small>Only the selected memory scope is used for recall and opted-in learning. Use lowercase letters, digits, underscores or hyphens. Scopes separate context, not account permissions.</small></p>
   <textarea id="input" placeholder="Speak or type a question…"></textarea>
+  <p id="status" role="status" aria-live="polite">Ready. Voice language does not translate the response or add multilingual reasoning.</p>
   <h2>Response</h2>
+  <div class="row">
+    <button id="read" disabled>Read response</button>
+    <label><input id="speak-replies" type="checkbox"> Read replies aloud when a matching voice is available</label>
+  </div>
   <div id="answer">Ready.</div>
   <p id="meta"><small></small></p>
-  <script>
-    const input = document.querySelector('#input');
-    const answer = document.querySelector('#answer');
-    const meta = document.querySelector('#meta small');
-    const api = () => document.querySelector('#api').value.replace(/\/$/, '');
-    const recognition = 'SpeechRecognition' in window ? new SpeechRecognition() : ('webkitSpeechRecognition' in window ? new webkitSpeechRecognition() : null);
-    if (recognition) {
-      recognition.lang = 'en-GB'; recognition.interimResults = false;
-      recognition.onresult = event => { input.value = event.results[0][0].transcript; ask(); };
-      recognition.onend = () => { document.querySelector('#listen').disabled = false; document.querySelector('#stop').disabled = true; };
-    } else document.querySelector('#listen').disabled = true;
-    document.querySelector('#listen').onclick = () => { recognition.start(); document.querySelector('#listen').disabled = true; document.querySelector('#stop').disabled = false; };
-    document.querySelector('#stop').onclick = () => recognition.stop();
-    document.querySelector('#send').onclick = ask;
-    async function ask() {
-      if (!input.value.trim()) return;
-      answer.textContent = 'Thinking…';
-      try {
-        const response = await fetch(api() + '/v1/think', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({user_id: document.querySelector('#user').value, input: input.value}) });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Request failed');
-        answer.textContent = data.response;
-        meta.textContent = `${data.ethical_assessment.risk_level} risk · ${data.perspectives.length} perspectives · ${data.canonical_evidence.length} canonical evidence item(s)`;
-        if ('speechSynthesis' in window) { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(data.response)); }
-      } catch (error) { answer.textContent = error.message; meta.textContent = 'Check that JACE is running and that the API address is correct.'; }
-    }
-  </script>
+  <script src="console.js"></script>
 </body>
 </html>

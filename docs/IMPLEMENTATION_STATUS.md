@@ -1,0 +1,38 @@
+# JACE implementation status
+
+This repository is a runnable local reference prototype. The November 2026 audit compared it with the research conversation covering canonical Jain knowledge, continuous memory, natural voice interaction, free hosting and humanoid simulation. Passing the bundled tests does not establish completion of that vision.
+
+## Hardening implemented in this development lane
+
+- Reject recognized harmful input before calling any reasoner or sending context to an optional HTTP model. Recheck returned text with the same limited first-pass policy.
+- Reject the supplied insect-harm memory example. Generic words such as "safely" no longer override a harmful instruction.
+- Require configured per-user HTTP bearer authorization, reject another user's identity, bound request bodies and restrict browser origins. Leave the API locked when authorization is unconfigured; CLI use remains available.
+- Avoid new plaintext memory copies in audit rows. Forgetting a user removes active memory, historical audit records and associated graph records, while preserving other users and canonical records. Historical orphan graph nodes are also removed when their exact legacy owner title is known; unknown or ambiguous ownership is not guessed.
+- Treat missing, malformed and non-finite sensor readings as stop conditions. All decisions remain confirmation-gated and non-executable.
+- Correct the unsupported claim that GitHub Actions already runs checks. No workflow file is present on this feature branch.
+
+Regression and independent review apply to specific commit snapshots, not the whole research vision. No public deployment, real model call, real token provisioning, audio integration or physical robot operation is implied.
+
+## Remaining delivery gates
+
+1. **Canonical corpus.** External runtime admission now requires review and licensing declarations plus provenance, while drafts are review-only. Graph retrieval is bound to the exact admitted corpus version, even when several engines share a database. Historical corpus nodes remain on disk but outside the active retrieval scope. These checks do not verify scholarly accuracy or legal rights. Agree on the covered traditions, works, editions and languages. Obtain legally usable source files, preserve verse/page provenance, and have qualified reviewers validate both source text and interpretations. Six sample principle records are not a corpus of the Agamas.
+2. **Useful grounded answers.** Choose a model and demonstrate answers to the actual cleaning, wardrobe and dispute examples with citations and uncertainty. Measure retrieval/citation quality against a reviewed holdout set. The local fallback now supplies distinct authored plans for those three examples, with trade-offs, questions and explicit evidence limits. It labels unverified samples and copies external source references without inventing passages. It remains template-based, not learned reasoning, and does not interpret or reconcile personal memories. The optional model adapter now checks structured citation IDs and exact excerpts against this request's reviewed records and renders source metadata locally. Synthetic regression checks do not prove semantic support, real provider compatibility, safety or model quality.
+3. **Graph and language support.** Implement reviewed entity/relation extraction and multilingual retrieval. Canonical, memory and graph retrieval now preserve Unicode letters and combining marks, including Hindi/Gujarati words, with normalization and exact lexical matches. This does not supply translation, cross-language semantic retrieval, entity extraction or multilingual reasoning.
+4. **Training.** A synthetic-only offline training implementation now replaces the print-only stub, with explicit consent, dataset/model admission, bounded execution, held-out loss computation and adapter-only export. Admission and mocked orchestration are tested; actual GPU/QLoRA execution, compatible dependency versions, real gradients, artifact reload and useful model quality remain unverified. Supply and qualify a rights-reviewed local model and training environment before calling this a working trainer. No private memory or collected text is automatically admitted.
+5. **Memory lifecycle.** Explicit correction now exists through the owned-memory API and CLI, and browser learning requires an unchecked-by-default, per-message consent box. Single-item forgetting now has an owner-bound preview and explicit deletion consent, with a separate choice for all unattributed owner audits and atomic memory/graph/audit cleanup. Explicit owner-set expiration now controls direct and graph recall, including exact time boundaries, while preserving records for review and confirmed deletion. Explicit named recall scopes now separate contexts across direct/graph retrieval, API, CLI and the console, with old data preserved in default. They do not restrict same-owner clients or infer topics. Automatic date inference, session lifetimes, independently authorized agent scopes and automatic contradiction resolution remain missing. Current opt-in memory recognizes a narrow set of phrases.
+6. **Voice.** Implement and verify streaming audio, turn detection, interruption handling, actual STT/TTS components and English/Hindi/Gujarati support. The Web Speech adapter now has transcript review, language selection, opt-in read-aloud, interruption and stale-response guards, tested with browser-API fixtures. Real audio and browser media behavior remain unverified; this is not a full-duplex voice stack.
+7. **Simulation.** MuJoCo now runs a bounded, original one-axis slider fixture with geometry-derived observations, a simulation-only controller and reproducible obstacle/intrusion/uncertainty tests. An additional original MIT-licensed humanoid-shaped fixture now exercises nine articulated hinges with a fixed pelvis, bounded actuators, latched holding and adversarial contact detection. A bounded two-joint inverse-kinematics interface now accepts planar hand goals, verifies endpoint geometry against the actual model, and reports physical tracking error and stopped/failed outcomes. A separate, BSD-licensed modified G1 free-base diagnostic now reproduces neutral-servo instability and reports tilt/contact/sensor termination honestly. It supplies no balance or locomotion controller. These are actual physics steps, but not validated free-base humanoid control: a validated robot model/controller, realistic sensing, gait/balance, richer validation and physical integration remain missing.
+8. **Deployment.** Local request size/deadline, connection-cap and bounded peer-rate controls now exist. Verify a public endpoint only after authorization, TLS, production rate/abuse controls, credential lifecycle, retention, backups and capacity/cost limits are reviewed. Local read deadlines do not cancel model computation. No hosted endpoint has been verified. Free-tier resources may be conditional, limited or queued.
+9. **CI.** Introduce approved CI on main only, then verify a real run for the exact main commit. Do not put workflows on development branches.
+
+## Verification commands
+
+Run these from a checkout with no external model configured:
+
+```sh
+PYTHONPATH=src python -m unittest discover -s tests -v
+python scripts/evaluate.py
+git diff --check
+```
+
+The tests use synthetic inputs, temporary databases, local loopback HTTP services and mocked network calls. They do not prove production safety, corpus correctness, actual model quality, audio latency or robot performance.

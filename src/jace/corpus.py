@@ -35,6 +35,7 @@ def ingest_files(
     license_name: str | None = None,
     tags: list[str] | None = None,
     verified: bool = False,
+    draft: bool = False,
     chunk_size: int = 220,
     overlap: int = 40,
 ) -> int:
@@ -44,6 +45,10 @@ def ingest_files(
     preserves source and location metadata so generated paraphrases cannot be
     mistaken for canonical quotations.
     """
+    if any(not isinstance(value, str) or not value.strip() for value in (work, source, language)):
+        raise ValueError("work, source and language are required")
+    if not draft and (verified is not True or not isinstance(license_name, str) or not license_name.strip()):
+        raise ValueError("Runtime corpus ingestion requires human review and a recorded license; use draft=True for review-only output")
     records: list[dict[str, Any]] = []
     common_tags = tags or []
     for raw_path in paths:
@@ -52,7 +57,9 @@ def ingest_files(
             continue
         text = path.read_text(encoding="utf-8")
         for index, chunk in enumerate(_chunks(text, chunk_size, overlap), 1):
-            digest = hashlib.sha256(f"{path.resolve()}:{index}:{chunk}".encode("utf-8")).hexdigest()[:16]
+            identity = {"work": work, "source": source, "language": language, "edition": edition,
+                        "location": location or path.name, "chunk": index, "text": chunk}
+            digest = hashlib.sha256(json.dumps(identity, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
             records.append(
                 {
                     "entry_id": f"corpus:{digest}",
@@ -64,11 +71,13 @@ def ingest_files(
                     "work": work,
                     "language": language,
                     "edition": edition,
-                    "location": location or str(path),
+                    "location": location or path.name,
                     "license": license_name,
                     "verified": verified,
                 }
             )
+    if not records:
+        raise ValueError("No supported nonempty text or Markdown sources were provided")
     output_path = Path(output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

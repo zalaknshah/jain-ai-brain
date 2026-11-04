@@ -1,0 +1,26 @@
+{
+  "commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+  "sources": [
+    {
+      "file": "LICENSE",
+      "path": "unitree_g1/LICENSE",
+      "git_blob_sha": "62637c8d1416c57ef1aafdf0d4867502e96b9164",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/98a70c569c4c1b6da467a20012f766ee1f8dc521/unitree_g1/LICENSE",
+      "sha256": "98335465f43a20b5850e4651db6e74c4aa1e9fc8e8813d38f345178045c0da50"
+    },
+    {
+      "file": "upstream_g1_mjx.xml",
+      "path": "unitree_g1/g1_mjx.xml",
+      "git_blob_sha": "167e66a1f0220e5ad2be89a42be701e9253c613c",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/98a70c569c4c1b6da467a20012f766ee1f8dc521/unitree_g1/g1_mjx.xml",
+      "sha256": "34de7721f57df7e93e5f43251451018ba661fbfe34a62fb7bd79c69162fffebe"
+    },
+    {
+      "file": "upstream_scene_mjx.xml",
+      "path": "unitree_g1/scene_mjx.xml",
+      "git_blob_sha": "f598e1cf9cb910f092e951b47817e1f9c58212d3",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/98a70c569c4c1b6da467a20012f766ee1f8dc521/unitree_g1/scene_mjx.xml",
+      "sha256": "3dc43a7ef6f232b60e4fb65a456c3b6aeb54afb141f2a45170cb522f81d0636c"
+    }
+  ]
+}

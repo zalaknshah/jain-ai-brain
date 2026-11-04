@@ -1,11 +1,15 @@
 from __future__ import annotations
 
-import re
+import hashlib
+import json
 import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
 
 from .models import CanonicalEntry, Memory
+from .text import lexical_terms
+from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
+from .temporal import eligible_for_recall, normalize_expiration, recall_time
 
 
 _STOPWORDS = {
@@ -17,7 +21,8 @@ _STOPWORDS = {
 
 
 def terms(text: str) -> set[str]:
-    return {item for item in re.findall(r"[a-zA-Z][a-zA-Z0-9_-]{2,}", text.lower()) if item not in _STOPWORDS}
+    return {item for item in lexical_terms(text)
+            if item not in _STOPWORDS and (not item.isascii() or len(item) >= 3)}
 
 
 @dataclass(frozen=True)
@@ -39,8 +44,9 @@ class CognitiveGraph:
     not a claim of biological cognition or consciousness.
     """
 
-    def __init__(self, db_path: str | Path) -> None:
-        self._connection = sqlite3.connect(str(db_path), check_same_thread=False)
+    def __init__(self, db_path: str | Path, connection: sqlite3.Connection | None = None) -> None:
+        self._owns_connection = connection is None
+        self._connection = connection if connection is not None else sqlite3.connect(str(db_path), check_same_thread=False)
         self._connection.row_factory = sqlite3.Row
         self._connection.executescript(
             """
@@ -65,9 +71,29 @@ class CognitiveGraph:
             """
         )
         self._connection.commit()
+        self._canonical_node_ids: dict[str, str] = {}
 
     def seed_canonical(self, entries: list[CanonicalEntry]) -> None:
-        """Insert canonical nodes and associations without overwriting content."""
+        """Bind this graph instance to one immutable, content-addressed corpus.
+
+        Legacy and other-version nodes stay on disk but are never admitted to
+        this instance's retrieval scope. Shared-DB engines may use different
+        corpora without rewriting one another's evidence or private memories.
+        """
+        payload = json.dumps([entry.to_dict() for entry in sorted(entries, key=lambda item: item.entry_id)],
+                             sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+        version = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        node_ids = {entry.entry_id: f"canonical:{version}:{entry.entry_id}" for entry in entries}
+        if len(node_ids) != len(entries):
+            raise ValueError("Canonical entry IDs must be unique")
+        # Publish the active in-memory scope only after all nodes and edges
+        # commit; a failed startup/rebind leaves the previous scope unchanged.
+        with self._connection:
+            self._connection.execute("BEGIN IMMEDIATE")
+            self._seed_canonical(entries, node_ids)
+        self._canonical_node_ids = node_ids
+
+    def _seed_canonical(self, entries: list[CanonicalEntry], node_ids: dict[str, str]) -> None:
         related_pairs = {
             frozenset({"ahimsa-001", "aparigraha-001"}),
             frozenset({"ahimsa-001", "anekanta-001"}),
@@ -78,7 +104,7 @@ class CognitiveGraph:
         for entry in entries:
             self._connection.execute(
                 "INSERT OR IGNORE INTO graph_nodes(node_id, node_type, title, content, source_id, immutable) VALUES (?, 'canonical', ?, ?, ?, 1)",
-                (f"canonical:{entry.entry_id}", entry.title, f"{entry.principle} {entry.guidance} {entry.source} {entry.work or ''} {' '.join(entry.tags)}", entry.entry_id),
+                (node_ids[entry.entry_id], entry.title, f"{entry.principle} {entry.guidance} {entry.source} {entry.work or ''} {' '.join(entry.tags)}", entry.entry_id),
             )
         for left in entries:
             for right in entries:
@@ -87,17 +113,13 @@ class CognitiveGraph:
                 overlap = terms(" ".join(left.tags)) & terms(" ".join(right.tags))
                 if overlap or frozenset({left.entry_id, right.entry_id}) in related_pairs:
                     weight = 0.5 + 0.1 * len(overlap)
-                    self._connection.execute(
-                        "INSERT OR IGNORE INTO graph_edges(from_id, to_id, relation, weight) VALUES (?, ?, 'related_principle', ?)",
-                        (f"canonical:{left.entry_id}", f"canonical:{right.entry_id}", weight),
-                    )
-                    self._connection.execute(
-                        "INSERT OR IGNORE INTO graph_edges(from_id, to_id, relation, weight) VALUES (?, ?, 'related_principle', ?)",
-                        (f"canonical:{right.entry_id}", f"canonical:{left.entry_id}", weight),
-                    )
-        self._connection.commit()
+                    for first, second in [(left.entry_id, right.entry_id), (right.entry_id, left.entry_id)]:
+                        self._connection.execute(
+                            "INSERT OR IGNORE INTO graph_edges(from_id, to_id, relation, weight) VALUES (?, ?, 'related_principle', ?)",
+                            (node_ids[first], node_ids[second], weight),
+                        )
 
-    def add_memory(self, memory: Memory, canonical: list[CanonicalEntry]) -> None:
+    def add_memory(self, memory: Memory, canonical: list[CanonicalEntry], *, commit: bool = True) -> None:
         node_id = f"memory:{memory.memory_id}"
         self._connection.execute(
             "INSERT OR IGNORE INTO graph_nodes(node_id, node_type, title, content, source_id, immutable) VALUES (?, 'memory', ?, ?, ?, 0)",
@@ -105,24 +127,32 @@ class CognitiveGraph:
         )
         memory_terms = terms(memory.content)
         for entry in canonical:
+            if entry.entry_id not in self._canonical_node_ids:
+                continue
             overlap = memory_terms & terms(f"{entry.title} {entry.principle} {entry.guidance} {' '.join(entry.tags)}")
             if overlap:
                 self._connection.execute(
                     "INSERT OR REPLACE INTO graph_edges(from_id, to_id, relation, weight) VALUES (?, ?, 'aligned_with', ?)",
-                    (node_id, f"canonical:{entry.entry_id}", min(1.0, 0.55 + 0.1 * len(overlap))),
+                    (node_id, self._canonical_node_ids[entry.entry_id], min(1.0, 0.55 + 0.1 * len(overlap))),
                 )
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
-    def retrieve(self, query: str, user_id: str, max_hops: int = 2, max_nodes: int = 12) -> list[GraphHit]:
+    def retrieve(self, query: str, user_id: str, max_hops: int = 2, max_nodes: int = 12, *, at: str | None = None, memory_scope: str = DEFAULT_SCOPE) -> list[GraphHit]:
         """Run bounded seed → expand → rerank retrieval."""
+        memory_scope = validate_memory_scope(memory_scope)
         query_terms = terms(query)
         if not query_terms:
             return []
+        at = recall_time() if at is None else normalize_expiration(at)
         rows = self._connection.execute(
-            "SELECT node_id, node_type, title, content, source_id FROM graph_nodes WHERE node_type = 'canonical' OR (node_type = 'memory' AND node_id IN (SELECT 'memory:' || id FROM memories WHERE user_id = ?))",
-            (user_id,),
+            "SELECT g.node_id, g.node_type, g.title, g.content, g.source_id, m.expires_at FROM graph_nodes g LEFT JOIN memories m ON g.node_id = 'memory:' || m.id WHERE g.node_type = 'canonical' OR (g.node_type = 'memory' AND m.user_id = ? AND m.memory_scope = ?)",
+            (user_id, memory_scope),
         ).fetchall()
-        nodes = {row["node_id"]: row for row in rows}
+        active_canonical_ids = set(self._canonical_node_ids.values())
+        nodes = {row["node_id"]: row for row in rows
+                 if (row["node_type"] == "canonical" and row["node_id"] in active_canonical_ids)
+                 or (row["node_type"] == "memory" and eligible_for_recall(row["expires_at"], at))}
         active: dict[str, tuple[float, int]] = {}
         for node_id, row in nodes.items():
             overlap = len(query_terms & terms(f"{row['title']} {row['content']}"))
@@ -161,12 +191,35 @@ class CognitiveGraph:
             "edges": self._connection.execute("SELECT COUNT(*) FROM graph_edges").fetchone()[0],
         }
 
-    def remove_memories(self, memory_ids: list[int]) -> None:
+    def remove_memories(self, memory_ids: list[int], *, commit: bool = True) -> None:
         for memory_id in memory_ids:
             node_id = f"memory:{memory_id}"
             self._connection.execute("DELETE FROM graph_edges WHERE from_id = ? OR to_id = ?", (node_id, node_id))
             self._connection.execute("DELETE FROM graph_nodes WHERE node_id = ? AND immutable = 0", (node_id,))
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
+
+    def remove_legacy_orphans(self, user_id: str, *, commit: bool = True) -> int:
+        """Remove old orphan nodes only when their exact legacy owner is known.
+
+        Historical nodes used the generated title "Memory for <user_id>". Do
+        not infer ownership from partial matches or remove a node linked to an
+        active memory belonging to another user, even if its title is wrong.
+        """
+        rows = self._connection.execute(
+            "SELECT g.node_id FROM graph_nodes g WHERE g.node_type = 'memory' "
+            "AND g.immutable = 0 AND g.title = ? AND NOT EXISTS "
+            "(SELECT 1 FROM memories m WHERE g.node_id = 'memory:' || m.id)",
+            (f"Memory for {user_id}",),
+        ).fetchall()
+        for row in rows:
+            node_id = row["node_id"]
+            self._connection.execute("DELETE FROM graph_edges WHERE from_id = ? OR to_id = ?", (node_id, node_id))
+            self._connection.execute("DELETE FROM graph_nodes WHERE node_id = ? AND immutable = 0", (node_id,))
+        if commit:
+            self._connection.commit()
+        return len(rows)
 
     def close(self) -> None:
-        self._connection.close()
+        if self._owns_connection:
+            self._connection.close()

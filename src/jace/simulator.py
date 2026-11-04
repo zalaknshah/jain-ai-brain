@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
+import math
 from typing import Any
 
 
@@ -24,10 +25,25 @@ def decide_motion(observation: dict[str, Any]) -> SimulationDecision:
     perform collision checking, limits, emergency-stop handling, and its own
     confirmation policy before executing anything.
     """
-    distance = max(0.0, float(observation.get("distance_m", 99.0)))
-    living = bool(observation.get("living_entity", False))
-    fragile = bool(observation.get("fragile_object", False))
-    uncertainty = float(observation.get("uncertainty", 0.0))
+    # Missing, malformed or non-finite sensor values are unknown, never clear.
+    def unknown() -> SimulationDecision:
+        return SimulationDecision("HALT_AND_REROUTE", "Safety: sensor data is missing or invalid; remain stopped.", 0.0, 0.5, True, False)
+
+    if not isinstance(observation, dict) or "distance_m" not in observation:
+        return unknown()
+    raw_distance = observation["distance_m"]
+    raw_uncertainty = observation.get("uncertainty", 0.0)
+    if (isinstance(raw_distance, bool) or not isinstance(raw_distance, (int, float))
+            or isinstance(raw_uncertainty, bool) or not isinstance(raw_uncertainty, (int, float))):
+        return unknown()
+    distance = float(raw_distance)
+    uncertainty = float(raw_uncertainty)
+    if not math.isfinite(distance) or distance < 0 or not math.isfinite(uncertainty) or not 0 <= uncertainty <= 1:
+        return unknown()
+    living = observation.get("living_entity", False)
+    fragile = observation.get("fragile_object", False)
+    if not isinstance(living, bool) or not isinstance(fragile, bool):
+        return unknown()
     if living or fragile or distance < 0.5 or uncertainty > 0.5:
         reason = "Ahimsa: pause and increase distance before contact." if living else "Safety: pause until the obstacle and clearance are resolved."
         return SimulationDecision("HALT_AND_REROUTE", reason, 0.0, max(0.5, distance), True, False)
