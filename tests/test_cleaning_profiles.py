@@ -132,7 +132,7 @@ class CleaningProfileTests(unittest.TestCase):
     def test_cli_preview_save_plan_and_revision_checked_update_are_offline(self):
         root=Path(__file__).resolve().parents[1]
         env={**os.environ,'PYTHONPATH':str(root/'src'),'JACE_DB_PATH':str(Path(self.temp.name)/'cli.db'),
-             'JACE_CANONICAL_PATH':'','JACE_LLM_URL':'http://127.0.0.1:1/never'}
+             'JACE_CANONICAL_PATH':'','JACE_LLM_URL':'intentionally-invalid-never-load-a-provider'}
         def run(*args):
             result=subprocess.run([sys.executable,'-m','jace.cli',*args],cwd=root,env=env,capture_output=True,text=True,timeout=5)
             self.assertEqual(result.returncode,0,result.stderr)

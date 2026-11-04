@@ -14,7 +14,7 @@ Open `http://127.0.0.1:8080/memory.html`. Web assets live in the source checkout
 
 Each page contains at most 20 owned records in one exact scope, including expired records. **Older page** replaces the view; **Load newest memories** starts again. Selecting **Review this item** fetches a fresh owner-bound record and deletion preview. The saved text is displayed separately from the editable, unsaved correction.
 
-- **Save corrected text** explicitly replaces that item's text after the existing alignment filter. It does not move scopes or change expiration.
+- **Save corrected text** explicitly replaces that item's text after the existing alignment filter. Typed cleaning profiles are read-only here for text changes; use their typed CLI/API, while expiry and deletion stay available. It does not move scopes or change expiration.
 - **Set recall expiry** uses an explicit timezone timestamp. **Allow recall without expiration** explicitly removes expiry and may make an expired memory eligible again. Neither action deletes the record.
 - **Delete reviewed item** requires an unchecked-by-default item-deletion choice. If unattributed audits exist, a separate unchecked choice explicitly covers **all current unattributed audit entries for this owner across every scope**, including legacy entries. Other active memories and attributable audits remain. The preview count can change; the optional revision condition covers the memory record, not these unrelated audit rows.
 

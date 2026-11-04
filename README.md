@@ -220,3 +220,7 @@ Direct lexical recall now considers older owned memories within explicit work bu
 ### Review and manage saved memories
 
 The conversation console links to `web/memory.html` for paged owner/scope review, explicit correction and expiry changes, and individually confirmed deletion. The new screen uses atomic record-state conditions to reject stale edits and separate consent for broader legacy-audit cleanup. See the [memory-manager guide and verification limits](docs/MEMORY_MANAGER.md). This client uses the existing API; it does not train a model or automatically extract new memories.
+
+### Apply explicit cleaning preferences
+
+`jace save-cleaning-profile` previews four typed choices and saves them only with `--confirm-save`; `jace plan-cleaning` reuses an eligible owned profile to build a local conditional checklist. Water, time and supply choices change the steps. Conflicting active profiles require explicit selection. See the [cleaning-profile workflow and limitations](docs/CLEANING_PROFILES.md). This dedicated path does not infer preferences from chat, call a model or perform actions.

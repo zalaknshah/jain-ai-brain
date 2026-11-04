@@ -6,6 +6,7 @@ import sys
 
 from .api import serve
 from .engine import CognitiveEngine
+from .reasoner import LocalReasoner
 from .cleaning import SURFACES, WATER_POLICIES, SUPPLIES_POLICIES, validate_profile
 from .temporal import normalize_expiration
 from .memory_scope import validate_memory_scope
@@ -136,7 +137,8 @@ def main() -> None:
     if args.command == "simulate":
         print(json.dumps(run_scenarios(), indent=2))
         return
-    engine = CognitiveEngine()
+    local_profile_command = args.command in ('save-cleaning-profile', 'update-cleaning-profile', 'plan-cleaning')
+    engine = CognitiveEngine(reasoner=LocalReasoner()) if local_profile_command else CognitiveEngine()
     try:
         if args.command == "health":
             print(json.dumps({"status": "ok", "canonical_entries": len(engine.canonical.all()), "reasoner": type(engine.reasoner).__name__, "graph": engine.graph.stats()}, indent=2))
