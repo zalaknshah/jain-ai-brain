@@ -224,3 +224,5 @@ The conversation console links to `web/memory.html` for paged owner/scope review
 ### Apply explicit cleaning preferences
 
 `jace save-cleaning-profile` previews four typed choices and saves them only with `--confirm-save`; `jace plan-cleaning` reuses an eligible owned profile to build a local conditional checklist. Water, time and supply choices change the steps. Conflicting active profiles require explicit selection. See the [cleaning-profile workflow and limitations](docs/CLEANING_PROFILES.md). This dedicated path does not infer preferences from chat, call a model or perform actions.
+
+The [explicit cleaning-planner screen](docs/CLEANING_PLANNER_SCREEN.md) now supports confirmed profile creation, review, revision-checked edits and checklist generation from saved choices. It is linked from the conversation console. Real loopback client tests exercise the flow; real browser behavior remains unverified.

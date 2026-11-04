@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JACE Explicit Cleaning Planner</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #172033; color-scheme: light; }
+    body { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    input, select, button { padding: .65rem; margin: .25rem; } button { cursor: pointer; }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    fieldset, section { margin: 1rem 0; padding: 1rem; border: 1px solid #ccd4df; }
+    pre, li { white-space: pre-wrap; overflow-wrap: anywhere; } li { margin: .8rem 0; }
+    small { color: #526078; } [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Conversation</a> · <a href="memory.html">Memory expiry and deletion</a></nav>
+  <h1>Build a cleaning checklist</h1>
+  <p>Explicitly choose and save preferences, review a saved profile, then build a local conditional checklist. This screen never calls a model or performs cleaning, purchases or robot actions. It does not interpret your chat or inspect your home.</p>
+  <div class="row">
+    <label>User <input id="user" value="demo-user" autocomplete="off"></label>
+    <label>Memory scope <input id="scope" value="default" maxlength="64" autocomplete="off" spellcheck="false"></label>
+    <label>API <input id="api" value="http://127.0.0.1:8787" size="28" autocomplete="off"></label>
+    <label>API token <input id="token" type="password" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <p><small>Enter your assigned token only for a trusted HTTPS or local loopback API. Tokens are not copied between pages or stored in browser storage. Scopes separate context, not same-owner permissions. Saved profiles may be recalled by ordinary chat and sent to its configured provider; this dedicated screen stays local to your API.</small></p>
+  <button id="load">Load saved profiles</button><button id="older" disabled>Older memory page</button>
+  <button id="new">Start a new profile</button><button id="cancel">Cancel and clear</button>
+  <p id="status" role="status" aria-live="polite">Ready. Nothing is loaded or saved automatically.</p>
+  <p><small>Pages scan 20 owned memories at a time and show typed profiles only, including expired ones. Keep paging if other memories fill a page. Expired profiles cannot build new plans.</small></p>
+  <ul id="profiles" aria-label="Saved cleaning profiles"></ul>
+  <section aria-labelledby="review-title">
+    <h2 id="review-title">Saved profile under review</h2>
+    <pre id="saved">No saved profile is selected.</pre>
+    <button id="plan" disabled>Build checklist from these saved choices</button>
+    <p><small>Unsaved edits cannot be used. Save changes or review the record again. Changed, expired, deleted or wrong-scope records are rejected by the API. A returned checklist is a snapshot, not automatically retracted by later changes.</small></p>
+  </section>
+  <fieldset>
+    <legend id="form-title">New profile: choose every field</legend>
+    <div class="row">
+      <label>Surface <select id="surface"><option value="">Choose…</option><option value="wooden_furniture">Wooden furniture</option><option value="hard_floor">Hard floor</option><option value="general">Other / general surface</option></select></label>
+      <label>Water policy <select id="water"><option value="">Choose…</option><option value="avoid">Avoid water AND liquid products</option><option value="follow_surface_guidance">Follow verified surface/product guidance</option></select></label>
+      <label>Time budget in minutes <input id="minutes" type="number" min="1" max="120" step="1" autocomplete="off"></label>
+      <label>Supplies <select id="supplies"><option value="">Choose…</option><option value="existing_only">Use appropriate already-owned supplies only</option><option value="review_missing">List missing supplies for review, no purchase</option></select></label>
+    </div>
+    <p>These are your declarations, not verified conditions. A dry method is not automatically safe. Follow surface/product guidance, never mix cleaning products, and pause if restrictions conflict with necessary hygiene. A time budget is not a completion estimate.</p>
+    <label>Optional expiry for a NEW profile <input id="expires" placeholder="2027-01-01T12:00:00Z" size="30" autocomplete="off"></label>
+    <p><small>Leave expiry blank to keep the profile eligible indefinitely. Changing an existing profile preserves its expiry; use the memory manager to change expiry or delete it.</small></p>
+    <p><label><input id="confirm" type="checkbox"> I reviewed these choices and want to save this profile for this account and scope.</label></p>
+    <button id="save">Save new profile</button>
+  </fieldset>
+  <section id="result" hidden aria-labelledby="result-title">
+    <h2 id="result-title">Conditional checklist, no actions performed</h2>
+    <pre id="plan-info"></pre><ol id="steps"></ol>
+    <h3>Evidence qualifications</h3><pre id="grounding"></pre>
+    <h3>Limits</h3><ul id="limits"></ul>
+  </section>
+  <script src="cleaning-planner.js"></script>
+</body>
+</html>

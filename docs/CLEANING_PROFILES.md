@@ -4,6 +4,8 @@ The research brief gives the example “we shouldn't wipe down the wooden furnit
 
 It is a bounded practical feature, not model training, semantic memory resolution, a complete household planner, a religious ruling or a robot controller.
 
+The [dedicated browser screen](CLEANING_PLANNER_SCREEN.md) provides explicit creation, review, editing and planning. The memory manager still handles expiry and deletion.
+
 ## Choices
 
 Every profile must contain exactly these fields:
@@ -39,7 +41,7 @@ With exactly one eligible profile, the result includes its ID/revision, applied 
 
 To replace choices, use `update-cleaning-profile USER MEMORY_ID` with all four choice flags, the currently reviewed `--expected-revision`, and `--confirm-save`. Without confirmation it only previews the proposed choices. The revision is a state fingerprint, not a secret or monotonic version. A changed record causes a conflict instead of overwrite. Updating a profile preserves its owner, scope and expiry.
 
-Expiry and deletion use the existing memory lifecycle commands. The memory-management page displays typed profiles and supports their expiry and confirmed deletion, but disables plain-text editing. Use the typed CLI/API to change choices; this prevents an accidental free-form edit from becoming a planning instruction.
+Expiry and deletion use the existing memory lifecycle commands. The memory-management page displays typed profiles and supports their expiry and confirmed deletion, but disables plain-text editing. Use the typed CLI/API or dedicated planner screen to change choices; this prevents an accidental free-form edit from becoming a planning instruction.
 
 The three dedicated profile CLI commands explicitly use `LocalReasoner` and do not initialize a configured HTTP model adapter. The dedicated plan builder never calls a model.
 
@@ -49,7 +51,7 @@ The existing bearer token's owner remains authoritative. Unknown fields, aliases
 
 - `POST /v1/cleaning-profiles`: exact `profile` object plus `confirm_save: true`; optional `memory_scope` and `expires_at`. Returns the saved typed memory.
 - `PATCH /v1/cleaning-profiles`: `memory_id`, complete `profile`, exact `expected_revision`, and `confirm_save: true`. The ownership/revision check and memory/graph/audit change share one writer-reserved transaction. Stale updates return 409; another owner's ID returns 404. Generic memory text correction cannot edit a typed profile.
-- `POST /v1/plans/cleaning`: optional `memory_scope` and `profile_memory_id`. Omit the ID for the explicit one-profile/none/multiple behavior. Explicit null IDs and invalid integer IDs are rejected. This operation only builds a checklist; it does not persist learning, make purchases, call a provider or actuate anything.
+- `POST /v1/plans/cleaning`: optional `memory_scope`, `profile_memory_id` and `expected_profile_revision`. The optional revision requires an explicit ID and rejects a changed profile with HTTP 409; the browser screen always supplies it. Omit the ID for the explicit one-profile/none/multiple behavior. Explicit null IDs and invalid integer IDs are rejected. This operation only builds a checklist; it does not persist learning, make purchases, call a provider or actuate anything.
 
 Example save body:
 
