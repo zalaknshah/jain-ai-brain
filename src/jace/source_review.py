@@ -125,6 +125,7 @@ def prepare_source_review(paths, output_directory: str | os.PathLike, *, work: s
     """
     if confirm_copy is not True:
         raise ValueError('explicit confirm_copy=True is required before reading or copying whole source files')
+    sb._require_publication_io()
     metadata = dict(work=work, source=source, language=language, license_name=license_name,
                     location=location, edition=edition, tags=tags)
     # Check all descriptive input and segmentation before reading source files.
@@ -240,6 +241,7 @@ def export_reviewed_sources(manifest_path: str | os.PathLike, decisions_path: st
             or declare_rights_for_local_retrieval is not True):
         raise ValueError(WHOLE_FILE_WARNING + ' Explicit export confirmation, qualified-review declaration '
                          'and rights-for-local-retrieval declaration must each be True.')
+    sb._require_publication_io()
     draft = _read_review_snapshot(manifest_path)
     choices = _validate_decisions(_read_decisions(decisions_path), draft.public)
     approved = [{**record, 'verified': True} for record in draft.records

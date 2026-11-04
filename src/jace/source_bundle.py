@@ -47,12 +47,109 @@ _TEXT_LIMITS = {'entry_id': 128, 'title': 500, 'guidance': 4000, 'source': 1000,
                 'work': 1000, 'language': 64, 'location': 1000, 'license': 1000}
 
 
+def _safe_io_missing() -> list[str]:
+    """Inspect runtime primitives only. Never open a caller-supplied path."""
+    missing = []
+    if os.name != 'posix':
+        missing.append('posix_os')
+    for flag in ('O_NOFOLLOW', 'O_DIRECTORY', 'O_CLOEXEC', 'O_NONBLOCK'):
+        if not hasattr(os, flag):
+            missing.append(flag)
+    if os.open not in os.supports_dir_fd:
+        missing.append('open_dir_fd')
+    if os.stat not in os.supports_dir_fd:
+        missing.append('stat_dir_fd')
+    if os.stat not in os.supports_follow_symlinks:
+        missing.append('stat_no_follow')
+    if os.scandir not in os.supports_fd:
+        missing.append('scandir_fd')
+    return missing
+
+
 def _require_safe_io() -> None:
-    if (os.name != 'posix' or not all(hasattr(os, flag) for flag in
-            ('O_NOFOLLOW', 'O_DIRECTORY', 'O_CLOEXEC', 'O_NONBLOCK'))
-            or os.open not in os.supports_dir_fd or os.stat not in os.supports_dir_fd
-            or os.stat not in os.supports_follow_symlinks):
-        raise ValueError('safe descriptor-relative source IO is unavailable')
+    missing = _safe_io_missing()
+    if missing:
+        raise ValueError('safe descriptor-relative source IO is unavailable (' + ', '.join(missing)
+                         + '). External source operations remain disabled. Run '
+                         'python -m jace.cli source-capabilities for a read-only platform check.')
+
+
+def _publication_primitive():
+    """Resolve the existing Linux primitive without calling it or touching files."""
+    if sys.platform != 'linux':
+        raise ValueError('linux_platform')
+    try:
+        library = ctypes.CDLL(None, use_errno=True)
+    except OSError as error:
+        raise ValueError('libc_unavailable') from error
+    rename = getattr(library, 'renameat2', None)
+    if rename is None:
+        raise ValueError('libc_renameat2')
+    return rename
+
+
+def _publication_io_missing() -> list[str]:
+    missing = []
+    for name in ('mkdir', 'unlink', 'rmdir'):
+        if getattr(os, name, None) not in os.supports_dir_fd:
+            missing.append(name + '_dir_fd')
+    for name in ('fchmod', 'fsync'):
+        if not callable(getattr(os, name, None)):
+            missing.append(name)
+    return missing
+
+
+def _require_publication_io() -> None:
+    """Fail before source reads or staging when known primitives are absent.
+
+    A symbol is only a prerequisite: each actual publication still handles
+    kernel/filesystem rejection and preserves the no-overwrite boundary.
+    """
+    _require_safe_io()
+    missing = _publication_io_missing()
+    try:
+        if missing:
+            raise ValueError(', '.join(missing))
+        _publication_primitive()
+    except ValueError as error:
+        raise ValueError('atomic no-overwrite bundle publication is unavailable (' + str(error)
+                         + '). No source copy/export can start on this platform. Run '
+                         'python -m jace.cli source-capabilities for a read-only platform check.') from error
+
+
+def source_platform_capabilities() -> dict:
+    """Read-only platform prerequisites, not a filesystem or browser test.
+
+    Does not instantiate an engine, inspect model/corpus configuration, read
+    user paths, create a directory/database, invoke rename, or call a provider.
+    """
+    reads_missing = _safe_io_missing()
+    publication_missing = reads_missing + _publication_io_missing()
+    try:
+        _publication_primitive()
+    except ValueError as error:
+        publication_missing.append(str(error))
+    return {
+        'schema_version': 1, 'platform': sys.platform, 'os_name': os.name,
+        'external_source_reads': {
+            'prerequisites_available': not reads_missing,
+            'required_backend': 'POSIX descriptor-relative no-follow reads',
+            'missing_prerequisites': reads_missing,
+        },
+        'private_bundle_publication': {
+            'prerequisites_available': not publication_missing,
+            'required_backend': 'POSIX private staging and Linux renameat2(RENAME_NOREPLACE)',
+            'missing_prerequisites': publication_missing,
+        },
+        'built_in_samples': 'The fixed packaged sample path does not require external source IO; it was not loaded by this check.',
+        'native_windows_source_backend': 'not implemented',
+        'limits': [
+            'Runtime feature inspection only. No user files, database, source copies, output directories or network calls.',
+            'Available prerequisites do not prove that a kernel, filesystem, directory permissions or actual operation will succeed.',
+            'Each source read and publication retains its normal integrity checks; there is no unsafe fallback.',
+            'This does not test browser access, downloads, source authenticity, review, rights or model quality.',
+        ],
+    }
 
 
 def _parts(path: str | os.PathLike) -> tuple[bool, list[str]]:
@@ -427,12 +524,10 @@ def _write_private(parent: int, name: str, data: bytes) -> None:
 
 
 def _rename_noreplace(parent: int, stage_name: str, target_name: str) -> None:
-    if sys.platform != 'linux':
-        raise ValueError('atomic no-overwrite bundle publication is unavailable')
-    library = ctypes.CDLL(None, use_errno=True)
-    rename = getattr(library, 'renameat2', None)
-    if rename is None:
-        raise ValueError('atomic no-overwrite bundle publication is unavailable')
+    try:
+        rename = _publication_primitive()
+    except ValueError as error:
+        raise ValueError('atomic no-overwrite bundle publication is unavailable') from error
     rename.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
     rename.restype = ctypes.c_int
     if rename(parent, os.fsencode(stage_name), parent, os.fsencode(target_name), 1) != 0:
@@ -495,7 +590,7 @@ def _write_bundle(output_directory: str | os.PathLike, sources: dict[str, bytes]
             raise ValueError('draft bundles require unreviewed records and bounded review HTML')
     else:
         raise ValueError('invalid source bundle format')
-    _require_safe_io()
+    _require_publication_io()
     absolute, components = _parts(output_directory)
     _validated_sources(sources)
     sources = dict(sources)

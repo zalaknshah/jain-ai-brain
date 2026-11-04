@@ -4,6 +4,8 @@ This workflow prepares a **review-only** package, lets a person inspect individu
 
 **A runtime export retains complete original backing source files. Unapproved text outside selected passage ranges can remain in those files. The workflow filters admitted records, not file contents. Keep the package, HTML, decision report and export private. Nothing is automatically uploaded, shared, trained on or activated in a runtime.**
 
+Before choosing files, `python scripts/review_sources.py capabilities` prints read-only platform prerequisites. Native Windows source IO is not implemented; preparation/export fail closed before reading inputs on unsupported platforms. This check does not grant browser file access or verify actual filesystem support. See [platform details](SOURCE_PLATFORMS.md).
+
 ## Three separate steps
 
 ### 1. Prepare a private draft

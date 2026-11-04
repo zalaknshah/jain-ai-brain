@@ -23,6 +23,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(prog="jace", description="Jain AI Cognitive Engine")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("health")
+    sub.add_parser("source-capabilities", help="read-only source IO platform prerequisites; no engine, source files or database")
     ask = sub.add_parser("ask")
     ask.add_argument("input")
     ask.add_argument("--user", default="local-user")
@@ -111,6 +112,10 @@ def main() -> None:
     freebase.add_argument("--trace", action="store_true")
     args = parser.parse_args()
 
+    if args.command == "source-capabilities":
+        from .source_bundle import source_platform_capabilities
+        print(json.dumps(source_platform_capabilities(), indent=2))
+        return
     if args.command == "serve":
         serve()
         return

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -9,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from jace.source_review import (WHOLE_FILE_WARNING, export_reviewed_sources,
                                 prepare_source_review)  # noqa: E402
+from jace.source_bundle import source_platform_capabilities  # noqa: E402
 
 
 def main(argv=None):
@@ -16,6 +18,7 @@ def main(argv=None):
         'Offline local source review. Drafts cannot run as runtime corpora. Rights and review '
         'declarations are not verification. No network, training, sharing or automatic activation.'))
     commands = parser.add_subparsers(dest='command', required=True)
+    commands.add_parser('capabilities', help='Read-only platform prerequisites; no source files or engine')
     prepare = commands.add_parser('prepare', help='Copy whole explicitly chosen UTF-8 files for private human review')
     prepare.add_argument('files', nargs='+', type=Path)
     prepare.add_argument('--output', required=True, type=Path, help='New private draft directory; never overwritten')
@@ -35,6 +38,9 @@ def main(argv=None):
     export.add_argument('--declare-qualified-review', action='store_true', help='Attest approved spans and metadata received qualified human review; identity is not authenticated')
     export.add_argument('--declare-rights-for-local-retrieval', action='store_true', help='Attest rights for local retrieval and retention of WHOLE files; not verified legal rights')
     args = parser.parse_args(argv)
+    if args.command == 'capabilities':
+        print(json.dumps(source_platform_capabilities(), indent=2))
+        return 0
     if args.command == 'export':
         print(WHOLE_FILE_WARNING, flush=True)
         if not (args.confirm_export and args.declare_qualified_review and args.declare_rights_for_local_retrieval):

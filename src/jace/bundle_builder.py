@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 from .source_bundle import (MAX_RECORDS, MAX_SOURCES, MAX_TOTAL_SOURCE_BYTES,
-                            read_source_file, write_source_bundle)
+                            read_source_file, write_source_bundle, _require_publication_io)
 from .model_output import checked_text
 
 
@@ -37,6 +37,7 @@ def build_exact_bundle(paths, output_directory, *, work: str, source: str, langu
                        overlap_words: int = 40) -> Path:
     if confirm_build is not True or verified is not True:
         raise ValueError('explicit confirmation and human review declaration are required; declarations do not establish source rights or accuracy')
+    _require_publication_io()
     for name, value in (('work', work), ('source', source), ('language', language), ('license', license_name), ('location', location)):
         checked_text(value, name, 1000)
     # Validate segmentation options before reading any input.
