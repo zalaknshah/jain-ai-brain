@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import json
-import ipaddress
 import os
 import urllib.request
-import urllib.parse
 from dataclasses import dataclass
 from typing import Protocol
 
+from .model_transport import BoundedModelOpener, model_endpoint as _model_endpoint, model_authorization
 from .models import ActionProposal, CanonicalEntry, EthicalAssessment, Memory, Perspective
 from .practical import plan_for
 from .model_output import check_model_output, checked_text, citation_records, strict_json, source_integrity_reference
@@ -92,28 +91,6 @@ class LocalReasoner:
         return None
 
 
-class _NoModelRedirect(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        # Never resend private context or authorization to a redirected target.
-        return None
-
-
-def _model_endpoint(url: str) -> str:
-    if not isinstance(url, str) or len(url) > 2048 or url.strip() != url or any(ord(c) <= 32 or ord(c) == 127 for c in url):
-        raise ValueError('invalid model endpoint')
-    try:
-        parsed = urllib.parse.urlsplit(url)
-        if parsed.username is not None or parsed.password is not None or parsed.fragment or not parsed.hostname or parsed.port == 0:
-            raise ValueError('model endpoint cannot contain credentials, fragments or an invalid authority')
-        if parsed.scheme == 'https':
-            return url
-        if parsed.scheme == 'http' and '%' not in parsed.hostname and ipaddress.ip_address(parsed.hostname).is_loopback:
-            return url
-    except ValueError as error:
-        raise ValueError('model endpoint must use HTTPS, or HTTP with a literal loopback address') from error
-    raise ValueError('model endpoint must use HTTPS, or HTTP with a literal loopback address')
-
-
 class HttpJsonReasoner:
     """Optional structured chat-completions adapter with mechanical source checks.
 
@@ -127,12 +104,10 @@ class HttpJsonReasoner:
 
     def __init__(self, url: str, api_key: str = "", model: str = "") -> None:
         self.url = _model_endpoint(url)
-        if not isinstance(api_key, str) or len(api_key) > 4096 or any(ord(c) < 32 or ord(c) == 127 for c in api_key):
-            raise ValueError("invalid model authorization value")
-        self.api_key = api_key
+        self.api_key = model_authorization(api_key)
         self.model = model or os.getenv("JACE_LLM_MODEL", "local-model")
-        # Do not route private model context through inherited proxy settings.
-        self._opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoModelRedirect())
+        # One bounded subprocess per explicit call; no automatic retries.
+        self._opener = BoundedModelOpener()
 
     def respond(self, request: str, assessment: EthicalAssessment, perspectives: list[Perspective], evidence: list[CanonicalEntry], memories: list[Memory]) -> tuple[str, ActionProposal | None]:
         if not assessment.allowed:

@@ -213,7 +213,7 @@ The old print-only trainer is replaced by a bounded, explicit-consent implementa
 
 ### Model response checks
 
-The optional HTTP adapter now requires a bounded JSON answer/citations contract. Cited IDs and exact excerpts must match reviewed records retrieved for that request; source metadata is rendered locally and generated prose remains explicitly unverified. Redirects and public plaintext endpoints are rejected, provider refusals remain refusals, and malformed outputs fall back locally. See [contract, privacy and unverified safety/provider limits](docs/MODEL_OUTPUT_BOUNDARY.md).
+The optional HTTP adapter now requires a bounded JSON answer/citations contract. Cited IDs and exact excerpts must match reviewed records retrieved for that request; source metadata is rendered locally and generated prose remains explicitly unverified. Redirects and public plaintext endpoints are rejected, provider refusals remain refusals, and malformed outputs fall back locally. A [separate bounded transport worker](docs/MODEL_TRANSPORT.md) now ends a stalled or trickling request locally without retrying it; this cannot cancel provider work already accepted or revoke transmitted context. See [contract, privacy and unverified safety/provider limits](docs/MODEL_OUTPUT_BOUNDARY.md).
 
 ### Separate memory contexts
 
