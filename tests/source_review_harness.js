@@ -37,7 +37,7 @@ function setup(data = original, failure = null) {
   };
   const denied = () => { throw new Error('No remote calls, storage, forms, or automatic actions allowed.'); };
   const sandbox = {document, window:{addEventListener:(name, fn) => { assert.ok(['pagehide','pageshow'].includes(name)); env.events[name] = fn; }},
-    TextEncoder, Blob:class Blob {
+    TextEncoder, TextDecoder, Blob:class Blob {
       constructor(parts, options) {
         env.calls.push('blob'); assert.equal(env.elements['confirm-save'].checked, false);
         assert.equal(env.elements.save.disabled, true);
@@ -61,7 +61,7 @@ function setup(data = original, failure = null) {
     for (const key of ['localStorage','sessionStorage','indexedDB']) Object.defineProperty(target, key, {get:denied});
   }
   vm.createContext(sandbox); vm.runInContext(script, sandbox, {timeout:1000});
-  env.click = id => { assert.equal(typeof env.elements[id].onclick, 'function', 'unwired control: ' + id); env.elements[id].onclick(); };
+  env.click = id => { assert.equal(typeof env.elements[id].onclick, 'function', 'unwired control: ' + id); return env.elements[id].onclick(); };
   env.input = (id, value) => { env.elements[id].value = value; env.elements[id].oninput(); };
   env.choose = value => { env.elements.decision.value = value; env.elements.decision.onchange(); };
   env.confirm = () => { env.elements['confirm-save'].checked = true; env.elements['confirm-save'].onchange(); };
@@ -77,6 +77,7 @@ function assertReset(env) {
   assert.equal(env.elements.save.disabled, true); assert.match(env.elements.progress.textContent, /2 pending, 0 approve, 0 reject/);
   assert.equal(env.elements.passage.textContent, original.records[0].entry.principle);
 }
+async function main() {
 if (scenario === 'defaults_navigation') {
   const e = setup(); assertNoDownload(e); assertReset(e);
   assert.equal(e.elements.review.hidden, false); assert.equal(e.elements.previous.disabled, true); assert.equal(e.elements.next.disabled, false);
@@ -226,6 +227,102 @@ if (scenario === 'defaults_navigation') {
   assert.equal(silent.elements['confirm-save'].checked, false); assert.equal(silent.elements.save.disabled, true);
   assert.equal(silent.blobs.length, 0); assertNoDownload(silent);
   assert.match(silent.elements.status.textContent, /2 MiB UTF-8.*Shorten review notes/);
+} else if (scenario.startsWith('resume_')) {
+  const baseReport = () => ({format:'jace-source-decisions-v1', draft_revision:original.draft_revision,
+    reviewer:'Synthetic Resume Reviewer', decisions:original.records.map((record, i) => ({entry_id:record.entry.entry_id,
+      record_revision:record.revision, decision:i === 0 ? 'approve' : 'reject', note:i === 0 ? 'Allowed 🌟\r\nLiteral <svg> note.' : 'Synthetic rejection.'}))});
+  const fileFor = (raw, options = {}) => {
+    const body = Buffer.from(raw, 'utf8'); let reads = 0;
+    return {size:body.length, get reads() { return reads; }, arrayBuffer:async () => {
+      reads += 1; if (options.fail) throw new Error('Synthetic local read failure');
+      if (options.wait) await options.wait;
+      return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength);
+    }, ...options};
+  };
+  const select = (e, file) => { e.elements['resume-file'].files = file ? [file] : []; e.elements['resume-file'].value = file ? 'fakepath/report.json' : ''; e.elements['resume-file'].onchange(); };
+  const confirm = e => { e.elements['confirm-load'].checked = true; e.elements['confirm-load'].onchange(); };
+  const load = async (e, file) => { select(e,file); confirm(e); await e.click('load-report'); };
+  const existing = e => { e.input('reviewer', 'Existing Reviewer'); e.input('note', 'Existing note'); e.choose('pending'); };
+  const preserved = e => {
+    assert.equal(e.elements.reviewer.value, 'Existing Reviewer'); assert.equal(e.elements.note.value, 'Existing note');
+    assert.equal(e.elements.decision.value, 'pending'); assert.equal(e.elements['confirm-save'].checked, false); assertNoDownload(e);
+  };
+  if (scenario === 'resume_roundtrip') {
+    const e = setup(), report = baseReport(); report.decisions.reverse();
+    const file = fileFor(JSON.stringify(report)); select(e, file); assert.equal(file.reads, 0);
+    confirm(e); assert.equal(file.reads, 0); assert.equal(e.elements['load-report'].disabled, false);
+    await e.click('load-report'); assert.equal(file.reads, 1); assertNoDownload(e);
+    assert.equal(e.elements.reviewer.value, report.reviewer); assert.equal(e.elements.decision.value, 'approve');
+    assert.equal(e.elements.note.value, 'Allowed 🌟\nLiteral <svg> note.');
+    assert.equal(e.elements['confirm-load'].checked, false); assert.equal(e.elements['resume-file'].value, '');
+    e.click('save'); assertNoDownload(e); e.click('next'); assert.equal(e.elements.decision.value, 'reject');
+    e.confirm(); e.click('save'); assert.equal(e.downloads.length, 1);
+    assert.equal(e.report().reviewer, report.reviewer); assert.deepEqual(e.report().decisions.map(d => d.decision), ['approve', 'reject']);
+    assert.equal(e.report().decisions[0].note, 'Allowed 🌟\nLiteral <svg> note.');
+    assert.equal(e.elements.note.children.length, 0);
+    if (process.argv[4]) fs.writeFileSync(process.argv[4], e.blobs.at(-1).text, {encoding:'utf8', flag:'wx', mode:0o600});
+  } else if (scenario === 'resume_no_implicit_read') {
+    const e = setup(), file = fileFor(JSON.stringify(baseReport())); select(e, file);
+    await e.click('load-report'); assert.equal(file.reads, 0); confirm(e);
+    const changed = fileFor(JSON.stringify(baseReport())); e.elements['resume-file'].files = [changed];
+    await e.click('load-report'); assert.equal(file.reads, 0); assert.equal(changed.reads, 0);
+    for (const action of [e => e.input('reviewer','Changed'), e => e.input('note','Changed'), e => e.choose('pending'),
+                         e => e.click('next'), e => e.click('clear'), e => e.events.pagehide(), e => e.events.pageshow()]) {
+      const x = setup(); select(x, file); confirm(x); action(x); await x.click('load-report'); assert.equal(file.reads, 0);
+    }
+  } else if (scenario === 'resume_invalid_reports') {
+    const mutators = [r => {r.extra = true;}, r => {r.format = 'wrong';}, r => {r.draft_revision = 'f'.repeat(64);},
+      r => {r.reviewer = '';}, r => {r.reviewer = 'x'.repeat(129);}, r => {r.reviewer = 'two\nlines';},
+      r => {r.reviewer = '\ud800';}, r => {r.decisions.pop();}, r => {r.decisions.push(clone(r.decisions[0]));},
+      r => {r.decisions[1] = clone(r.decisions[0]);}, r => {r.decisions[0].entry_id = 'unknown';},
+      r => {r.decisions[0].record_revision = 'f'.repeat(64);}, r => {r.decisions[0].decision = 'approved';},
+      r => {r.decisions[0].note = '';}, r => {r.decisions[0].note = 'x'.repeat(2001);},
+      r => {r.decisions[0].note = '\ud800';}, r => {r.decisions[0].note = 'bad\u202enote';},
+      r => {r.decisions[0].extra = true;}];
+    const invalid = mutators.map(mutate => { const r = baseReport(); mutate(r); return JSON.stringify(r); });
+    const raw = JSON.stringify(baseReport());
+    invalid.push('', '{', raw + ' trailing', '\ufeff' + raw, '['.repeat(10) + '0' + ']'.repeat(10),
+      raw.replace('"reviewer":', '"reviewer":"hidden","reviewer":'),
+      raw.replace('"reviewer":', '"reviewer":"hidden","review\\u0065r":'),
+      raw.replace('"note":', '"note":"hidden","note":'));
+    for (const raw of invalid) {
+      const e = setup(); existing(e); await load(e, fileFor(raw)); preserved(e);
+      assert.equal(e.elements['confirm-load'].checked, false); assert.equal(e.elements['load-report'].disabled, true);
+    }
+    const e = setup(); existing(e);
+    const bad = fileFor('x'); bad.arrayBuffer = async () => new Uint8Array([255]).buffer;
+    await load(e,bad); preserved(e);
+  } else if (scenario === 'resume_bounds_and_failures') {
+    for (const size of [0, -1, 2097153, NaN, Infinity, 1.2]) {
+      const e = setup(); existing(e); const file = fileFor('{}', {size}); await load(e,file);
+      assert.equal(file.reads, 0); preserved(e);
+    }
+    const e = setup(); existing(e); await load(e,fileFor(JSON.stringify(baseReport()), {fail:true})); preserved(e);
+    const changed = fileFor(JSON.stringify(baseReport())); changed.size += 1; await load(e,changed); preserved(e);
+    const file = fileFor(JSON.stringify(baseReport())); await load(e,file); assert.equal(file.reads,1);
+    await e.click('load-report'); assert.equal(file.reads,1);
+  } else if (scenario === 'resume_stale_async') {
+    for (const action of [e => e.input('reviewer','Existing Reviewer'), e => e.input('note','Existing note'),
+                         e => e.choose('pending'), e => e.click('next'), e => e.click('clear'),
+                         e => e.events.pagehide(), e => e.events.pageshow(), e => select(e,null), e => confirm(e)]) {
+      const e = setup(); existing(e); let release;
+      const wait = new Promise(resolve => {release = resolve;}); const file = fileFor(JSON.stringify(baseReport()), {wait});
+      select(e,file); confirm(e); const pending = e.click('load-report'); action(e); release(); await pending;
+      assert.notEqual(e.elements.reviewer.value, 'Synthetic Resume Reviewer'); assertNoDownload(e);
+      assert.equal(e.elements['confirm-save'].checked, false);
+    }
+    const concurrent = setup(); let finish;
+    const pendingFile = fileFor(JSON.stringify(baseReport()), {wait:new Promise(resolve => {finish=resolve;})});
+    existing(concurrent); select(concurrent,pendingFile); confirm(concurrent); const loading=concurrent.click('load-report');
+    concurrent.confirm(); assert.equal(concurrent.elements['confirm-save'].checked,true);
+    finish(); await loading; assert.equal(concurrent.elements['confirm-save'].checked,false);
+    concurrent.click('save'); assertNoDownload(concurrent);
+    const e = setup(); let release;
+    const slow = fileFor(JSON.stringify(baseReport()), {wait:new Promise(resolve => {release=resolve;})});
+    select(e,slow); confirm(e); const pending=e.click('load-report');
+    const newer = baseReport(); newer.reviewer='Newer Reviewer'; await load(e,fileFor(JSON.stringify(newer)));
+    release(); await pending; assert.equal(e.elements.reviewer.value,'Newer Reviewer'); assertNoDownload(e);
+  } else throw new Error('Unknown resume scenario');
 } else if (scenario === 'integration_report') {
   const e = setup();
   assert.equal(e.elements.review.hidden, false, e.elements.status.textContent);
@@ -264,3 +361,5 @@ if (scenario === 'defaults_navigation') {
   }
 } else throw new Error('Unknown scenario: ' + scenario);
 console.log('PASS ' + scenario);
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });

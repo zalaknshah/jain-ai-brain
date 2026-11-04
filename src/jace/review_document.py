@@ -162,6 +162,18 @@ Reviewer details and decisions exist only in memory until you explicitly save a 
 <label for="note">Review note (at most 2,000 characters; a nonblank note is required for approve or reject)</label>
 <textarea id="note" autocomplete="off" spellcheck="false"></textarea>
 </section>
+<section aria-label="Resume a saved report">
+<h2>Resume a saved review report</h2>
+<p>Choose one local JSON report from this exact draft. Nothing is read until you explicitly confirm and click Load.
+A valid report replaces the current reviewer, notes and decisions in this page only. It does not authenticate the reviewer,
+authorize export, or activate a corpus. Imported notes remain text; Windows-style note line endings become ordinary newlines.
+No save or download consent is imported. Keep the file private.</p>
+<label for="resume-file">Local review report (JSON, at most 2 MiB)</label>
+<input id="resume-file" type="file" accept="application/json,.json">
+<label><input id="confirm-load" type="checkbox"> I confirm reading this selected local report and replacing the current unsaved reviewer, notes and decisions.</label>
+<button id="load-report" type="button" disabled>Load report for review</button>
+<p id="resume-status" role="status" aria-live="polite">No report loaded. Choosing a file does not read it.</p>
+</section>
 <section aria-label="Save decisions">
 <h2>Save a review report</h2>
 <p>The report contains every record ID and revision, your name, decisions, and notes. It contains no source passages unless you put them in a note.

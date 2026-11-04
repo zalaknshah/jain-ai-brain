@@ -16,6 +16,12 @@ from jace.source_review import prepare_source_review, export_reviewed_sources, l
 @unittest.skipUnless(shutil.which('node'), 'Node is required for the local review-script fixture')
 class SourceReviewIntegrationTests(unittest.TestCase):
     def test_actual_generated_document_decisions_export_only_approved_records(self):
+        self._exercise('integration_report')
+
+    def test_resumed_generated_report_exports_only_approved_records(self):
+        self._exercise('resume_roundtrip')
+
+    def _exercise(self, scenario):
         root_repo=Path(__file__).resolve().parents[1]
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary)
@@ -28,7 +34,7 @@ class SourceReviewIntegrationTests(unittest.TestCase):
             self.assertEqual(len(snapshot['records']),2)
             with self.assertRaises(ValueError):CanonicalStore(manifest)
             report=root/'decisions.json'
-            run=subprocess.run(['node',str(root_repo/'tests/source_review_harness.js'),'integration_report',
+            run=subprocess.run(['node',str(root_repo/'tests/source_review_harness.js'),scenario,
                 str(manifest.parent/'review.html'),str(report)],capture_output=True,text=True,timeout=10)
             self.assertEqual(run.returncode,0,run.stderr+run.stdout)
             decisions=json.loads(report.read_text())

@@ -171,6 +171,12 @@ class ReviewDocumentScriptTests(unittest.TestCase):
         first = data['records'][0]
         data['records'] = [{**first, 'entry': {**first['entry'], 'entry_id': 'synthetic-report-' + str(i)}} for i in range(256)]
         self.scenario('report_byte_limit', data)
+    def test_resume_valid_exact_report_without_save_consent(self): self.scenario('resume_roundtrip')
+    def test_resume_reads_only_after_bound_explicit_load(self): self.scenario('resume_no_implicit_read')
+    def test_resume_rejects_stale_malformed_duplicate_and_unknown_fields(self): self.scenario('resume_invalid_reports')
+    def test_resume_size_bounds_read_failures_and_no_retry(self): self.scenario('resume_bounds_and_failures')
+    def test_resume_stale_async_reads_cannot_replace_newer_work(self): self.scenario('resume_stale_async')
+
     def test_long_passage_exact_metadata_and_safe_literals(self):
         value = 'Synthetic </script><img src=x onerror=alert(1)>\r\n\t\u2028\u2029\U0001f31f' + 'x' * 19500
         data = fixture(value)

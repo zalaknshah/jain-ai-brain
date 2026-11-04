@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const controls = ['previous', 'next', 'decision', 'note', 'reviewer', 'confirm-save', 'save', 'clear'];
+  const controls = ['previous', 'next', 'decision', 'note', 'reviewer', 'confirm-save', 'save', 'clear', 'resume-file', 'confirm-load', 'load-report'];
   const status = $('status');
   const DIGEST = /^[0-9a-f]{64}$/;
   const MAX_REPORT_BYTES = 2 * 1024 * 1024;
@@ -81,7 +81,7 @@
     return;
   }
 
-  let index = 0, states = [], confirmedReport = null, busy = false;
+  let index = 0, states = [], confirmedReport = null, busy = false, importEpoch = 0, importPending = false, confirmedImportFile = null;
   const objectURLs = new Set();
   function revokeURLs() {
     for (const url of objectURLs) {
@@ -128,18 +128,26 @@
     $('note').value = states[index].note;
     progress();
   }
+  function cancelImport() {
+    importEpoch += 1; confirmedImportFile = null; $('confirm-load').checked = false; $('load-report').disabled = true;
+    if (importPending) $('resume-status').textContent = 'Pending report replacement cancelled. No imported choices were applied.';
+    importPending = false;
+  }
   function resetPrivate() {
+    cancelImport(); $('resume-file').value = '';
+    $('resume-status').textContent = 'No report loaded. Choosing a file does not read it.';
     revokeURLs(); index = 0; busy = false;
     states = snapshot.records.map(() => ({decision:'pending', note:''}));
     $('reviewer').value = ''; invalidateConfirmation(); renderRecord();
     status.textContent = 'Reviewer name, notes and decisions cleared. All records are pending. Source passages remain in this private HTML file and draft package.';
   }
   function edit() {
-    invalidateConfirmation();
+    cancelImport(); invalidateConfirmation();
     try { syncCurrent(); progress(); status.textContent = 'Unsaved review changed. Confirm again when you are ready to save.'; }
     catch (_) { status.textContent = 'Invalid decision or note. Notes may contain at most 2,000 characters. Correct it before continuing.'; }
   }
   function navigate(offset) {
+    cancelImport();
     try {
       syncCurrent();
       const next = index + offset;
@@ -148,10 +156,110 @@
   }
   $('decision').onchange = edit;
   $('note').oninput = edit;
-  $('reviewer').oninput = () => { invalidateConfirmation(); status.textContent = 'Reviewer name changed. Confirm again when you are ready to save.'; };
+  $('reviewer').oninput = () => { cancelImport(); invalidateConfirmation(); status.textContent = 'Reviewer name changed. Confirm again when you are ready to save.'; };
   $('previous').onclick = () => navigate(-1);
   $('next').onclick = () => navigate(1);
   $('clear').onclick = resetPrivate;
+  // Check bounded JSON structure and duplicate object keys before native parsing.
+  // Escaped key spellings compare by their decoded value; source text is never code.
+  function strictReportJSON(raw) {
+    let position = 0;
+    const space = () => { while (/[\t\n\r ]/.test(raw[position] || '!')) position += 1; };
+    function string() {
+      const start = position;
+      requireValue(raw[position++] === '"', 'Expected a JSON string.');
+      while (position < raw.length) {
+        const char = raw[position++];
+        if (char === '"') return JSON.parse(raw.slice(start, position));
+        if (char === '\\') position += 1;
+      }
+      throw new Error('Unterminated JSON string.');
+    }
+    function value(depth) {
+      requireValue(depth <= 8, 'Review report JSON is too deeply nested.'); space();
+      const char = raw[position];
+      if (char === '"') { string(); return; }
+      if (char === '{' || char === '[') {
+        const object = char === '{', end = object ? '}' : ']', seen = new Set();
+        position += 1; space();
+        if (raw[position] === end) { position += 1; return; }
+        while (position < raw.length) {
+          if (object) {
+            space(); const key = string();
+            requireValue(!seen.has(key), 'Duplicate review report JSON key.'); seen.add(key);
+            space(); requireValue(raw[position++] === ':', 'Invalid JSON object.');
+          }
+          value(depth + 1); space();
+          if (raw[position] === end) { position += 1; return; }
+          requireValue(raw[position++] === ',', 'Invalid JSON collection.'); space();
+        }
+        throw new Error('Unterminated JSON collection.');
+      }
+      const match = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/.exec(raw.slice(position));
+      requireValue(match !== null, 'Invalid JSON value.'); position += match[0].length;
+    }
+    value(0); space(); requireValue(position === raw.length, 'Trailing report data.');
+    return JSON.parse(raw);
+  }
+  function validateReport(report) {
+    fields(report, ['format', 'draft_revision', 'reviewer', 'decisions']);
+    requireValue(report.format === 'jace-source-decisions-v1' && report.draft_revision === snapshot.draft_revision, 'Report is not for this exact draft.');
+    const reviewer = text(report.reviewer, 128);
+    requireValue(!/[\r\n]/.test(reviewer), 'Reviewer name must fit one line.');
+    requireValue(Array.isArray(report.decisions) && report.decisions.length === snapshot.records.length, 'Report must cover every record.');
+    const expected = new Map(snapshot.records.map(record => [record.entry.entry_id, record.revision]));
+    const choices = new Map();
+    report.decisions.forEach(row => {
+      fields(row, ['entry_id', 'record_revision', 'decision', 'note']);
+      requireValue(typeof row.entry_id === 'string' && expected.has(row.entry_id) && !choices.has(row.entry_id) && row.record_revision === expected.get(row.entry_id), 'Unknown, duplicate or changed review record.');
+      requireValue(['pending', 'approve', 'reject'].includes(row.decision), 'Invalid review choice.');
+      const note = text(row.note, 2000, row.decision === 'pending').replace(/\r\n/g, '\n');
+      choices.set(row.entry_id, {decision:row.decision, note});
+    });
+    return {reviewer, states:snapshot.records.map(record => choices.get(record.entry.entry_id))};
+  }
+  function selectedFile() {
+    const files = $('resume-file').files;
+    requireValue(files && files.length === 1 && files[0] && Number.isSafeInteger(files[0].size) && files[0].size > 0 && files[0].size <= MAX_REPORT_BYTES, 'Choose one local JSON report no larger than 2 MiB.');
+    return files[0];
+  }
+  $('resume-file').onchange = () => {
+    cancelImport(); invalidateConfirmation();
+    $('resume-status').textContent = 'Selected file not read. Confirm replacement, then click Load report for review.';
+  };
+  $('confirm-load').onchange = () => {
+    const checked = $('confirm-load').checked; cancelImport();
+    if (!checked) return;
+    try { confirmedImportFile = selectedFile(); $('confirm-load').checked = true; $('load-report').disabled = false; }
+    catch (_) { cancelImport(); $('resume-status').textContent = 'Choose exactly one nonempty local JSON report of at most 2 MiB. Nothing was read.'; }
+  };
+  $('load-report').onclick = async () => {
+    const consent = $('confirm-load').checked && !$('load-report').disabled;
+    const expectedFile = confirmedImportFile;
+    cancelImport(); invalidateConfirmation();
+    if (!consent) { $('resume-status').textContent = 'Confirm the selected report and replacement first. Nothing was read.'; return; }
+    const epoch = importEpoch;
+    let file;
+    try {
+      file = selectedFile(); requireValue(file === expectedFile, 'Selected report changed after confirmation.');
+      importPending = true;
+      $('resume-status').textContent = 'Reading only the explicitly selected local report. Changes or clearing cancel replacement.';
+      const buffer = await file.arrayBuffer();
+      if (epoch !== importEpoch) return;
+      requireValue(buffer.byteLength === file.size && buffer.byteLength <= MAX_REPORT_BYTES, 'Report size changed.');
+      const raw = new TextDecoder('utf-8', {fatal:true, ignoreBOM:true}).decode(buffer);
+      const imported = validateReport(strictReportJSON(raw));
+      if (epoch !== importEpoch) return;
+      importPending = false; invalidateConfirmation(); states = imported.states; index = 0; $('reviewer').value = imported.reviewer;
+      $('resume-file').value = ''; revokeURLs(); renderRecord();
+      $('resume-status').textContent = 'Report loaded into this page for review. Reviewer identity is unverified. No export, activation, storage or download occurred. Confirm any later save separately.';
+      status.textContent = 'Review restored without save consent. Check the imported choices and notes before confirming a new report.';
+    } catch (_) {
+      if (epoch !== importEpoch) return;
+      importPending = false;
+      $('resume-status').textContent = 'Report not loaded: invalid UTF-8/JSON, unsupported fields, size limit, or a draft/record mismatch. Current reviewer and decisions were preserved. Choose and explicitly confirm a valid report to retry.';
+    }
+  };
   $('confirm-save').onchange = () => {
     if (!$('confirm-save').checked) { invalidateConfirmation(); return; }
     try {

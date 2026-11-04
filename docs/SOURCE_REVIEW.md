@@ -36,6 +36,16 @@ A separate default-unchecked confirmation is consumed before a local report down
 
 The generated HTML itself contains the reviewed passages and remains on disk. Clearing the screen or leaving the page resets in-memory choices, notes and reviewer fields; it does not erase the saved HTML, source files, downloads or browser/OS remnants. The page does not use browser storage, send files, execute source markup or call a model. Actual browser/download behavior remains unverified; Node fixtures exercise the code paths.
 
+### Resume an interrupted review explicitly
+
+To continue from a previously saved report, choose its local JSON file in **Resume a saved review report**. Selecting a file does not read it. Check the separate replacement confirmation and click **Load report for review** to read that one file. A successful load replaces this page’s current reviewer, notes and decisions, so save any work you want to keep first. This is an in-memory replacement, not a merge or an automatic save.
+
+Import requires a nonempty report no larger than 2 MiB, strict UTF-8 and JSON, the exact draft revision, every expected record ID and matching record revision exactly once, supported fields and choices, and bounded valid reviewer/notes. Duplicate JSON keys, malformed or mismatched reports, and unreadable files fail without changing the current review. Reviewer names must fit one line; imported CRLF note line endings become LF for the browser textarea. No other text is silently truncated. Notes render as text, not markup.
+
+Read/replacement confirmation is bound to the selected file, consumed before reading, and invalidated by file changes, review edits, navigation or clearing. A slow read cannot replace edits or a newer import. Loading never restores save consent: inspect the restored choices and explicitly confirm any new save. The imported reviewer name and decisions are unverified declarations, not authenticated identity, scholarly review, permission or rights. Import does not authorize export, runtime activation, training or sharing.
+
+The report file remains on disk, and browser-managed file selection/read behavior still needs real-browser testing. Clearing the page resets the selected file and in-memory state; it does not delete saved reports or source files.
+
 ### 3. Explicitly export approved records
 
 The separate `export` command reads the draft and decision report through bounded, descriptor-safe local IO. It requires final export confirmation, a declaration of qualified review, and a declaration that the intended local retrieval use is permitted. Those assertions do not verify legal rights or scholarly accuracy and do not grant permission to share, train on, commercially reuse or redistribute the source.
@@ -76,6 +86,8 @@ PYTHONPATH=src python -m unittest discover -s tests -p 'test_source_review*.py' 
 PYTHONPATH=src python -m unittest discover -s tests -p test_review_document.py -v
 ```
 
-The 35 backend tests, 18 renderer/DOM tests and one cross-layer integration use original synthetic sources, temporary directories and mocked browser interfaces. The integration executes the actual generated HTML's script in a Node DOM harness, captures its bound decision JSON, and exports/loads that exact report through the Python runtime. It does not use an actual browser or download manager. Tests cover runtime draft rejection, source/metadata/span binding, malformed and stale decisions, explicit confirmation, approved-record subsets with retained unapproved backing bytes, no-overwrite/private modes, failed writes and source changes, literal markup rendering, consumed download consent and no network/storage behavior.
+The 35 backend tests, 23 renderer/DOM tests and two cross-layer integrations use original synthetic sources, temporary directories and mocked browser interfaces. The integration executes the actual generated HTML's script in a Node DOM harness, captures its bound decision JSON, and exports/loads that exact report through the Python runtime. They do not use an actual browser or download manager. The resume integration reloads a bound synthetic report through the actual embedded JavaScript, explicitly saves it again, and checks the resulting bytes through the exporter/runtime. Tests cover runtime draft rejection, source/metadata/span binding, malformed and stale decisions, explicit confirmation, approved-record subsets with retained unapproved backing bytes, no-overwrite/private modes, failed writes and source changes, literal markup rendering, consumed download consent and no network/storage behavior.
 
 Still needed for a real religious corpus: verified rights for the intended use and retained backing files, authentic editions/translations, qualified independent source/interpretation review, accurate page/verse provenance and reviewed retrieval/answer evaluation. This workflow supplies none of those facts automatically.
+
+The resume regression additionally covers explicit file-read consent, no-read selection, UTF-8 and duplicate-key rejection, reordered but exact record sets, CRLF note normalization, failed reads, file-size changes, repeated clicks, and asynchronous completion after edits, clear, page lifecycle events or newer imports. These are controlled Node File/DOM fixtures, not verification of browser file pickers, native form restoration or downloads.
