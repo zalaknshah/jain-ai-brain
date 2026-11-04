@@ -9,16 +9,17 @@ from threading import RLock
 from pathlib import Path
 
 from .canonical import CanonicalStore
+from .cleaning import PROFILE_SOURCE, validate_profile, encode_profile, decode_profile, build_plan
 from .cognitive_graph import CognitiveGraph
 from .ethics import assess
-from .memory import MemoryStore
+from .memory import MemoryStore, validate_memory_revision
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .models import ActionProposal, ThoughtResult, utc_now
 from .model_output import checked_text
 from .practical import plan_for
 from .reasoner import LocalReasoner, Reasoner, configured_reasoner
 from .syadvada import evaluate
-from .temporal import recall_time
+from .temporal import recall_time, eligible_for_recall
 
 
 def synchronized(method):
@@ -141,11 +142,82 @@ class CognitiveEngine:
         with self.memory.connection:
             self.memory.connection.execute("BEGIN IMMEDIATE")
             self.memory.check_revision(user_id, memory_id, expected_revision)
+            if self.memory.get_owned(user_id, memory_id).source == PROFILE_SOURCE:
+                raise ValueError('Use the typed cleaning-profile update operation; generic text correction cannot change this profile.')
             memory, notes = self.memory.replace(user_id, memory_id, content, commit=False)
             if memory:
                 self.graph.remove_memories([memory_id], commit=False)
                 self.graph.add_memory(memory, self.canonical.all(), commit=False)
         return memory, notes
+
+    @synchronized
+    def save_cleaning_profile(self, user_id: str, profile: dict, *, confirm_save: bool = False,
+                              memory_scope: str = DEFAULT_SCOPE, expires_at: str | None = None):
+        if not isinstance(user_id, str) or not user_id.strip():
+            raise ValueError('user_id is required')
+        if confirm_save is not True:
+            raise ValueError('explicit confirm_save=true is required to persist a cleaning profile')
+        validated = validate_profile(profile)
+        with self.memory.connection:
+            self.memory.connection.execute('BEGIN IMMEDIATE')
+            memory, notes = self.memory.add(user_id, encode_profile(validated), source=PROFILE_SOURCE,
+                expires_at=expires_at, memory_scope=memory_scope, commit=False)
+            if memory:
+                self.graph.add_memory(memory, self.canonical.all(), commit=False)
+        return memory, notes
+
+    @synchronized
+    def update_cleaning_profile(self, user_id: str, memory_id: int, profile: dict, *,
+                                expected_revision: str, confirm_save: bool = False):
+        self._validate_memory_identity(user_id, memory_id)
+        if confirm_save is not True:
+            raise ValueError('explicit confirm_save=true is required to replace a cleaning profile')
+        validated = validate_profile(profile)
+        validate_memory_revision(expected_revision)
+        with self.memory.connection:
+            self.memory.connection.execute('BEGIN IMMEDIATE')
+            self.memory.check_revision(user_id, memory_id, expected_revision)
+            if self.memory.get_owned(user_id, memory_id).source != PROFILE_SOURCE:
+                raise ValueError('only an existing typed cleaning profile can be updated here')
+            memory, notes = self.memory.replace(user_id, memory_id, encode_profile(validated), commit=False)
+            if memory:
+                self.graph.remove_memories([memory_id], commit=False)
+                self.graph.add_memory(memory, self.canonical.all(), commit=False)
+        return memory, notes
+
+    @synchronized
+    def plan_cleaning(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE,
+                      profile_memory_id: int | None = None) -> dict:
+        if not isinstance(user_id, str) or not user_id.strip():
+            raise ValueError('user_id is required')
+        memory_scope = validate_memory_scope(memory_scope)
+        at = recall_time()
+        if profile_memory_id is None:
+            memories = self.memory.active_cleaning_profiles(user_id, memory_scope=memory_scope, at=at)
+        else:
+            self._validate_memory_identity(user_id, profile_memory_id)
+            memory = self.memory.get_owned(user_id, profile_memory_id)
+            if memory.memory_scope != memory_scope or memory.source != PROFILE_SOURCE or not eligible_for_recall(memory.expires_at, at):
+                raise LookupError('an eligible cleaning profile was not found in this scope')
+            memories = [memory]
+        # Validate every active candidate. Never guess past a malformed record
+        # or silently select the newest of conflicting declarations.
+        profiles = [decode_profile(memory) for memory in memories]
+        common = {'user_id': user_id, 'memory_scope': memory_scope, 'context_at': at,
+                  'actions_executed': False, 'action': None}
+        if not memories:
+            return {**common, 'status': 'needs_profile', 'steps': [],
+                    'message': 'Create an explicit typed cleaning profile before planning. Free-form memories are not inferred into constraints.'}
+        if len(memories) > 1:
+            return {**common, 'status': 'choose_profile', 'steps': [],
+                    'message': 'Several active profiles exist. Explicitly choose profile_memory_id; no profile has been applied.',
+                    'profiles': [{'memory_id': memory.memory_id, 'revision': memory.revision, 'profile': profile.to_dict()}
+                                 for memory, profile in zip(memories, profiles)]}
+        plan = build_plan(profiles[0])
+        evidence = self.canonical.search('ahimsa aparigraha resources gentle reversible cleaning', limit=5)
+        return {**common, **plan, 'status': 'planned', 'profile_memory': memories[0].to_dict(),
+                'canonical_evidence': [item.to_dict() for item in evidence],
+                'grounding': LocalReasoner._grounding(evidence)}
 
     @synchronized
     def learn_from_conversation(self, user_id: str, content: str, *, memory_scope: str = DEFAULT_SCOPE):

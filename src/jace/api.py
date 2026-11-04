@@ -363,7 +363,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         subject = self._authorize()
         if subject is None:
             return
-        if self.path not in ('/v1/memory', '/v1/memory-expiration'):
+        if self.path not in ('/v1/memory', '/v1/memory-expiration', '/v1/cleaning-profiles'):
             self._send(404, {'error': 'not found'})
             return
         try:
@@ -374,6 +374,12 @@ class JaceHandler(BaseHTTPRequestHandler):
             if 'memory_scope' in body:
                 raise ValueError('memory_scope cannot be changed by correction or expiration; create a separate memory explicitly')
             expected_revision = validate_memory_revision(body['expected_revision']) if 'expected_revision' in body else None
+            if self.path == '/v1/cleaning-profiles':
+                self._body_keys(body, {'user_id', 'memory_id', 'profile', 'expected_revision', 'confirm_save'})
+                memory, notes = self.engine.update_cleaning_profile(subject, body.get('memory_id'), body.get('profile'),
+                    expected_revision=expected_revision, confirm_save=body.get('confirm_save', False))
+                self._send(200 if memory else 422, {'memory': memory.to_dict() if memory else None, 'notes': notes})
+                return
             if self.path == '/v1/memory-expiration':
                 self._body_keys(body, {'user_id', 'memory_id', 'expires_at', 'expected_revision'})
                 if 'expires_at' not in body:
@@ -405,6 +411,20 @@ class JaceHandler(BaseHTTPRequestHandler):
             if user_id != subject:
                 self._send(403, {'error': 'access to this user is not allowed'})
                 return
+            if self.path == '/v1/cleaning-profiles':
+                self._body_keys(body, {'user_id', 'profile', 'memory_scope', 'expires_at', 'confirm_save'})
+                memory, notes = self.engine.save_cleaning_profile(subject, body.get('profile'),
+                    confirm_save=body.get('confirm_save', False), memory_scope=body.get('memory_scope', DEFAULT_SCOPE),
+                    expires_at=body.get('expires_at'))
+                self._send(201 if memory else 422, {'memory': memory.to_dict() if memory else None, 'notes': notes})
+                return
+            if self.path == '/v1/plans/cleaning':
+                self._body_keys(body, {'user_id', 'memory_scope', 'profile_memory_id'})
+                if 'profile_memory_id' in body and body['profile_memory_id'] is None:
+                    raise ValueError('profile_memory_id must be omitted or a positive integer, not null')
+                self._send(200, self.engine.plan_cleaning(subject, memory_scope=body.get('memory_scope', DEFAULT_SCOPE),
+                    profile_memory_id=body.get('profile_memory_id')))
+                return
             if self.path == '/v1/think':
                 self._body_keys(body, {'user_id', 'input', 'learn', 'memory_scope'})
                 if 'learn' in body and type(body['learn']) is not bool:
@@ -429,6 +449,8 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(200, {'decision': decide_motion(body['observation']).to_dict()})
                 return
             self._send(404, {'error': 'not found'})
+        except LookupError:
+            self._send(404, {'error': 'eligible profile not found'})
         except (TimeoutError, ConnectionError, OSError):
             self.close_connection = True
         except ValueError as exc:

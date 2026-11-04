@@ -6,6 +6,8 @@ import sys
 
 from .api import serve
 from .engine import CognitiveEngine
+from .cleaning import SURFACES, WATER_POLICIES, SUPPLIES_POLICIES, validate_profile
+from .temporal import normalize_expiration
 from .memory_scope import validate_memory_scope
 from .simulator import run_scenarios
 from .physics import SCENARIOS, run_physics_scenario
@@ -51,6 +53,24 @@ def main() -> None:
     forget.add_argument("--confirm-delete", action="store_true", help="delete this exact owned memory after reviewing its preview")
     forget.add_argument("--confirm-all-unattributed-audit-cleanup", action="store_true",
                         help="also delete ALL of this owner's unattributed audit entries, including legacy entries; preserves other active memories and attributable audits")
+    for command in ('save-cleaning-profile', 'update-cleaning-profile'):
+        profile = sub.add_parser(command, help='preview or explicitly save a typed routine-cleaning preference profile')
+        profile.add_argument('user_id')
+        if command == 'update-cleaning-profile':
+            profile.add_argument('memory_id', type=int)
+            profile.add_argument('--expected-revision', required=True)
+        else:
+            profile.add_argument('--memory-scope', type=validate_memory_scope, default='default')
+            profile.add_argument('--expires-at')
+        profile.add_argument('--surface', choices=sorted(SURFACES), required=True)
+        profile.add_argument('--water-policy', choices=sorted(WATER_POLICIES), required=True)
+        profile.add_argument('--time-budget-minutes', type=int, required=True)
+        profile.add_argument('--supplies-policy', choices=sorted(SUPPLIES_POLICIES), required=True)
+        profile.add_argument('--confirm-save', action='store_true', help='explicitly persist these choices for future local cleaning plans')
+    cleaning = sub.add_parser('plan-cleaning', help='build a local conditional checklist from an explicitly saved profile; no actions')
+    cleaning.add_argument('user_id')
+    cleaning.add_argument('--memory-scope', type=validate_memory_scope, default='default')
+    cleaning.add_argument('--profile-memory-id', type=int)
     sub.add_parser("serve")
     sub.add_parser("simulate")
     physics = sub.add_parser("simulate-physics", help="run the optional bounded MuJoCo slider fixture; no hardware")
@@ -128,6 +148,34 @@ def main() -> None:
                 payload["learned_memory"] = memory.to_dict() if memory else None
                 payload["learning_notes"] = notes
             print(json.dumps(payload, indent=2, ensure_ascii=False))
+        elif args.command in ('save-cleaning-profile', 'update-cleaning-profile'):
+            try:
+                profile = validate_profile(dict(surface=args.surface, water_policy=args.water_policy,
+                    time_budget_minutes=args.time_budget_minutes, supplies_policy=args.supplies_policy)).to_dict()
+                if not args.user_id.strip():
+                    raise ValueError('user_id is required')
+                if not args.confirm_save:
+                    result = {'saved': False, 'profile': profile, 'requires_confirm_save': True,
+                        'note': 'Review these explicit choices, then add --confirm-save. No profile has been persisted.'}
+                    if args.command == 'save-cleaning-profile':
+                        result.update(memory_scope=args.memory_scope, expires_at=normalize_expiration(args.expires_at))
+                elif args.command == 'save-cleaning-profile':
+                    memory, notes = engine.save_cleaning_profile(args.user_id, profile, confirm_save=True,
+                        memory_scope=args.memory_scope, expires_at=args.expires_at)
+                    result = {'saved': memory is not None, 'memory': memory.to_dict() if memory else None, 'notes': notes}
+                else:
+                    memory, notes = engine.update_cleaning_profile(args.user_id, args.memory_id, profile,
+                        expected_revision=args.expected_revision, confirm_save=True)
+                    result = {'saved': memory is not None, 'memory': memory.to_dict() if memory else None, 'notes': notes}
+                print(json.dumps(result, indent=2))
+            except (LookupError, ValueError) as error:
+                parser.exit(2, str(error) + '\n')
+        elif args.command == 'plan-cleaning':
+            try:
+                print(json.dumps(engine.plan_cleaning(args.user_id, memory_scope=args.memory_scope,
+                    profile_memory_id=args.profile_memory_id), indent=2, ensure_ascii=False))
+            except (LookupError, ValueError) as error:
+                parser.exit(2, str(error) + '\n')
         elif args.command == "correct-memory":
             memory, notes = engine.correct_memory(args.user_id, args.memory_id, args.content)
             print(json.dumps({"accepted": memory is not None, "memory": memory.to_dict() if memory else None, "notes": notes}, indent=2))

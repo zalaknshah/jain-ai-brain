@@ -9,6 +9,7 @@ from .ethics import sanitise_memory
 from .models import Memory, utc_now
 from .text import lexical_terms
 from .retrieval_limits import ScanBudget, query_terms, result_limit
+from .cleaning import PROFILE_SOURCE
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .temporal import eligible_for_recall, normalize_expiration, recall_time
 
@@ -129,6 +130,22 @@ class MemoryStore:
             validate_memory_revision(expected_revision)
             if self.get_owned(user_id, memory_id).revision != expected_revision:
                 raise MemoryConflictError('Memory changed after review. Reload it before making this change.')
+
+    def active_cleaning_profiles(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE, at: str | None = None) -> list[Memory]:
+        memory_scope = validate_memory_scope(memory_scope)
+        at = recall_time() if at is None else normalize_expiration(at)
+        rows = self._connection.execute(
+            "SELECT id, user_id, content, created_at, source, updated_at, expires_at, memory_scope FROM memories WHERE user_id = ? AND memory_scope = ? AND source = ? ORDER BY id DESC",
+            (user_id, memory_scope, PROFILE_SOURCE))
+        result, budget = [], ScanBudget()
+        for row in rows:
+            budget.include(row['content'])
+            if eligible_for_recall(row['expires_at'], at):
+                result.append(Memory(row['id'], row['user_id'], row['content'], row['created_at'], row['source'],
+                    row['updated_at'], row['expires_at'], row['memory_scope']))
+                if len(result) > 25:
+                    raise ValueError('too many active cleaning profiles in this scope; explicitly select a profile ID')
+        return result
 
     def page(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE, before_id: int | None = None,
              limit: int = 20) -> dict:

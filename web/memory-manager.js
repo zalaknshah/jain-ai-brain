@@ -13,6 +13,9 @@ const controls = ['load', 'older', 'save', 'set-expiry', 'clear-expiry', 'delete
 function syncControls() {
   for (const id of controls) element(id).disabled = busy;
   element('older').disabled = busy || nextBefore === null;
+  const typed = selected && selected.memory.source === 'cleaning_profile_v1';
+  element('save').disabled = busy || !!typed;
+  element('content').disabled = busy || !!typed;
 }
 
 function clearEditor() {
@@ -136,7 +139,8 @@ function checkedMemory(memory, ctx, id = null) {
 function showEditor(memory, auditCount) {
   selected = Object.freeze({memory, auditCount});
   element('editor').hidden = false;
-  element('record-info').textContent = 'Memory ' + memory.memory_id + ' • ' + memory.user_id + ' • scope ' + memory.memory_scope;
+  element('record-info').textContent = 'Memory ' + memory.memory_id + ' • ' + memory.user_id + ' • scope ' + memory.memory_scope +
+    (memory.source === 'cleaning_profile_v1' ? ' • Typed cleaning profile: use its CLI/API to edit choices. Expiry and deletion remain available here.' : '');
   element('content').value = memory.content;
   element('stored-content').textContent = memory.content;
   element('expires').value = memory.expires_at || '';
@@ -195,6 +199,7 @@ async function change(kind) {
   let body = {memory_id: chosen.memory_id, expected_revision: chosen.revision};
   let path = '/v1/memory';
   if (kind === 'content') {
+    if (chosen.source === 'cleaning_profile_v1') { element('status').textContent = 'Use the typed cleaning-profile CLI/API to edit these choices.'; return; }
     body.content = element('content').value;
     if (!body.content.trim() || body.content.length > 10000) { element('status').textContent = 'Enter reviewed text of 1–10,000 characters.'; return; }
   } else {

@@ -76,6 +76,10 @@ const writes=()=>calls.filter(c=>['PATCH','DELETE'].includes(c.options.method));
     assert.equal(elements.editor.hidden,true);assert.match(elements.status.textContent,/confirmed/);
     for(const call of calls){assert.equal(call.options.redirect,'error');assert.equal(call.options.credentials,'omit');assert.equal(call.options.cache,'no-store');}
     assert.ok(!calls[0].options.headers.Authorization);assert.equal(writes()[0].options.headers.Authorization,'Bearer '+token);
+  } else if(scenario==='typed_profile') {
+    memory.source='cleaning_profile_v1';await open();assert.equal(elements.save.disabled,true);assert.equal(elements.content.disabled,true);
+    assert.match(elements['record-info'].textContent,/Typed cleaning profile/);await click('save');assert.equal(writes().length,0);
+    assert.equal(elements['set-expiry'].disabled,false);elements.expires.value='2000-01-01T00:00:00Z';await click('set-expiry');assert.equal(writes().length,1);
   } else if(scenario==='expiry') {
     await open();elements.expires.value='2027-01-01T00:00:00Z';await click('set-expiry');assert.equal(memory.expires_at,'2027-01-01T00:00:00Z');
     await open();await click('clear-expiry');assert.equal(memory.expires_at,null);assert.equal(writes().length,2);
