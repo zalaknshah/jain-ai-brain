@@ -7,6 +7,7 @@ let busy = false;
 let pendingMutation = false;
 let selected = null;
 let nextBefore = null;
+let boundIdentity = null, activeRaw = null, deleteConsent = null, auditConsent = null;
 const MAX_RESPONSE_BYTES = 1024 * 1024;
 const controls = ['load', 'older', 'save', 'set-expiry', 'clear-expiry', 'delete', 'content', 'expires', 'confirm-delete', 'confirm-audit'];
 
@@ -19,7 +20,7 @@ function syncControls() {
 }
 
 function clearEditor() {
-  selected = null;
+  selected = null; deleteConsent = null; auditConsent = null;
   element('editor').hidden = true;
   element('content').value = '';
   element('stored-content').textContent = '';
@@ -30,16 +31,21 @@ function clearEditor() {
   element('confirm-delete').checked = false;
   element('confirm-audit').checked = false;
   element('audit-choice').hidden = true;
+  refreshView();
 }
 
 function reset(dropToken = false) {
+  // Reset must not rebind a retained credential to a silently changed owner or API.
+  const now = identitySnapshot();
+  if (boundIdentity && (now.user !== boundIdentity.user || now.rawApi !== boundIdentity.rawApi)) dropToken = true;
   generation += 1;
   if (pending) pending.abort();
   const uncertain = pendingMutation;
-  pending = null; busy = false; pendingMutation = false;
+  pending = null; busy = false; pendingMutation = false; activeRaw = null;
   clearEditor(); nextBefore = null;
   element('memories').replaceChildren();
   if (dropToken) element('token').value = '';
+  boundIdentity = identitySnapshot();
   syncControls();
   element('status').textContent = uncertain
     ? 'View cleared. A change already sent may have completed. Reload before deciding whether to try again.'
@@ -52,7 +58,7 @@ function context() {
   if (scope !== scope.trim() || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(scope)) throw new Error('Enter an exact lowercase memory scope.');
   if (token.length < 32 || token.length > 4096 || /[^\x21-\x7e]/.test(token)) throw new Error('Enter a valid assigned API token.');
   const raw = element('api').value;
-  if (raw !== raw.trim()) throw new Error('Review the API address; whitespace is not permitted.');
+  if (raw !== raw.trim() || /[\x00-\x20\x7f]/.test(raw)) throw new Error('Review the API address; whitespace is not permitted.');
   const url = new URL(raw);
   if (url.username || url.password || url.search || url.hash || url.pathname !== '/' ||
       !(url.protocol === 'https:' || (url.protocol === 'http:' && ['127.0.0.1', '[::1]', 'localhost'].includes(url.hostname)))) {
@@ -61,9 +67,42 @@ function context() {
   return Object.freeze({user, scope, token, api: url.origin});
 }
 
-function current(version) { return version === generation; }
+function identitySnapshot() { return {user:element('user').value,scope:element('scope').value,token:element('token').value,rawApi:element('api').value}; }
+function formSnapshot() { return JSON.stringify([element('content').value,element('expires').value]); }
+function guardIdentity() {
+  const now = identitySnapshot();
+  if (boundIdentity && JSON.stringify(now) !== JSON.stringify(boundIdentity)) {
+    reset(now.user !== boundIdentity.user || now.token !== boundIdentity.token || now.rawApi !== boundIdentity.rawApi);
+    return false;
+  }
+  return true;
+}
+function refreshView() { if (busy) activeRaw = formSnapshot(); }
+function current(version) {
+  if (version !== generation || !guardIdentity()) return false;
+  if (activeRaw !== null && formSnapshot() !== activeRaw) { reset(false); return false; }
+  return true;
+}
+function deletionSnapshot() {
+  return JSON.stringify({identity:identitySnapshot(),form:formSnapshot(),selected});
+}
+function clearDeletionChoices() {
+  deleteConsent = null; auditConsent = null;
+  element('confirm-delete').checked = false; element('confirm-audit').checked = false;
+}
+function confirmDeletion(which) {
+  if (!guardIdentity() || busy || !selected) { clearDeletionChoices(); return; }
+  const snapshot = deletionSnapshot();
+  if (which === 'delete') deleteConsent = element('confirm-delete').checked ? snapshot : null;
+  else auditConsent = element('confirm-audit').checked ? snapshot : null;
+}
+function edited() {
+  if (!guardIdentity()) return;
+  if (busy) { reset(false); return; }
+  clearDeletionChoices();
+}
 
-async function boundedJSON(response) {
+async function boundedJSON(response, version) {
   const declared = response.headers.get('content-length');
   if (declared && (!/^\d+$/.test(declared) || Number(declared) > MAX_RESPONSE_BYTES)) throw new Error('API response exceeds the review limit.');
   if (!response.body || typeof response.body.getReader !== 'function') throw new Error('This browser needs streaming response support to review private data safely.');
@@ -71,7 +110,9 @@ async function boundedJSON(response) {
   const parts = []; let bytes = 0;
   try {
     while (true) {
+      if (!current(version)) throw new Error('View changed.');
       const part = await reader.read();
+      if (!current(version)) throw new Error('View changed.');
       if (part.done) break;
       bytes += part.value.byteLength;
       if (bytes > MAX_RESPONSE_BYTES) throw new Error('API response exceeds the review limit.');
@@ -93,7 +134,7 @@ async function request(ctx, version, path, options = {}, authorize = true) {
   const response = await fetch(ctx.api + path, {...options, headers, signal: pending.signal,
     redirect: 'error', credentials: 'omit', cache: 'no-store'});
   if (!current(version)) throw new Error('View changed.');
-  const data = await boundedJSON(response);
+  const data = await boundedJSON(response, version);
   if (!current(version)) throw new Error('View changed.');
   if (!response.ok) {
     if (response.status === 409) throw new Error('Memory or cleanup requirements changed. Reload and review before trying again.');
@@ -103,11 +144,11 @@ async function request(ctx, version, path, options = {}, authorize = true) {
 }
 
 async function run(work, mutation = false) {
-  if (busy) return;
+  if (busy || !guardIdentity()) return;
   let ctx;
   try { ctx = context(); } catch (error) { element('status').textContent = error.message; return; }
   const version = ++generation;
-  pending = new AbortController(); busy = true; pendingMutation = mutation; syncControls();
+  pending = new AbortController(); busy = true; pendingMutation = false; activeRaw = formSnapshot(); syncControls();
   element('status').textContent = mutation ? 'Submitting the reviewed change…' : 'Loading owned memory records…';
   try {
     const health = await request(ctx, version, '/health', {}, false);
@@ -117,11 +158,12 @@ async function run(work, mutation = false) {
   } catch (error) {
     if (current(version)) {
       if (pending) pending.abort();
+      const uncertain = pendingMutation;
       clearEditor(); nextBefore = null; element('memories').replaceChildren();
-      element('status').textContent = error.message + (mutation ? ' A submitted change may have completed. Reload its state before another action.' : '');
+      element('status').textContent = error.message + (uncertain ? ' A submitted change may have completed. Reload its state before another action.' : '');
     }
   } finally {
-    if (current(version)) { pending = null; busy = false; pendingMutation = false; syncControls(); }
+    if (current(version)) { pending = null; busy = false; pendingMutation = false; activeRaw = null; syncControls(); }
   }
 }
 
@@ -150,6 +192,7 @@ function showEditor(memory, auditCount) {
   element('delete-warning').textContent = auditCount > 0
     ? 'Deleting this item also requires deleting ALL ' + auditCount + ' currently unattributed audit entries for this owner across ALL memory scopes. Other active memories and attributable audits are preserved. Review the separate choice below.'
     : 'Deletes this memory, its graph records and attributable audit entries from the live store. Other active memories stay intact.';
+  deleteConsent = null; auditConsent = null; refreshView();
 }
 
 async function loadPage(before = null) {
@@ -194,7 +237,7 @@ async function review(id) {
 }
 
 async function change(kind) {
-  if (busy || !selected) return;
+  if (busy || !guardIdentity() || !selected) return;
   const chosen = selected.memory;
   let body = {memory_id: chosen.memory_id, expected_revision: chosen.revision};
   let path = '/v1/memory';
@@ -209,38 +252,48 @@ async function change(kind) {
       element('status').textContent = 'Enter an explicit timezone timestamp, or choose Allow recall without expiration.'; return;
     }
   }
-  element('confirm-delete').checked = false; element('confirm-audit').checked = false;
+  clearDeletionChoices();
   return run(async (ctx, version) => {
+    pendingMutation = true;
     const result = await request(ctx, version, path, {method: 'PATCH', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
     checkedMemory(result.memory, ctx, chosen.memory_id);
+    pendingMutation = false;
     clearEditor(); nextBefore = null; element('memories').replaceChildren();
     element('status').textContent = 'Change confirmed by the API. Reload memories to review the current record and any other changes.';
   }, true);
 }
 
 async function deleteSelected() {
-  if (busy || !selected) return;
+  if (busy || !guardIdentity() || !selected) return;
   if (!element('confirm-delete').checked || (selected.auditCount > 0 && !element('confirm-audit').checked)) {
     element('status').textContent = 'Review and select each required deletion choice first.'; return;
   }
+  const snapshot = deletionSnapshot();
+  const confirmed = deleteConsent === snapshot && (selected.auditCount === 0 || auditConsent === snapshot);
   const chosen = selected.memory;
   const cleanup = selected.auditCount > 0 && element('confirm-audit').checked;
-  element('confirm-delete').checked = false; element('confirm-audit').checked = false;
+  clearDeletionChoices();
+  if (!confirmed) {
+    element('status').textContent = 'The reviewed state changed, or a checked box was restored without a new choice. Review and check each deletion choice again.';
+    return;
+  }
   return run(async (ctx, version) => {
     const headers = {'X-JACE-Confirm-Delete': String(chosen.memory_id), 'X-JACE-If-Memory-Revision': chosen.revision};
     if (cleanup) headers['X-JACE-Confirm-Audit-Cleanup'] = 'all-unattributed-for-owner';
+    pendingMutation = true;
     const result = await request(ctx, version, '/v1/memory-item/' + chosen.memory_id, {method: 'DELETE', headers});
     if (result.deleted !== 1 || result.memory_id !== chosen.memory_id || result.user_id !== ctx.user) throw new Error('Deletion result did not match the reviewed item.');
+    pendingMutation = false;
     clearEditor(); nextBefore = null; element('memories').replaceChildren();
     element('status').textContent = 'The API confirmed deletion of this item from the live store. Reload to review remaining memories.';
   }, true);
 }
 
-for (const id of ['user', 'api']) element(id).oninput = () => reset(true);
-for (const id of ['token', 'scope']) element(id).oninput = () => reset(false);
-for (const id of ['content', 'expires']) element(id).oninput = () => {
-  element('confirm-delete').checked = false; element('confirm-audit').checked = false;
-};
+for (const id of ['user', 'api']) { element(id).oninput = () => reset(true); element(id).onchange = () => reset(true); }
+for (const id of ['token', 'scope']) { element(id).oninput = () => reset(false); element(id).onchange = () => reset(false); }
+for (const id of ['content', 'expires']) { element(id).oninput = edited; element(id).onchange = edited; }
+element('confirm-delete').onchange = () => confirmDeletion('delete');
+element('confirm-audit').onchange = () => confirmDeletion('audit');
 element('load').onclick = () => loadPage();
 element('older').onclick = () => { if (nextBefore !== null) return loadPage(nextBefore); };
 element('save').onclick = () => change('content');
@@ -249,4 +302,5 @@ element('clear-expiry').onclick = () => change('clear');
 element('delete').onclick = deleteSelected;
 element('cancel').onclick = () => reset(false);
 window.addEventListener('pagehide', () => reset(true));
-syncControls();
+window.addEventListener('pageshow', () => reset(true));
+boundIdentity = identitySnapshot(); syncControls();

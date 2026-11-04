@@ -12,6 +12,25 @@ class MemoryManagerUITests(unittest.TestCase):
         result=subprocess.run(['node',str(Path(__file__).with_name('memory_manager_harness.js')),name],capture_output=True,text=True,timeout=10)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
 
+    def test_retained_identity_blocks_all_mutation_destinations(self):self.scenario('binding_retained_origin')
+    def test_silent_scope_change_blocks_old_selected_delete(self):self.scenario('binding_retained_scope')
+    def test_reset_cannot_rebind_token_to_origin(self):self.scenario('binding_reset_origin')
+    def test_reset_cannot_rebind_token_to_owner(self):self.scenario('binding_reset_user')
+    def test_silent_identity_during_health_blocks_all_mutations(self):self.scenario('binding_silent_health_identity')
+    def test_silent_and_evented_form_edits_block_pending_mutations(self):self.scenario('binding_form_during_health')
+    def test_late_review_cannot_render_under_new_scope(self):self.scenario('binding_silent_review_response')
+    def test_stream_identity_change_cancels_private_body(self):self.scenario('binding_stream_identity')
+    def test_cancelled_old_stream_cannot_clear_newer_loaded_page(self):self.scenario('binding_stale_stream_after_new_load')
+    def test_restored_checkboxes_do_not_authorize_deletion(self):self.scenario('binding_restored_deletion')
+    def test_separate_audit_and_item_choices_bind_same_snapshot(self):self.scenario('binding_separate_audit_consent')
+    def test_silent_form_edit_consumes_deletion_consent(self):self.scenario('binding_silent_edit_after_consent')
+    def test_change_events_clear_private_state_and_choices(self):self.scenario('binding_change_events')
+    def test_page_restore_clears_credentials_and_selection(self):self.scenario('binding_page_restore')
+    def test_submitted_mutation_drift_remains_uncertain_without_retry(self):self.scenario('binding_uncertain_write_drift')
+    def test_cancel_before_mutation_does_not_claim_unknown_write(self):self.scenario('binding_preflight_cancel')
+    def test_internal_url_whitespace_rejected_before_network(self):self.scenario('binding_internal_url_whitespace')
+    def test_fresh_review_cannot_retain_old_deletion_consent(self):self.scenario('binding_refreshed_selection_clears_consent')
+
     def test_review_and_explicit_revision_checked_correction(self):self.scenario('review_correct')
     def test_typed_profile_blocks_generic_edit_but_retains_expiry(self):self.scenario('typed_profile')
     def test_typed_inventory_blocks_generic_edit_but_retains_expiry(self):self.scenario('typed_inventory')
@@ -40,6 +59,8 @@ class MemoryManagerLoopbackTests(unittest.TestCase):
         for _ in range(2):
             self.engine.memory.connection.execute("INSERT INTO memory_audit(user_id,content,accepted,reason,created_at) VALUES ('alice',NULL,0,'Synthetic legacy fixture','2000-01-01')")
         self.engine.memory.connection.commit()
+        def forbidden(*args):raise AssertionError('Memory manager must not call a model provider')
+        self.engine.reasoner.respond=forbidden
 
     def run_client(self,scenario):
         env={**os.environ,'JACE_TEST_API':f'http://127.0.0.1:{self.server.server_port}'}

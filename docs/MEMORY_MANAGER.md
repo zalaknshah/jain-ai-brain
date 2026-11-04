@@ -7,7 +7,7 @@ The browser console now links to `web/memory.html`. This is a functional client 
 Run the Python API with your already-authorized operator configuration, then serve the checkout's web directory as described in the README:
 
 ```sh
-python -m http.server 8080 --directory web
+python -m http.server 8080 --bind 127.0.0.1 --directory web
 ```
 
 Open `http://127.0.0.1:8080/memory.html`. Web assets live in the source checkout, not the Python wheel. Enter the exact assigned user ID, token, memory scope and trusted API origin, then choose **Load newest memories**. Nothing loads automatically. The token is kept in the current page only; it is not transferred through a link, copied from the conversation page, stored in localStorage or sent to a model. HTTPS is required outside literal local loopback/localhost HTTP. The API must already permit the page's origin. No deployment or token provisioning is provided here.
@@ -26,9 +26,11 @@ Every new-screen correction, expiry change and deletion carries the reviewed rec
 
 The fingerprint covers the complete stored memory state, including owner, scope, content and timestamps. It is not a secret, authorization grant or monotonic revision counter. An exactly restored identical state has the same fingerprint. Legacy API/CLI callers remain supported and can omit the optional condition, so unconditional writers still exist.
 
-Changing user or API origin clears credentials, private views and drafts. Changing token or scope clears the view/drafts and invalidates pending callbacks; scope changes retain the token for the same account/destination. Page exit clears the token and view. Only one screen operation can be pending. Deletion checkboxes are consumed before submission, and editing clears them.
+Changing user or API origin clears credentials, private views and drafts. Changing token or scope clears the view/drafts and invalidates pending callbacks; scope changes retain the token for the same account/destination. Page exit and page show/restore clear the token and view. The screen binds identity separately from the selected record and checks raw identity and form values before operations and across asynchronous body reads, including changes without input events. Cancel or a scope/token reset cannot carry a retained token to a silently changed owner or API. Only one screen operation can be pending; form changes during a pending operation invalidate it.
 
-**Cancel and clear view** stops waiting and discards late callbacks. A mutation already accepted by the server may still complete. Network errors or uncertain responses clear the selected item; reload its actual state before deciding whether another action is needed. No automatic retries occur. There is no absolute network deadline; cancellation is available.
+Each deletion checkbox requires a separate change event and binds to the same exact owner/scope/token/API, selected record/revision and visible draft/expiry fields. Restored checked state alone does not authorize deletion. Choices are consumed before submission, and editing or loading a fresh record clears them. Deletion still targets the saved record, not unsaved draft text; a changed draft requires rechecking to avoid carrying earlier consent forward.
+
+**Cancel and clear view** stops waiting and discards late callbacks. A mutation already accepted by the server may still complete. Cancellation during the health check sends no mutation and does not claim an uncertain write. Once a mutation is dispatched, cancellation or changed state leaves its outcome uncertain. Network errors or uncertain responses clear the selected item; reload its actual state before deciding whether another action is needed. No automatic retries occur. There is no absolute network deadline; cancellation is available.
 
 The screen negotiates `memory_management_protocol: 1` before authenticated requests, refuses redirects, omits browser cookies, requests no-store caching and caps streamed JSON at 1 MiB. Memory content is displayed with `textContent` or textarea values, not interpreted as HTML. These controls do not make an untrusted API trustworthy or prove end-user identity beyond the existing bearer-token mapping. Choose the destination carefully.
 
@@ -43,9 +45,11 @@ Pagination uses descending IDs, not offsets. Newer insertions do not shift older
 
 ## What was exercised
 
-Backend tests cover pagination, owner/scope boundaries, exact revision admission, all three stale mutation paths, rollback and two concurrent engines attempting a change from the same reviewed state. Node interaction fixtures exercise confirmation, repeated actions, correction/expiry, stale identity/destination results, cancellation during a write, conflicts, pagination, unsafe URLs, old-server capability failure, content-as-text and response-size limits.
+Backend tests cover pagination, owner/scope boundaries, exact revision admission, all three stale mutation paths, rollback and two concurrent engines attempting a change from the same reviewed state. Node interaction fixtures exercise confirmation, repeated actions, correction/expiry, stale identity/destination results, cancellation during a write, conflicts, pagination, unsafe URLs including embedded whitespace, old-server capability failure, content-as-text and response-size limits. Additional cases cover silent API/scope/owner changes, reset paths, separately bound deletion/audit choices, restored checkbox/page state, edits during health checks, stream cancellation and older stream completion after a newer load.
 
-Additional tests run the actual JavaScript client with Node's streaming HTTP fetch against the actual Python API on loopback and temporary synthetic databases: full review/correction/expiry/confirmed deletion, another-client conflict and wrong-owner access. These use original fixture text and clearly synthetic test credentials only.
+Additional tests run the actual JavaScript client with Node's streaming HTTP fetch against the actual Python API on loopback and temporary synthetic databases: full review/correction/expiry/confirmed deletion, another-client conflict and wrong-owner access. These use original fixture text and clearly synthetic test credentials only; provider invocation fails the fixture.
+
+These guards observe state at action/event/read boundaries. They do not protect against malicious page scripts/extensions, detect silent changes restored between observations, guarantee immediate idle-page erasure, or replace server authorization.
 
 The DOM is a test harness. Real browser rendering, accessibility-device behavior, CORS enforcement by a browser, browser credential managers and end-user browser integration remain unverified. No earlier denied browser launch was retried.
 

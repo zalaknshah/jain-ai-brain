@@ -50,16 +50,105 @@ const tick=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};};
 const open=async()=>{await click('load');await elements.memories.children[0].children[2].onclick();};
 const writes=()=>calls.filter(c=>['PATCH','DELETE'].includes(c.options.method));
+const checkDelete=()=>{elements['confirm-delete'].checked=true;elements['confirm-delete'].onchange();};
+const checkAudit=()=>{elements['confirm-audit'].checked=true;elements['confirm-audit'].onchange();};
+const restore=()=>{
+  elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.api.onchange();
+  elements.scope.value='home';elements.scope.onchange();elements.token.value=token;elements.token.onchange();responder=null;
+};
+const prepare=action=>{
+  if(action==='save')elements.content.value='Reviewed replacement';
+  if(action==='set-expiry')elements.expires.value='2027-01-01T00:00:00Z';
+  if(action==='delete'){checkDelete();if(auditCount)checkAudit();}
+};
+const blank=()=>{assert.equal(elements.editor.hidden,true);assert.equal(elements.content.value,'');assert.equal(elements['stored-content'].textContent,'');assert.equal(elements.memories.children.length,0);};
 (async()=>{
   assert.equal(calls.length,0,'no automatic network');
-  if(scenario==='real_lifecycle') {
+  if(scenario==='binding_retained_origin') {
+    for(const action of ['save','set-expiry','clear-expiry','delete']) {
+      restore();await open();prepare(action);const before=calls.length;elements.api.value='https://different.example';await click(action);
+      assert.equal(calls.length,before);assert.equal(writes().length,0);assert.equal(elements.token.value,'');blank();
+    }
+  } else if(scenario==='binding_retained_scope') {
+    await open();checkDelete();const before=calls.length;elements.scope.value='work';await click('delete');
+    assert.equal(calls.length,before);assert.equal(writes().length,0);assert.equal(elements.token.value,token);blank();
+  } else if(scenario==='binding_reset_origin'||scenario==='binding_reset_user') {
+    for(const reset of ['cancel','scope','token']) {
+      restore();await open();const before=calls.length;
+      if(scenario==='binding_reset_origin')elements.api.value='https://different.example';else elements.user.value='bob';
+      if(reset==='cancel')await click('cancel');else elements[reset].onchange();
+      assert.equal(elements.token.value,'');blank();await click('load');assert.equal(calls.length,before);
+    }
+  } else if(scenario==='binding_silent_health_identity') {
+    for(const action of ['save','set-expiry','clear-expiry','delete']) {
+      restore();await open();prepare(action);const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:defaultResponder(u,o);
+      const pending=click(action);await tick();elements.user.value='bob';hold.resolve(response({memory_management_protocol:1}));await pending;
+      assert.equal(writes().length,0);assert.equal(elements.token.value,'');blank();assert.doesNotMatch(elements.status.textContent,/may have completed/);
+    }
+  } else if(scenario==='binding_form_during_health') {
+    for(const action of ['save','set-expiry','clear-expiry','delete'])for(const fire of [false,true]) {
+      restore();await open();prepare(action);const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:defaultResponder(u,o);
+      const pending=click(action);await tick();elements.content.value='New unreviewed edit';if(fire)elements.content.onchange();
+      hold.resolve(response({memory_management_protocol:1}));await pending;assert.equal(writes().length,0);blank();assert.doesNotMatch(elements.status.textContent,/may have completed/);
+    }
+  } else if(scenario==='binding_silent_review_response') {
+    const hold=deferred();responder=(u,o)=>u.endsWith('/v1/memory-item/7')?hold.promise:defaultResponder(u,o);
+    const pending=vm.runInContext('review(7)',sandbox);await tick();elements.scope.value='work';hold.resolve(response(preview()));await pending;
+    blank();assert.equal(elements.token.value,token);
+  } else if(scenario==='binding_stream_identity') {
+    const hold=deferred(),started=deferred();let cancelled=false;
+    responder=(u,o)=>u.includes('/v1/memory/alice')?Promise.resolve({ok:true,headers:{get:()=>null},body:{getReader:()=>({read:()=>{started.resolve();return hold.promise;},cancel:async()=>{cancelled=true;},releaseLock:()=>{}})}}):defaultResponder(u,o);
+    const pending=click('load');await started.promise;elements.token.value='changed-'+ 'z'.repeat(32);hold.resolve({done:false,value:new TextEncoder().encode('{}')});await pending;
+    assert.equal(cancelled,true);assert.equal(elements.token.value,'');blank();
+  } else if(scenario==='binding_stale_stream_after_new_load') {
+    const hold=deferred(),started=deferred();let cancelled=false;
+    responder=(u,o)=>u.includes('/v1/memory/alice')?Promise.resolve({ok:true,headers:{get:()=>null},body:{getReader:()=>({read:()=>{started.resolve();return hold.promise;},cancel:async()=>{cancelled=true;},releaseLock:()=>{}})}}):defaultResponder(u,o);
+    const old=click('load');await started.promise;await click('cancel');responder=null;await click('load');assert.equal(elements.memories.children.length,1);
+    hold.resolve({done:false,value:new TextEncoder().encode('{}')});await old;assert.equal(cancelled,true);assert.equal(elements.memories.children.length,1);assert.equal(elements.token.value,token);assert.match(elements.status.textContent,/saved item/);
+  } else if(scenario==='binding_restored_deletion') {
+    auditCount=2;await open();const before=calls.length;elements['confirm-delete'].checked=true;elements['confirm-audit'].checked=true;await click('delete');
+    assert.equal(calls.length,before);assert.equal(writes().length,0);assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['confirm-audit'].checked,false);
+    checkDelete();elements['confirm-audit'].checked=true;await click('delete');assert.equal(calls.length,before);assert.equal(writes().length,0);
+    checkDelete();checkAudit();await click('delete');assert.equal(writes().length,1);
+  } else if(scenario==='binding_separate_audit_consent') {
+    auditCount=2;await open();const before=calls.length;checkDelete();elements.content.value='Silently changed draft';checkAudit();await click('delete');
+    assert.equal(calls.length,before);assert.equal(writes().length,0);assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['confirm-audit'].checked,false);
+    checkAudit();elements.expires.value='2027-01-01T00:00:00Z';checkDelete();await click('delete');assert.equal(calls.length,before);assert.equal(writes().length,0);
+  } else if(scenario==='binding_silent_edit_after_consent') {
+    for(const field of ['content','expires']) {
+      restore();await open();checkDelete();const before=calls.length;elements[field].value='unreviewed';await click('delete');
+      assert.equal(calls.length,before);assert.equal(writes().length,0);assert.equal(elements['confirm-delete'].checked,false);
+    }
+  } else if(scenario==='binding_change_events') {
+    auditCount=2;await open();checkDelete();checkAudit();elements.expires.onchange();assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['confirm-audit'].checked,false);
+    elements.scope.value='work';elements.scope.onchange();assert.equal(elements.token.value,token);blank();
+    elements.user.value='bob';elements.user.onchange();assert.equal(elements.token.value,'');
+  } else if(scenario==='binding_page_restore') {
+    await open();checkDelete();events.pageshow();blank();assert.equal(elements.token.value,'');assert.equal(elements['confirm-delete'].checked,false);
+  } else if(scenario==='binding_uncertain_write_drift') {
+    for(const action of ['save','set-expiry','delete']) {
+      restore();await open();prepare(action);const count=writes().length,hold=deferred();responder=(u,o)=>['PATCH','DELETE'].includes(o.method)?hold.promise:defaultResponder(u,o);
+      const pending=click(action);await tick();assert.equal(writes().length,count+1);elements.expires.value='2028-01-01T00:00:00Z';hold.resolve(response({memory,deleted:1,memory_id:7,user_id:'alice'}));await pending;
+      blank();assert.match(elements.status.textContent,/may have completed/);await click(action);assert.equal(writes().length,count+1);
+    }
+  } else if(scenario==='binding_preflight_cancel') {
+    await open();const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:defaultResponder(u,o);const pending=click('save');await tick();await click('cancel');
+    assert.doesNotMatch(elements.status.textContent,/may have completed/);hold.resolve(response({memory_management_protocol:1}));await pending;assert.equal(writes().length,0);blank();
+  } else if(scenario==='binding_internal_url_whitespace') {
+    for(const url of ['https://exa\nmple.com','https://exa\tmple.com','https://example.com/\r']) {
+      elements.api.value=url;elements.api.onchange();elements.token.value=token;elements.token.onchange();await click('load');assert.equal(calls.length,0);assert.match(elements.status.textContent,/whitespace/);
+    }
+  } else if(scenario==='binding_refreshed_selection_clears_consent') {
+    auditCount=2;await open();checkDelete();checkAudit();await open();assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['confirm-audit'].checked,false);
+    await click('delete');assert.equal(writes().length,0);
+  } else if(scenario==='real_lifecycle') {
     await open();assert.equal(elements.content.value,'Original home fixture');
     elements.content.value='Reviewed from actual Node HTTP client';await click('save');assert.match(elements.status.textContent,/confirmed/);
     await open();assert.equal(elements.content.value,'Reviewed from actual Node HTTP client');
     elements.expires.value='2000-01-01T00:00:00Z';await click('set-expiry');await open();
     assert.match(elements['expiry-info'].textContent,/2000-01-01/);assert.match(elements['delete-warning'].textContent,/ALL 2/);
     await click('delete');assert.equal(writes().filter(c=>c.options.method==='DELETE').length,0);
-    elements['confirm-delete'].checked=true;elements['confirm-audit'].checked=true;await click('delete');
+    checkDelete();checkAudit();await click('delete');
     assert.match(elements.status.textContent,/confirmed deletion/);assert.equal(writes().filter(c=>c.options.method==='DELETE').length,1);
   } else if(scenario==='real_conflict') {
     await open();const selected=vm.runInContext('selected.memory',sandbox);
@@ -67,7 +156,7 @@ const writes=()=>calls.filter(c=>['PATCH','DELETE'].includes(c.options.method));
     assert.equal(changed.status,200);await changed.json();elements.content.value='Stale browser draft';await click('save');
     assert.match(elements.status.textContent,/Reload/);assert.equal(elements.editor.hidden,true);assert.equal(writes().length,1);
   } else if(scenario==='real_owner_isolation') {
-    elements.token.value='test-bob-'+ 'b'.repeat(32);await click('load');assert.match(elements.status.textContent,/403/);
+    elements.token.value='test-bob-'+ 'b'.repeat(32);elements.token.oninput();await click('load');assert.match(elements.status.textContent,/403/);
     assert.equal(elements.memories.children.length,0);assert.equal(writes().length,0);
   } else if(scenario==='review_correct') {
     await open();assert.equal(elements.content.value,memory.content);assert.equal(elements.editor.hidden,false);
@@ -86,8 +175,8 @@ const writes=()=>calls.filter(c=>['PATCH','DELETE'].includes(c.options.method));
   } else if(scenario==='delete_choices') {
     auditCount=3;await open();assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['confirm-audit'].checked,false);
     assert.match(elements['delete-warning'].textContent,/ALL 3.*ALL memory scopes/);
-    await click('delete');assert.equal(writes().length,0);elements['confirm-delete'].checked=true;
-    await click('delete');assert.equal(writes().length,0);elements['confirm-audit'].checked=true;
+    await click('delete');assert.equal(writes().length,0);checkDelete();
+    await click('delete');assert.equal(writes().length,0);checkAudit();
     const promise=click('delete');assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['confirm-audit'].checked,false);
     await click('delete');await promise;assert.equal(writes().length,1);
     assert.equal(writes()[0].options.headers['X-JACE-Confirm-Audit-Cleanup'],'all-unattributed-for-owner');
@@ -120,12 +209,12 @@ const writes=()=>calls.filter(c=>['PATCH','DELETE'].includes(c.options.method));
     memory.memory_scope='work';await click('load');assert.equal(elements.memories.children.length,0);assert.equal(elements.editor.hidden,true);
   } else if(scenario==='validation_and_protocol') {
     for(const url of ['http://example.com','https://user:pass@example.com','https://example.com/path','https://example.com/?x=1']) {
-      elements.api.value=url;await click('load');assert.equal(calls.length,0);
+      elements.api.value=url;elements.api.onchange();elements.token.value=token;elements.token.onchange();await click('load');assert.equal(calls.length,0);
     }
-    elements.api.value='http://127.0.0.1:8787';elements.scope.value='home\n';await click('load');assert.equal(calls.length,0);
-    elements.scope.value='home';responder=()=>response({memory_scope_protocol:1});await click('load');assert.equal(calls.length,1);assert.match(elements.status.textContent,/protocol/);
+    elements.api.value='http://127.0.0.1:8787';elements.api.onchange();elements.token.value=token;elements.token.onchange();elements.scope.value='home\n';elements.scope.onchange();await click('load');assert.equal(calls.length,0);
+    elements.scope.value='home';elements.scope.onchange();responder=()=>response({memory_scope_protocol:1});await click('load');assert.equal(calls.length,1);assert.match(elements.status.textContent,/protocol/);
   } else if(scenario==='pagehide_and_draft') {
-    await open();elements.content.value='Unsaved private text';elements['confirm-delete'].checked=true;elements.content.oninput();
+    await open();elements.content.value='Unsaved private text';checkDelete();elements.content.oninput();
     assert.equal(elements['confirm-delete'].checked,false);assert.equal(elements['stored-content'].textContent,'I prefer quiet rooms');
     events.pagehide();assert.equal(elements.content.value,'');assert.equal(elements.token.value,'');assert.equal(elements['stored-content'].textContent,'');
   } else if(scenario==='oversized_response') {
