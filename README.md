@@ -171,7 +171,7 @@ The local server admits at most 16 simultaneous connections by default and retur
 
 A bounded in-process token bucket allows a burst of 30 requests per peer address and replenishes 60 per minute by default, including health and preflight requests. Excess requests receive 429 with Retry-After. Accounting tracks at most 1,024 addresses; only fully replenished idle records expire. Forwarded-address headers are deliberately ignored, so users behind a proxy/NAT share its limit. See .env.example for finite positive limits.
 
-The read deadline ends before application work. It does not cancel a running reasoner, limit CPU execution time, or solve cross-user blocking on the engine lock. Shutdown waits for admitted handlers. These local bounds are not production readiness: TLS, a hardened deployment server, distributed abuse controls, operator-managed token rotation/revocation, monitoring and reviewed capacity limits remain necessary.
+The read deadline ends before application work. Engine-backed HTTP routes now use [nonqueued engine admission](docs/ENGINE_ADMISSION.md): after authorization and request reads, a busy engine returns a distinct 503 before starting that operation. One admission spans thinking and any explicitly requested learning. Public health checks bypass the engine lock but remain subject to connection/rate limits. Already admitted work can still finish after a disconnect; direct in-process calls retain blocking behavior. Shutdown waits for admitted handlers. These local bounds are not production readiness: TLS, a hardened deployment server, distributed abuse controls, operator-managed token rotation/revocation, monitoring and reviewed capacity limits remain necessary.
 
 ### Voice turn controls and verification limits
 

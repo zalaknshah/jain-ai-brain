@@ -4,6 +4,7 @@ import os
 import json
 import re
 import uuid
+from contextlib import contextmanager
 from functools import wraps
 from threading import RLock
 from pathlib import Path
@@ -25,6 +26,10 @@ from .context_review import (MAX_CONTEXT_BYTES, MAX_PREVIEW_BYTES, LIMITS as CON
     bounded_payload, fingerprint, question, source_selection, memory_selection, selections, reasoner_descriptor, reasoner_snapshot)
 
 
+class EngineBusyError(RuntimeError):
+    """No engine operation was admitted; do not queue or retry it implicitly."""
+
+
 def synchronized(method):
     @wraps(method)
     def wrapper(self, *args, **kwargs):
@@ -43,6 +48,20 @@ class CognitiveEngine:
         self.graph = CognitiveGraph(actual_db_path, connection=self.memory.connection)
         self.graph.seed_canonical(self.canonical.all())
         self.reasoner = reasoner or configured_reasoner()
+
+    @contextmanager
+    def request_admission(self):
+        """Try one whole HTTP operation without changing direct-call semantics.
+
+        The same reentrant lock protects nested calls, including think + learn.
+        Admission is per engine instance and does not cancel admitted work.
+        """
+        if not self._lock.acquire(blocking=False):
+            raise EngineBusyError('engine is busy; no engine work was started')
+        try:
+            yield
+        finally:
+            self._lock.release()
 
     @synchronized
     def think(self, user_id: str, request: str, *, memory_scope: str = DEFAULT_SCOPE) -> ThoughtResult:

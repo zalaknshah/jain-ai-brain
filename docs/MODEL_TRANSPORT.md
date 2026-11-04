@@ -10,7 +10,7 @@ The interpreter and packaged worker use absolute paths. `-I -S` disables user Py
 
 The parent owns a 30-second `subprocess.run` communication timeout covering worker stdin, network work, response collection and exit. The worker also retains a socket timeout. The parent kills and reaps the direct worker on communication timeout and does not automatically retry. Slow DNS, TLS, headers and bodies occur in that worker, rather than leaving a background network thread in the engine process.
 
-Process creation and OS kill/reaping can add time, so the timeout is not a hard real-time or whole-service latency guarantee. The engine's existing global lock remains held during the attempt. Other requests can queue behind multiple attempts. There is no new user cancellation API, queue admission policy or capacity guarantee.
+Process creation and OS kill/reaping can add time, so the timeout is not a hard real-time or whole-service latency guarantee. The engine's existing global lock remains held during the attempt. [Engine-backed HTTP requests](ENGINE_ADMISSION.md) now reject contention before operation start rather than queueing, but direct in-process callers can still wait behind multiple attempts. There is no user cancellation API, fairness or capacity guarantee.
 
 ## Destination and response protections
 

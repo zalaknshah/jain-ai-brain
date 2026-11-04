@@ -6,12 +6,13 @@ import math
 import re
 import socket
 import time
+from contextlib import ExitStack
 from threading import BoundedSemaphore, Lock, Timer
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlparse
 
 from .auth import ApiAuthorization
-from .engine import CognitiveEngine
+from .engine import CognitiveEngine, EngineBusyError
 from .limits import PeerRateLimiter, bounded_int
 from .memory import MemoryDeletionConsentRequired, MemoryConflictError, validate_memory_revision
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
@@ -70,6 +71,8 @@ class JaceHandler(BaseHTTPRequestHandler):
     server: JaceHTTPServer
 
     def handle_one_request(self) -> None:
+        self._engine_stack = ExitStack()
+        self._engine_admitted = False
         self._read_lock = Lock()
         self._read_complete = False
         self._read_expired = False
@@ -78,10 +81,15 @@ class JaceHandler(BaseHTTPRequestHandler):
         self._read_timer.daemon = True
         self._read_timer.start()
         try:
-            super().handle_one_request()
+            try:
+                super().handle_one_request()
+            except EngineBusyError:
+                self._send(503, {'error': 'The engine is busy. No engine work was started; review before retrying.',
+                                 'code': 'engine_busy', 'request_started': False, 'automatic_retry': False})
         except (OSError, ConnectionError):
             pass  # Client disconnect or request-read deadline; never retry writes.
         finally:
+            self._engine_stack.close()
             self._read_timer.cancel()
             self.close_connection = True
 
@@ -144,6 +152,12 @@ class JaceHandler(BaseHTTPRequestHandler):
 
     @property
     def engine(self) -> CognitiveEngine:
+        # Every engine-backed route reaches this only after authorization and
+        # request reads. Hold one admission through all calls in this handler,
+        # including think + optional learning; never enqueue a later write.
+        if not self._engine_admitted:
+            self._engine_stack.enter_context(self.server.engine.request_admission())
+            self._engine_admitted = True
         return self.server.engine
 
     def _send(self, status: int, payload: object, *, retry_after: int | None = None) -> None:
@@ -261,6 +275,8 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(404, {'error': 'memory not found'})
             except ValueError as error:
                 self._send(400, {'error': str(error)})
+            except EngineBusyError:
+                raise
             except Exception:
                 self._send(500, {'error': 'internal server error'})
             return
@@ -347,6 +363,8 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(404, {'error': 'memory not found'})
             except ValueError as error:
                 self._send(400, {'error': str(error)})
+            except EngineBusyError:
+                raise
             except Exception:
                 self._send(500, {'error': 'internal server error'})
             return
@@ -404,6 +422,8 @@ class JaceHandler(BaseHTTPRequestHandler):
             self.close_connection = True
         except ValueError as exc:
             self._send(400, {'error': str(exc)})
+        except EngineBusyError:
+            raise
         except Exception:
             self._send(500, {'error': 'internal server error'})
 
@@ -498,6 +518,8 @@ class JaceHandler(BaseHTTPRequestHandler):
             self.close_connection = True
         except ValueError as exc:
             self._send(400, {'error': str(exc)})
+        except EngineBusyError:
+            raise
         except Exception:
             self._send(500, {'error': 'internal server error'})
 
