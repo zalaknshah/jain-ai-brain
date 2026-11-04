@@ -240,3 +240,8 @@ The [wardrobe planner](docs/WARDROBE_PLANNER.md) takes explicitly confirmed item
 ### Review context before an answer
 
 The separate `web/context.html` flow previews available sources and scoped private memories without a model call. All candidates start unchecked; one explicit confirmation selects the exact context for a local answer, or a separately chosen configured reasoner. The server rechecks ownership, expiry and source/memory/configuration revisions and adds no hidden retrieval results. Existing ordinary chat is unchanged. See [API, CLI, privacy boundaries and test evidence](docs/CONTEXT_REVIEW.md). This is selection control, not semantic verification or a trained reasoning system.
+
+
+### Prepare an explicit partner discussion
+
+The [stateless dispute worksheet](docs/DISPUTE_PREPARATION.md) compares two to four explicitly entered options against your reported positions, unknowns and constraints. It preserves disputed claims and reported agreement as declarations, asks option-specific review questions, and makes no verdict or recommendation. Use `jace prepare-dispute --stdin` or authenticated `POST /v1/plans/dispute`. No case data is saved, retrieved from memory, sent to a model or sent to a partner. There is no browser screen for this flow yet.

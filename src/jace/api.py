@@ -18,6 +18,7 @@ from .memory import MemoryDeletionConsentRequired, MemoryConflictError, validate
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .model_output import strict_json
 from .simulator import decide_motion
+from .dispute import prepare_dispute
 
 MAX_BODY_BYTES = 64 * 1024
 MAX_REQUEST_TARGET_BYTES = 8192
@@ -262,7 +263,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == '/health':
             # Public liveness must not reveal private memory/graph statistics.
-            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1, 'context_review_protocol': 1})
+            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1, 'context_review_protocol': 1, 'dispute_preparation_protocol': 1})
             return
         subject = self._authorize()
         if subject is None:
@@ -436,6 +437,11 @@ class JaceHandler(BaseHTTPRequestHandler):
             user_id = body.get('user_id', subject)
             if user_id != subject:
                 self._send(403, {'error': 'access to this user is not allowed'})
+                return
+            if self.path == '/v1/plans/dispute':
+                self._body_keys(body, {'user_id', 'worksheet'})
+                # Stateless local preparation: no engine, memory or provider.
+                self._send(200, prepare_dispute(body.get('worksheet')))
                 return
             if self.path == '/v1/context/preview':
                 self._body_keys(body, {'user_id', 'input', 'memory_scope'})

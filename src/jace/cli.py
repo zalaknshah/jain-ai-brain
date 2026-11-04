@@ -24,6 +24,8 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("health")
     sub.add_parser("source-capabilities", help="read-only source IO platform prerequisites; no engine, source files or database")
+    dispute = sub.add_parser('prepare-dispute', help='stateless local discussion worksheet from bounded JSON stdin; no memory or provider')
+    dispute.add_argument('--stdin', action='store_true', required=True, help='read an explicit JSON worksheet from stdin; input/output may be retained by your terminal')
     ask = sub.add_parser("ask")
     ask.add_argument("input")
     ask.add_argument("--user", default="local-user")
@@ -112,6 +114,18 @@ def main() -> None:
     freebase.add_argument("--trace", action="store_true")
     args = parser.parse_args()
 
+    if args.command == 'prepare-dispute':
+        from .dispute import MAX_INPUT_BYTES, MAX_OUTPUT_BYTES, parse_worksheet, prepare_dispute
+        try:
+            worksheet = parse_worksheet(sys.stdin.buffer.read(MAX_INPUT_BYTES + 1))
+            result = prepare_dispute(worksheet)
+            serialized = json.dumps(result, indent=2, ensure_ascii=False) + '\n'
+            if len(serialized.encode('utf-8')) > MAX_OUTPUT_BYTES:
+                raise ValueError('prepared worksheet CLI output exceeds the 64 KiB limit')
+        except ValueError as error:
+            parser.exit(2, str(error) + '\n')
+        sys.stdout.write(serialized)
+        return
     if args.command == "source-capabilities":
         from .source_bundle import source_platform_capabilities
         print(json.dumps(source_platform_capabilities(), indent=2))

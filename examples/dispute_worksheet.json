@@ -1,0 +1,31 @@
+{
+  "decision": "Fictional example: choose how to evaluate a new pricing approach.",
+  "my_position": "I want a small, measurable test before a wider change.",
+  "partner_position_reported": "My partner reportedly wants to compare a full rollout with a limited test.",
+  "facts": {
+    "reported_agreed": ["Both parties reportedly want to understand customer response."],
+    "disputed": ["Whether the current evidence is enough for a full rollout."],
+    "unknowns": ["What stopping conditions each party would accept."]
+  },
+  "constraints": {"safety_concern": false, "formal_deadline": false, "binding_commitment": false},
+  "options": [
+    {
+      "label": "Limited test",
+      "description": "Discuss a bounded test whose scope and stopping conditions would need separate agreement.",
+      "my_fit": "yes",
+      "reported_partner_fit": "unknown",
+      "reversibility": "unknown",
+      "agreement": "not_discussed",
+      "open_questions": ["What would count as enough information to review the approach?"]
+    },
+    {
+      "label": "Full rollout",
+      "description": "Compare the effects of a wider change without deciding to implement it.",
+      "my_fit": "no",
+      "reported_partner_fit": "yes",
+      "reversibility": "no",
+      "agreement": "disputed",
+      "open_questions": ["Which effects could not be undone?"]
+    }
+  ]
+}

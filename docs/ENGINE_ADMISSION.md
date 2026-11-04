@@ -21,7 +21,7 @@ The server does not queue or retry that rejected operation. Its data is not writ
 
 One admission spans the entire HTTP handler, including ordinary thinking and any explicitly requested learning from the same request. Nested engine calls reuse the reentrant lock. The admission is released in guaranteed handler cleanup on success, validation failure, unexpected failure or a disconnected client. Existing API authentication, per-message learning consent, state-revision checks, source boundaries, deletion confirmation and selected-context controls remain in force.
 
-All current engine-backed routes use the same boundary, including canonical search, context review, memory reads/changes, cleaning and wardrobe workflows. Public `/health`, OPTIONS, unknown routes and standalone motion decisions do not acquire the engine lock. These routes remain subject to existing connection, rate and request-read limits; health is not an unconditional availability guarantee.
+All current engine-backed routes use the same boundary, including canonical search, context review, memory reads/changes, cleaning and wardrobe workflows. Public `/health`, OPTIONS, unknown routes standalone motion decisions and stateless dispute preparation do not acquire the engine lock. These routes remain subject to existing connection, rate and request-read limits; health is not an unconditional availability guarantee.
 
 ## Remaining limits
 
