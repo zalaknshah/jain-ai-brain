@@ -23,4 +23,4 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-jace = ["data/*.json", "data/*.xml", "data/*.txt"]
+jace = ["data/*.json", "data/*.xml", "data/*.txt", "data/*.js"]

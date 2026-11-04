@@ -26,6 +26,8 @@ from pathlib import Path
 from .model_output import checked_text, strict_json
 
 FORMAT = 'jace-source-bundle-v1'
+REVIEW_FORMAT = 'jace-source-review-v1'
+MAX_REVIEW_HTML_BYTES = 16 * 1024 * 1024
 MAX_MANIFEST_BYTES = 2 * 1024 * 1024
 MAX_SOURCES = 32
 MAX_SOURCE_BYTES = 1024 * 1024
@@ -201,15 +203,15 @@ def _text(value, field: str, maximum: int) -> str:
     return ' '.join(checked_text(value, field, maximum).split())
 
 
-def _metadata(record) -> tuple[dict, dict]:
+def _metadata(record, *, require_review: bool = True) -> tuple[dict, dict]:
     if not isinstance(record, dict) or not _REQUIRED <= record.keys() or record.keys() - (_REQUIRED | _OPTIONAL):
         raise ValueError('invalid source record fields')
     result = {name: _text(record[name], name, maximum) for name, maximum in _TEXT_LIMITS.items()}
     if any(char.isspace() or char in '[]' for char in result['entry_id']):
         raise ValueError('invalid source entry ID')
-    if record['verified'] is not True:
-        raise ValueError('source review must be explicitly declared true')
-    result['verified'] = True
+    if type(require_review) is not bool or record['verified'] is not require_review:
+        raise ValueError('source review declaration does not match the required mode')
+    result['verified'] = require_review
     edition = record.get('edition')
     result['edition'] = None if edition is None else _text(edition, 'edition', 1000)
     tags = record.get('tags', [])
@@ -250,12 +252,13 @@ def _validated_sources(sources: dict[str, bytes]) -> None:
             raise ValueError('source is not strict UTF-8') from error
 
 
-def _validated_records(records, sources: dict[str, bytes]) -> tuple[list[dict], list[dict]]:
+def _validated_records(records, sources: dict[str, bytes], *,
+                       require_review: bool = True) -> tuple[list[dict], list[dict]]:
     if not isinstance(records, list) or not 1 <= len(records) <= MAX_RECORDS:
         raise ValueError('invalid source record count')
     loaded, normalized, seen, referenced = [], [], set(), set()
     for record in records:
-        metadata, ref = _metadata(record)
+        metadata, ref = _metadata(record, require_review=require_review)
         if metadata['entry_id'] in seen:
             raise ValueError('duplicate source entry ID')
         seen.add(metadata['entry_id'])
@@ -277,8 +280,9 @@ def _validated_records(records, sources: dict[str, bytes]) -> tuple[list[dict], 
     return loaded, normalized
 
 
-def _declarations(manifest) -> dict[str, str]:
-    if not isinstance(manifest, dict) or set(manifest) != {'format', 'sources', 'records'} or manifest['format'] != FORMAT:
+def _declarations(manifest, *, expected_format: str = FORMAT) -> dict[str, str]:
+    if (not isinstance(manifest, dict) or set(manifest) != {'format', 'sources', 'records'}
+            or expected_format not in (FORMAT, REVIEW_FORMAT) or manifest['format'] != expected_format):
         raise ValueError('invalid source bundle format')
     declarations = manifest['sources']
     if not isinstance(declarations, list) or not 1 <= len(declarations) <= MAX_SOURCES:
@@ -440,7 +444,7 @@ def _rename_noreplace(parent: int, stage_name: str, target_name: str) -> None:
         raise OSError(code, 'atomic bundle publication failed')
 
 
-def _remove_stage(parent: int, stage_name: str, stage_fd: int) -> None:
+def _remove_stage(parent: int, stage_name: str, stage_fd: int, *, review_html: bool = False) -> None:
     """Remove only entries in our pinned private staging directory."""
     try:
         source_fd = os.open('sources', _DirectoryChain.flags(), dir_fd=stage_fd)
@@ -458,6 +462,11 @@ def _remove_stage(parent: int, stage_name: str, stage_fd: int) -> None:
         os.unlink('bundle.json', dir_fd=stage_fd)
     except FileNotFoundError:
         pass
+    if review_html:
+        try:
+            os.unlink('review.html', dir_fd=stage_fd)
+        except FileNotFoundError:
+            pass
     if _identity(os.stat(stage_name, dir_fd=parent, follow_symlinks=False)) != _identity(os.fstat(stage_fd)):
         raise ValueError('private staging directory changed during cleanup')
     os.rmdir(stage_name, dir_fd=parent)
@@ -470,12 +479,29 @@ def write_source_bundle(output_directory: str | os.PathLike, sources: dict[str, 
     Existing targets (including empty directories and symlinks) are never
     replaced. The output's parent must already exist. No network IO occurs.
     """
+    return _write_bundle(output_directory, sources, records)
+
+
+def _write_bundle(output_directory: str | os.PathLike, sources: dict[str, bytes],
+                  records: list[dict], *, expected_format: str = FORMAT,
+                  require_review: bool = True, review_html: bytes | None = None) -> Path:
+    """Shared publisher with two explicit modes and one fixed optional asset."""
+    if expected_format == FORMAT:
+        if require_review is not True or review_html is not None:
+            raise ValueError('runtime bundles require review and cannot include review assets')
+    elif expected_format == REVIEW_FORMAT:
+        if (require_review is not False or type(review_html) is not bytes
+                or not review_html or len(review_html) > MAX_REVIEW_HTML_BYTES):
+            raise ValueError('draft bundles require unreviewed records and bounded review HTML')
+    else:
+        raise ValueError('invalid source bundle format')
     _require_safe_io()
     absolute, components = _parts(output_directory)
     _validated_sources(sources)
     sources = dict(sources)
-    _, normalized = _validated_records(records, sources)
-    manifest = {'format': FORMAT,
+    _, normalized = (_validated_records(records, sources) if require_review else
+                     _validated_records(records, sources, require_review=False))
+    manifest = {'format': expected_format,
                 'sources': [{'path': f'sources/{digest}.txt', 'sha256': digest} for digest in sorted(sources)],
                 'records': normalized}
     payload = (json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False) + '\n').encode('utf-8')
@@ -504,6 +530,8 @@ def write_source_bundle(output_directory: str | os.PathLike, sources: dict[str, 
                 for digest in sorted(sources):
                     _write_private(source_fd, digest + '.txt', sources[digest])
                 _write_private(stage_fd, 'bundle.json', payload)
+                if review_html is not None:
+                    _write_private(stage_fd, 'review.html', review_html)
                 # Validate the bytes actually written, not only the input objects.
                 actual = {}
                 for digest in sorted(sources):
@@ -513,9 +541,14 @@ def write_source_bundle(output_directory: str | os.PathLike, sources: dict[str, 
                 if written_raw != payload:
                     raise ValueError('source manifest changed after writing')
                 written = _json(written_raw.decode('utf-8'))
-                if set(_declarations(written)) != set(actual):
+                if set(_declarations(written, expected_format=expected_format)) != set(actual):
                     raise ValueError('written source declarations changed')
-                _validated_records(written['records'], actual)
+                if require_review:
+                    _validated_records(written['records'], actual)
+                else:
+                    _validated_records(written['records'], actual, require_review=False)
+                    if _read_regular(stage_fd, 'review.html', MAX_REVIEW_HTML_BYTES, chain) != review_html:
+                        raise ValueError('review document changed after writing')
                 _check_source_names(source_fd, {digest + '.txt' for digest in sources})
                 chain.verify()
                 os.fsync(source_fd)
@@ -528,7 +561,7 @@ def write_source_bundle(output_directory: str | os.PathLike, sources: dict[str, 
             finally:
                 if not published:
                     if stage_fd is not None:
-                        _remove_stage(parent, stage_name, stage_fd)
+                        _remove_stage(parent, stage_name, stage_fd, review_html=review_html is not None)
                     else:
                         os.rmdir(stage_name, dir_fd=parent)
     except OSError as error:

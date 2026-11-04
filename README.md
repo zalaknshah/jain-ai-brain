@@ -114,6 +114,8 @@ Legacy list records support record-only excerpt matching: the older ingester nor
 
 For an authorized local runtime, `JACE_CANONICAL_PATH` can identify a bounded legacy JSON list or the new bundle's `bundle.json`. Building a bundle does not activate it or authorize provider transmission, sharing or training.
 
+For material whose copying/review is permitted but whose passages still need review, the [offline source-review workflow](docs/SOURCE_REVIEW.md) prepares a runtime-rejected draft and private local review screen. Per-passage decisions bind the exact text, spans and metadata before a separately confirmed export. Only approved records are admitted, but complete backing files, including unapproved spans, are retained. Review and rights remain declarations, not verified scholarship or legal clearance.
+
 ### Container and checks
 
 ```bash
