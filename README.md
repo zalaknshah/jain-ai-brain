@@ -216,3 +216,7 @@ Use `--memory-scope home` or `--memory-scope work` with remembering, asking and 
 ### Retrieval regression checks
 
 Direct lexical recall now considers older owned memories within explicit work budgets, preserves direct-match ranking and supplements it with owner/scope/expiry-checked graph results. The original fictional benchmark measures selection and isolation, not model or scholarly quality. See [retrieval behavior, limits and measured baseline](docs/RETRIEVAL_RELIABILITY.md), and run `python scripts/evaluate_retrieval.py`.
+
+### Review and manage saved memories
+
+The conversation console links to `web/memory.html` for paged owner/scope review, explicit correction and expiry changes, and individually confirmed deletion. The new screen uses atomic record-state conditions to reject stale edits and separate consent for broader legacy-audit cleanup. See the [memory-manager guide and verification limits](docs/MEMORY_MANAGER.md). This client uses the existing API; it does not train a model or automatically extract new memories.

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JACE Memory Manager</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #172033; color-scheme: light; }
+    body { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    input, button { padding: .65rem; margin: .25rem; } button { cursor: pointer; }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    textarea { box-sizing: border-box; width: 100%; min-height: 8rem; padding: .75rem; }
+    li { padding: .8rem; border-bottom: 1px solid #ccd4df; overflow-wrap: anywhere; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    #editor { background: #f3f6fa; padding: 1rem; border-radius: .5rem; }
+    .warning { color: #754000; } small { color: #526078; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Back to conversation</a></nav>
+  <h1>Review your memories</h1>
+  <p>Inspect saved text, correct it, change future recall expiry, or explicitly delete one item. This page never calls a model or trains on memory. Enter your assigned token here; it is not copied from the conversation page or saved in browser storage.</p>
+  <div class="row">
+    <label>User <input id="user" value="demo-user" autocomplete="off"></label>
+    <label>Memory scope <input id="scope" value="default" maxlength="64" autocomplete="off" spellcheck="false"></label>
+    <label>API <input id="api" value="http://127.0.0.1:8787" size="28" autocomplete="off"></label>
+    <label>API token <input id="token" type="password" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <p><small>Scopes separate recall context, not permissions between clients for the same account. Use HTTPS, or a local loopback HTTP API. Only send a token to the intended trusted API.</small></p>
+  <div class="row">
+    <button id="load">Load newest memories</button><button id="older" disabled>Older page</button>
+    <button id="cancel">Cancel and clear view</button>
+  </div>
+  <p id="status" role="status" aria-live="polite">Ready. Nothing is loaded automatically.</p>
+  <ul id="memories" aria-label="Saved memories"></ul>
+  <section id="editor" hidden aria-labelledby="editor-title">
+    <h2 id="editor-title">Review one memory</h2>
+    <p id="record-info"></p>
+    <h3>Saved text from this review</h3><pre id="stored-content"></pre>
+    <label>Corrected text (unsaved until you choose Save) <textarea id="content" maxlength="10000"></textarea></label>
+    <button id="save">Save corrected text</button>
+    <h3>Future recall expiry</h3>
+    <p id="expiry-info"></p>
+    <label>Explicit timezone timestamp <input id="expires" placeholder="2027-01-01T12:00:00Z" size="30" autocomplete="off"></label>
+    <button id="set-expiry">Set recall expiry</button>
+    <button id="clear-expiry">Allow recall without expiration</button>
+    <p><small>Expiry excludes future context selection; it does not delete the record, recall already sent to a provider, or an in-flight response.</small></p>
+    <h3>Delete this item</h3>
+    <p>Deletion applies to the saved text shown above, not unsaved edits in the text box.</p>
+    <p id="delete-warning" class="warning"></p>
+    <div id="audit-choice" hidden>
+      <label><input id="confirm-audit" type="checkbox"> Also delete ALL unattributed audit entries for this owner across ALL memory scopes, including legacy entries. Other active memories and attributable audits stay intact.</label>
+      <p><small>The count may change before deletion. This choice covers all such owner entries at the time of deletion.</small></p>
+    </div>
+    <p><label><input id="confirm-delete" type="checkbox"> I reviewed this memory and want to delete this item from the live database.</label></p>
+    <button id="delete">Delete reviewed item</button>
+    <p><small>Logical deletion does not guarantee erasure from SQLite/WAL remnants, backups or external model-provider records. There is no bulk-delete button here.</small></p>
+  </section>
+  <script src="memory-manager.js"></script>
+</body>
+</html>
