@@ -51,19 +51,69 @@ const planCalls=()=>calls.filter(c=>c.url.endsWith('/v1/plans/cleaning'));
 const open=async()=>{await click('load');assert.ok(elements.profiles.children.length);await elements.profiles.children[0].children[1].onclick();};
 const fill=()=>{for(const [id,value] of Object.entries({surface:'wooden_furniture',water:'avoid',minutes:'10',supplies:'existing_only'})){elements[id].value=value;elements[id].oninput();}};
 async function actualChange(path,method,body){const r=await fetch(elements.api.value+path,{method,headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});assert.equal(r.status,200);return r.json();}
+const confirmSave = () => { elements.confirm.checked = true; elements.confirm.onchange(); };
 (async()=>{
  assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);
- if(scenario==='create_review_plan'){
+
+  if (scenario === 'binding_reset_origin' || scenario === 'binding_reset_user') {
+    for (const via of ['cancel','scope']) {
+      elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.api.onchange();
+      elements.scope.value='home';elements.scope.onchange();elements.token.value=token;elements.token.onchange();
+      await open();const before=calls.length;
+      if(scenario==='binding_reset_origin')elements.api.value='https://other.example';else elements.user.value='bob';
+      if(via==='cancel')await click('cancel');else {elements.scope.value='work';elements.scope.onchange();}
+      assert.equal(elements.token.value,'');assert.equal(elements.profiles.children.length,0);assert.equal(elements.plan.disabled,true);assert.equal(elements.confirm.checked,false);
+      await click('load');assert.equal(calls.length,before);assert.equal(writeCalls().length,0);
+    }
+  } else if (scenario === 'binding_retained_identity') {
+    await open();const before=calls.length;elements.api.value='https://other.example';confirmSave();await click('save');
+    assert.equal(calls.length,before);assert.equal(writeCalls().length,0);assert.equal(elements.token.value,'');assert.equal(elements.plan.disabled,true);assert.ok(!elements.saved.textContent.includes('alice'));
+  } else if (scenario === 'binding_silent_health_identity') {
+    fill();const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:normal(u,o);confirmSave();const pending=click('save');await tick();elements.user.value='bob';
+    hold.resolve(response({cleaning_planner_protocol:1,wardrobe_planner_protocol:1,memory_management_protocol:1}));await pending;
+    assert.equal(writeCalls().length,0);assert.equal(elements.token.value,'');assert.equal(elements.plan.disabled,true);assert.ok(!elements.saved.textContent.includes('alice'));
+  } else if (scenario === 'binding_silent_review_response') {
+    const hold=deferred();responder=(u,o)=>u.endsWith('/v1/memory-item/7')?hold.promise:normal(u,o);
+    const pending=vm.runInContext('review(7)',sandbox);await tick();elements.user.value='bob';hold.resolve(response({memory}));await pending;
+    assert.equal(elements.plan.disabled,true);assert.equal(elements.token.value,'');assert.ok(!elements.saved.textContent.includes('alice'));
+  } else if (scenario === 'binding_silent_edit_before_save') {
+    fill();confirmSave();elements.minutes.value='19';await click('save');assert.equal(calls.length,0);assert.equal(writeCalls().length,0);assert.equal(elements.confirm.checked,false);
+    confirmSave();await click('save');assert.equal(writeCalls().length,1);assert.match(elements.status.textContent,/confirmed/);
+  } else if (scenario === 'binding_edit_during_health') {
+    for(const fire of [false,true]) {
+      fill();const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:normal(u,o);confirmSave();const pending=click('save');await tick();elements.minutes.value='19';if(fire){elements.minutes.oninput();}
+      hold.resolve(response({cleaning_planner_protocol:1,wardrobe_planner_protocol:1,memory_management_protocol:1}));await pending;
+      assert.equal(writeCalls().length,0);assert.equal(elements.plan.disabled,true);assert.equal(elements.confirm.checked,false);
+    }
+  } else if (scenario === 'binding_silent_edit_before_plan') {
+    await open();const before=calls.length;elements.minutes.value='19';await click('plan');assert.equal(calls.length,before);assert.equal(planCalls().length,0);assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'binding_scope_and_change_events') {
+    await open();const before=calls.length;elements.scope.value='work';await click('plan');assert.equal(calls.length,before);assert.equal(elements.token.value,token);assert.equal(elements.plan.disabled,true);
+    elements.scope.value='home';elements.scope.onchange();fill();confirmSave();elements.user.value='bob';elements.user.onchange();assert.equal(elements.token.value,'');assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);
+  } else if (scenario === 'binding_stream_identity') {
+    const hold=deferred();let cancelled=false;
+    responder=(u,o)=>u.includes('/v1/memory/alice')?Promise.resolve({ok:true,headers:{get:()=>null},body:{getReader:()=>({read:()=>hold.promise,cancel:async()=>{cancelled=true;},releaseLock:()=>{}})}}):normal(u,o);
+    const pending=click('load');await tick();elements.token.value='another-assigned-token-'+'y'.repeat(32);hold.resolve({done:false,value:new TextEncoder().encode('{}')});await pending;
+    assert.equal(cancelled,true);assert.equal(elements.token.value,'');assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'binding_restored_consent_and_page') {
+    fill();elements.confirm.checked=true;await click('save');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
+    confirmSave();events.pageshow();assert.equal(elements.token.value,'');assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'binding_uncertain_write_drift') {
+    fill();const hold=deferred();responder=(u,o)=>u.includes('/v1/cleaning-profiles')?hold.promise:normal(u,o);confirmSave();const pending=click('save');await tick();assert.equal(writeCalls().length,1);
+    elements.minutes.value='19';hold.resolve(response({memory}));await pending;assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);assert.match(elements.status.textContent,/may have completed/);
+    await click('save');assert.equal(writeCalls().length,1);
+  } else
+if(scenario==='create_review_plan'){
   fill();await click('save');assert.equal(calls.length,0);
-  elements.confirm.checked=true;const pending=click('save');assert.equal(elements.confirm.checked,false);await click('save');await pending;
+  confirmSave();const pending=click('save');assert.equal(elements.confirm.checked,false);await click('save');await pending;
   assert.equal(writeCalls().length,1);assert.equal(planCalls().length,0);assert.equal(elements.plan.disabled,false);
   await click('plan');assert.equal(planCalls().length,1);assert.equal(elements.result.hidden,false);assert.match(elements.grounding.textContent,/Unverified/);
   assert.equal(elements.steps.children.length,1);assert.equal(elements.confirm.checked,false);
   for(const c of calls){assert.equal(c.options.redirect,'error');assert.equal(c.options.credentials,'omit');assert.equal(c.options.cache,'no-store');if(c.url.endsWith('/health'))assert.ok(!c.options.headers.Authorization);}
  } else if(scenario==='edit_and_consumed_consent'){
-  await open();elements.confirm.checked=true;elements.minutes.value='15';elements.minutes.oninput();assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);
+  await open();confirmSave();elements.minutes.value='15';elements.minutes.oninput();assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);
   await click('plan');assert.equal(planCalls().length,0);await click('save');assert.equal(writeCalls().length,0);
-  elements.confirm.checked=true;await click('save');assert.equal(writeCalls().length,1);assert.equal(writeCalls()[0].options.method,'PATCH');
+  confirmSave();await click('save');assert.equal(writeCalls().length,1);assert.equal(writeCalls()[0].options.method,'PATCH');
   assert.equal(JSON.parse(writeCalls()[0].options.body).expected_revision,'a'.repeat(64));assert.equal(elements.expires.disabled,true);
   await click('plan');assert.match(elements['plan-info'].textContent,/15 minutes/);await click('new');assert.equal(elements.surface.value,'');assert.equal(elements.plan.disabled,true);
  } else if(scenario==='explicit_paging_selection'){
@@ -71,7 +121,7 @@ async function actualChange(path,method,body){const r=await fetch(elements.api.v
   await click('load');assert.equal(elements.plan.disabled,true);assert.equal(planCalls().length,0);assert.equal(elements.older.disabled,false);
   await click('older');assert.equal(elements.profiles.children.length,1);assert.ok(calls.some(c=>c.url.includes('before_id=7')));assert.equal(elements.older.disabled,true);
  } else if(scenario==='stale_health_boundary'){
-  const hold=deferred();responder=()=>hold.promise;fill();elements.confirm.checked=true;const p=click('save');await tick();
+  const hold=deferred();responder=()=>hold.promise;fill();confirmSave();const p=click('save');await tick();
   elements.api.value='https://other.example';elements.api.oninput();hold.resolve(response({cleaning_planner_protocol:1,memory_management_protocol:1}));await p;
   assert.equal(calls.length,1);assert.equal(elements.token.value,'');assert.equal(elements.surface.value,'');assert.equal(elements.confirm.checked,false);assert.equal(writeCalls().length,0);
  } else if(scenario==='stale_body_boundary'){
@@ -80,16 +130,16 @@ async function actualChange(path,method,body){const r=await fetch(elements.api.v
   assert.equal(elements.profiles.children.length,0);assert.equal(elements.token.value,'');assert.equal(elements.result.hidden,true);
  } else if(scenario==='uncertain_write_no_retry'){
   fill();const hold=deferred();responder=(u,o)=>u.endsWith('/v1/cleaning-profiles')?hold.promise:normal(u,o);
-  elements.confirm.checked=true;const p=click('save');await tick();assert.equal(writeCalls().length,1);await click('cancel');assert.match(elements.status.textContent,/may have completed/);
+  confirmSave();const p=click('save');await tick();assert.equal(writeCalls().length,1);await click('cancel');assert.match(elements.status.textContent,/may have completed/);
   hold.resolve(response({memory}));await p;assert.equal(writeCalls().length,1);assert.equal(elements.surface.value,'');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
  } else if(scenario==='plan_conflict_no_retry'){
   await open();responder=(u,o)=>u.endsWith('/v1/plans/cleaning')?response({},409):normal(u,o);
   await click('plan');await click('plan');assert.equal(planCalls().length,1);assert.equal(elements.result.hidden,true);assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/Reload/);
  } else if(scenario==='invalid_inputs_and_protocol'){
-  fill();for(const value of ['0','1.5','1e1',' 10','121','10\n']){elements.minutes.value=value;elements.confirm.checked=true;await click('save');assert.equal(calls.length,0);}
-  fill();for(const value of ['home\n','Home',' home']){elements.scope.value=value;elements.confirm.checked=true;await click('save');assert.equal(calls.length,0);}
-  elements.scope.value='home';for(const value of ['http://example.com','https://user:pass@example.com','https://exa\nmple.com','https://example.com/path']){elements.api.value=value;await click('load');assert.equal(calls.length,0);}
-  elements.api.value='http://127.0.0.1:8787';responder=()=>response({memory_management_protocol:1});await click('load');assert.equal(calls.length,1);assert.match(elements.status.textContent,/protocol/);
+  fill();for(const value of ['0','1.5','1e1',' 10','121','10\n']){elements.minutes.value=value;confirmSave();await click('save');assert.equal(calls.length,0);}
+  fill();for(const value of ['home\n','Home',' home']){elements.scope.value=value;elements.scope.onchange();fill();confirmSave();await click('save');assert.equal(calls.length,0);}
+  elements.scope.value='home';for(const value of ['http://example.com','https://user:pass@example.com','https://exa\nmple.com','https://example.com/path']){elements.api.value=value;elements.api.onchange();elements.token.value=token;elements.token.onchange();await click('load');assert.equal(calls.length,0);}
+  elements.api.value='http://127.0.0.1:8787';elements.api.onchange();elements.token.value=token;elements.token.onchange();responder=()=>response({memory_management_protocol:1});await click('load');assert.equal(calls.length,1);assert.match(elements.status.textContent,/protocol/);
  } else if(scenario==='wrong_scope_and_actions'){
   memory.memory_scope='work';await click('load');assert.equal(elements.profiles.children.length,0);memory.memory_scope='home';await open();
   responder=(u,o)=>u.endsWith('/v1/plans/cleaning')?response({...planData(),actions_executed:true}):normal(u,o);await click('plan');assert.equal(elements.result.hidden,true);
@@ -98,7 +148,7 @@ async function actualChange(path,method,body){const r=await fetch(elements.api.v
   await open();responder=(u,o)=>u.endsWith('/v1/plans/cleaning')?response({...planData(),steps:[{instruction:'<img src=x onerror=alert(1)>'}],grounding:'<script>private</script>'}):normal(u,o);
   await click('plan');assert.equal(elements.steps.children[0].textContent,'<img src=x onerror=alert(1)>');assert.equal(elements.steps.children[0].children.length,0);
   elements.scope.value='work';elements.scope.oninput();assert.equal(elements.token.value,token);assert.equal(elements.surface.value,'');assert.equal(elements.grounding.textContent,'');assert.equal(elements.result.hidden,true);
-  fill();elements.confirm.checked=true;events.pagehide();assert.equal(elements.token.value,'');assert.equal(elements.confirm.checked,false);assert.equal(elements.minutes.value,'');
+  fill();confirmSave();events.pagehide();assert.equal(elements.token.value,'');assert.equal(elements.confirm.checked,false);assert.equal(elements.minutes.value,'');
  } else if(scenario==='oversized_response'){
   responder=(u,o)=>u.endsWith('/health')?normal(u,o):response({text:'x'.repeat(1024*1024+1)},200,'1');await click('load');assert.match(elements.status.textContent,/limit/);assert.equal(elements.profiles.children.length,0);
  } else if(scenario==='stale_plan_after_cancel'){
@@ -107,34 +157,34 @@ async function actualChange(path,method,body){const r=await fetch(elements.api.v
   for(const [requested,returned] of [['2027-01-01T00:00:00Z',null],['','2027-01-01T00:00:00Z'],['2027-01-01T00:00:00.000001Z','2027-01-01T00:00:00.000002+00:00']]){
    await click('new');fill();elements.expires.value=requested;
    responder=async(u,o)=>{const result=await normal(u,o);return u.endsWith('/v1/cleaning-profiles')?response({memory:{...memory,expires_at:returned}}):result;};
-   elements.confirm.checked=true;await click('save');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
+   confirmSave();await click('save');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
   }
   await click('new');fill();elements.expires.value='2027-01-01T01:00:00.123456+01:00';
   responder=async(u,o)=>{const result=await normal(u,o);return u.endsWith('/v1/cleaning-profiles')?response({memory:{...memory,expires_at:'2027-01-01T00:00:00.123456+00:00'}}):result;};
-  elements.confirm.checked=true;await click('save');assert.equal(elements.plan.disabled,false);assert.match(elements.status.textContent,/confirmed/);
+  confirmSave();await click('save');assert.equal(elements.plan.disabled,false);assert.match(elements.status.textContent,/confirmed/);
  } else if(scenario==='invalid_expiry_before_network'){
   for(const expires of ['2027-02-30T00:00:00Z','2027-01-01T00:00:00-00:00','2027-01-01T00:00:00Z\n','0001-01-01T00:00:00+01:00','9999-12-31T23:59:59-01:00','2027-01-01T00:00:00.1234567Z']){
-   await click('new');fill();elements.expires.value=expires;elements.confirm.checked=true;await click('save');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
+   await click('new');fill();elements.expires.value=expires;confirmSave();await click('save');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
   }
  } else if(scenario==='update_expiry_binding'){
   memory.expires_at='2027-01-01T00:00:00.000001+00:00';await open();
   responder=async(u,o)=>{const result=await normal(u,o);return u.endsWith('/v1/cleaning-profiles')?response({memory:{...memory,expires_at:null}}):result;};
-  elements.confirm.checked=true;await click('save');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
+  confirmSave();await click('save');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
  } else if(scenario==='real_create_edit_plan'){
-  fill();await click('save');assert.equal(writeCalls().length,0);elements.confirm.checked=true;await click('save');assert.match(elements.status.textContent,/confirmed/);assert.equal(planCalls().length,0);
+  fill();await click('save');assert.equal(writeCalls().length,0);confirmSave();await click('save');assert.match(elements.status.textContent,/confirmed/);assert.equal(planCalls().length,0);
   await click('plan');assert.equal(elements.result.hidden,false);assert.equal(elements.steps.children.length,6);assert.match(elements.steps.children.map(x=>x.textContent).join('\n'),/water and liquid cleaning products out/);
-  await open();elements.water.value='follow_surface_guidance';elements.water.oninput();elements.minutes.value='20';elements.minutes.oninput();elements.confirm.checked=true;await click('save');assert.match(elements.status.textContent,/confirmed/);
+  await open();elements.water.value='follow_surface_guidance';elements.water.oninput();elements.minutes.value='20';elements.minutes.oninput();confirmSave();await click('save');assert.match(elements.status.textContent,/confirmed/);
   await click('plan');assert.equal(elements.result.hidden,false);assert.match(elements['plan-info'].textContent,/20 minutes/);assert.match(elements.grounding.textContent,/unverified sample/);
  } else if(scenario==='real_conflict'){
   await open();const selected=vm.runInContext('selected',sandbox);
   await actualChange('/v1/cleaning-profiles','PATCH',{memory_id:selected.memory.memory_id,profile:{...baseProfile,time_budget_minutes:30},expected_revision:selected.memory.revision,confirm_save:true});
   await click('plan');assert.equal(elements.result.hidden,true);assert.match(elements.status.textContent,/Reload/);assert.equal(planCalls().length,1);
   await open();const latest=vm.runInContext('selected',sandbox);await actualChange('/v1/cleaning-profiles','PATCH',{memory_id:latest.memory.memory_id,profile:{...baseProfile,time_budget_minutes:40},expected_revision:latest.memory.revision,confirm_save:true});
-  elements.minutes.value='50';elements.minutes.oninput();elements.confirm.checked=true;await click('save');assert.match(elements.status.textContent,/Reload/);assert.equal(writeCalls().length,1);
+  elements.minutes.value='50';elements.minutes.oninput();confirmSave();await click('save');assert.match(elements.status.textContent,/Reload/);assert.equal(writeCalls().length,1);
  } else if(scenario==='real_expiry_and_isolation'){
   await open();const selected=vm.runInContext('selected',sandbox);await actualChange('/v1/memory-expiration','PATCH',{memory_id:selected.memory.memory_id,expires_at:'2000-01-01T00:00:00Z'});
   await click('plan');assert.match(elements.status.textContent,/404/);assert.equal(elements.result.hidden,true);
-  elements.token.value='test-bob-'+'b'.repeat(32);elements.token.oninput();fill();elements.confirm.checked=true;await click('save');assert.match(elements.status.textContent,/403/);
+  elements.token.value='test-bob-'+'b'.repeat(32);elements.token.oninput();fill();confirmSave();await click('save');assert.match(elements.status.textContent,/403/);
  } else throw new Error('Unknown scenario '+scenario);
  console.log('PASS '+scenario);
 })().catch(e=>{console.error(e.stack);process.exitCode=1;});

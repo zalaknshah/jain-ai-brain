@@ -17,7 +17,7 @@ Open `http://127.0.0.1:8080/cleaning.html`. Enter the exact assigned user, scope
 ## Create, review, build
 
 1. Choose all four fields. No surface, water, time or supply choice is preselected. Read the conditional surface/product/hygiene guidance. New profiles can have an explicit timezone expiry; blank means no expiry.
-2. Select the unchecked save-consent box and choose **Save new profile**. Editing any field clears this choice. The choice is consumed before waiting for the API. Save does not automatically build a plan. The response must preserve the submitted expiry instant, including microseconds and offset normalization, or null for no expiry; updates must retain the reviewed expiry. A mismatched response is treated as an uncertain write.
+2. Select the unchecked save-consent box and choose **Save new profile**. Checking the box binds this single-use choice to the exact visible raw fields and current owner, scope, token and API text. Editing any field clears this choice; an unnoticed field change is checked again before submission. A restored checked box alone is not consent. The choice is consumed before validation or waiting for the API. Save does not automatically build a plan. The response must preserve the submitted expiry instant, including microseconds and offset normalization, or null for no expiry; updates must retain the reviewed expiry. A mismatched response is treated as an uncertain write.
 3. Review the saved choices and ID shown separately from the editable form. Choose **Build checklist from these saved choices**. The screen sends that exact ID and reviewed state fingerprint.
 4. Read all conditional steps, evidence qualifications and limits. This is a snapshot. No action is performed, and later deletion/expiry cannot retract a checklist already displayed or copied.
 
@@ -36,17 +36,17 @@ The screen always supplies this condition. Older API/CLI callers that omit it re
 ## Privacy, failure and resource limits
 
 - Nothing loads, saves or plans on page initialization. No provider, browser speech, training, purchase or robot endpoint is called by this screen.
-- User/API changes clear token, private views, selected profile and draft. Token/scope changes clear private views and drafts; a scope change retains the same-account token. Page exit clears the token and state. No local/session browser storage is used.
+- User/API changes clear token, private views, selected profile and draft. Token/scope changes clear private views and drafts; a scope change retains the same-account token. Page exit and page show/restore clear the token and state. Silent changes are checked before operations and across asynchronous response reads. Cancel or a scope reset cannot rebind a retained token to a silently changed owner or API. No local/session browser storage is used.
 - The API health capability (`cleaning_planner_protocol: 1` and `memory_management_protocol: 1`) is checked without the token before authenticated calls. This is compatibility negotiation, not proof that a server is trustworthy.
 - Requests reject redirects, omit browser cookies and request no-store caching. Streamed JSON is capped at 1 MiB, profile/plan fields are bounded, and responses must match the captured owner/scope/profile state. Displayed strings use `textContent`, not HTML interpretation. IDs must fit JavaScript safe integers.
-- Only one operation is pending at a time. Cancellation and context changes invalidate late callbacks. An already-submitted write can still complete. A lost or malformed write response is not retried automatically; reload and inspect actual state before deciding whether to save again. There is no absolute fetch deadline.
+- Only one operation is pending at a time. Cancellation, context changes and form edits during an operation invalidate late callbacks; form snapshots are checked before and after each streamed body read. Planning also checks that visible fields still match the reviewed saved selection. An already-submitted write can still complete. A lost or malformed write response is not retried automatically; reload and inspect actual state before deciding whether to save again. There is no absolute fetch deadline.
 - Profile values remain private memory rows. Ordinary chat is a separate path and may recall/transmit them under its existing configured-provider behavior; this screen does not authorize that transmission. Scopes are context filters, not restrictions between clients authorized as the same owner.
 
 The existing [profile limitations](CLEANING_PROFILES.md) still apply: declared surface conditions are not verified; dry methods are not automatically safe; necessary hygiene must not be skipped; no chemical mixtures are proposed; a time budget is not a completion guarantee; sample principles are not Agama quotations. Source review/licensing metadata remains declarations, not independently verified rights or scholarship.
 
 ## Verification and what remains unverified
 
-The Node DOM fixtures exercise consent consumption, repeated clicks, dirty-edit planning blocks, explicit selection and paging, identity/destination changes during health/body waits, scope/page-exit clearing, late responses after cancellation, stale revisions, response caps, wrong-owner/scope rejection, and text-only rendering.
+The Node DOM fixtures exercise snapshot-bound consent, silent field/identity changes, reset paths after silent destination changes, restored checkbox/page state, stream cancellation, uncertainty after a submitted write, consent consumption, repeated clicks, dirty-edit planning blocks, explicit selection and paging, identity/destination changes during health/body waits, scope/page-exit clearing, late responses after cancellation, stale revisions, response caps, wrong-owner/scope rejection, and text-only rendering.
 
 Actual streaming Node `fetch` calls to a temporary Python loopback API exercise confirmed profile creation, reload, revision-checked update, checklist output, conflict rejection, expiry and owner isolation. A test reasoner raises if called. Separate engine/API tests check the exact plan snapshot, including a concurrent update by a second engine after reading the row.
 
@@ -54,5 +54,7 @@ Actual streaming Node `fetch` calls to a temporary Python loopback API exercise 
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_cleaning_planner_ui.py' -v
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_cleaning_plan_revision.py' -v
 ```
+
+These guards detect changed state at event/request/read boundaries; they are not authentication or protection against malicious scripts/extensions that control the page. They cannot detect a silent change that is restored before a checked boundary, or guarantee immediate erasure during an idle page. Server authorization remains required.
 
 The DOM harness is not a real browser. Browser layout, accessibility, CORS enforcement, actual navigation/back-forward caching, mobile behavior, voice and media timing have not been validated here. Real home conditions, cleaning effectiveness, semantic reasoning, model quality and physical safety are not established by these checks.

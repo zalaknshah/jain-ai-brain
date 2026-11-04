@@ -3,6 +3,7 @@
 const element = id => document.querySelector('#' + id);
 let generation = 0, pending = null, busy = false, pendingMutation = false;
 let selected = null, nextBefore = null, dirty = false;
+let boundIdentity = null, activeRaw = null, selectedRaw = null, consentSnapshot = null;
 const MAX_RESPONSE_BYTES = 1024 * 1024;
 function context() {
   const user = element('user').value, scope = element('scope').value, token = element('token').value;
@@ -16,12 +17,42 @@ function context() {
       !(url.protocol === 'https:' || (url.protocol === 'http:' && ['127.0.0.1', '[::1]', 'localhost'].includes(url.hostname)))) {
     throw new Error('Use a trusted HTTPS API origin, or HTTP on a local loopback address. No path, credentials, query or fragment.');
   }
-  return Object.freeze({user, scope, token, api: url.origin});
+  return Object.freeze({user, scope, token, rawApi: raw, api: url.origin});
 }
 
-function current(version) { return version === generation; }
+function identitySnapshot() { return {user:element('user').value,scope:element('scope').value,token:element('token').value,rawApi:element('api').value}; }
+function sameIdentity(left, right) { return JSON.stringify(left) === JSON.stringify(right); }
+function formSnapshot() { return JSON.stringify(['surface','water','minutes','supplies','expires'].map(id => element(id).value)); }
+function guardIdentity() {
+  const now = identitySnapshot();
+  if (boundIdentity && !sameIdentity(now,boundIdentity)) {
+    const dropToken = now.user !== boundIdentity.user || now.token !== boundIdentity.token || now.rawApi !== boundIdentity.rawApi;
+    reset(dropToken); return false;
+  }
+  return true;
+}
+function refreshView() { if (busy) activeRaw = formSnapshot(); }
+function current(version) {
+  if (version !== generation || !guardIdentity()) return false;
+  if (activeRaw !== null && formSnapshot() !== activeRaw) { reset(false); return false; }
+  return true;
+}
+function confirmChoices() {
+  if (!guardIdentity()) return;
+  consentSnapshot = element('confirm').checked ? {identity:identitySnapshot(),form:formSnapshot()} : null;
+}
+function consumeConfirmation() {
+  const consent = consentSnapshot;
+  element('confirm').checked = false; consentSnapshot = null;
+  if (!consent || !sameIdentity(consent.identity,identitySnapshot()) || consent.form !== formSnapshot()) {
+    dirty = true; clearPlan(); syncControls();
+    element('status').textContent = 'Choices or identity changed, or confirmation was restored without a new check. Review and check the save confirmation again.';
+    return false;
+  }
+  return true;
+}
 
-async function boundedJSON(response) {
+async function boundedJSON(response, version) {
   const declared = response.headers.get('content-length');
   if (declared && (!/^\d+$/.test(declared) || Number(declared) > MAX_RESPONSE_BYTES)) throw new Error('API response exceeds the review limit.');
   if (!response.body || typeof response.body.getReader !== 'function') throw new Error('This browser needs streaming response support to review private data safely.');
@@ -29,7 +60,9 @@ async function boundedJSON(response) {
   const parts = []; let bytes = 0;
   try {
     while (true) {
+      if (!current(version)) throw new Error('View changed.');
       const part = await reader.read();
+      if (!current(version)) throw new Error('View changed.');
       if (part.done) break;
       bytes += part.value.byteLength;
       if (bytes > MAX_RESPONSE_BYTES) throw new Error('API response exceeds the review limit.');
@@ -51,7 +84,7 @@ async function request(ctx, version, path, options = {}, authorize = true) {
   const response = await fetch(ctx.api + path, {...options, headers, signal: pending.signal,
     redirect: 'error', credentials: 'omit', cache: 'no-store'});
   if (!current(version)) throw new Error('View changed.');
-  const data = await boundedJSON(response);
+  const data = await boundedJSON(response, version);
   if (!current(version)) throw new Error('View changed.');
   if (!response.ok) {
     if (response.status === 409) throw new Error('Memory or cleanup requirements changed. Reload and review before trying again.');
@@ -67,12 +100,12 @@ function clearPlan() {
   element('steps').replaceChildren(); element('limits').replaceChildren();
 }
 function clearForm() {
-  selected = null; dirty = false;
+  selected = null; dirty = false; selectedRaw = null; consentSnapshot = null;
   for (const id of ['surface', 'water', 'minutes', 'supplies', 'expires']) element(id).value = '';
   element('confirm').checked = false;
   element('saved').textContent = 'No saved profile is selected.';
   element('form-title').textContent = 'New profile: choose every field';
-  element('save').textContent = 'Save new profile'; clearPlan();
+  element('save').textContent = 'Save new profile'; clearPlan(); refreshView();
 }
 function syncControls() {
   for (const id of ['load', 'new', 'save', 'surface', 'water', 'minutes', 'supplies', 'confirm']) element(id).disabled = busy;
@@ -81,23 +114,27 @@ function syncControls() {
   element('plan').disabled = busy || !selected || dirty;
 }
 function reset(dropToken = false) {
+  // A reset must not rebind a retained credential to a silently changed owner or origin.
+  const now = identitySnapshot();
+  if (boundIdentity && (now.user !== boundIdentity.user || now.rawApi !== boundIdentity.rawApi)) dropToken = true;
   generation += 1;
   if (pending) pending.abort();
   const uncertain = pendingMutation;
-  pending = null; busy = false; pendingMutation = false;
+  pending = null; busy = false; pendingMutation = false; activeRaw = null;
   clearForm(); nextBefore = null; element('profiles').replaceChildren();
   if (dropToken) element('token').value = '';
+  boundIdentity = identitySnapshot();
   syncControls();
   element('status').textContent = uncertain
     ? 'Cleared. A submitted change may have completed. Reload before deciding whether to try again.'
     : 'Cleared. Choose new fields or explicitly load saved profiles when ready.';
 }
 async function run(work, mutation = false) {
-  if (busy) return;
+  if (busy || !guardIdentity()) return;
   let ctx;
   try { ctx = context(); } catch (error) { element('status').textContent = error.message; return; }
   const version = ++generation;
-  pending = new AbortController(); busy = true; pendingMutation = false; clearPlan(); syncControls();
+  pending = new AbortController(); busy = true; pendingMutation = false; activeRaw = formSnapshot(); clearPlan(); syncControls();
   element('status').textContent = mutation ? 'Checking API before submitting the reviewed choices…' : 'Loading the requested profile or checklist…';
   try {
     const health = await request(ctx, version, '/health', {}, false);
@@ -112,7 +149,7 @@ async function run(work, mutation = false) {
       element('status').textContent = error.message + (uncertain ? ' A submitted change may have completed. Reload its state before another action.' : '');
     }
   } finally {
-    if (current(version)) { pending = null; busy = false; pendingMutation = false; syncControls(); }
+    if (current(version)) { pending = null; busy = false; pendingMutation = false; activeRaw = null; syncControls(); }
   }
 }
 function profile(value) {
@@ -173,6 +210,7 @@ function displaySelected(record) {
   element('expires').value=m.expires_at || ''; element('confirm').checked=false;
   element('form-title').textContent='Edit selected profile ' + m.memory_id + ' (unsaved changes)';
   element('save').textContent='Save changes to selected profile';
+  consentSnapshot=null; selectedRaw=formSnapshot(); refreshView();
 }
 async function loadPage(before = null) {
   return run(async (ctx, version) => {
@@ -204,8 +242,9 @@ async function review(id) {
   });
 }
 async function save() {
-  if(busy)return;
+  if(busy || !guardIdentity())return;
   if(!element('confirm').checked){element('status').textContent='Review all choices and select the save confirmation first.';return;}
+  if(!consumeConfirmation())return;
   let value, expectedExpiry, expires=element('expires').value;
   try {
     const minutes=element('minutes').value;
@@ -228,7 +267,8 @@ async function save() {
   },true);
 }
 async function plan() {
-  if(busy||!selected||dirty)return;
+  if(busy || !guardIdentity() || !selected || dirty)return;
+  if(formSnapshot()!==selectedRaw){markDirty();element('status').textContent='Visible choices changed. Save them explicitly or review the saved record again before planning.';return;}
   const chosen=selected;
   return run(async(ctx,version)=>{
     const body={user_id:ctx.user,memory_scope:ctx.scope,profile_memory_id:chosen.memory.memory_id,expected_profile_revision:chosen.memory.revision};
@@ -245,14 +285,19 @@ async function plan() {
     element('status').textContent='Conditional checklist built from the reviewed saved choices. No actions were performed. Review all checks and evidence qualifications.';
   });
 }
-for(const id of ['user','api'])element(id).oninput=()=>reset(true);
-for(const id of ['token','scope'])element(id).oninput=()=>reset(false);
-for(const id of ['surface','water','minutes','supplies','expires'])element(id).oninput=()=>{
-  element('confirm').checked=false;dirty=true;clearPlan();syncControls();
-};
+function markDirty() {
+  if (!guardIdentity()) return;
+  if (busy) { reset(false); return; }
+  consentSnapshot=null; element('confirm').checked=false; dirty=true; clearPlan(); syncControls();
+}
+for(const id of ['user','api']){element(id).oninput=()=>reset(true);element(id).onchange=()=>reset(true);}
+for(const id of ['token','scope']){element(id).oninput=()=>reset(false);element(id).onchange=()=>reset(false);}
+for(const id of ['surface','water','minutes','supplies','expires']){element(id).oninput=markDirty;element(id).onchange=markDirty;}
+element('confirm').onchange=confirmChoices;
 element('load').onclick=()=>loadPage();
 element('older').onclick=()=>{if(nextBefore!==null)return loadPage(nextBefore);};
 element('new').onclick=()=>{if(!busy){clearForm();syncControls();element('status').textContent='New blank profile. Existing saved profiles remain unchanged.';}};
 element('save').onclick=save;element('plan').onclick=plan;element('cancel').onclick=()=>reset(false);
 window.addEventListener('pagehide',()=>reset(true));
-syncControls();
+window.addEventListener('pageshow',()=>reset(true));
+boundIdentity=identitySnapshot();syncControls();

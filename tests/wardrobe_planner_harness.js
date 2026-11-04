@@ -81,35 +81,85 @@ async function actualChange(route, method, body) {
   const result = await fetch(elements.api.value + route, {method, headers: {Authorization: 'Bearer ' + token, 'Content-Type': 'application/json'}, body: JSON.stringify(body)});
   assert.equal(result.status, 200); return result.json();
 }
+const confirmSave = () => { elements.confirm.checked = true; elements.confirm.onchange(); };
 (async () => {
   assert.equal(calls.length, 0); assertBlank();
   assert.ok(!/\b(?:localStorage|sessionStorage|indexedDB|innerHTML)\b/.test(fs.readFileSync(path.join(root, 'web/wardrobe-planner.js'), 'utf8')));
-  if (scenario === 'create_review_plan') {
+
+  if (scenario === 'binding_reset_origin' || scenario === 'binding_reset_user') {
+    for (const via of ['cancel','scope']) {
+      elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.api.onchange();
+      elements.scope.value='home';elements.scope.onchange();elements.token.value=token;elements.token.onchange();
+      await open();const before=calls.length;
+      if(scenario==='binding_reset_origin')elements.api.value='https://other.example';else elements.user.value='bob';
+      if(via==='cancel')await click('cancel');else {elements.scope.value='work';elements.scope.onchange();}
+      assert.equal(elements.token.value,'');assert.equal(elements.inventories.children.length,0);assert.equal(elements.plan.disabled,true);assert.equal(elements.confirm.checked,false);
+      await click('load');assert.equal(calls.length,before);assert.equal(writeCalls().length,0);
+    }
+  } else if (scenario === 'binding_retained_identity') {
+    await open();const before=calls.length;elements.api.value='https://other.example';confirmSave();await click('save');
+    assert.equal(calls.length,before);assert.equal(writeCalls().length,0);assert.equal(elements.token.value,'');assert.equal(elements.plan.disabled,true);assert.ok(!elements.saved.textContent.includes('alice'));
+  } else if (scenario === 'binding_silent_health_identity') {
+    fill();const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:normal(u,o);confirmSave();const pending=click('save');await tick();elements.user.value='bob';
+    hold.resolve(response({cleaning_planner_protocol:1,wardrobe_planner_protocol:1,memory_management_protocol:1}));await pending;
+    assert.equal(writeCalls().length,0);assert.equal(elements.token.value,'');assert.equal(elements.plan.disabled,true);assert.ok(!elements.saved.textContent.includes('alice'));
+  } else if (scenario === 'binding_silent_review_response') {
+    const hold=deferred();responder=(u,o)=>u.endsWith('/v1/memory-item/7')?hold.promise:normal(u,o);
+    const pending=vm.runInContext('review(7)',sandbox);await tick();elements.user.value='bob';hold.resolve(response({memory}));await pending;
+    assert.equal(elements.plan.disabled,true);assert.equal(elements.token.value,'');assert.ok(!elements.saved.textContent.includes('alice'));
+  } else if (scenario === 'binding_silent_edit_before_save') {
+    fill();confirmSave();rows()[0].fields.label.value='UNREVIEWED NEW LABEL';await click('save');assert.equal(calls.length,0);assert.equal(writeCalls().length,0);assert.equal(elements.confirm.checked,false);
+    confirmSave();await click('save');assert.equal(writeCalls().length,1);assert.match(elements.status.textContent,/confirmed/);
+  } else if (scenario === 'binding_edit_during_health') {
+    for(const fire of [false,true]) {
+      fill();const hold=deferred();responder=(u,o)=>u.endsWith('/health')?hold.promise:normal(u,o);confirmSave();const pending=click('save');await tick();rows()[0].fields.label.value='UNREVIEWED NEW LABEL';if(fire){rows()[0].fields.label.oninput();}
+      hold.resolve(response({cleaning_planner_protocol:1,wardrobe_planner_protocol:1,memory_management_protocol:1}));await pending;
+      assert.equal(writeCalls().length,0);assert.equal(elements.plan.disabled,true);assert.equal(elements.confirm.checked,false);
+    }
+  } else if (scenario === 'binding_silent_edit_before_plan') {
+    await open();const before=calls.length;rows()[0].fields.label.value='UNREVIEWED NEW LABEL';await click('plan');assert.equal(calls.length,before);assert.equal(planCalls().length,0);assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'binding_scope_and_change_events') {
+    await open();const before=calls.length;elements.scope.value='work';await click('plan');assert.equal(calls.length,before);assert.equal(elements.token.value,token);assert.equal(elements.plan.disabled,true);
+    elements.scope.value='home';elements.scope.onchange();fill();confirmSave();elements.user.value='bob';elements.user.onchange();assert.equal(elements.token.value,'');assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);
+  } else if (scenario === 'binding_stream_identity') {
+    const hold=deferred();let cancelled=false;
+    responder=(u,o)=>u.includes('/v1/memory/alice')?Promise.resolve({ok:true,headers:{get:()=>null},body:{getReader:()=>({read:()=>hold.promise,cancel:async()=>{cancelled=true;},releaseLock:()=>{}})}}):normal(u,o);
+    const pending=click('load');await tick();elements.token.value='another-assigned-token-'+'y'.repeat(32);hold.resolve({done:false,value:new TextEncoder().encode('{}')});await pending;
+    assert.equal(cancelled,true);assert.equal(elements.token.value,'');assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'binding_restored_consent_and_page') {
+    fill();elements.confirm.checked=true;await click('save');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
+    confirmSave();events.pageshow();assert.equal(elements.token.value,'');assert.equal(elements.confirm.checked,false);assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'binding_uncertain_write_drift') {
+    fill();const hold=deferred();responder=(u,o)=>u.includes('/v1/wardrobe-inventories')?hold.promise:normal(u,o);confirmSave();const pending=click('save');await tick();assert.equal(writeCalls().length,1);
+    rows()[0].fields.label.value='UNREVIEWED NEW LABEL';hold.resolve(response({memory}));await pending;assert.equal(elements.plan.disabled,true);assert.equal(elements.result.hidden,true);assert.match(elements.status.textContent,/may have completed/);
+    await click('save');assert.equal(writeCalls().length,1);
+  } else
+if (scenario === 'create_review_plan') {
     fill(); await click('save'); assert.equal(calls.length, 0);
-    elements.confirm.checked = true; const pending = click('save'); assert.equal(elements.confirm.checked, false); await click('save'); await pending;
+    confirmSave(); const pending = click('save'); assert.equal(elements.confirm.checked, false); await click('save'); await pending;
     assert.equal(writeCalls().length, 1); assert.equal(planCalls().length, 0); assert.equal(elements.plan.disabled, false);
     await click('plan'); assert.equal(planCalls().length, 1); assert.equal(elements.result.hidden, false); assert.match(elements['plan-info'].textContent, /User-declared/);
     assert.equal(elements.steps.children.length, 1); assert.equal(elements.categories.children.length, 5); assert.equal(elements.confirm.checked, false);
     for (const c of calls) { assert.equal(c.options.redirect, 'error'); assert.equal(c.options.credentials, 'omit'); assert.equal(c.options.cache, 'no-store'); if (c.url.endsWith('/health')) assert.ok(!c.options.headers.Authorization); }
   } else if (scenario === 'edit_and_consumed_consent') {
-    await open(); elements.confirm.checked = true; setField('quantity', 6); assert.equal(elements.confirm.checked, false); assert.equal(elements.plan.disabled, true);
+    await open(); confirmSave(); setField('quantity', 6); assert.equal(elements.confirm.checked, false); assert.equal(elements.plan.disabled, true);
     await click('plan'); assert.equal(planCalls().length, 0); await click('save'); assert.equal(writeCalls().length, 0);
-    elements.confirm.checked = true; await click('save'); assert.equal(writeCalls().length, 1); assert.equal(writeCalls()[0].options.method, 'PATCH');
+    confirmSave(); await click('save'); assert.equal(writeCalls().length, 1); assert.equal(writeCalls()[0].options.method, 'PATCH');
     assert.equal(JSON.parse(writeCalls()[0].options.body).expected_revision, 'a'.repeat(64)); assert.equal(elements.expires.disabled, true);
     await click('plan'); assert.match(elements['plan-info'].textContent, /User-declared units: 6/); await click('new'); assertBlank();
   } else if (scenario === 'add_remove_bounds') {
-    fill(); elements.confirm.checked = true; await click('add'); assert.equal(rows().length, 2); assert.equal(elements.confirm.checked, false);
-    elements.confirm.checked = true; await click('save'); assert.equal(writeCalls().length, 0);
+    fill(); confirmSave(); await click('add'); assert.equal(rows().length, 2); assert.equal(elements.confirm.checked, false);
+    confirmSave(); await click('save'); assert.equal(writeCalls().length, 0);
     rows()[1].remove.onclick(); assert.equal(rows().length, 1); assert.equal(elements.items.children.length, 1);
     for (let i = 1; i < 35; i++) await click('add'); assert.equal(rows().length, 30); assert.equal(elements.add.disabled, true);
     rows()[29].remove.onclick(); assert.equal(rows().length, 29); assert.equal(elements.add.disabled, false);
-    await click('new'); rows()[0].remove.onclick(); assert.equal(rows().length, 0); elements.confirm.checked = true; await click('save'); assert.equal(writeCalls().length, 0);
+    await click('new'); rows()[0].remove.onclick(); assert.equal(rows().length, 0); confirmSave(); await click('save'); assert.equal(writeCalls().length, 0);
   } else if (scenario === 'explicit_paging_selection') {
     responder = (u, o) => u.includes('/v1/memory/alice') ? response({memory_scope: 'home', memories: [{...memory, memory_id: u.includes('before_id') ? 3 : 7}, {...memory, memory_id: u.includes('before_id') ? 2 : 6, source: 'explicit'}], next_before_id: u.includes('before_id') ? null : 6}) : normal(u, o);
     await click('load'); assert.equal(elements.plan.disabled, true); assert.equal(planCalls().length, 0); assert.equal(elements.older.disabled, false); assert.equal(elements.inventories.children.length, 1);
     await click('older'); assert.equal(elements.inventories.children.length, 1); assert.ok(calls.some(c => c.url.includes('before_id=6'))); assert.equal(elements.older.disabled, true);
   } else if (scenario === 'stale_health_boundary') {
-    const hold = deferred(); responder = () => hold.promise; fill(); elements.confirm.checked = true; const p = click('save'); await tick();
+    const hold = deferred(); responder = () => hold.promise; fill(); confirmSave(); const p = click('save'); await tick();
     elements.api.value = 'https://other.example'; elements.api.oninput(); hold.resolve(response({wardrobe_planner_protocol: 1, memory_management_protocol: 1})); await p;
     assert.equal(calls.length, 1); assert.equal(elements.token.value, ''); assertBlank(); assert.equal(writeCalls().length, 0);
   } else if (scenario === 'stale_body_boundary') {
@@ -118,24 +168,24 @@ async function actualChange(route, method, body) {
     assert.equal(elements.inventories.children.length, 0); assert.equal(elements.token.value, ''); assertBlank();
   } else if (scenario === 'uncertain_write_no_retry') {
     fill(); const hold = deferred(); responder = (u, o) => u.endsWith('/v1/wardrobe-inventories') ? hold.promise : normal(u, o);
-    elements.confirm.checked = true; const p = click('save'); await tick(); assert.equal(writeCalls().length, 1); await click('cancel'); assert.match(elements.status.textContent, /may have completed/);
+    confirmSave(); const p = click('save'); await tick(); assert.equal(writeCalls().length, 1); await click('cancel'); assert.match(elements.status.textContent, /may have completed/);
     hold.resolve(response({memory})); await p; assert.equal(writeCalls().length, 1); assertBlank(); assert.match(elements.status.textContent, /may have completed/);
   } else if (scenario === 'plan_conflict_no_retry') {
     await open(); responder = (u, o) => u.endsWith('/v1/plans/wardrobe') ? response({}, 409) : normal(u, o);
     await click('plan'); await click('plan'); assert.equal(planCalls().length, 1); assertBlank(); assert.match(elements.status.textContent, /Reload/);
   } else if (scenario === 'invalid_inputs_and_protocol') {
-    fill(); for (const value of ['', '0', '1.5', '1e1', ' 10', '101', '10\n']) { setField('quantity', value); elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0); }
-    fill(); for (const value of ['', '-1', '1.5', '1e1', ' 10', '51', '10\n']) { elements['minimum-tops'].value = value; elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0); }
-    fill(); for (const value of ['', 'no', 'FALSE']) { setField('preserve', value); elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0); }
-    fill(); for (const value of ['', ' padded', 'control\nlabel', 'format\u200bhidden']) { setField('label', value); elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0); }
-    fill(); for (const value of ['home\n', 'Home', ' home']) { elements.scope.value = value; elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0); }
-    elements.scope.value = 'home'; for (const value of ['http://example.com', 'https://user:pass@example.com', 'https://exa\nmple.com', 'https://example.com/path']) { elements.api.value = value; await click('load'); assert.equal(calls.length, 0); }
-    elements.api.value = 'http://127.0.0.1:8787'; responder = () => response({memory_management_protocol: 1}); await click('load'); assert.equal(calls.length, 1); assert.match(elements.status.textContent, /protocol/);
+    fill(); for (const value of ['', '0', '1.5', '1e1', ' 10', '101', '10\n']) { setField('quantity', value); confirmSave(); await click('save'); assert.equal(calls.length, 0); }
+    fill(); for (const value of ['', '-1', '1.5', '1e1', ' 10', '51', '10\n']) { elements['minimum-tops'].value = value; confirmSave(); await click('save'); assert.equal(calls.length, 0); }
+    fill(); for (const value of ['', 'no', 'FALSE']) { setField('preserve', value); confirmSave(); await click('save'); assert.equal(calls.length, 0); }
+    fill(); for (const value of ['', ' padded', 'control\nlabel', 'format\u200bhidden']) { setField('label', value); confirmSave(); await click('save'); assert.equal(calls.length, 0); }
+    fill(); for (const value of ['home\n', 'Home', ' home']) { elements.scope.value = value; elements.scope.onchange(); fill(); confirmSave(); await click('save'); assert.equal(calls.length, 0); }
+    elements.scope.value = 'home'; for (const value of ['http://example.com', 'https://user:pass@example.com', 'https://exa\nmple.com', 'https://example.com/path']) { elements.api.value = value; elements.api.onchange(); elements.token.value = token; elements.token.onchange(); await click('load'); assert.equal(calls.length, 0); }
+    elements.api.value = 'http://127.0.0.1:8787'; elements.api.onchange(); elements.token.value = token; elements.token.onchange(); responder = () => response({memory_management_protocol: 1}); await click('load'); assert.equal(calls.length, 1); assert.match(elements.status.textContent, /protocol/);
   } else if (scenario === 'duplicate_and_total_bounds') {
-    fill(); await click('add'); fillRow({...baseItem, label: 'EVERYDAY SHIRTS'}, 1); elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0);
-    setField('label', 'Café', 0); setField('label', 'Cafe\u0301', 1); elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0);
+    fill(); await click('add'); fillRow({...baseItem, label: 'EVERYDAY SHIRTS'}, 1); confirmSave(); await click('save'); assert.equal(calls.length, 0);
+    setField('label', 'Café', 0); setField('label', 'Cafe\u0301', 1); confirmSave(); await click('save'); assert.equal(calls.length, 0);
     for (let i = 0; i < 4; i++) { if (rows().length <= i) await click('add'); fillRow({...baseItem, label: 'Item ' + i, quantity: 100}, i); }
-    elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0); assert.match(elements.status.textContent, /300/);
+    confirmSave(); await click('save'); assert.equal(calls.length, 0); assert.match(elements.status.textContent, /300/);
   } else if (scenario === 'wrong_scope_and_actions') {
     memory.memory_scope = 'work'; await click('load'); assert.equal(elements.inventories.children.length, 0); memory.memory_scope = 'home';
     for (const change of [data => ({...data, actions_executed: true}), data => ({...data, action: {name: 'dispose'}}), data => ({...data, user_id: 'bob'}), data => ({...data, inventory_memory: {...memory, revision: 'f'.repeat(64)}}), data => ({...data, inventory_applied: {...baseInventory, items: [{...baseItem, quantity: 6}]}})]) {
@@ -167,7 +217,7 @@ async function actualChange(route, method, body) {
     responder = (u, o) => u.includes('/v1/memory-item/') ? response({memory: {...memory, source: 'explicit'}}) : normal(u, o);
     await click('load'); await elements.inventories.children[0].children[1].onclick(); assertBlank(); assert.match(elements.status.textContent, /typed/);
   } else if (scenario === 'token_change_clears_private_draft') {
-    await open(); setField('label', 'Private draft'); elements.confirm.checked = true;
+    await open(); setField('label', 'Private draft'); confirmSave();
     elements.token.value = token + 'x'; elements.token.oninput(); assertBlank(); assert.equal(elements.inventories.children.length, 0); assert.equal(selected(), null);
     assert.equal(elements.saved.textContent, 'No saved inventory is selected.');
   } else if (scenario === 'mismatched_counts_and_surplus') {
@@ -177,14 +227,14 @@ async function actualChange(route, method, body) {
     await open(); responder = (u, o) => { if (!u.endsWith('/v1/plans/wardrobe')) return normal(u, o); const data = planData(); data.item_steps[0].instruction = '<img src=x onerror=alert(1)>'; data.grounding = '<script>private</script>'; return response(data); };
     await click('plan'); assert.match(elements.steps.children[0].textContent, /<img src=x onerror=alert\(1\)>/); assert.equal(elements.steps.children[0].children.length, 0);
     elements.scope.value = 'work'; elements.scope.oninput(); assert.equal(elements.token.value, token); assertBlank(); assert.equal(elements.grounding.textContent, '');
-    fill(); elements.confirm.checked = true; events.pagehide(); assert.equal(elements.token.value, ''); assertBlank();
+    fill(); confirmSave(); events.pagehide(); assert.equal(elements.token.value, ''); assertBlank();
   } else if (scenario === 'oversized_response') {
     responder = (u, o) => u.endsWith('/health') ? normal(u, o) : response({text: 'x'.repeat(1024 * 1024 + 1)}, 200, '1'); await click('load'); assert.match(elements.status.textContent, /limit/); assert.equal(elements.inventories.children.length, 0);
   } else if (scenario === 'stale_plan_after_cancel') {
     await open(); const hold = deferred(); responder = (u, o) => u.endsWith('/v1/plans/wardrobe') ? hold.promise : normal(u, o); const p = click('plan'); await tick(); await click('cancel'); hold.resolve(response(planData())); await p; assertBlank(); assert.equal(elements.steps.children.length, 0);
   } else if (scenario === 'mismatched_saved_record') {
     fill(); responder = async (u, o) => { const result = await normal(u, o); if (!u.endsWith('/v1/wardrobe-inventories')) return result; memory.user_id = 'bob'; return response({memory}); };
-    elements.confirm.checked = true; await click('save'); assertBlank(); assert.match(elements.status.textContent, /may have completed/); assert.equal(writeCalls().length, 1);
+    confirmSave(); await click('save'); assertBlank(); assert.match(elements.status.textContent, /may have completed/); assert.equal(writeCalls().length, 1);
   } else if (scenario === 'new_save_expiry_binding') {
     const cases = [
       ['2027-01-01T00:00:00Z', null],
@@ -198,7 +248,7 @@ async function actualChange(route, method, body) {
     for (const [submitted, returned] of cases) {
       await click('new'); fill(); elements.expires.value = submitted; elements.expires.oninput();
       responder = async (u, o) => { const result = await normal(u, o); if (!u.endsWith('/v1/wardrobe-inventories')) return result; return response({memory: {...memory, expires_at: returned}}); };
-      elements.confirm.checked = true; const before = writeCalls().length; await click('save');
+      confirmSave(); const before = writeCalls().length; await click('save');
       assertBlank(); assert.match(elements.status.textContent, /may have completed/); assert.equal(writeCalls().length, before + 1);
       await click('save'); assert.equal(writeCalls().length, before + 1); assert.equal(planCalls().length, 0);
     }
@@ -217,45 +267,45 @@ async function actualChange(route, method, body) {
     for (const [submitted, returned] of cases) {
       await click('new'); fill(); elements.expires.value = submitted; elements.expires.oninput();
       responder = async (u, o) => { const result = await normal(u, o); if (!u.endsWith('/v1/wardrobe-inventories')) return result; memory.expires_at = returned; return response({memory}); };
-      elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /confirmed/, submitted); assert.equal(selected().memory.expires_at, returned);
+      confirmSave(); await click('save'); assert.match(elements.status.textContent, /confirmed/, submitted); assert.equal(selected().memory.expires_at, returned);
       assert.equal(JSON.parse(writeCalls().at(-1).options.body).expires_at, submitted || null);
     }
   } else if (scenario === 'invalid_expiry_before_write') {
     fill();
     for (const value of ['2027-01-01T00:00:00-00:00', '2027-02-29T00:00:00Z', '2028-02-30T00:00:00Z', '2027-13-01T00:00:00Z', '2027-00-01T00:00:00Z', '2027-01-00T00:00:00Z', '2027-01-01T24:00:00Z', '2027-01-01T00:60:00Z', '2027-01-01T00:00:60Z', '2027-01-01T00:00:00.1234567Z', '2027-01-01T00:00:00+24:00', '2027-01-01T00:00:00+00:60', '2027-01-01T00:00:00Z\n', '0000-01-01T00:00:00Z', '0001-01-01T00:00:00+00:01', '9999-12-31T23:59:59-00:01', '2027-01-01', 'not-a-dateZ']) {
-      elements.expires.value = value; elements.expires.oninput(); elements.confirm.checked = true; await click('save'); assert.equal(calls.length, 0, value); assert.equal(elements.confirm.checked, false);
+      elements.expires.value = value; elements.expires.oninput(); confirmSave(); await click('save'); assert.equal(calls.length, 0, value); assert.equal(elements.confirm.checked, false);
     }
   } else if (scenario === 'existing_expiry_remains_bound') {
     memory.expires_at = '2027-01-01T00:00:00.000001+00:00'; await open(); setField('quantity', 6);
     responder = async (u, o) => { const result = await normal(u, o); if (!u.endsWith('/v1/wardrobe-inventories')) return result; return response({memory: {...memory, expires_at: '2027-01-01T00:00:00.000002+00:00'}}); };
-    elements.confirm.checked = true; await click('save'); assertBlank(); assert.match(elements.status.textContent, /may have completed/); assert.equal(writeCalls()[0].options.method, 'PATCH');
+    confirmSave(); await click('save'); assertBlank(); assert.match(elements.status.textContent, /may have completed/); assert.equal(writeCalls()[0].options.method, 'PATCH');
   } else if (scenario === 'multiple_inventory_selection') {
     responder = (u, o) => u.includes('/v1/memory/alice') ? response({memory_scope: 'home', memories: [{...memory, memory_id: 9}, memory], next_before_id: null}) : normal(u, o);
     await click('load'); assert.equal(elements.plan.disabled, true); await elements.inventories.children[1].children[1].onclick(); await click('plan'); assert.equal(JSON.parse(planCalls()[0].options.body).inventory_memory_id, 7);
   } else if (scenario === 'noncanonical_label_preserved') {
-    fill(); setField('label', 'Cafe\u0301'); elements.confirm.checked = true; await click('save'); await click('plan'); assert.equal(elements.result.hidden, false); assert.equal(JSON.parse(writeCalls()[0].options.body).inventory.items[0].label, 'Cafe\u0301');
+    fill(); setField('label', 'Cafe\u0301'); confirmSave(); await click('save'); await click('plan'); assert.equal(elements.result.hidden, false); assert.equal(JSON.parse(writeCalls()[0].options.body).inventory.items[0].label, 'Cafe\u0301');
   } else if (scenario === 'real_create_edit_plan') {
-    fill(); await click('save'); assert.equal(writeCalls().length, 0); elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /confirmed/); assert.equal(planCalls().length, 0);
+    fill(); await click('save'); assert.equal(writeCalls().length, 0); confirmSave(); await click('save'); assert.match(elements.status.textContent, /confirmed/); assert.equal(planCalls().length, 0);
     await click('plan'); assert.equal(elements.result.hidden, false, elements.status.textContent); assert.equal(elements.steps.children.length, 1); assert.match(elements.steps.children[0].textContent, /reversible surplus review/);
-    await open(); setField('preserve', true); setField('quantity', 6); elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /confirmed/);
+    await open(); setField('preserve', true); setField('quantity', 6); confirmSave(); await click('save'); assert.match(elements.status.textContent, /confirmed/);
     await click('plan'); assert.equal(elements.result.hidden, false, elements.status.textContent); assert.match(elements['plan-info'].textContent, /User-declared units: 6/); assert.match(elements.steps.children[0].textContent, /Preserve/); assert.match(elements.grounding.textContent, /unverified sample/);
   } else if (scenario === 'real_exact_expiry_normalization') {
     fill(); elements.expires.value = '2027-01-01T05:30:00.123456+05:30'; elements.expires.oninput();
-    elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /confirmed/);
+    confirmSave(); await click('save'); assert.match(elements.status.textContent, /confirmed/);
     assert.equal(selected().memory.expires_at, '2027-01-01T00:00:00.123456+00:00');
     await click('plan'); assert.equal(elements.result.hidden, false, elements.status.textContent);
-    setField('quantity', 6); elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /confirmed/);
+    setField('quantity', 6); confirmSave(); await click('save'); assert.match(elements.status.textContent, /confirmed/);
     assert.equal(selected().memory.expires_at, '2027-01-01T00:00:00.123456+00:00');
   } else if (scenario === 'real_conflict') {
     await open(); const chosen = selected();
     await actualChange('/v1/wardrobe-inventories', 'PATCH', {memory_id: chosen.memory.memory_id, inventory: {...baseInventory, items: [{...baseItem, quantity: 6}]}, expected_revision: chosen.memory.revision, confirm_save: true});
     await click('plan'); assertBlank(); assert.match(elements.status.textContent, /Reload/); assert.equal(planCalls().length, 1);
     await open(); const latest = selected(); await actualChange('/v1/wardrobe-inventories', 'PATCH', {memory_id: latest.memory.memory_id, inventory: {...baseInventory, items: [{...baseItem, quantity: 7}]}, expected_revision: latest.memory.revision, confirm_save: true});
-    setField('quantity', 8); elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /Reload/); assert.equal(writeCalls().length, 1);
+    setField('quantity', 8); confirmSave(); await click('save'); assert.match(elements.status.textContent, /Reload/); assert.equal(writeCalls().length, 1);
   } else if (scenario === 'real_expiry_and_isolation') {
     await open(); const chosen = selected(); await actualChange('/v1/memory-expiration', 'PATCH', {memory_id: chosen.memory.memory_id, expires_at: '2000-01-01T00:00:00Z'});
     await click('plan'); assert.match(elements.status.textContent, /404/); assertBlank();
-    elements.token.value = 'test-bob-' + 'b'.repeat(32); elements.token.oninput(); fill(); elements.confirm.checked = true; await click('save'); assert.match(elements.status.textContent, /403/);
+    elements.token.value = 'test-bob-' + 'b'.repeat(32); elements.token.oninput(); fill(); confirmSave(); await click('save'); assert.match(elements.status.textContent, /403/);
   } else throw new Error('Unknown scenario ' + scenario);
   console.log('PASS ' + scenario);
 })().catch(error => { console.error(error.stack); process.exitCode = 1; });
