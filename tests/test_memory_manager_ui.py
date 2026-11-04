@@ -14,6 +14,7 @@ class MemoryManagerUITests(unittest.TestCase):
 
     def test_review_and_explicit_revision_checked_correction(self):self.scenario('review_correct')
     def test_typed_profile_blocks_generic_edit_but_retains_expiry(self):self.scenario('typed_profile')
+    def test_typed_inventory_blocks_generic_edit_but_retains_expiry(self):self.scenario('typed_inventory')
     def test_explicit_expiration_and_renewal(self):self.scenario('expiry')
     def test_separate_consumed_deletion_choices_and_no_double_submit(self):self.scenario('delete_choices')
     def test_identity_change_discards_late_private_page(self):self.scenario('stale_identity')

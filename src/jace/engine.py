@@ -9,6 +9,7 @@ from threading import RLock
 from pathlib import Path
 
 from .canonical import CanonicalStore
+from .wardrobe import INVENTORY_SOURCE, validate_inventory, encode_inventory, decode_inventory, build_wardrobe_plan
 from .cleaning import PROFILE_SOURCE, validate_profile, encode_profile, decode_profile, build_plan
 from .cognitive_graph import CognitiveGraph
 from .ethics import assess
@@ -142,8 +143,8 @@ class CognitiveEngine:
         with self.memory.connection:
             self.memory.connection.execute("BEGIN IMMEDIATE")
             self.memory.check_revision(user_id, memory_id, expected_revision)
-            if self.memory.get_owned(user_id, memory_id).source == PROFILE_SOURCE:
-                raise ValueError('Use the typed cleaning-profile update operation; generic text correction cannot change this profile.')
+            if self.memory.get_owned(user_id, memory_id).source in (PROFILE_SOURCE, INVENTORY_SOURCE):
+                raise ValueError('Use the matching typed update operation; generic text correction cannot change a typed profile or inventory.')
             memory, notes = self.memory.replace(user_id, memory_id, content, commit=False)
             if memory:
                 self.graph.remove_memories([memory_id], commit=False)
@@ -225,6 +226,81 @@ class CognitiveEngine:
         return {**common, **plan, 'status': 'planned', 'profile_memory': memories[0].to_dict(),
                 'canonical_evidence': [item.to_dict() for item in evidence],
                 'grounding': LocalReasoner._grounding(evidence)}
+
+    @synchronized
+    def save_wardrobe_inventory(self, user_id: str, inventory: dict, *, confirm_save: bool = False,
+                                memory_scope: str = DEFAULT_SCOPE, expires_at: str | None = None):
+        if not isinstance(user_id, str) or not user_id.strip():
+            raise ValueError('user_id is required')
+        if confirm_save is not True:
+            raise ValueError('explicit confirm_save=true is required to persist a wardrobe inventory')
+        content = encode_inventory(inventory)
+        with self.memory.connection:
+            self.memory.connection.execute('BEGIN IMMEDIATE')
+            memory, notes = self.memory.add(user_id, content, source=INVENTORY_SOURCE,
+                memory_scope=memory_scope, expires_at=expires_at, commit=False)
+            if memory and memory.content != content:
+                raise ValueError('Inventory labels were altered by the memory filter; use ordinary non-sensitive labels.')
+            if memory:
+                self.graph.add_memory(memory, self.canonical.all(), commit=False)
+        return memory, notes
+
+    @synchronized
+    def update_wardrobe_inventory(self, user_id: str, memory_id: int, inventory: dict, *,
+                                  expected_revision: str, confirm_save: bool = False):
+        self._validate_memory_identity(user_id, memory_id)
+        if confirm_save is not True:
+            raise ValueError('explicit confirm_save=true is required to replace a wardrobe inventory')
+        content = encode_inventory(inventory)
+        validate_memory_revision(expected_revision)
+        with self.memory.connection:
+            self.memory.connection.execute('BEGIN IMMEDIATE')
+            self.memory.check_revision(user_id, memory_id, expected_revision)
+            if self.memory.get_owned(user_id, memory_id).source != INVENTORY_SOURCE:
+                raise ValueError('only an existing typed wardrobe inventory can be updated here')
+            memory, notes = self.memory.replace(user_id, memory_id, content, commit=False)
+            if memory and memory.content != content:
+                raise ValueError('Inventory labels were altered by the memory filter; use ordinary non-sensitive labels.')
+            if memory:
+                self.graph.remove_memories([memory_id], commit=False)
+                self.graph.add_memory(memory, self.canonical.all(), commit=False)
+        return memory, notes
+
+    @synchronized
+    def plan_wardrobe(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE,
+                      inventory_memory_id: int | None = None, expected_inventory_revision: str | None = None) -> dict:
+        if not isinstance(user_id, str) or not user_id.strip():
+            raise ValueError('user_id is required')
+        memory_scope = validate_memory_scope(memory_scope)
+        if expected_inventory_revision is not None:
+            validate_memory_revision(expected_inventory_revision)
+            if inventory_memory_id is None:
+                raise ValueError('expected_inventory_revision requires an explicit inventory_memory_id')
+        at = recall_time()
+        if inventory_memory_id is None:
+            memories = self.memory.active_typed_records(user_id, INVENTORY_SOURCE, memory_scope=memory_scope, at=at)
+        else:
+            self._validate_memory_identity(user_id, inventory_memory_id)
+            memory = self.memory.get_owned(user_id, inventory_memory_id)
+            if memory.memory_scope != memory_scope or memory.source != INVENTORY_SOURCE or not eligible_for_recall(memory.expires_at, at):
+                raise LookupError('an eligible wardrobe inventory was not found in this scope')
+            if expected_inventory_revision is not None and memory.revision != expected_inventory_revision:
+                raise MemoryConflictError('Inventory changed after review. Reload before planning.')
+            memories = [memory]
+        inventories = [decode_inventory(memory) for memory in memories]
+        common = {'user_id': user_id, 'memory_scope': memory_scope, 'context_at': at,
+                  'actions_executed': False, 'action': None}
+        if not memories:
+            return {**common, 'status': 'needs_inventory', 'item_steps': [],
+                    'message': 'Explicitly save a typed inventory before planning; free-form conversation is not interpreted.'}
+        if len(memories) > 1:
+            return {**common, 'status': 'choose_inventory', 'item_steps': [],
+                    'message': 'Several active inventories exist. Explicitly select inventory_memory_id; no newest-wins assumption is made.',
+                    'inventories': [{'memory_id': memory.memory_id, 'revision': memory.revision} for memory in memories]}
+        plan = build_wardrobe_plan(inventories[0])
+        evidence = self.canonical.search('aparigraha restraint resources reversible wardrobe', limit=5)
+        return {**common, **plan, 'status': 'planned', 'inventory_memory': memories[0].to_dict(),
+                'canonical_evidence': [item.to_dict() for item in evidence], 'grounding': LocalReasoner._grounding(evidence)}
 
     @synchronized
     def learn_from_conversation(self, user_id: str, content: str, *, memory_scope: str = DEFAULT_SCOPE):

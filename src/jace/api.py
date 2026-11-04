@@ -248,7 +248,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == '/health':
             # Public liveness must not reveal private memory/graph statistics.
-            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1})
+            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1})
             return
         subject = self._authorize()
         if subject is None:
@@ -363,7 +363,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         subject = self._authorize()
         if subject is None:
             return
-        if self.path not in ('/v1/memory', '/v1/memory-expiration', '/v1/cleaning-profiles'):
+        if self.path not in ('/v1/memory', '/v1/memory-expiration', '/v1/cleaning-profiles', '/v1/wardrobe-inventories'):
             self._send(404, {'error': 'not found'})
             return
         try:
@@ -374,6 +374,12 @@ class JaceHandler(BaseHTTPRequestHandler):
             if 'memory_scope' in body:
                 raise ValueError('memory_scope cannot be changed by correction or expiration; create a separate memory explicitly')
             expected_revision = validate_memory_revision(body['expected_revision']) if 'expected_revision' in body else None
+            if self.path == '/v1/wardrobe-inventories':
+                self._body_keys(body, {'user_id', 'memory_id', 'inventory', 'expected_revision', 'confirm_save'})
+                memory, notes = self.engine.update_wardrobe_inventory(subject, body.get('memory_id'), body.get('inventory'),
+                    expected_revision=expected_revision, confirm_save=body.get('confirm_save', False))
+                self._send(200 if memory else 422, {'memory': memory.to_dict() if memory else None, 'notes': notes})
+                return
             if self.path == '/v1/cleaning-profiles':
                 self._body_keys(body, {'user_id', 'memory_id', 'profile', 'expected_revision', 'confirm_save'})
                 memory, notes = self.engine.update_cleaning_profile(subject, body.get('memory_id'), body.get('profile'),
@@ -410,6 +416,22 @@ class JaceHandler(BaseHTTPRequestHandler):
             user_id = body.get('user_id', subject)
             if user_id != subject:
                 self._send(403, {'error': 'access to this user is not allowed'})
+                return
+            if self.path == '/v1/wardrobe-inventories':
+                self._body_keys(body, {'user_id', 'inventory', 'memory_scope', 'expires_at', 'confirm_save'})
+                memory, notes = self.engine.save_wardrobe_inventory(subject, body.get('inventory'),
+                    confirm_save=body.get('confirm_save', False), memory_scope=body.get('memory_scope', DEFAULT_SCOPE),
+                    expires_at=body.get('expires_at'))
+                self._send(201 if memory else 422, {'memory': memory.to_dict() if memory else None, 'notes': notes})
+                return
+            if self.path == '/v1/plans/wardrobe':
+                self._body_keys(body, {'user_id', 'memory_scope', 'inventory_memory_id', 'expected_inventory_revision'})
+                if 'expected_inventory_revision' in body:
+                    validate_memory_revision(body['expected_inventory_revision'])
+                if 'inventory_memory_id' in body and body['inventory_memory_id'] is None:
+                    raise ValueError('inventory_memory_id must be omitted or a positive integer, not null')
+                self._send(200, self.engine.plan_wardrobe(subject, memory_scope=body.get('memory_scope', DEFAULT_SCOPE),
+                    inventory_memory_id=body.get('inventory_memory_id'), expected_inventory_revision=body.get('expected_inventory_revision')))
                 return
             if self.path == '/v1/cleaning-profiles':
                 self._body_keys(body, {'user_id', 'profile', 'memory_scope', 'expires_at', 'confirm_save'})
