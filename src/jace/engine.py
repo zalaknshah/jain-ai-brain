@@ -12,7 +12,7 @@ from .canonical import CanonicalStore
 from .cleaning import PROFILE_SOURCE, validate_profile, encode_profile, decode_profile, build_plan
 from .cognitive_graph import CognitiveGraph
 from .ethics import assess
-from .memory import MemoryStore, validate_memory_revision
+from .memory import MemoryStore, MemoryConflictError, validate_memory_revision
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .models import ActionProposal, ThoughtResult, utc_now
 from .model_output import checked_text
@@ -187,10 +187,14 @@ class CognitiveEngine:
 
     @synchronized
     def plan_cleaning(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE,
-                      profile_memory_id: int | None = None) -> dict:
+                      profile_memory_id: int | None = None, expected_profile_revision: str | None = None) -> dict:
         if not isinstance(user_id, str) or not user_id.strip():
             raise ValueError('user_id is required')
         memory_scope = validate_memory_scope(memory_scope)
+        if expected_profile_revision is not None:
+            validate_memory_revision(expected_profile_revision)
+            if profile_memory_id is None:
+                raise ValueError('expected_profile_revision requires an explicit profile_memory_id')
         at = recall_time()
         if profile_memory_id is None:
             memories = self.memory.active_cleaning_profiles(user_id, memory_scope=memory_scope, at=at)
@@ -199,6 +203,9 @@ class CognitiveEngine:
             memory = self.memory.get_owned(user_id, profile_memory_id)
             if memory.memory_scope != memory_scope or memory.source != PROFILE_SOURCE or not eligible_for_recall(memory.expires_at, at):
                 raise LookupError('an eligible cleaning profile was not found in this scope')
+            # Compare the same immutable row snapshot that builds the checklist.
+            if expected_profile_revision is not None and memory.revision != expected_profile_revision:
+                raise MemoryConflictError('Profile changed after review. Reload before planning.')
             memories = [memory]
         # Validate every active candidate. Never guess past a malformed record
         # or silently select the newest of conflicting declarations.

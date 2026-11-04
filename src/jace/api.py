@@ -248,7 +248,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == '/health':
             # Public liveness must not reveal private memory/graph statistics.
-            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1})
+            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1})
             return
         subject = self._authorize()
         if subject is None:
@@ -419,11 +419,13 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(201 if memory else 422, {'memory': memory.to_dict() if memory else None, 'notes': notes})
                 return
             if self.path == '/v1/plans/cleaning':
-                self._body_keys(body, {'user_id', 'memory_scope', 'profile_memory_id'})
+                self._body_keys(body, {'user_id', 'memory_scope', 'profile_memory_id', 'expected_profile_revision'})
+                if 'expected_profile_revision' in body:
+                    validate_memory_revision(body['expected_profile_revision'])
                 if 'profile_memory_id' in body and body['profile_memory_id'] is None:
                     raise ValueError('profile_memory_id must be omitted or a positive integer, not null')
                 self._send(200, self.engine.plan_cleaning(subject, memory_scope=body.get('memory_scope', DEFAULT_SCOPE),
-                    profile_memory_id=body.get('profile_memory_id')))
+                    profile_memory_id=body.get('profile_memory_id'), expected_profile_revision=body.get('expected_profile_revision')))
                 return
             if self.path == '/v1/think':
                 self._body_keys(body, {'user_id', 'input', 'learn', 'memory_scope'})
@@ -449,6 +451,8 @@ class JaceHandler(BaseHTTPRequestHandler):
                 self._send(200, {'decision': decide_motion(body['observation']).to_dict()})
                 return
             self._send(404, {'error': 'not found'})
+        except MemoryConflictError as exc:
+            self._send(409, {'error': str(exc)})
         except LookupError:
             self._send(404, {'error': 'eligible profile not found'})
         except (TimeoutError, ConnectionError, OSError):
