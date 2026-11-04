@@ -21,6 +21,9 @@ class CleaningPlannerUITests(unittest.TestCase):
     def test_invalid_fields_destinations_and_old_protocol_fail_closed(self):self.scenario('invalid_inputs_and_protocol')
     def test_mismatched_scope_revision_and_action_status_rejected(self):self.scenario('wrong_scope_and_actions')
     def test_text_rendering_scope_and_page_exit_privacy_reset(self):self.scenario('text_render_and_privacy_reset')
+    def test_new_expiry_bound_with_offset_and_microsecond_precision(self):self.scenario('save_expiry_binding')
+    def test_invalid_expiry_rejected_before_network(self):self.scenario('invalid_expiry_before_network')
+    def test_updated_profile_preserves_reviewed_expiry(self):self.scenario('update_expiry_binding')
     def test_streaming_response_cap(self):self.scenario('oversized_response')
     def test_late_plan_ignored_after_cancel(self):self.scenario('stale_plan_after_cancel')
 

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JACE Explicit Wardrobe Planner</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #172033; color-scheme: light; }
+    body { max-width: 1040px; margin: 2rem auto; padding: 0 1rem; }
+    input, select, button { padding: .65rem; margin: .25rem; max-width: 100%; box-sizing: border-box; }
+    button { cursor: pointer; } .row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    fieldset, section { margin: 1rem 0; padding: 1rem; border: 1px solid #ccd4df; min-width: 0; }
+    pre, li { white-space: pre-wrap; overflow-wrap: anywhere; } li { margin: .8rem 0; }
+    small { color: #526078; } [hidden] { display: none !important; }
+    .item-fields label { display: inline-flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Conversation</a> · <a href="cleaning.html">Cleaning checklist</a> · <a href="memory.html">Memory expiry and deletion</a></nav>
+  <h1>Review what is already in your wardrobe</h1>
+  <p>Declare your actual clothing inventory and minimum ready-to-use needs. Review a saved inventory to build a conditional reuse, repair and surplus checklist before considering purchases. Nothing is bought, donated, discarded or physically inspected here. This screen never calls a model or judges material or religious claims.</p>
+  <div class="row">
+    <label>User <input id="user" value="demo-user" autocomplete="off"></label>
+    <label>Memory scope <input id="scope" value="default" maxlength="64" autocomplete="off" spellcheck="false"></label>
+    <label>API <input id="api" value="http://127.0.0.1:8787" size="28" autocomplete="off"></label>
+    <label>API token <input id="token" type="password" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <p><small>Enter your assigned token only for a trusted HTTPS or local loopback API. Tokens and drafts are not stored in browser storage or copied between pages. Scopes separate context, not same-owner permissions. Saved inventories may be recalled by ordinary chat and sent to its configured provider; this dedicated screen stays local to your API.</small></p>
+  <button id="load">Load saved inventories</button><button id="older" disabled>Older memory page</button>
+  <button id="new">Start a new inventory</button><button id="cancel">Cancel and clear</button>
+  <p id="status" role="status" aria-live="polite">Ready. Nothing is loaded or saved automatically.</p>
+  <p><small>Pages scan 20 owned memories at a time and show typed inventories only, including expired ones. Keep paging if other memories fill a page. Expired inventories cannot build new checklists.</small></p>
+  <ul id="inventories" aria-label="Saved wardrobe inventories"></ul>
+  <section aria-labelledby="review-title">
+    <h2 id="review-title">Saved inventory under review</h2>
+    <pre id="saved">No saved inventory is selected.</pre>
+    <button id="plan" disabled>Build checklist from this saved inventory</button>
+    <p><small>Unsaved edits cannot be used. Save changes or review the record again. Changed, expired, deleted or wrong-scope records are rejected by the API. A returned checklist is a snapshot, not automatically retracted by later changes.</small></p>
+  </section>
+  <fieldset>
+    <legend id="form-title">New inventory: choose every field</legend>
+    <p>Use one row for a group of clothing with the same declared condition, fit, use, ownership and keep decision. Labels must be distinct. Add 1–30 rows, at most 300 total units. For footwear or sets, use one consistent unit, such as a pair, in both quantities and minimums. Do not enter secrets or other people’s private details.</p>
+    <div id="items" aria-label="Inventory item rows"></div>
+    <button id="add">Add an item row</button>
+    <fieldset>
+      <legend>Your minimum ready-to-use needs</legend>
+      <p>Explicitly enter 0–50 for every category. These are your chosen needs, not a recommendation, assessment or purchase instruction.</p>
+      <div class="row">
+        <label>Tops <input id="minimum-tops" type="number" min="0" max="50" step="1" autocomplete="off"></label>
+        <label>Bottoms <input id="minimum-bottoms" type="number" min="0" max="50" step="1" autocomplete="off"></label>
+        <label>Outerwear <input id="minimum-outerwear" type="number" min="0" max="50" step="1" autocomplete="off"></label>
+        <label>Footwear <input id="minimum-footwear" type="number" min="0" max="50" step="1" autocomplete="off"></label>
+        <label>Other <input id="minimum-other" type="number" min="0" max="50" step="1" autocomplete="off"></label>
+      </div>
+    </fieldset>
+    <p>Ready and fitting items count toward your declared needs only when you explicitly say they are yours. Shared, other-owned and uncertain items need review. A keep decision protects an item from surplus suggestions; this screen never authorizes disposal.</p>
+    <label>Optional expiry for a NEW inventory <input id="expires" placeholder="2027-01-01T12:00:00Z" size="30" autocomplete="off"></label>
+    <p><small>Leave expiry blank to keep the inventory eligible indefinitely. Editing an existing inventory preserves its expiry; use the memory manager to change expiry or delete it.</small></p>
+    <p><label><input id="confirm" type="checkbox"> I reviewed every item and minimum, and want to save this inventory for this account and scope.</label></p>
+    <button id="save">Save new inventory</button>
+  </fieldset>
+  <section id="result" hidden aria-labelledby="result-title">
+    <h2 id="result-title">Conditional checklist, no actions performed</h2>
+    <pre id="plan-info"></pre>
+    <p>Counts are user-declared, not measurements. Review counts can overlap and must not be added together. A category shortfall is a prompt to check needs, reuse and repair, not a shopping list. No material savings or optimized outcome has been calculated.</p>
+    <h3>Category needs</h3><ul id="categories"></ul>
+    <h3>Review each item</h3><ol id="steps"></ol>
+    <h3>Evidence qualifications</h3><pre id="grounding"></pre>
+    <h3>Limits</h3><ul id="limits"></ul>
+  </section>
+  <script src="wardrobe-planner.js"></script>
+</body>
+</html>

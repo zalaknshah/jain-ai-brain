@@ -103,6 +103,23 @@ async function actualChange(path,method,body){const r=await fetch(elements.api.v
   responder=(u,o)=>u.endsWith('/health')?normal(u,o):response({text:'x'.repeat(1024*1024+1)},200,'1');await click('load');assert.match(elements.status.textContent,/limit/);assert.equal(elements.profiles.children.length,0);
  } else if(scenario==='stale_plan_after_cancel'){
   await open();const hold=deferred();responder=(u,o)=>u.endsWith('/v1/plans/cleaning')?hold.promise:normal(u,o);const p=click('plan');await tick();await click('cancel');hold.resolve(response(planData()));await p;assert.equal(elements.result.hidden,true);assert.equal(elements.steps.children.length,0);
+ } else if(scenario==='save_expiry_binding'){
+  for(const [requested,returned] of [['2027-01-01T00:00:00Z',null],['','2027-01-01T00:00:00Z'],['2027-01-01T00:00:00.000001Z','2027-01-01T00:00:00.000002+00:00']]){
+   await click('new');fill();elements.expires.value=requested;
+   responder=async(u,o)=>{const result=await normal(u,o);return u.endsWith('/v1/cleaning-profiles')?response({memory:{...memory,expires_at:returned}}):result;};
+   elements.confirm.checked=true;await click('save');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
+  }
+  await click('new');fill();elements.expires.value='2027-01-01T01:00:00.123456+01:00';
+  responder=async(u,o)=>{const result=await normal(u,o);return u.endsWith('/v1/cleaning-profiles')?response({memory:{...memory,expires_at:'2027-01-01T00:00:00.123456+00:00'}}):result;};
+  elements.confirm.checked=true;await click('save');assert.equal(elements.plan.disabled,false);assert.match(elements.status.textContent,/confirmed/);
+ } else if(scenario==='invalid_expiry_before_network'){
+  for(const expires of ['2027-02-30T00:00:00Z','2027-01-01T00:00:00-00:00','2027-01-01T00:00:00Z\n','0001-01-01T00:00:00+01:00','9999-12-31T23:59:59-01:00','2027-01-01T00:00:00.1234567Z']){
+   await click('new');fill();elements.expires.value=expires;elements.confirm.checked=true;await click('save');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
+  }
+ } else if(scenario==='update_expiry_binding'){
+  memory.expires_at='2027-01-01T00:00:00.000001+00:00';await open();
+  responder=async(u,o)=>{const result=await normal(u,o);return u.endsWith('/v1/cleaning-profiles')?response({memory:{...memory,expires_at:null}}):result;};
+  elements.confirm.checked=true;await click('save');assert.equal(elements.plan.disabled,true);assert.match(elements.status.textContent,/may have completed/);
  } else if(scenario==='real_create_edit_plan'){
   fill();await click('save');assert.equal(writeCalls().length,0);elements.confirm.checked=true;await click('save');assert.match(elements.status.textContent,/confirmed/);assert.equal(planCalls().length,0);
   await click('plan');assert.equal(elements.result.hidden,false);assert.equal(elements.steps.children.length,6);assert.match(elements.steps.children.map(x=>x.textContent).join('\n'),/water and liquid cleaning products out/);

@@ -17,7 +17,7 @@ Open `http://127.0.0.1:8080/cleaning.html`. Enter the exact assigned user, scope
 ## Create, review, build
 
 1. Choose all four fields. No surface, water, time or supply choice is preselected. Read the conditional surface/product/hygiene guidance. New profiles can have an explicit timezone expiry; blank means no expiry.
-2. Select the unchecked save-consent box and choose **Save new profile**. Editing any field clears this choice. The choice is consumed before waiting for the API. Save does not automatically build a plan.
+2. Select the unchecked save-consent box and choose **Save new profile**. Editing any field clears this choice. The choice is consumed before waiting for the API. Save does not automatically build a plan. The response must preserve the submitted expiry instant, including microseconds and offset normalization, or null for no expiry; updates must retain the reviewed expiry. A mismatched response is treated as an uncertain write.
 3. Review the saved choices and ID shown separately from the editable form. Choose **Build checklist from these saved choices**. The screen sends that exact ID and reviewed state fingerprint.
 4. Read all conditional steps, evidence qualifications and limits. This is a snapshot. No action is performed, and later deletion/expiry cannot retract a checklist already displayed or copied.
 

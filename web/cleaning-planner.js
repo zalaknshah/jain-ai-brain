@@ -125,12 +125,33 @@ function profile(value) {
   return Object.freeze({surface:value.surface, water_policy:value.water_policy,
     time_budget_minutes:value.time_budget_minutes, supplies_policy:value.supplies_policy});
 }
+function normalizedExpiry(value) {
+  if (value === null) return null;
+  const invalid = () => { throw new Error('Expiry must be a valid timestamp with a known explicit timezone, or blank for no expiry.'); };
+  if (typeof value !== 'string' || value !== value.trim() || value.length > 64) return invalid();
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,6}))?(Z|([+-])(\d{2}):(\d{2}))$/.exec(value);
+  if (!match || value.endsWith('-00:00')) return invalid();
+  const [year, month, day, hour, minute, second] = match.slice(1, 7).map(Number);
+  const offsetHour = Number(match[10] || 0), offsetMinute = Number(match[11] || 0);
+  if (year < 1 || offsetHour > 23 || offsetMinute > 59) return invalid();
+  // Dates validate calendar fields and whole-second offsets only. Keep the six
+  // fractional digits separately so two instants one microsecond apart differ.
+  const wall = new Date(0);
+  wall.setUTCFullYear(year, month - 1, day); wall.setUTCHours(hour, minute, second, 0);
+  if (wall.getUTCFullYear() !== year || wall.getUTCMonth() !== month - 1 || wall.getUTCDate() !== day ||
+      wall.getUTCHours() !== hour || wall.getUTCMinutes() !== minute || wall.getUTCSeconds() !== second) return invalid();
+  const offset = (offsetHour * 60 + offsetMinute) * 60000 * (match[9] === '-' ? -1 : 1);
+  const utc = new Date(wall.getTime() - offset);
+  if (utc.getUTCFullYear() < 1 || utc.getUTCFullYear() > 9999) return invalid();
+  return utc.toISOString().slice(0, 19) + '.' + (match[7] || '').padEnd(6, '0') + '+00:00';
+}
 function checkedMemory(memory, ctx, id = null) {
   if (!memory || !Number.isSafeInteger(memory.memory_id) || memory.memory_id < 1 ||
       (id !== null && memory.memory_id !== id) || memory.user_id !== ctx.user || memory.memory_scope !== ctx.scope ||
       typeof memory.content !== 'string' || memory.content.length > 10000 ||
       typeof memory.revision !== 'string' || memory.revision !== memory.revision.trim() || !/^[a-f0-9]{64}$/.test(memory.revision) ||
       !(memory.expires_at === null || (typeof memory.expires_at === 'string' && memory.expires_at.length <= 64))) throw new Error('API returned an invalid or mismatched owned memory.');
+  normalizedExpiry(memory.expires_at);
   return Object.freeze({...memory});
 }
 function typedMemory(memory, ctx, id = null) {
@@ -185,12 +206,12 @@ async function review(id) {
 async function save() {
   if(busy)return;
   if(!element('confirm').checked){element('status').textContent='Review all choices and select the save confirmation first.';return;}
-  let value, expires=element('expires').value;
+  let value, expectedExpiry, expires=element('expires').value;
   try {
     const minutes=element('minutes').value;
     if(!/^[1-9][0-9]{0,2}$/.test(minutes)||minutes!==minutes.trim())throw new Error('Enter a whole time budget from 1 through 120.');
     value=profile({surface:element('surface').value,water_policy:element('water').value,time_budget_minutes:Number(minutes),supplies_policy:element('supplies').value});
-    if(!selected && expires && (expires!==expires.trim() || expires.length>64 || !/(Z|[+-][0-9]{2}:[0-9]{2})$/.test(expires)))throw new Error('Expiry needs an explicit timezone timestamp, or leave it blank.');
+    expectedExpiry=normalizedExpiry(selected ? selected.memory.expires_at : expires||null);
   } catch(error){element('confirm').checked=false;element('status').textContent=error.message;return;}
   const chosen=selected;
   element('confirm').checked=false;
@@ -201,7 +222,7 @@ async function save() {
     pendingMutation=true;
     const result=await request(ctx,version,'/v1/cleaning-profiles',{method:chosen?'PATCH':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const record=typedMemory(result.memory,ctx,chosen?chosen.memory.memory_id:null);
-    if(JSON.stringify(record.profile)!==JSON.stringify(value))throw new Error('Saved choices did not match the reviewed submission.');
+    if(JSON.stringify(record.profile)!==JSON.stringify(value) || normalizedExpiry(record.memory.expires_at)!==expectedExpiry)throw new Error('Saved choices or expiry did not match the reviewed submission.');
     pendingMutation=false;displaySelected(record);nextBefore=null;element('profiles').replaceChildren();
     element('status').textContent='API confirmed the saved profile. Review its displayed choices before building a checklist. No checklist or action was started automatically.';
   },true);
