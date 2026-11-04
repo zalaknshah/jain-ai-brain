@@ -75,9 +75,18 @@ class CognitiveEngine:
                 evidence.append(by_id[hit.source_id])
                 seen.add(hit.source_id)
         memories = self.memory.search(user_id, request, limit=5, at=context_time, memory_scope=memory_scope)
-        graph_memory_ids = {int(hit.source_id) for hit in graph_hits if hit.node_type == "memory" and hit.source_id and hit.source_id.isdigit()}
-        if graph_memory_ids:
-            memories = [memory for memory in self.memory.active(user_id, 100, at=context_time, memory_scope=memory_scope) if memory.memory_id in graph_memory_ids][:5]
+        # Keep direct lexical relevance, then supplement in graph rank order.
+        # Graph IDs never authorize access; recheck authoritative rows here.
+        graph_memory_ids = [int(hit.source_id) for hit in graph_hits if hit.node_type == "memory"
+                            and hit.source_id and hit.source_id.isascii() and hit.source_id.isdigit()
+                            and len(hit.source_id) <= 19 and 1 <= int(hit.source_id) <= 2**63 - 1]
+        seen_memories = {memory.memory_id for memory in memories}
+        for memory in self.memory.selected(user_id, graph_memory_ids, at=context_time, memory_scope=memory_scope):
+            if len(memories) >= 5:
+                break
+            if memory.memory_id not in seen_memories:
+                memories.append(memory)
+                seen_memories.add(memory.memory_id)
         perspectives = evaluate(request, [item.principle for item in evidence])
         try:
             response, action = self.reasoner.respond(request, assessment, perspectives, evidence, memories)

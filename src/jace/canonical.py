@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import heapq
 from pathlib import Path
 
 from .models import CanonicalEntry
 from .text import lexical_terms
+from .retrieval_limits import ScanBudget, query_terms, result_limit
 
 
 class CanonicalStore:
@@ -39,13 +41,18 @@ class CanonicalStore:
         return list(self._entries)
 
     def search(self, query: str, limit: int = 5) -> list[CanonicalEntry]:
-        terms = lexical_terms(query)
+        terms = query_terms(query)
+        limit = result_limit(limit)
         if not terms:
             return []
-
-        def score(entry: CanonicalEntry) -> int:
-            haystack = " ".join(filter(None, [entry.title, entry.principle, entry.guidance, entry.source, entry.work, entry.edition, entry.location, *entry.tags]))
-            return len(terms & lexical_terms(haystack))
-
-        ranked = sorted(self._entries, key=lambda item: (-score(item), item.entry_id))
-        return [entry for entry in ranked if score(entry) > 0][:limit]
+        budget = ScanBudget()
+        def candidates():
+            for entry in self._entries:
+                fields = list(filter(None, [entry.title, entry.principle, entry.guidance, entry.source,
+                              entry.work, entry.edition, entry.location, *entry.tags]))
+                budget.include(*fields)
+                score = len(terms & lexical_terms(" ".join(fields)))
+                if score:
+                    yield score, entry.entry_id, entry
+        # Lower ID is the existing stable tie-breaker, with O(k) retained rows.
+        return [item[2] for item in heapq.nsmallest(limit, candidates(), key=lambda item: (-item[0], item[1]))]

@@ -8,6 +8,8 @@ from pathlib import Path
 
 from .models import CanonicalEntry, Memory
 from .text import lexical_terms
+from .retrieval_limits import ScanBudget, query_terms as bounded_query_terms, result_limit
+from . import retrieval_limits
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .temporal import eligible_for_recall, normalize_expiration, recall_time
 
@@ -72,6 +74,7 @@ class CognitiveGraph:
         )
         self._connection.commit()
         self._canonical_node_ids: dict[str, str] = {}
+        self._canonical_prefix = "canonical:unbound:"
 
     def seed_canonical(self, entries: list[CanonicalEntry]) -> None:
         """Bind this graph instance to one immutable, content-addressed corpus.
@@ -92,6 +95,7 @@ class CognitiveGraph:
             self._connection.execute("BEGIN IMMEDIATE")
             self._seed_canonical(entries, node_ids)
         self._canonical_node_ids = node_ids
+        self._canonical_prefix = f"canonical:{version}:"
 
     def _seed_canonical(self, entries: list[CanonicalEntry], node_ids: dict[str, str]) -> None:
         related_pairs = {
@@ -141,18 +145,25 @@ class CognitiveGraph:
     def retrieve(self, query: str, user_id: str, max_hops: int = 2, max_nodes: int = 12, *, at: str | None = None, memory_scope: str = DEFAULT_SCOPE) -> list[GraphHit]:
         """Run bounded seed → expand → rerank retrieval."""
         memory_scope = validate_memory_scope(memory_scope)
+        bounded_query_terms(query)
+        result_limit(max_nodes)
+        if type(max_hops) is not int or not 0 <= max_hops <= 2:
+            raise ValueError("graph retrieval max_hops must be an integer from 0 through 2")
         query_terms = terms(query)
         if not query_terms:
             return []
         at = recall_time() if at is None else normalize_expiration(at)
         rows = self._connection.execute(
-            "SELECT g.node_id, g.node_type, g.title, g.content, g.source_id, m.expires_at FROM graph_nodes g LEFT JOIN memories m ON g.node_id = 'memory:' || m.id WHERE g.node_type = 'canonical' OR (g.node_type = 'memory' AND m.user_id = ? AND m.memory_scope = ?)",
-            (user_id, memory_scope),
-        ).fetchall()
+            "SELECT g.node_id, g.node_type, g.title, g.content, g.source_id, m.expires_at FROM graph_nodes g LEFT JOIN memories m ON g.node_id = 'memory:' || m.id WHERE (g.node_type = 'canonical' AND g.node_id LIKE ?) OR (g.node_type = 'memory' AND m.user_id = ? AND m.memory_scope = ?)",
+            (self._canonical_prefix + '%', user_id, memory_scope),
+        )
         active_canonical_ids = set(self._canonical_node_ids.values())
-        nodes = {row["node_id"]: row for row in rows
-                 if (row["node_type"] == "canonical" and row["node_id"] in active_canonical_ids)
-                 or (row["node_type"] == "memory" and eligible_for_recall(row["expires_at"], at))}
+        nodes, budget = {}, ScanBudget()
+        for row in rows:
+            budget.include(row['title'], row['content'])
+            if ((row['node_type'] == 'canonical' and row['node_id'] in active_canonical_ids)
+                    or (row['node_type'] == 'memory' and eligible_for_recall(row['expires_at'], at))):
+                nodes[row['node_id']] = row
         active: dict[str, tuple[float, int]] = {}
         for node_id, row in nodes.items():
             overlap = len(query_terms & terms(f"{row['title']} {row['content']}"))
@@ -160,24 +171,37 @@ class CognitiveGraph:
                 active[node_id] = (min(1.0, 0.25 * overlap), 0)
 
         frontier = set(active)
+        edge_rows = 0
         for depth in range(1, max_hops + 1):
             if not frontier:
                 break
-            placeholders = ",".join("?" for _ in frontier)
-            edges = self._connection.execute(
-                f"SELECT from_id, to_id, weight FROM graph_edges WHERE from_id IN ({placeholders}) OR to_id IN ({placeholders})",
-                tuple(frontier) + tuple(frontier),
-            ).fetchall()
-            next_frontier: set[str] = set()
-            for edge in edges:
-                neighbour = edge["to_id"] if edge["from_id"] in frontier else edge["from_id"]
-                if neighbour not in nodes or neighbour in active:
-                    continue
-                parent = edge["from_id"] if edge["from_id"] in active else edge["to_id"]
-                parent_score = active.get(parent, (0.0, depth - 1))[0]
-                active[neighbour] = (parent_score * float(edge["weight"]) * 0.7, depth)
-                next_frontier.add(neighbour)
-            frontier = next_frontier
+            next_scores: dict[str, float] = {}
+            ordered = sorted(frontier)
+            # At most 800 SQL parameters, including on older SQLite builds.
+            for start in range(0, len(ordered), 400):
+                chunk = ordered[start:start + 400]
+                placeholders = ",".join("?" for _ in chunk)
+                edges = self._connection.execute(
+                    f"SELECT from_id, to_id, weight FROM graph_edges WHERE from_id IN ({placeholders}) OR to_id IN ({placeholders})",
+                    tuple(chunk) + tuple(chunk),
+                )
+                for edge in edges:
+                    edge_rows += 1
+                    if edge_rows > retrieval_limits.MAX_EDGE_ROWS:
+                        raise ValueError('retrieval edge row budget exceeded; no partial context returned')
+                    for parent, neighbour in ((edge['from_id'], edge['to_id']), (edge['to_id'], edge['from_id'])):
+                        if parent not in frontier or neighbour not in nodes or neighbour in active:
+                            continue
+                        weight = float(edge['weight'])
+                        if not 0 <= weight <= 1:
+                            raise ValueError('graph edge weight must be finite and between zero and one')
+                        score = active[parent][0] * weight * 0.7
+                        # The strongest same-depth path wins, independent of
+                        # SQL insertion order or set/hash iteration order.
+                        next_scores[neighbour] = max(next_scores.get(neighbour, 0.0), score)
+            for node_id, score in next_scores.items():
+                active[node_id] = (score, depth)
+            frontier = set(next_scores)
 
         ranked = sorted(active.items(), key=lambda item: (-item[1][0], item[1][1], item[0]))[:max_nodes]
         return [

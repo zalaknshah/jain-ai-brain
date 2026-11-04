@@ -212,3 +212,7 @@ The optional HTTP adapter now requires a bounded JSON answer/citations contract.
 ### Separate memory contexts
 
 Use `--memory-scope home` or `--memory-scope work` with remembering, asking and memory review to keep unrelated contexts separate. HTTP requests and the conversation console expose the same selector. Existing records stay in `default`; no scope is inferred and no implicit union is performed. Scopes do not restrict another client holding the same owner token. See [migration, API, console compatibility and ownership limits](docs/MEMORY_SCOPES.md).
+
+### Retrieval regression checks
+
+Direct lexical recall now considers older owned memories within explicit work budgets, preserves direct-match ranking and supplements it with owner/scope/expiry-checked graph results. The original fictional benchmark measures selection and isolation, not model or scholarly quality. See [retrieval behavior, limits and measured baseline](docs/RETRIEVAL_RELIABILITY.md), and run `python scripts/evaluate_retrieval.py`.

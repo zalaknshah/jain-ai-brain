@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import sqlite3
+import heapq
 from pathlib import Path
 
 from .ethics import sanitise_memory
 from .models import Memory, utc_now
 from .text import lexical_terms
+from .retrieval_limits import ScanBudget, query_terms, result_limit
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .temporal import eligible_for_recall, normalize_expiration, recall_time
 
@@ -65,6 +67,8 @@ class MemoryStore:
             self._connection.execute("CREATE INDEX IF NOT EXISTS memory_audit_owner_item ON memory_audit(user_id, memory_id)")
 
     def add(self, user_id: str, content: str, source: str = "user", *, expires_at: str | None = None, memory_scope: str = DEFAULT_SCOPE, commit: bool = True) -> tuple[Memory | None, list[str]]:
+        if not isinstance(content, str) or len(content) > 10_000:
+            raise ValueError("memory content must be text of at most 10,000 characters")
         memory_scope = validate_memory_scope(memory_scope)
         expires_at = normalize_expiration(expires_at)
         clean, notes = sanitise_memory(content)
@@ -111,6 +115,8 @@ class MemoryStore:
         return sorted(scopes)
 
     def replace(self, user_id: str, memory_id: int, content: str, *, commit: bool = True) -> tuple[Memory | None, list[str]]:
+        if not isinstance(content, str) or len(content) > 10_000:
+            raise ValueError("memory content must be text of at most 10,000 characters")
         row = self._connection.execute(
             "SELECT id, user_id, content, created_at, source, updated_at, expires_at, memory_scope FROM memories WHERE user_id = ? AND id = ?",
             (user_id, memory_id),
@@ -170,12 +176,58 @@ class MemoryStore:
         return Memory(memory_id, user_id, row['content'], row['created_at'], row['source'], now, expires_at, row['memory_scope'])
 
     def search(self, user_id: str, query: str, limit: int = 5, *, at: str | None = None, memory_scope: str = DEFAULT_SCOPE) -> list[Memory]:
-        terms = lexical_terms(query)
-        memories = self.active(user_id, 100, at=at, memory_scope=memory_scope)
-        if not terms:
-            return memories[:limit]
-        ranked = sorted(memories, key=lambda item: len(terms & lexical_terms(item.content)), reverse=True)
-        return [memory for memory in ranked if terms & lexical_terms(memory.content)][:limit]
+        terms = query_terms(query)
+        limit = result_limit(limit)
+        memory_scope = validate_memory_scope(memory_scope)
+        at = recall_time() if at is None else normalize_expiration(at)
+        budget, ranked = ScanBudget(), []
+        rows = self._connection.execute(
+            "SELECT id, user_id, content, created_at, source, updated_at, expires_at, memory_scope FROM memories WHERE user_id = ? AND memory_scope = ? ORDER BY id DESC",
+            (user_id, memory_scope),
+        )
+        # Stream candidates, keeping only k ranked objects, instead of silently
+        # discarding every eligible memory older than the latest 100 records.
+        for row in rows:
+            budget.include(row['content'])
+            if not eligible_for_recall(row['expires_at'], at):
+                continue
+            score = len(terms & lexical_terms(row['content'])) if terms else 1
+            if not score:
+                continue
+            memory = Memory(row['id'], row['user_id'], row['content'], row['created_at'], row['source'],
+                            row['updated_at'], row['expires_at'], row['memory_scope'])
+            item = (score, memory.memory_id, memory)
+            if len(ranked) < limit:
+                heapq.heappush(ranked, item)
+            elif item[:2] > ranked[0][:2]:
+                heapq.heapreplace(ranked, item)
+            if not terms and len(ranked) >= limit:
+                break  # Explicit no-term recent-memory behavior is unchanged.
+        return [item[2] for item in sorted(ranked, reverse=True)]
+
+    def selected(self, user_id: str, memory_ids: list[int], *, at: str | None = None,
+                 memory_scope: str = DEFAULT_SCOPE) -> list[Memory]:
+        """Rehydrate ranked graph IDs against authoritative owner/scope/expiry."""
+        memory_scope = validate_memory_scope(memory_scope)
+        if not isinstance(memory_ids, list) or len(memory_ids) > 100 or any(
+                type(item) is not int or not 1 <= item <= 2**63 - 1 for item in memory_ids):
+            raise ValueError('selected memory IDs must be at most 100 positive 64-bit integers')
+        at = recall_time() if at is None else normalize_expiration(at)
+        ids = list(dict.fromkeys(memory_ids))
+        if not ids:
+            return []
+        placeholders = ','.join('?' for _ in ids)
+        rows = self._connection.execute(
+            'SELECT id, user_id, content, created_at, source, updated_at, expires_at, memory_scope FROM memories '
+            f'WHERE user_id = ? AND memory_scope = ? AND id IN ({placeholders})',
+            (user_id, memory_scope, *ids))
+        found, budget = {}, ScanBudget()
+        for row in rows:
+            budget.include(row['content'])
+            if eligible_for_recall(row['expires_at'], at):
+                found[row['id']] = Memory(row['id'], row['user_id'], row['content'], row['created_at'], row['source'],
+                    row['updated_at'], row['expires_at'], row['memory_scope'])
+        return [found[item] for item in ids if item in found]
 
     def delete_user(self, user_id: str, *, commit: bool = True) -> int:
         # Include historical audit rows, which older versions stored with text.

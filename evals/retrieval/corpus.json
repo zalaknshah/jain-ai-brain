@@ -1,0 +1,5 @@
+[
+  {"entry_id":"fixture-lantern","title":"Synthetic lantern record","principle":"The amber lantern uses a cobalt prism.","guidance":"Original fictional equipment description for lexical testing only.","source":"JACE original synthetic fixtures","tags":["optics"],"work":"Synthetic retrieval checks","language":"en","location":"fixture 1","license":"MIT","verified":true},
+  {"entry_id":"fixture-garden","title":"Synthetic garden record","principle":"The violet garden contains a silver bench.","guidance":"Original fictional location description for lexical testing only.","source":"JACE original synthetic fixtures","tags":["outdoors"],"work":"Synthetic retrieval checks","language":"en","location":"fixture 2","license":"MIT","verified":true},
+  {"entry_id":"fixture-hindi","title":"Synthetic Hindi lexical record","principle":"नीला कमरा शांत है।","guidance":"Original short lexical test sentence only.","source":"JACE original synthetic fixtures","tags":[],"work":"Synthetic retrieval checks","language":"hi","location":"fixture 3","license":"MIT","verified":true}
+]

@@ -1,0 +1,12 @@
+[
+ {"id":"old-direct-match","query":"reservation","memories":[{"label":"old","text":"I prefer cobalt reservation."}],"newer_noise_count":110,"relevant_memories":["old"],"relevant_sources":["fixture-lantern"]},
+ {"id":"direct-rank-before-recency","query":"cobalt amber","memories":[{"label":"strong","text":"I prefer cobalt amber lenses."},{"label":"weak","text":"I prefer cobalt."}],"relevant_memories":["strong","weak"],"first_memory":"strong","relevant_sources":["fixture-lantern"]},
+ {"id":"short-term-direct-survives","query":"AI red","memories":[{"label":"red","text":"I prefer red."},{"label":"ai","text":"I prefer AI."}],"relevant_memories":["ai","red"],"first_memory":"ai","relevant_sources":[]},
+ {"id":"old-graph-associated-match","query":"lantern","memories":[{"label":"old","text":"I prefer cobalt prisms."}],"newer_noise_count":110,"relevant_memories":["old"],"relevant_sources":["fixture-lantern"]},
+ {"id":"owner-isolation","query":"reservation","memories":[{"label":"other","owner":"other-user","text":"I prefer reservation."}],"relevant_memories":[],"relevant_sources":[]},
+ {"id":"scope-isolation","query":"reservation","scope":"home","memories":[{"label":"work","scope":"work","text":"I prefer reservation."},{"label":"home","scope":"home","text":"I prefer reservation."}],"relevant_memories":["home"],"relevant_sources":[]},
+ {"id":"expired-isolation","query":"reservation","memories":[{"label":"expired","expires_at":"2000-01-01T00:00:00Z","text":"I prefer reservation."}],"relevant_memories":[],"relevant_sources":[]},
+ {"id":"unmatched-query","query":"zirconium","memories":[{"label":"unrelated","text":"I prefer music."}],"relevant_memories":[],"relevant_sources":[]},
+ {"id":"source-only","query":"violet garden","memories":[],"relevant_memories":[],"relevant_sources":["fixture-garden"]},
+ {"id":"unicode-lexical","query":"शांत कमरा","memories":[{"label":"hindi","text":"मुझे शांत कमरा पसंद है।"}],"relevant_memories":["hindi"],"relevant_sources":["fixture-hindi"]}
+]
