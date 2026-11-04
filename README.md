@@ -34,6 +34,8 @@ Clients send `Authorization: Bearer <assigned token>`. The token's user ID is au
 
 The browser console accepts an assigned token in a password field and keeps it only in the current page. Its User value must match the token's user ID. CORS allows only `http://127.0.0.1:8080` and `http://localhost:8080` by default; set explicit origins with `JACE_ALLOWED_ORIGINS`. Never send bearer tokens over public plaintext HTTP. Public hosting still needs HTTPS, rate limiting, retention policies and an operator-reviewed authentication lifecycle.
 
+Requests may contain at most one `Authorization` and one `Origin` header. Repeated names, including mixed casing and identical values, are rejected before route/engine work (normally 400; earlier size/rate checks can reject first). Ambiguous Origin values are not reflected in CORS headers. Token-map JSON rejects duplicate decoded keys, including escaped equivalents, instead of silently selecting the last owner. Well-formed singleton requests and unique-key configuration retain their behavior. Public health and valid preflight still need no bearer token; protected routes do. These synthetic raw-loopback checks do not establish a proxy exploit, tokenless-access defect or real-browser CORS qualification.
+
 For a browser voice console, run `python -m http.server 8080 --bind 127.0.0.1 --directory web` in a second terminal and open `http://127.0.0.1:8080`. Speech recognition and playback depend on browser/device support; the text API remains usable when audio is unavailable. Dictation is never sent to JACE until you review the transcript and click Ask JACE.
 
 ```bash

@@ -125,11 +125,18 @@ class JaceHandler(BaseHTTPRequestHandler):
             self._send(429, {'error': 'request rate limit exceeded'}, retry_after=retry_after)
             return False
         try:
+            self._validate_identity_headers()
             self._body_length = self._validate_framing()
         except ValueError as exc:
             self._send(400, {'error': str(exc)})
             return False
         return True
+
+    def _validate_identity_headers(self) -> None:
+        """Never select the first of conflicting or repeated identity headers."""
+        for name in ('Authorization', 'Origin'):
+            if len(self.headers.get_all(name, [])) > 1:
+                raise ValueError(f'at most one {name} header is permitted')
 
     def _validate_framing(self) -> int:
         """Reject ambiguous framing before any method, especially deletion."""
@@ -172,7 +179,8 @@ class JaceHandler(BaseHTTPRequestHandler):
         self.close_connection = True
         if retry_after is not None:
             self.send_header('Retry-After', str(retry_after))
-        origin = self.headers.get('Origin')
+        origins = self.headers.get_all('Origin', [])
+        origin = origins[0] if len(origins) == 1 else None
         if origin in self.server.allowed_origins:
             self.send_header('Access-Control-Allow-Origin', origin)
             self.send_header('Vary', 'Origin')

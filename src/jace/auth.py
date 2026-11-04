@@ -20,8 +20,15 @@ class ApiAuthorization:
     def from_json(cls, value: str) -> ApiAuthorization:
         if not value.strip():
             return cls()
+        def unique_tokens(pairs):
+            tokens = {}
+            for token, user_id in pairs:
+                if token in tokens:
+                    raise ValueError('duplicate token mapping')
+                tokens[token] = user_id
+            return tokens
         try:
-            tokens = json.loads(value)
+            tokens = json.loads(value, object_pairs_hook=unique_tokens)
             if not isinstance(tokens, dict):
                 raise ValueError
             return cls(tokens)

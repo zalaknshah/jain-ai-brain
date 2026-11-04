@@ -6,7 +6,7 @@ This repository is a runnable local reference prototype. The November 2026 audit
 
 - Reject recognized harmful input before calling any reasoner or sending context to an optional HTTP model. Recheck returned text with the same limited first-pass policy.
 - Reject the supplied insect-harm memory example. Generic words such as "safely" no longer override a harmful instruction.
-- Require configured per-user HTTP bearer authorization, reject another user's identity, bound request bodies and restrict browser origins. Leave the API locked when authorization is unconfigured; CLI use remains available.
+- Require configured per-user HTTP bearer authorization, reject another user's identity, bound request bodies and restrict browser origins. Reject repeated Authorization/Origin headers and duplicate decoded token-map keys instead of choosing one ambiguous identity. Leave the API locked when authorization is unconfigured; CLI use remains available.
 - Avoid new plaintext memory copies in audit rows. Forgetting a user removes active memory, historical audit records and associated graph records, while preserving other users and canonical records. Historical orphan graph nodes are also removed when their exact legacy owner title is known; unknown or ambiguous ownership is not guessed.
 - Treat missing, malformed and non-finite sensor readings as stop conditions. All decisions remain confirmation-gated and non-executable.
 - Correct the unsupported claim that GitHub Actions already runs checks. No workflow file is present on this feature branch.
