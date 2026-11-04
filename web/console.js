@@ -13,6 +13,79 @@ let pendingRequest = null;
 let speechVersion = 0;
 let responseText = '';
 let pendingPlayback = null;
+let boundIdentity = null, learnConsent = null, requestSubmitted = false;
+const MAX_RESPONSE_BYTES = 1024 * 1024;
+
+function identitySnapshot() {
+  return {user:element('user').value, token:element('token').value, rawApi:element('api').value, scope:element('memory-scope').value};
+}
+function sameIdentity(ctx) { return JSON.stringify(identitySnapshot()) === JSON.stringify(ctx); }
+function clearLearning() { element('learn').checked = false; learnConsent = null; }
+function clearPrivate(dropToken = false, scopeChanged = false) {
+  const now = identitySnapshot();
+  if (boundIdentity && (now.user !== boundIdentity.user || now.rawApi !== boundIdentity.rawApi)) dropToken = true;
+  const uncertain = requestSubmitted;
+  stopPlayback(); cancelPending(); cancelListening(); clearLearning();
+  responseText = ''; input.value = ''; meta.textContent = '';
+  element('speak-replies').checked = false; element('read').disabled = true;
+  if (dropToken) element('token').value = '';
+  boundIdentity = identitySnapshot();
+  answer.textContent = scopeChanged ? 'Memory scope changed. Previous draft and reply cleared.' : 'Connection details changed. Previous draft and reply cleared. Enter the assigned token and a new question.';
+  status.textContent = uncertain ? 'Private view cleared. A request already sent may still finish or save an opted-in memory. No automatic retry.' : 'Private view cleared. Nothing is sent automatically.';
+}
+function guardIdentity() {
+  if (boundIdentity && !sameIdentity(boundIdentity)) {
+    const now = identitySnapshot();
+    clearPrivate(now.user !== boundIdentity.user || now.rawApi !== boundIdentity.rawApi || now.token !== boundIdentity.token, now.scope !== boundIdentity.scope);
+    return false;
+  }
+  return true;
+}
+function editedQuestion() {
+  if (!guardIdentity()) return;
+  const uncertain = requestSubmitted;
+  stopPlayback(); cancelPending(); cancelListening(); clearLearning();
+  responseText = ''; element('read').disabled = true; answer.textContent = ''; meta.textContent = '';
+  status.textContent = uncertain ? 'Question changed. A request already sent may still finish or save its opted-in memory. Review before sending again.' : 'Question changed. Review it and choose learning again if wanted.';
+}
+function current(version, ctx, rawInput) {
+  if (version !== requestVersion || !guardIdentity()) return false;
+  if (!sameIdentity(ctx) || input.value !== rawInput) { editedQuestion(); return false; }
+  return true;
+}
+function connection() {
+  const ctx = identitySnapshot();
+  if (!ctx.user.trim() || ctx.user.length > 200) throw new Error('Enter the exact assigned user ID.');
+  if (ctx.scope !== ctx.scope.trim() || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(ctx.scope)) throw new Error('Enter a valid memory scope before sending. Blank or malformed scopes do not fall back to default.');
+  if (ctx.token.length < 32 || ctx.token.length > 4096 || /[^\x21-\x7e]/.test(ctx.token)) throw new Error('Enter your assigned API token. It is kept only in this page.');
+  if (ctx.rawApi !== ctx.rawApi.trim() || /[\x00-\x20\x7f]/.test(ctx.rawApi)) throw new Error('Review the API address; whitespace is not permitted.');
+  let url; try { url = new URL(ctx.rawApi); } catch (_) { throw new Error('Enter a valid trusted API origin.'); }
+  if (url.username || url.password || url.search || url.hash || url.pathname !== '/' ||
+      !(url.protocol === 'https:' || (url.protocol === 'http:' && ['127.0.0.1','[::1]','localhost'].includes(url.hostname)))) throw new Error('Use a trusted HTTPS or local loopback API origin without path, credentials, query or fragment.');
+  return {identity:ctx, api:url.origin};
+}
+async function boundedJSON(response, version, ctx, rawInput) {
+  const declared = response.headers.get('content-length');
+  if (declared && (!/^\d+$/.test(declared) || Number(declared) > MAX_RESPONSE_BYTES)) throw new Error('API response exceeds the review limit.');
+  if (!response.body || typeof response.body.getReader !== 'function') throw new Error('Streaming response support is required to read private replies safely.');
+  const reader = response.body.getReader(), parts = []; let bytes = 0;
+  try {
+    while (true) {
+      if (!current(version,ctx,rawInput)) throw new Error('View changed.');
+      const part = await reader.read();
+      if (!current(version,ctx,rawInput)) throw new Error('View changed.');
+      if (part.done) break;
+      if (!(part.value instanceof Uint8Array)) throw new Error('Invalid response stream.');
+      bytes += part.value.byteLength;
+      if (bytes > MAX_RESPONSE_BYTES) throw new Error('API response exceeds the review limit.');
+      parts.push(part.value);
+    }
+  } catch (error) { try { await reader.cancel(); } catch (_) { /* No retry. */ } throw error; }
+  finally { reader.releaseLock(); }
+  const data = new Uint8Array(bytes); let offset = 0;
+  for (const part of parts) { data.set(part,offset); offset += part.byteLength; }
+  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(data));
+}
 
 function stopPlayback() {
   speechVersion += 1;
@@ -33,25 +106,28 @@ function cancelListening() {
 function cancelPending() {
   requestVersion += 1;
   if (pendingRequest) pendingRequest.abort();
-  pendingRequest = null;
+  pendingRequest = null; requestSubmitted = false;
 }
 
 function stopReply() {
-  const wasPending = pendingRequest !== null;
+  if (!guardIdentity()) return;
+  const wasPending = pendingRequest !== null, wasSent = requestSubmitted;
+  clearLearning();
   stopPlayback();
   cancelPending();
   cancelListening();
   if (wasPending) answer.textContent = 'Stopped waiting for this reply.';
-  status.textContent = wasPending
+  status.textContent = wasSent
     ? 'Stopped waiting. A request already sent may still finish or save an opted-in memory on the server.'
     : 'Playback and listening stopped.';
 }
 
 function startListening() {
-  if (!Recognition || recognition) return;
+  if (!guardIdentity() || !Recognition || recognition) return;
   cancelPending();
   stopPlayback();
-  element('learn').checked = false;
+  clearLearning();
+  const captureIdentity = identitySnapshot(), captureInput = input.value;
   const version = ++recognitionVersion;
   const current = new Recognition();
   recognition = current;
@@ -60,16 +136,18 @@ function startListening() {
   current.continuous = false;
   let received = false;
   current.onresult = event => {
-    if (version !== recognitionVersion || recognition !== current) return;
+    if (version !== recognitionVersion || recognition !== current || !guardIdentity()) return;
+    if (!sameIdentity(captureIdentity) || input.value !== captureInput) { editedQuestion(); return; }
+    if (received) return;
     const text = Array.from(event.results).map(result => result[0].transcript).join(' ').trim();
     if (!text) return;
     received = true;
     input.value = text;
-    element('learn').checked = false;
+    clearLearning();
     status.textContent = 'Transcript ready. Review it, then choose Ask JACE. Nothing has been sent to JACE yet.';
   };
   current.onerror = () => {
-    if (version !== recognitionVersion || recognition !== current) return;
+    if (version !== recognitionVersion || recognition !== current || !guardIdentity()) return;
     status.textContent = 'Dictation is unavailable or was denied. You can still type your question.';
     received = true; // Preserve the error status when onend follows.
   };
@@ -78,6 +156,7 @@ function startListening() {
     recognition = null;
     element('listen').disabled = false;
     element('stop').disabled = true;
+    if (version === recognitionVersion && !guardIdentity()) return;
     if (version === recognitionVersion && !received) status.textContent = 'No transcript received. Try again or type your question.';
     const queued = pendingPlayback;
     pendingPlayback = null;
@@ -98,6 +177,7 @@ function startListening() {
 }
 
 function readResponse() {
+  if (!guardIdentity()) return;
   stopPlayback();
   if (!responseText) return;
   const version = speechVersion;
@@ -113,6 +193,7 @@ function readResponse() {
 }
 
 function playResponse() {
+  if (!guardIdentity() || !responseText) return;
   const synthesis = window.speechSynthesis;
   if (!synthesis || !window.SpeechSynthesisUtterance) {
     status.textContent = 'Speech playback is unavailable. The text response remains available.';
@@ -130,8 +211,8 @@ function playResponse() {
   const utterance = new window.SpeechSynthesisUtterance(responseText);
   utterance.lang = voice.lang;
   utterance.voice = voice;
-  utterance.onend = () => { if (version === speechVersion) status.textContent = 'Playback finished.'; };
-  utterance.onerror = () => { if (version === speechVersion) status.textContent = 'Playback stopped or failed. The text response remains available.'; };
+  utterance.onend = () => { if (version === speechVersion && guardIdentity()) status.textContent = 'Playback finished.'; };
+  utterance.onerror = () => { if (version === speechVersion && guardIdentity()) status.textContent = 'Playback stopped or failed. The text response remains available.'; };
   try {
     synthesis.speak(utterance);
     status.textContent = 'Reading the response. Voice selection does not translate its text.';
@@ -141,72 +222,67 @@ function playResponse() {
 }
 
 async function ask() {
-  const text = input.value.trim();
+  if (!guardIdentity()) return;
+  const rawInput = input.value, text = rawInput.trim();
   if (!text) return;
-  const memoryScope = element('memory-scope').value;
-  if (memoryScope !== memoryScope.trim() || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(memoryScope)) {
-    stopPlayback(); cancelListening(); cancelPending();
-    responseText = ''; element('read').disabled = true;
-    answer.textContent = 'Enter a valid memory scope before sending. Blank or malformed scopes do not fall back to default.';
+  const requestedLearning = element('learn').checked, consent = learnConsent;
+  clearLearning(); // Consume before validation or asynchronous work.
+  const identity = identitySnapshot();
+  if (requestedLearning && (!consent || consent.rawInput !== rawInput || JSON.stringify(consent.identity) !== JSON.stringify(identity))) {
+    stopPlayback(); cancelPending(); cancelListening(); responseText = ''; element('read').disabled = true; meta.textContent = '';
+    answer.textContent = 'Learning choices changed or were restored. Review this message and check learning again before sending.';
     return;
   }
-  const token = element('token').value;
-  const api = element('api').value.replace(/\/$/, '');
-  const user = element('user').value;
-  if (!token) {
-    cancelPending();
-    stopPlayback();
-    responseText = '';
-    element('read').disabled = true;
-    answer.textContent = 'Enter your assigned API token. It is kept only in this page.';
-    return;
-  }
-  stopPlayback();
-  cancelListening();
-  cancelPending();
-  const version = requestVersion;
-  const controller = new AbortController();
-  pendingRequest = controller;
-  const learn = element('learn').checked;
-  element('learn').checked = false;
-  responseText = '';
-  element('read').disabled = true;
-  answer.textContent = 'Thinking…';
-  meta.textContent = '';
-  status.textContent = 'Waiting for JACE. Stopping here cannot undo work already accepted by the server.';
+  let ctx, api;
   try {
-    const capability = await fetch(api + '/health', {method: 'GET', signal: controller.signal, headers: {'Accept': 'application/json'}});
-    const support = await capability.json();
-    if (version !== requestVersion) return;
+    ({identity:ctx,api} = connection());
+    if (rawInput.length > 10000) throw new Error('Enter a question of at most 10,000 characters.');
+  } catch (error) {
+    stopPlayback(); cancelListening(); cancelPending(); responseText = ''; element('read').disabled = true;
+    answer.textContent = error.message; meta.textContent = ''; return;
+  }
+  stopPlayback(); cancelListening(); cancelPending();
+  const version = requestVersion, controller = new AbortController();
+  pendingRequest = controller;
+  responseText = ''; element('read').disabled = true; answer.textContent = 'Thinking…'; meta.textContent = '';
+  status.textContent = 'Checking the API before sending this message. Nothing is retried automatically.';
+  const options = {signal:controller.signal, redirect:'error', credentials:'omit', cache:'no-store'};
+  try {
+    const capability = await fetch(api + '/health', {...options, method:'GET', headers:{Accept:'application/json'}});
+    if (!current(version,ctx,rawInput)) return;
+    const support = await boundedJSON(capability,version,ctx,rawInput);
+    if (!current(version,ctx,rawInput)) return;
     if (!capability.ok || support.memory_scope_protocol !== 1) throw new Error('This API does not confirm scoped recall support. No question was sent.');
-    const response = await fetch(api + '/v1/think', {
-      method: 'POST', signal: controller.signal,
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
-      body: JSON.stringify({user_id: user, input: text, learn, memory_scope: memoryScope})
-    });
-    const data = await response.json();
-    if (version !== requestVersion) return;
-    if (!response.ok) throw new Error(data.error || 'Request failed');
-    if (data.memory_scope !== memoryScope) throw new Error('The API did not confirm the selected memory scope. No reply is displayed.');
-    if (typeof data.response !== 'string') throw new Error('Invalid response from JACE');
-    responseText = data.response;
-    answer.textContent = responseText;
-    element('read').disabled = false;
-    meta.textContent = `scope: ${memoryScope} · ${data.ethical_assessment?.risk_level || 'unknown'} risk · ${data.perspectives?.length || 0} perspectives · ${data.canonical_evidence?.length || 0} source record(s)`;
+    requestSubmitted = true;
+    const response = await fetch(api + '/v1/think', {...options,
+      method:'POST', headers:{'Content-Type':'application/json',Authorization:'Bearer ' + ctx.token},
+      body:JSON.stringify({user_id:ctx.user,input:text,learn:requestedLearning,memory_scope:ctx.scope})});
+    if (!current(version,ctx,rawInput)) return;
+    const data = await boundedJSON(response,version,ctx,rawInput);
+    if (!current(version,ctx,rawInput)) return;
+    if (!response.ok) throw new Error('API request failed (' + response.status + ').');
+    if (data.memory_scope !== ctx.scope) throw new Error('The API did not confirm the selected memory scope. No reply is displayed.');
+    if (data.user_id !== ctx.user || data.input !== text) throw new Error('The API did not confirm the submitted question and owner. No reply is displayed.');
+    if (typeof data.response !== 'string' || data.response.length > 40000) throw new Error('Invalid response from JACE');
+    requestSubmitted = false;
+    responseText = data.response; answer.textContent = responseText; element('read').disabled = false;
+    meta.textContent = `scope: ${ctx.scope} · ${data.ethical_assessment?.risk_level || 'unknown'} risk · ${data.perspectives?.length || 0} perspectives · ${data.canonical_evidence?.length || 0} source record(s)`;
     status.textContent = 'Response ready. Voice language does not translate its text.';
     if (element('speak-replies').checked) readResponse();
   } catch (error) {
-    if (version !== requestVersion) return;
+    if (!current(version,ctx,rawInput)) return;
+    const uncertain = requestSubmitted;
     answer.textContent = error.name === 'AbortError' ? 'Request cancelled in this page.' : error.message;
-    status.textContent = 'No new response is available. Check the API address and authorization before retrying.';
+    status.textContent = 'No new response is available. No automatic retry.' + (uncertain ? ' A submitted request may still finish or save an opted-in memory; check before sending again.' : ' Check the API address and authorization.');
   } finally {
-    if (version === requestVersion) pendingRequest = null;
+    if (version === requestVersion) { pendingRequest = null; requestSubmitted = false; }
   }
 }
 
 element('listen').disabled = !Recognition;
 element('listen').onclick = startListening;
 element('stop').onclick = () => {
+  if (!guardIdentity()) return;
   if (!recognition) return;
   try {
     recognition.stop();
@@ -218,25 +294,21 @@ element('send').onclick = ask;
 element('cancel').onclick = stopReply;
 element('read').onclick = readResponse;
 element('language').onchange = () => {
+  if (!guardIdentity()) return;
   stopPlayback();
   cancelListening();
   status.textContent = 'Voice language changed. This does not translate text or change JACE reasoning capabilities.';
 };
-for (const id of ['user', 'token', 'api', 'memory-scope']) {
-  element(id).oninput = () => {
-    stopPlayback();
-    cancelListening();
-    cancelPending();
-    element('learn').checked = false;
-    responseText = '';
-    input.value = '';
-    if (id === 'user' || id === 'api') element('token').value = '';
-    element('read').disabled = true;
-    answer.textContent = id === 'memory-scope'
-      ? 'Memory scope changed. Previous draft and reply cleared. Requests already accepted may still finish in the prior scope.'
-      : 'Connection details changed. Previous draft and reply cleared. Enter the assigned token and a new question.';
-    meta.textContent = '';
-  };
+for (const id of ['user','token','api','memory-scope']) {
+  const changed = () => clearPrivate(id === 'user' || id === 'api', id === 'memory-scope');
+  element(id).oninput = changed; element(id).onchange = changed;
 }
-window.addEventListener('pagehide', () => { stopPlayback(); cancelPending(); cancelListening(); });
+input.oninput = editedQuestion; input.onchange = editedQuestion;
+element('learn').onchange = () => {
+  if (!guardIdentity()) return;
+  learnConsent = element('learn').checked ? {identity:identitySnapshot(),rawInput:input.value} : null;
+};
+window.addEventListener('pagehide', () => clearPrivate(true));
+window.addEventListener('pageshow', () => clearPrivate(true));
+clearLearning(); element('speak-replies').checked = false; boundIdentity = identitySnapshot();
 if (!Recognition) status.textContent = 'Dictation is unsupported in this browser. Type your question instead.';

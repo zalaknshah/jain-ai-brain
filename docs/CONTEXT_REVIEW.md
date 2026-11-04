@@ -79,3 +79,11 @@ PYTHONPATH=src python -m unittest discover -s tests -p 'test_context_review*.py'
 ```
 
 Tests use synthetic memories and source bundles, temporary databases, mocked model responses, Node DOM fixtures and real local HTTP loopback. They cover selected-only dispatch, no provider on preview/default-local, owner/scope/expiry/revision rejection, source and configuration changes, coherent concurrent read snapshots, isolated dispatch configuration, empty selections, no action/learning, size failures, consent consumption, response binding and cancelled/stale UI flows. None proves semantic entailment, actual provider quality, full philosophical reasoning, real-browser behavior or production deployment readiness.
+
+### Browser identity and confirmation binding
+
+The page retains account, API origin, token and scope identity independently of a preview or answer. A new preview cannot silently rebind a retained question or token after an identity change. Reset paths (including Cancel, token edits and scope/question events) also clear the credential and question if the owner or API origin silently changed. Explicitly enter the new credential and question after resetting the identity.
+
+A checkbox change records confirmation for that exact preview, selected context and reasoner mode. A restored checked property alone cannot authorize an answer; silent selection or local/configured-mode changes consume and reject the old confirmation. The selected question, account, scope and configured descriptor remain bound to the validated preview. During requests, identity, question and visible selection/mode state are checked before and after every streamed body read. Detected drift cancels the reader without consuming another chunk, suppresses stale results and requires new review; it cannot undo a request already received by the API or provider.
+
+Synthetic DOM regressions cover retained drafts and completed answers, reset rebinding, restored confirmation, silent selection/mode changes and per-chunk cancellation across health, preview and answer responses. Intended confirmations in the fixtures invoke the checkbox change handler. This is not proof of real browser autofill, user-generated event provenance, rendering or production deployment behavior.

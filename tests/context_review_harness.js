@@ -67,11 +67,49 @@ const getChoices = () => vm.runInContext('choices',sandbox);
 function select(kind, index = 0, checked = true) {const c=getChoices().filter(c=>c.kind===kind)[index];c.checkbox.checked=checked;c.checkbox.onchange();}
 function confirm() {elements.confirm.checked=true;elements.confirm.onchange();}
 async function open() {await click('preview');assert.equal(elements.review.hidden,false,elements.status.textContent);}
-function resetFixture() {responder=null;elements.question.value=question;elements.user.value='alice';elements.scope.value='home';elements.api.value='http://127.0.0.1:8787';elements.token.value=token;elements.question.oninput();currentPreview=basePreview();}
+function resetFixture() {responder=null;elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.user.oninput();elements.token.value=token;elements.token.oninput();elements.scope.value='home';elements.scope.oninput();elements.question.value=question;elements.question.oninput();currentPreview=basePreview();}
 async function actualChange(route, method, body) {const r=await fetch(elements.api.value+route,{method,headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});assert.equal(r.status,200);return r.json();}
 (async () => {
   assert.equal(calls.length,0); assert.equal(elements.mode.value,'local'); assert.equal(elements.confirm.checked,false); assert.equal(elements.answer.disabled,true);
-  if (scenario === 'preview_only_unchecked') {
+  if (scenario === 'retained_draft_identity_guard') {
+    for (const stage of ['draft','reviewed','answered']) {
+      resetFixture(); if(stage!=='draft') await open(); if(stage==='answered'){confirm();await click('answer');}
+      const before=calls.length; elements.api.value='http://127.0.0.1:9999'; await click('preview');
+      assert.equal(calls.length,before); assert.equal(elements.token.value,''); assert.equal(elements.question.value,''); assert.equal(elements.review.hidden,true); assert.equal(elements.result.hidden,true);
+    }
+  } else if (scenario === 'resets_cannot_rebind_token') {
+    for (const trigger of ['cancel','scope','question','token']) {
+      for(const event of ['oninput','onchange']) {
+        resetFixture(); await open(); elements.api.value='http://127.0.0.1:9999';
+        if(trigger==='cancel')await click('cancel');else elements[trigger][event]();
+        assert.equal(elements.token.value,''); assert.equal(elements.question.value,''); const before=calls.length;
+        elements.question.value=question; await click('preview'); assert.equal(calls.length,before);
+      }
+    }
+    resetFixture(); await open(); assert.equal(elements.review.hidden,false);
+  } else if (scenario === 'restored_confirmation_rejected') {
+    await open(); elements.confirm.checked=true; await click('answer'); assert.equal(answerCalls().length,0); assert.equal(calls.length,2); assert.equal(elements.confirm.checked,false);
+    await open(); confirm(); await click('answer'); assert.equal(answerCalls().length,1);
+  } else if (scenario === 'silent_selection_mode_rejected') {
+    for (const change of ['mode','memory','source']) {
+      resetFixture(); await open(); confirm(); const before=calls.length;
+      if(change==='mode')elements.mode.value='configured';else getChoices().find(c=>c.kind===change).checkbox.checked=true;
+      await click('answer'); assert.equal(calls.length,before); assert.equal(elements.confirm.checked,false); assert.equal(elements.review.hidden,true);
+    }
+  } else if (scenario === 'silent_mode_during_health_rejected') {
+    await open(); select('memory'); confirm(); const hold=deferred(); responder=()=>hold.promise;
+    const pending=click('answer'); await tick(); elements.mode.value='configured'; hold.resolve(response({context_review_protocol:1})); await pending;
+    assert.equal(answerCalls().length,0); assert.equal(elements.review.hidden,true); assert.equal(elements.confirm.checked,false);
+  } else if (scenario === 'stream_stops_at_first_stale_chunk') {
+    for (const route of ['/health','/v1/context/preview','/v1/context/answer']) {
+      resetFixture(); if(route.endsWith('answer')){await open();confirm();}
+      const hold=deferred(); let reads=0,cancelled=false;
+      responder=(url,options)=>url.endsWith(route)?{ok:true,headers:{get:()=>null},body:{getReader:()=>({read:async()=>{reads++;return reads===1?hold.promise:{done:true};},cancel:async()=>{cancelled=true;},releaseLock:()=>{}})}}:normal(url,options);
+      const pending=click(route.endsWith('answer')?'answer':'preview'); await tick(); assert.equal(reads,1);
+      elements.api.value='http://127.0.0.1:9999'; hold.resolve({done:false,value:new TextEncoder().encode('{}')}); await pending;
+      assert.equal(reads,1); assert.equal(cancelled,true); assert.equal(elements.token.value,''); assert.equal(elements.question.value,''); assert.equal(elements.result.hidden,true);
+    }
+  } else if (scenario === 'preview_only_unchecked') {
     await open(); assert.equal(previewCalls().length,1); assert.equal(answerCalls().length,0);
     assert.ok(getChoices().every(c=>!c.checkbox.checked)); assert.equal(elements.mode.value,'local'); assert.equal(elements.confirm.checked,false);
     assert.match(listText('sources'),/Full principle/); assert.match(listText('memories'),/Private second line/); assert.match(listText('memories'),/Recall expiry: 2027/);

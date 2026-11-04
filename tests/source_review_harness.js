@@ -301,6 +301,40 @@ if (scenario === 'defaults_navigation') {
     const changed = fileFor(JSON.stringify(baseReport())); changed.size += 1; await load(e,changed); preserved(e);
     const file = fileFor(JSON.stringify(baseReport())); await load(e,file); assert.equal(file.reads,1);
     await e.click('load-report'); assert.equal(file.reads,1);
+  } else if (scenario.startsWith('resume_silent_async_')) {
+    const field = scenario.slice('resume_silent_async_'.length);
+    assert.ok(['reviewer', 'note', 'decision', 'file'].includes(field));
+    for (const removeFile of field === 'file' ? [false, true] : [false]) {
+      const e = setup(); existing(e); let release;
+      const file = fileFor(JSON.stringify(baseReport()), {wait:new Promise(resolve => {release = resolve;})});
+      select(e, file); confirm(e); const pending = e.click('load-report');
+      const newerFile = fileFor(JSON.stringify(baseReport()));
+      if (field === 'file') e.elements['resume-file'].files = removeFile ? [] : [newerFile];
+      else e.elements[field].value = field === 'decision' ? 'reject' : 'New visible edit';
+      // A separate save confirmation during the read must not survive cancellation.
+      e.confirm(); assert.equal(e.elements['confirm-save'].checked, true);
+      release(); await pending;
+      assert.equal(e.elements.reviewer.value, field === 'reviewer' ? 'New visible edit' : 'Existing Reviewer');
+      assert.equal(e.elements.note.value, field === 'note' ? 'New visible edit' : 'Existing note');
+      assert.equal(e.elements.decision.value, field === 'decision' ? 'reject' : 'pending');
+      if (field === 'file') assert.deepEqual(e.elements['resume-file'].files, removeFile ? [] : [newerFile]);
+      assert.match(e.elements['resume-status'].textContent, /replacement cancelled/);
+      assert.equal(e.elements['confirm-save'].checked, false);
+      assert.equal(e.elements['confirm-load'].checked, false);
+      assert.equal(e.elements['load-report'].disabled, true);
+      e.click('save'); await e.click('load-report'); assertNoDownload(e);
+      assert.equal(file.reads, 1); assert.equal(newerFile.reads, 0);
+      // Cancellation does not prevent a new explicitly confirmed import.
+      await load(e, newerFile); assert.equal(newerFile.reads, 1);
+      assert.equal(e.elements.reviewer.value, 'Synthetic Resume Reviewer'); assertNoDownload(e);
+    }
+  } else if (scenario === 'resume_restored_consent') {
+    const e = setup(), file = fileFor(JSON.stringify(baseReport())); existing(e); select(e, file);
+    e.elements['confirm-load'].checked = true; e.elements['load-report'].disabled = false;
+    await e.click('load-report'); assert.equal(file.reads, 0); preserved(e);
+    e.elements['confirm-save'].checked = true; e.elements.save.disabled = false;
+    e.click('save'); assertNoDownload(e);
+    assert.equal(e.elements['confirm-save'].checked, false);
   } else if (scenario === 'resume_stale_async') {
     for (const action of [e => e.input('reviewer','Existing Reviewer'), e => e.input('note','Existing note'),
                          e => e.choose('pending'), e => e.click('next'), e => e.click('clear'),

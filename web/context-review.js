@@ -5,6 +5,7 @@ const MAX_RESPONSE_BYTES = 64 * 1024;
 const HEX = /^[a-f0-9]{64}$/;
 let generation = 0, pending = null, busy = false, answerSubmitted = false;
 let reviewed = null, choices = [];
+let boundIdentity = null, consentSnapshot = null, activeSelection = null;
 
 function context() {
   const user = element('user').value, scope = element('scope').value, token = element('token').value;
@@ -22,12 +23,34 @@ function context() {
   if (!input || rawInput.length > 10000) throw new Error('Enter a question of 1 to 10,000 characters.');
   return Object.freeze({user, scope, token, api: url.origin, rawApi, rawInput, input});
 }
+function identitySnapshot() {
+  return {user:element('user').value,scope:element('scope').value,token:element('token').value,rawApi:element('api').value};
+}
+function guardIdentity() {
+  const now = identitySnapshot();
+  if (boundIdentity && !equal(now,boundIdentity)) {
+    const changed = now.user !== boundIdentity.user || now.token !== boundIdentity.token || now.rawApi !== boundIdentity.rawApi;
+    reset(changed,changed); return false;
+  }
+  return true;
+}
+function selectionSnapshot() {
+  return canonical({mode:element('mode').value,choices:choices.map(choice => choice.checkbox.checked)});
+}
+function confirmChoices() {
+  consentSnapshot = null;
+  if (busy || !reviewed || !guardIdentity()) { element('confirm').checked = false; syncControls(); return; }
+  if (!sameContext(reviewed.ctx)) { reset(false,false); return; }
+  if (element('confirm').checked) consentSnapshot = {review:reviewed,selection:selectionSnapshot()};
+  syncControls();
+}
 function sameContext(ctx) {
   return element('user').value === ctx.user && element('scope').value === ctx.scope &&
     element('token').value === ctx.token && element('api').value === ctx.rawApi && element('question').value === ctx.rawInput;
 }
 function current(version, ctx) {
-  if (version !== generation) return false;
+  if (version !== generation || !guardIdentity()) return false;
+  if (activeSelection !== null && selectionSnapshot() !== activeSelection) { reset(false,false); return false; }
   if (!sameContext(ctx)) {
     const identityChanged = element('user').value !== ctx.user || element('api').value !== ctx.rawApi || element('token').value !== ctx.token;
     reset(identityChanged, identityChanged);
@@ -113,14 +136,18 @@ function checkedPreview(data, ctx) {
   if (data.blocked !== !data.ethical_assessment.allowed || (data.blocked && (sourceIDs.size || memoryIDs.size))) throw new Error('Invalid blocked preview.');
   return data;
 }
-async function boundedJSON(response) {
+async function boundedJSON(response, version, ctx) {
   const declared = response.headers.get('content-length');
   if (declared && (!/^\d+$/.test(declared) || Number(declared) > MAX_RESPONSE_BYTES)) throw new Error('API response exceeds the review limit.');
   if (!response.body || typeof response.body.getReader !== 'function') throw new Error('Streaming response support is required for private context review.');
   const reader = response.body.getReader(), parts = []; let bytes = 0;
   try {
     while (true) {
-      const part = await reader.read(); if (part.done) break;
+      if (!current(version,ctx)) throw new Error('View changed.');
+      const part = await reader.read();
+      if (!current(version,ctx)) throw new Error('View changed.');
+      if (part.done) break;
+      if (!(part.value instanceof Uint8Array)) throw new Error('Invalid response stream.');
       bytes += part.value.byteLength;
       if (bytes > MAX_RESPONSE_BYTES) throw new Error('API response exceeds the review limit.');
       parts.push(part.value);
@@ -140,7 +167,7 @@ async function request(ctx, version, path, body = null) {
   }
   const response = await fetch(ctx.api + path, options);
   if (!current(version, ctx)) throw new Error('View changed.');
-  const data = await boundedJSON(response);
+  const data = await boundedJSON(response, version, ctx);
   if (!current(version, ctx)) throw new Error('View changed.');
   if (!response.ok) {
     if (response.status === 409) throw new Error('The question, context or configured target changed. Refresh the preview and review again.');
@@ -154,7 +181,7 @@ function clearResult() {
   for (const id of ['used-sources','used-memories']) element(id).replaceChildren();
 }
 function clearReview() {
-  reviewed = null; choices = []; element('review').hidden = true;
+  reviewed = null; choices = []; consentSnapshot = null; element('review').hidden = true;
   element('confirm').checked = false; element('mode').value = 'local';
   for (const id of ['review-info','assessment','target','consent-text']) element(id).textContent = '';
   for (const id of ['sources','memories','limits']) element(id).replaceChildren();
@@ -169,12 +196,16 @@ function syncControls() {
   for (const choice of choices) choice.checkbox.disabled = busy || !eligible;
 }
 function reset(dropToken = false, dropQuestion = false) {
+  const now = identitySnapshot();
+  if (boundIdentity && (now.user !== boundIdentity.user || now.rawApi !== boundIdentity.rawApi)) { dropToken = true; dropQuestion = true; }
+  if (boundIdentity && now.token !== boundIdentity.token) dropQuestion = true;
   generation += 1;
   if (pending) pending.abort();
   const uncertain = answerSubmitted;
-  pending = null; busy = false; answerSubmitted = false; clearReview(); clearResult();
+  pending = null; busy = false; answerSubmitted = false; activeSelection = null; clearReview(); clearResult();
   if (dropToken) element('token').value = '';
   if (dropQuestion) element('question').value = '';
+  boundIdentity = identitySnapshot();
   syncControls();
   element('status').textContent = uncertain
     ? 'Cleared. The submitted answer request may already have reached the reasoner. It will not be retried. A fresh preview and confirmation are required.'
@@ -194,6 +225,8 @@ function memoryText(memory) {
 }
 function appendText(list, value) { const li = document.createElement('li'); li.textContent = value; element(list).append(li); }
 function invalidateConsent() {
+  if (!guardIdentity()) return;
+  consentSnapshot = null;
   if (busy) { reset(false, false); return; }
   element('confirm').checked = false; clearResult(); updateConsent(); syncControls();
 }
@@ -224,13 +257,13 @@ function showPreview(data, ctx) {
   if (!data.memories.length) appendText('memories', 'No private memory candidates.');
   element('assessment').textContent = JSON.stringify(data.ethical_assessment, null, 2);
   for (const limit of data.limits) appendText('limits', limit);
-  element('review').hidden = false; updateConsent();
+  element('review').hidden = false; updateConsent(); activeSelection = selectionSnapshot();
   element('status').textContent = data.blocked ? 'This question is blocked by the ethical assessment. No context or answer can be selected.'
     : 'Preview ready. Nothing is selected. Review full context, choose a reasoner, and explicitly confirm one answer.';
 }
 async function run(ctx, work) {
   const version = ++generation;
-  pending = new AbortController(); busy = true; answerSubmitted = false; syncControls();
+  pending = new AbortController(); busy = true; answerSubmitted = false; activeSelection = selectionSnapshot(); syncControls();
   try {
     const health = await request(ctx, version, '/health');
     if (health.context_review_protocol !== 1) throw new Error('This API does not support the required context review protocol.');
@@ -244,11 +277,11 @@ async function run(ctx, work) {
       element('status').textContent = error.message + (uncertain ? ' The submitted request may already have reached the reasoner. No automatic retry; refresh the preview before any new answer.' : '');
     }
   } finally {
-    if (current(version, ctx)) { pending = null; busy = false; answerSubmitted = false; syncControls(); }
+    if (current(version, ctx)) { pending = null; busy = false; answerSubmitted = false; activeSelection = null; syncControls(); }
   }
 }
 async function preview() {
-  if (busy) return;
+  if (busy || !guardIdentity()) return;
   clearReview(); clearResult(); syncControls();
   let ctx; try { ctx = context(); } catch (error) { element('status').textContent = error.message; return; }
   element('status').textContent = 'Retrieving candidates from your API without calling a model or saving a memory…';
@@ -271,9 +304,14 @@ function checkedAnswer(data, chosen, body, ctx) {
   return data;
 }
 async function answer() {
-  if (busy || !reviewed || reviewed.data.blocked) return;
+  if (busy || !guardIdentity() || !reviewed || reviewed.data.blocked) return;
   if (!element('confirm').checked) { element('status').textContent = 'Select the explicit one-answer confirmation after reviewing the context.'; return; }
+  const consent = consentSnapshot; consentSnapshot = null;
   element('confirm').checked = false; // Consume before validation and before any network request.
+  if (!consent || consent.review !== reviewed || consent.selection !== selectionSnapshot()) {
+    clearReview(); clearResult(); syncControls();
+    element('status').textContent = 'Choices changed or confirmation was restored without a new check. Preview and confirm again.'; return;
+  }
   const chosen = {...reviewed, sources:choices.filter(c => c.kind === 'source' && c.checkbox.checked).map(c => c.value),
     memories:choices.filter(c => c.kind === 'memory' && c.checkbox.checked).map(c => c.value)};
   const mode = element('mode').value;
@@ -310,14 +348,14 @@ async function answer() {
     element('status').textContent = 'Answer received with matching selected-context receipt. Generated content remains unverified. No learning or actions. Preview again for another answer.';
   });
 }
-for (const id of ['user','api']) element(id).oninput = () => reset(true, true);
-element('token').oninput = () => reset(false, true);
-for (const id of ['scope','question']) element(id).oninput = () => reset(false, false);
+for (const id of ['user','api']) { element(id).oninput = () => reset(true,true); element(id).onchange = () => reset(true,true); }
+element('token').oninput = () => reset(false,true); element('token').onchange = () => reset(false,true);
+for (const id of ['scope','question']) { element(id).oninput = () => reset(false,false); element(id).onchange = () => reset(false,false); }
 element('mode').onchange = invalidateConsent;
-element('confirm').onchange = syncControls;
+element('confirm').onchange = confirmChoices;
 element('preview').onclick = preview; element('answer').onclick = answer;
 element('cancel').onclick = () => reset(false, true);
 window.addEventListener('pagehide', () => reset(true, true));
 // Never restore a bfcache/form-restored consent or token.
 window.addEventListener('pageshow', () => reset(true, true));
-element('confirm').checked = false; element('mode').value = 'local'; syncControls();
+element('confirm').checked = false; element('mode').value = 'local'; boundIdentity = identitySnapshot(); syncControls();

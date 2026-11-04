@@ -51,14 +51,23 @@ async function review(){await click('review');assert.equal(elements['review-pane
 async function send(){await review();elements.confirm.checked=true;elements.confirm.onchange();await click('prepare');}
 (async()=>{
  assert.equal(calls.length,0);assert.equal(rows().length,2);assert.equal(elements.confirm.checked,false);assert.equal(elements.result.hidden,true);
- if(scenario==='local_review_then_one_send'){
+ if(scenario==='restored_confirmation_rejected'){
+  fill();await review();elements.confirm.checked=true;await click('prepare');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);assert.equal(elements['review-panel'].hidden,true);
+  await send();assert.equal(postCalls().length,1);
+ } else if(scenario==='reset_cannot_rebind_token'){
+  for(const changed of ['api','user'])for(const event of ['oninput','onchange']){
+   elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.user.oninput();elements.token.value=token;elements.token.oninput();fill();await review();
+   elements[changed].value=changed==='api'?'http://127.0.0.1:9999':'bob';elements.token[event]();assert.equal(elements.token.value,'');assert.equal(elements.decision.value,'');
+   fill();await click('review');assert.equal(elements['review-panel'].hidden,true);assert.equal(calls.length,0);
+  }
+ } else if(scenario==='local_review_then_one_send'){
   fill();await review();assert.equal(calls.length,0);assert.match(elements.destination.textContent,/\/v1\/plans\/dispute/);assert.ok(!elements.destination.textContent.includes(token));
-  await click('prepare');assert.equal(calls.length,0);elements.confirm.checked=true;const p=click('prepare');assert.equal(elements.confirm.checked,false);await click('prepare');await p;
+  await click('prepare');assert.equal(calls.length,0);elements.confirm.checked=true;elements.confirm.onchange();const p=click('prepare');assert.equal(elements.confirm.checked,false);await click('prepare');await p;
   assert.equal(calls.length,2);assert.equal(postCalls().length,1);assert.equal(elements.result.hidden,false);assert.equal(elements['review-panel'].hidden,true);
   await click('prepare');assert.equal(postCalls().length,1);assert.equal(elements.comparisons.children.length,2);
   for(const call of calls){assert.equal(call.options.redirect,'error');assert.equal(call.options.credentials,'omit');assert.equal(call.options.cache,'no-store');if(call.url.endsWith('/health'))assert.ok(!call.options.headers.Authorization);}
  } else if(scenario==='editing_and_dynamic_options_invalidate'){
-  fill();await review();elements.confirm.checked=true;rows()[0].fields.description.value='Changed option.';rows()[0].fields.description.oninput();
+  fill();await review();elements.confirm.checked=true;elements.confirm.onchange();rows()[0].fields.description.value='Changed option.';rows()[0].fields.description.oninput();
   assert.equal(elements.confirm.checked,false);assert.equal(elements['review-panel'].hidden,true);await click('prepare');assert.equal(calls.length,0);
   await click('add');assert.equal(rows().length,3);await click('add');await click('add');assert.equal(rows().length,4);assert.equal(elements.add.disabled,true);
   rows()[3].remove.onclick();rows()[2].remove.onclick();rows()[0].remove.onclick();assert.equal(rows().length,2);assert.equal(rows()[0].remove.disabled,true);
@@ -68,11 +77,11 @@ async function send(){await review();elements.confirm.checked=true;elements.conf
   elements.api.value='http://127.0.0.1:8787';elements.api.oninput();elements.token.value=token;elements.token.oninput();fill();elements['partner-position'].value='';rows()[0].fields.reported_partner_fit.value='yes';await click('review');assert.equal(elements['review-panel'].hidden,true);
   rows()[0].fields.reported_partner_fit.value='unknown';await review();rows()[1].fields.label.value=rows()[0].fields.label.value;await click('review');assert.equal(elements['review-panel'].hidden,true);assert.equal(calls.length,0);
  } else if(scenario==='silent_changes_before_submit'){
-  fill();await review();elements.confirm.checked=true;elements.decision.value='Silent new decision.';await click('prepare');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
-  await review();elements.confirm.checked=true;elements.token.value='another-token-'+'z'.repeat(32);await click('prepare');assert.equal(calls.length,0);assert.equal(elements.token.value,'');assert.equal(elements.decision.value,'');
+  fill();await review();elements.confirm.checked=true;elements.confirm.onchange();elements.decision.value='Silent new decision.';await click('prepare');assert.equal(calls.length,0);assert.equal(elements.confirm.checked,false);
+  await review();elements.confirm.checked=true;elements.confirm.onchange();elements.token.value='another-token-'+'z'.repeat(32);await click('prepare');assert.equal(calls.length,0);assert.equal(elements.token.value,'');assert.equal(elements.decision.value,'');
  } else if(scenario==='silent_identity_cannot_rebind_existing_draft'){
   for(const stage of ['draft','reviewed','completed']){
-   if(stage!=='draft'){elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.token.value=token;elements.token.oninput();}
+   if(stage!=='draft'){elements.user.value='alice';elements.api.value='http://127.0.0.1:8787';elements.user.oninput();elements.token.value=token;elements.token.oninput();}
    fill();if(stage==='reviewed')await review();if(stage==='completed')await send();
    const before=calls.length;elements.api.value='https://another.example';await click('review');
    assert.equal(calls.length,before);assert.equal(elements.decision.value,'');assert.equal(elements.token.value,'');assert.equal(elements.result.hidden,true);assert.equal(elements['review-panel'].hidden,true);
@@ -80,24 +89,24 @@ async function send(){await review();elements.confirm.checked=true;elements.conf
  } else if(scenario==='identity_change_event_clears_private_fields'){
   fill();await review();elements.user.value='bob';elements.user.onchange();assert.equal(elements.decision.value,'');assert.equal(elements.token.value,'');assert.equal(elements['review-panel'].hidden,true);
  } else if(scenario==='silent_identity_during_health'){
-  fill();await review();const hold=deferred();responder=()=>hold.promise;elements.confirm.checked=true;const pending=click('prepare');await tick();elements.api.value='https://different.example';
+  fill();await review();const hold=deferred();responder=()=>hold.promise;elements.confirm.checked=true;elements.confirm.onchange();const pending=click('prepare');await tick();elements.api.value='https://different.example';
   hold.resolve(response({dispute_preparation_protocol:1}));await pending;assert.equal(calls.length,1);assert.equal(postCalls().length,0);assert.equal(elements.token.value,'');assert.equal(elements.decision.value,'');
  } else if(scenario==='silent_draft_during_health'){
-  fill();await review();const hold=deferred();responder=()=>hold.promise;elements.confirm.checked=true;const pending=click('prepare');await tick();rows()[0].fields.label.value='Silent different option';
+  fill();await review();const hold=deferred();responder=()=>hold.promise;elements.confirm.checked=true;elements.confirm.onchange();const pending=click('prepare');await tick();rows()[0].fields.label.value='Silent different option';
   hold.resolve(response({dispute_preparation_protocol:1}));await pending;assert.equal(postCalls().length,0);assert.equal(elements['review-panel'].hidden,true);assert.equal(elements.confirm.checked,false);
  } else if(scenario==='silent_identity_during_body_stream'){
   fill();const hold=deferred();let cancelled=false;
   responder=(url,options)=>url.endsWith('/health')?normal(url,options):Promise.resolve({ok:true,headers:{get:()=>null},body:{getReader:()=>({read:()=>hold.promise,cancel:async()=>{cancelled=true;},releaseLock:()=>{}})}});
-  await review();elements.confirm.checked=true;const pending=click('prepare');await tick();assert.equal(postCalls().length,1);elements.user.value='bob';hold.resolve({done:false,value:new TextEncoder().encode('{}')});await pending;
+  await review();elements.confirm.checked=true;elements.confirm.onchange();const pending=click('prepare');await tick();assert.equal(postCalls().length,1);elements.user.value='bob';hold.resolve({done:false,value:new TextEncoder().encode('{}')});await pending;
   assert.equal(cancelled,true);assert.equal(elements.result.hidden,true);assert.equal(elements.token.value,'');assert.equal(elements.decision.value,'');
  } else if(scenario==='silent_draft_during_post_suppresses_result'){
   fill();const hold=deferred();responder=(url,options)=>url.endsWith('/health')?normal(url,options):hold.promise;
-  await review();elements.confirm.checked=true;const pending=click('prepare');await tick();const sent=JSON.parse(postCalls()[0].options.body).worksheet;
+  await review();elements.confirm.checked=true;elements.confirm.onchange();const pending=click('prepare');await tick();const sent=JSON.parse(postCalls()[0].options.body).worksheet;
   rows()[0].fields.description.value='Silently changed after submission';hold.resolve(response(report(sent)));await pending;
   assert.equal(elements.result.hidden,true);assert.equal(elements.confirm.checked,false);assert.equal(elements['review-panel'].hidden,true);assert.equal(postCalls().length,1);assert.match(elements.status.textContent,/may already have reached/);
  } else if(scenario==='cancel_late_response_and_no_retry'){
   fill();const hold=deferred();responder=(url,options)=>url.endsWith('/health')?normal(url,options):hold.promise;
-  await review();elements.confirm.checked=true;const pending=click('prepare');await tick();const sent=JSON.parse(postCalls()[0].options.body).worksheet;
+  await review();elements.confirm.checked=true;elements.confirm.onchange();const pending=click('prepare');await tick();const sent=JSON.parse(postCalls()[0].options.body).worksheet;
   await click('cancel');assert.equal(elements.token.value,'');assert.equal(elements.decision.value,'');hold.resolve(response(report(sent)));await pending;
   assert.equal(elements.result.hidden,true);await click('prepare');assert.equal(postCalls().length,1);assert.match(elements.status.textContent,/cannot recall/);
  } else if(scenario==='protocol_failure_and_network_failure_no_retry'){

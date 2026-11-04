@@ -27,6 +27,10 @@ class DisputeScreenTests(unittest.TestCase):
     def test_text_only_risk_notice_and_page_lifecycle_clear(self):self.scenario('text_only_rendering_risk_and_lifecycle_reset')
     def test_response_byte_and_utf8_bounds(self):self.scenario('oversized_and_invalid_utf8_responses')
 
+    def test_restored_confirmation_rejected(self): self.scenario('restored_confirmation_rejected')
+
+    def test_reset_cannot_rebind_token(self): self.scenario('reset_cannot_rebind_token')
+
 
 @unittest.skipUnless(shutil.which('node'),'Node.js required for synthetic JS-to-Python loopback tests')
 class DisputeScreenLoopbackTests(unittest.TestCase):

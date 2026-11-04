@@ -39,6 +39,18 @@ class ContextReviewUITests(unittest.TestCase):
     def test_full_long_source_passage_and_target_metadata(self): self.scenario('long_source_metadata')
     def test_input_protocol_and_streaming_bounds(self): self.scenario('bounds_and_protocol')
 
+    def test_retained_draft_identity_guard(self): self.scenario('retained_draft_identity_guard')
+
+    def test_resets_cannot_rebind_token(self): self.scenario('resets_cannot_rebind_token')
+
+    def test_restored_confirmation_rejected(self): self.scenario('restored_confirmation_rejected')
+
+    def test_silent_selection_mode_rejected(self): self.scenario('silent_selection_mode_rejected')
+
+    def test_silent_mode_during_health_rejected(self): self.scenario('silent_mode_during_health_rejected')
+
+    def test_stream_stops_at_first_stale_chunk(self): self.scenario('stream_stops_at_first_stale_chunk')
+
 
 @unittest.skipUnless(shutil.which('node'), 'Node.js required for actual loopback integration')
 class ContextReviewLoopbackTests(unittest.TestCase):

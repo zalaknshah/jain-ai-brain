@@ -3,7 +3,7 @@
 const element = id => document.querySelector('#' + id);
 const TOP = ['decision','my-position','partner-position','facts-agreed','facts-disputed','facts-unknown','risk-safety','risk-deadline','risk-commitment'];
 const MAX_INPUT_BYTES = 32 * 1024, MAX_RESPONSE_BYTES = 64 * 1024;
-let rows = [], sequence = 0, generation = 0, pending = null, busy = false, submitted = false, reviewed = null, boundIdentity = null;
+let rows = [], sequence = 0, generation = 0, pending = null, busy = false, submitted = false, reviewed = null, boundIdentity = null, consentSnapshot = null;
 function object(value) { return value !== null && typeof value === 'object' && !Array.isArray(value); }
 function canonical(value) {
   if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
@@ -40,7 +40,7 @@ function clearResult() {
   for (const id of ['notices','questions','comparisons','limits']) element(id).replaceChildren();
 }
 function clearReview() {
-  reviewed = null; element('confirm').checked = false; element('review-panel').hidden = true;
+  reviewed = null; consentSnapshot = null; element('confirm').checked = false; element('review-panel').hidden = true;
   element('destination').textContent = ''; element('worksheet-preview').textContent = '';
 }
 function sync() {
@@ -92,6 +92,8 @@ function addOption() {
   box.append(remove); rows.push(row); element('options').append(box);
 }
 function reset(dropToken) {
+  const now = identitySnapshot();
+  if (boundIdentity && (now.user !== boundIdentity.user || now.rawApi !== boundIdentity.rawApi)) dropToken = true;
   abandon();
   for (const id of TOP) element(id).value = '';
   rows = []; sequence = 0; element('options').replaceChildren(); addOption(); addOption();
@@ -214,11 +216,23 @@ function render(data,chosen) {
   for (const text of data.limits) appendText('limits',text);
   element('result').hidden = false;
 }
+function confirmWorksheet() {
+  consentSnapshot = null;
+  if (boundIdentity && !sameIdentity(boundIdentity)) { reset(true); return; }
+  if (busy || !reviewed) { element('confirm').checked = false; sync(); return; }
+  if (!sameIdentity(reviewed.ctx) || rawForm() !== reviewed.raw) { invalidate(); return; }
+  if (element('confirm').checked) consentSnapshot = reviewed;
+  sync();
+}
 async function prepare() {
   if (busy || !reviewed) return;
   if (!element('confirm').checked) { element('status').textContent = 'Review and confirm this one worksheet before sending.'; return; }
+  const consent = consentSnapshot; consentSnapshot = null;
   element('confirm').checked = false;
   const chosen = reviewed;
+  if (consent !== chosen) {
+    invalidate(); element('status').textContent = 'Confirmation was restored without a new check. Review and confirm this worksheet again.'; return;
+  }
   if (!sameIdentity(chosen.ctx)) { reset(true); return; }
   if (rawForm() !== chosen.raw) { invalidate(); return; }
   clearReview(); clearResult(); busy = true; pending = new AbortController(); submitted = false;
@@ -240,7 +254,7 @@ for (const id of ['user','api']) { element(id).oninput = () => reset(true); elem
 element('token').oninput = () => reset(false); element('token').onchange = () => reset(false);
 for (const id of TOP) { element(id).oninput = invalidate; element(id).onchange = invalidate; }
 element('add').onclick = () => { if (!busy && rows.length < 4) { addOption(); invalidate(); } };
-element('review').onclick = review; element('prepare').onclick = prepare; element('confirm').onchange = sync;
+element('review').onclick = review; element('prepare').onclick = prepare; element('confirm').onchange = confirmWorksheet;
 element('cancel').onclick = () => reset(true);
 window.addEventListener('pagehide', () => reset(true)); window.addEventListener('pageshow', () => reset(true));
 clearReview(); clearResult(); addOption(); addOption(); boundIdentity = identitySnapshot(); sync();

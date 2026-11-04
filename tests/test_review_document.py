@@ -176,6 +176,11 @@ class ReviewDocumentScriptTests(unittest.TestCase):
     def test_resume_rejects_stale_malformed_duplicate_and_unknown_fields(self): self.scenario('resume_invalid_reports')
     def test_resume_size_bounds_read_failures_and_no_retry(self): self.scenario('resume_bounds_and_failures')
     def test_resume_stale_async_reads_cannot_replace_newer_work(self): self.scenario('resume_stale_async')
+    def test_resume_silent_reviewer_edit_cancels_pending_replacement(self): self.scenario('resume_silent_async_reviewer')
+    def test_resume_silent_note_edit_cancels_pending_replacement(self): self.scenario('resume_silent_async_note')
+    def test_resume_silent_decision_edit_cancels_pending_replacement(self): self.scenario('resume_silent_async_decision')
+    def test_resume_silent_file_change_cancels_pending_replacement(self): self.scenario('resume_silent_async_file')
+    def test_resume_restored_checkboxes_do_not_supply_consent(self): self.scenario('resume_restored_consent')
 
     def test_long_passage_exact_metadata_and_safe_literals(self):
         value = 'Synthetic </script><img src=x onerror=alert(1)>\r\n\t\u2028\u2029\U0001f31f' + 'x' * 19500

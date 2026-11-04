@@ -17,9 +17,9 @@ The page does not silently fill the form from chat, saved memories or a sample c
 
 ## Privacy and stale-request handling
 
-Drafts, tokens and reports remain in page memory only; no local/session storage, cookie, URL query or automatic download is used. Changing account, token or destination clears private case fields and reports. A separately retained identity snapshot prevents silent autofill changes from rebinding an older draft or completed report when the user reviews again.
+Drafts, tokens and reports remain in page memory only; no local/session storage, cookie, URL query or automatic download is used. Changing account, token or destination clears private case fields and reports. A separately retained identity snapshot prevents silent autofill changes from rebinding an older draft or completed report when the user reviews again. Reset itself checks that snapshot: a token input/change event cannot preserve an old credential after a silent owner or API-origin change.
 
-Edits, option insertion/removal, cancellation, and page lifecycle events invalidate review and confirmation, abort pending fetches and suppress stale results. Raw identity and every raw form field/option order are rechecked before submission and at asynchronous response boundaries, including streamed chunks. This also handles changes that do not emit an input event in the script fixtures. `pagehide` and `pageshow` clear tokens, drafts, review and results rather than trusting restored consent.
+Edits, option insertion/removal, cancellation, and page lifecycle events invalidate review and confirmation, abort pending fetches and suppress stale results. Raw identity and every raw form field/option order are rechecked before submission and at asynchronous response boundaries, including streamed chunks. This also handles changes that do not emit an input event in the script fixtures. `pagehide` and `pageshow` clear tokens, drafts, review and results rather than trusting restored consent. Confirmation is also recorded by the checkbox change handler for the exact local review; a restored checked property without that change cannot authorize a send. This is local state binding, not authentication of human event provenance.
 
 Cancellation clears this page and stops further local processing. It cannot unsend details already received by an API, proxy or other surrounding software. A trusted API or browser may retain information outside this page's control; there is no system-wide secrecy or erasure guarantee. Do not enter passwords or details that the selected API should not receive.
 
@@ -33,7 +33,7 @@ These are structural checks, not proof that the API is honest or that its prose 
 
 ## Verification limits
 
-`tests/dispute_preparation_harness.js` runs the actual page script in a simulated DOM. It covers local-only review, consumed consent, repeated clicks, option limits, input changes, silent identity changes before review/during requests, stale streamed bodies, cancellation, page restoration, response tampering, text-only rendering, UTF-8 and byte caps, protocol/network failure and no retry.
+`tests/dispute_preparation_harness.js` runs the actual page script in a simulated DOM. It covers local-only review, consumed consent, restored-checkbox rejection, token-reset identity rebinding, repeated clicks, option limits, input changes, silent identity changes before review/during requests, stale streamed bodies, cancellation, page restoration, response tampering, text-only rendering, UTF-8 and byte caps, protocol/network failure and no retry.
 
 `tests/test_dispute_preparation_ui.py` also sends actual JavaScript requests to a synthetic local Python API. It verifies comparison, flagged-deadline behavior, authoritative Unicode duplicate rejection and explicit recovery, with database change counts and a forbidden-provider fixture.
 

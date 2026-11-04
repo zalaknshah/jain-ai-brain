@@ -242,10 +242,18 @@
     let file;
     try {
       file = selectedFile(); requireValue(file === expectedFile, 'Selected report changed after confirmation.');
+      const current = {index, reviewer:$('reviewer').value, decision:$('decision').value, note:$('note').value};
       importPending = true;
       $('resume-status').textContent = 'Reading only the explicitly selected local report. Changes or clearing cancel replacement.';
       const buffer = await file.arrayBuffer();
       if (epoch !== importEpoch) return;
+      // Restored or programmatically changed controls may not dispatch edit events.
+      // Bind replacement to the visible work and file selection at read start too.
+      const files = $('resume-file').files;
+      if (!files || files.length !== 1 || files[0] !== file || index !== current.index ||
+          $('reviewer').value !== current.reviewer || $('decision').value !== current.decision || $('note').value !== current.note) {
+        cancelImport(); invalidateConfirmation(); return;
+      }
       requireValue(buffer.byteLength === file.size && buffer.byteLength <= MAX_REPORT_BYTES, 'Report size changed.');
       const raw = new TextDecoder('utf-8', {fatal:true, ignoreBOM:true}).decode(buffer);
       const imported = validateReport(strictReportJSON(raw));
