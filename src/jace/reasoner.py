@@ -10,7 +10,7 @@ from typing import Protocol
 
 from .models import ActionProposal, CanonicalEntry, EthicalAssessment, Memory, Perspective
 from .practical import plan_for
-from .model_output import check_model_output, checked_text, citation_records, strict_json
+from .model_output import check_model_output, checked_text, citation_records, strict_json, source_integrity_reference
 
 
 class Reasoner(Protocol):
@@ -74,8 +74,9 @@ class LocalReasoner:
             lines.append(f"[{entry.entry_id}] {entry.work}; {entry.source}; {entry.location}; language: {entry.language}.")
             passage = entry.principle
             if len(passage) > 600:
-                passage = passage[:600] + "… [excerpt truncated]"
+                passage = passage[:600].rstrip('\r') + "… [excerpt truncated]"
             lines.append("Retrieved passage: " + passage)
+            lines.append(source_integrity_reference(entry))
         return "\n".join(lines)
 
     @staticmethod
@@ -147,7 +148,7 @@ class HttpJsonReasoner:
             for item in memories:
                 checked_text(item.content, 'memory content', 10000)
             for item in evidence:
-                checked_text(item.principle, 'source passage', 20000)
+                checked_text(item.principle, 'source passage', 20000, allow_crlf=True)
                 checked_text(item.guidance, 'source guidance', 5000)
             system = (
                 "You are the JACE reasoning adapter, an engineered instrument, not conscious. "
@@ -195,7 +196,7 @@ class HttpJsonReasoner:
                 raise ValueError('tool calls, functions or refusal payloads are not plain answers')
             checked = check_model_output(message.get('content'), evidence)
             rendered = checked.render()
-            checked_text(rendered, 'rendered model response', 32768)
+            checked_text(rendered, 'rendered model response', 32768, allow_crlf=True)
             return rendered, LocalReasoner._action_for(request)
         except Exception:
             # Never expose raw provider errors, credentials or invalid text.

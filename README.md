@@ -110,7 +110,9 @@ Runtime ingestion requires `--verified` and a recorded `--license`; these are hu
 
 Every generated chunk contains a hash stable across checkout paths, work, edition/source, location, language, licence, and review flag. A generated paraphrase is labelled as interpretation and is not presented as a quotation.
 
-Point a deployment at an ingested corpus with `JACE_CANONICAL_PATH=data/corpus.json`.
+Legacy list records support record-only excerpt matching: the older ingester normalizes whitespace and does not preserve a checked link to original file bytes. For newly prepared reviewed UTF-8 sources, `scripts/build_source_bundle.py` can instead create an explicit-consent private bundle with SHA-256 and exact byte spans. Runtime citations identify which level was checked. Rights and review remain human declarations; no real religious corpus has been qualified by this work. See [exact-source format, safe local build, limits and compatibility changes](docs/SOURCE_INTEGRITY.md).
+
+For an authorized local runtime, `JACE_CANONICAL_PATH` can identify a bounded legacy JSON list or the new bundle's `bundle.json`. Building a bundle does not activate it or authorize provider transmission, sharing or training.
 
 ### Container and checks
 

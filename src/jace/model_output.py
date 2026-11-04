@@ -14,8 +14,9 @@ MAX_QUOTE_CHARS = 600
 _UNSAFE_CONTROLS = re.compile(r'[\x00-\x08\x0b-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]')
 
 
-def checked_text(value, name: str, maximum: int) -> str:
-    if not isinstance(value, str) or not value.strip() or len(value) > maximum or _UNSAFE_CONTROLS.search(value):
+def checked_text(value, name: str, maximum: int, *, allow_crlf: bool = False) -> str:
+    checked = value.replace('\r\n', '\n') if allow_crlf and isinstance(value, str) else value
+    if not isinstance(value, str) or not value.strip() or len(value) > maximum or _UNSAFE_CONTROLS.search(checked):
         raise ValueError(f'invalid {name}')
     try:
         value.encode('utf-8')
@@ -38,6 +39,26 @@ def strict_json(raw):
         raise ValueError('invalid JSON') from error
 
 
+def source_integrity_reference(entry: CanonicalEntry, quote: str | None = None) -> str:
+    values = (entry.source_sha256, entry.source_byte_start, entry.source_byte_end)
+    if all(value is None for value in values):
+        return 'Source integrity: record-only excerpt matching; no backing source-file bytes were checked.'
+    digest, start, end = values
+    if not isinstance(digest, str) or not re.fullmatch(r'[a-f0-9]{64}', digest) or type(start) is not int or type(end) is not int or not 0 <= start < end <= 1024 * 1024:
+        raise ValueError('invalid exact-source reference')
+    if len(entry.principle.encode('utf-8')) != end - start:
+        raise ValueError('source byte span does not match the admitted passage length')
+    if quote is not None:
+        offset = entry.principle.find(quote)
+        if offset < 0:
+            raise ValueError('quote is not in admitted source passage')
+        start += len(entry.principle[:offset].encode('utf-8'))
+        end = start + len(quote.encode('utf-8'))
+    return (f'Source bytes checked at admission: SHA-256 {digest}; UTF-8 byte range [{start}, {end})'
+            + (' (first matching occurrence).' if quote is not None else '.')
+            + ' This checks local byte identity, not authorship, edition authenticity, rights, scholarship or support for the answer.')
+
+
 def citation_records(evidence: list[CanonicalEntry]) -> dict[str, CanonicalEntry]:
     result = {}
     seen = set()
@@ -51,7 +72,8 @@ def citation_records(evidence: list[CanonicalEntry]) -> dict[str, CanonicalEntry
             for name in ('work', 'source', 'language', 'location', 'license'):
                 checked_text(getattr(entry, name), 'source ' + name, 1000)
             checked_text(entry.entry_id, 'source ID', 128)
-            checked_text(entry.principle, 'source passage', 20000)
+            checked_text(entry.principle, 'source passage', 20000, allow_crlf=True)
+            source_integrity_reference(entry)
             if any(char in entry.entry_id for char in '[]\n\t'):
                 continue
         except ValueError:
@@ -81,6 +103,7 @@ class CheckedModelOutput:
                 entry = citation.entry
                 lines.append(f'[{entry.entry_id}] {entry.work}; {entry.source}; {entry.location}; language: {entry.language}.')
                 lines.append('Exact retrieved excerpt: ' + citation.quote)
+                lines.append(source_integrity_reference(entry, citation.quote))
         return '\n'.join(lines)
 
 
@@ -101,7 +124,7 @@ def check_model_output(content: str, evidence: list[CanonicalEntry]) -> CheckedM
         if not isinstance(value, dict) or set(value) != {'entry_id', 'quote'}:
             raise ValueError('citation requires only entry_id and quote')
         entry_id = checked_text(value['entry_id'], 'citation ID', 128)
-        quote = checked_text(value['quote'], 'quote', MAX_QUOTE_CHARS)
+        quote = checked_text(value['quote'], 'quote', MAX_QUOTE_CHARS, allow_crlf=True)
         if entry_id not in records or entry_id in seen or quote not in records[entry_id].principle:
             raise ValueError('unknown, duplicate, unreviewed or nonmatching citation')
         seen.add(entry_id); citations.append(MatchedCitation(records[entry_id], quote))

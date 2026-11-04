@@ -92,7 +92,7 @@ class CognitiveEngine:
         perspectives = evaluate(request, [item.principle for item in evidence])
         try:
             response, action = self.reasoner.respond(request, assessment, perspectives, evidence, memories)
-            checked_text(response, 'reasoner response', 32768)
+            checked_text(response, 'reasoner response', 32768, allow_crlf=True)
             if action is not None:
                 if not isinstance(action, ActionProposal) or action.requires_confirmation is not True or not isinstance(action.parameters, dict):
                     raise ValueError('reasoner actions must remain explicit confirmation-gated proposals')
@@ -103,7 +103,7 @@ class CognitiveEngine:
             try:
                 response, action = LocalReasoner().respond(request, assessment, perspectives, evidence, memories)
                 response = 'The reasoning response failed validation. Using the local rule-based response.\n' + response
-                checked_text(response, 'fallback response', 32768)
+                checked_text(response, 'fallback response', 32768, allow_crlf=True)
             except Exception:
                 response, action = 'A response could not be safely formatted from the available context. Please review the configured source records or try a narrower request.', None
         # Apply the same first-pass boundary to generated text. This is not a

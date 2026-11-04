@@ -19,6 +19,8 @@ An empty citation list is allowed and explicitly labeled as lacking a reviewed e
 
 The response permits an answer of at most 8000 characters, at most five distinct citations, at most 600 characters per quote and at most 16000 characters in the JSON content. Only the server renders citation metadata, copied from the admitted local record. Generated answer text is labeled as not independently verified. Matched excerpt blocks explicitly say that matching does not establish support for the answer and that review/licensing remain declarations.
 
+For [exact-source bundles](SOURCE_INTEGRITY.md), server-rendered references additionally identify the source SHA-256 and exact UTF-8 byte interval checked at admission. The quote's offset is derived from the immutable admitted passage, choosing the first occurrence when identical text repeats. CRLF source excerpts are preserved; standalone CR and generated-answer control characters remain rejected. Legacy JSON-list records are labeled as record-only matching without source-file byte verification. Neither mode authenticates a source or verifies semantic support.
+
 These checks do not establish that a quote is representative, complete or relevant. They cannot prove the truth of a claim, detect every false attribution written in ordinary prose, independently verify a source/license, or prevent a model from following malicious instructions in supplied data. The prompt identifies source records and memories as untrusted data; that instruction is guidance, not a security guarantee. Only the server-rendered excerpt block has the mechanical checks described here.
 
 ## Transport and failure behavior

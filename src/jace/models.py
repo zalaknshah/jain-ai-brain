@@ -45,16 +45,32 @@ class CanonicalEntry:
     principle: str
     guidance: str
     source: str
-    tags: list[str] = field(default_factory=list)
+    tags: tuple[str, ...] | list[str] = field(default_factory=tuple)
     work: str | None = None
     language: str = "en"
     edition: str | None = None
     location: str | None = None
     license: str | None = None
     verified: bool = False
+    source_sha256: str | None = None
+    source_byte_start: int | None = None
+    source_byte_end: int | None = None
+
+    def __post_init__(self) -> None:
+        # Prevent callers from mutating tags in the admitted corpus snapshot.
+        if not isinstance(self.tags, (list, tuple)) or any(not isinstance(tag, str) for tag in self.tags):
+            raise ValueError('canonical tags must be a sequence of text')
+        object.__setattr__(self, 'tags', tuple(self.tags))
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        result['tags'] = list(self.tags)
+        # Preserve legacy serialization and corpus namespace when no bound
+        # source proof is present. Exact-source bundles add all three fields.
+        if self.source_sha256 is None and self.source_byte_start is None and self.source_byte_end is None:
+            for key in ('source_sha256', 'source_byte_start', 'source_byte_end'):
+                result.pop(key)
+        return result
 
 
 @dataclass(frozen=True)
