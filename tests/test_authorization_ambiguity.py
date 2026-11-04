@@ -109,7 +109,7 @@ class AuthorizationHeaderAmbiguityTests(unittest.TestCase):
             ('PATCH', '/v1/memory', {'memory_id':self.memory.memory_id, 'content':'I prefer blue shirts'}, []),
             ('PATCH', '/v1/memory-expiration', {'memory_id':self.memory.memory_id, 'expires_at':'2000-01-01T00:00:00Z'}, []),
             ('DELETE', '/v1/memory-item/' + str(self.memory.memory_id), None, [('X-JACE-Confirm-Delete', str(self.memory.memory_id))]),
-            ('DELETE', '/v1/memory/alice', None, []),
+            ('DELETE', '/v1/memory/alice', None, [('X-JACE-Confirm-Owner-Delete', 'all-memories-graph-and-audit:alice')]),
         ]
         with patch.object(self.engine, 'request_admission', wraps=self.engine.request_admission) as admission:
             for method, path, body, extra in operations:

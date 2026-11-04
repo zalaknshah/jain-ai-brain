@@ -69,7 +69,7 @@ class ApiAuthorizationTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(body['user_id'], 'alice')
         self.assertEqual(self.request('/v1/memory/alice', token=ALICE_TOKEN)[0], 200)
-        self.assertEqual(self.request('/v1/memory/alice', 'DELETE', token=ALICE_TOKEN)[1]['deleted'], 1)
+        self.assertEqual(self.request('/v1/memory/alice', 'DELETE', token=ALICE_TOKEN, headers={'X-JACE-Confirm-Owner-Delete':'all-memories-graph-and-audit:alice'})[1]['deleted'], 1)
 
     def test_memory_correction_is_scoped_and_validated(self):
         memory_id = self.engine.list_memories('alice')[0].memory_id

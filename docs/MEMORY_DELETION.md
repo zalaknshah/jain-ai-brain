@@ -29,9 +29,19 @@ This preserves other active memories and their attributable audit entries. It ne
 2. `DELETE /v1/memory-item/12` requires `X-JACE-Confirm-Delete: 12` in addition to bearer authorization.
 3. If unattributed audits exist, deletion returns 409 without modifying the stores, states their count and requests the separate `X-JACE-Confirm-Audit-Cleanup: all-unattributed-for-owner` choice. Resubmit only after the user accepts that scope.
 
-IDs must be canonical positive ASCII decimal 64-bit integers. Query parameters, encoded/ambiguous IDs, duplicate confirmation headers and nonzero/ambiguous body framing fail closed. The new item route is distinct from the pre-existing `DELETE /v1/memory/<user_id>` whole-user deletion route. Whole-user deletion behavior has not changed.
+IDs must be canonical positive ASCII decimal 64-bit integers. Query parameters, encoded/ambiguous IDs, duplicate confirmation headers and nonzero/ambiguous body framing fail closed. The item route is distinct from the `DELETE /v1/memory/<user_id>` whole-owner route. Item confirmation, optional revision checks and separate unattributed-audit cleanup behavior are unchanged by the whole-owner HTTP guard below.
 
-Clients should present the preview and any cleanup warning before collecting confirmation; a supplied header is a caller assertion of that choice, not proof of a human UI interaction. The browser voice console does not yet include a memory-management screen. No production credentials are supplied by this feature.
+Clients should present the preview and any cleanup warning before collecting confirmation; a supplied header is a caller assertion of that choice, not proof of a human UI interaction. The separate browser memory manager supports single-item deletion only; neither it nor the CLI offers a whole-owner deletion command/button. No production credentials are supplied by this feature.
+
+## Whole-owner HTTP deletion: breaking confirmation requirement
+
+`DELETE /v1/memory/<user_id>` now requires bearer authentication for that exact owner and exactly one `X-JACE-Confirm-Owner-Delete` header. Its value must be `all-memories-graph-and-audit:` followed by `urllib.parse.quote(authenticated_owner, safe='')`: UTF-8 percent encoding, uppercase hex escapes, no form-style `+` spaces. For owner `alice`, the complete assertion is `X-JACE-Confirm-Owner-Delete: all-memories-graph-and-audit:alice`. Encoding preserves Unicode and punctuation without placing raw non-ASCII owner text in HTTP headers.
+
+This separate choice covers **every memory scope, including expired records, associated graph records, and all of the owner's audit history**. Other owners and canonical records are preserved. A missing, wrong-purpose, wrong-owner, noncanonical or repeated assertion returns 409 with a required-header explanation and `automatic_retry: false`, before engine admission or mutation. Authentication, origin, framing and target checks still apply first. Query strings, path parameters, fragments, absolute-form URLs and the single-item confirmation/revision headers are rejected, even with a valid whole-owner assertion. The whole-owner assertion alone never substitutes for the item route's existing conditions.
+
+Custom clients that previously sent only a bearer token must change deliberately. Explain the full deletion scope and collect an explicit choice before sending the header; do not attach it by default or automatically copy it from a 409 response. There is no built-in whole-owner client to migrate. Direct trusted in-process `CognitiveEngine.forget_user` calls remain unchanged, and local file/database access is outside HTTP authorization.
+
+The assertion is public text, not a new credential, a verified human gesture, a preview snapshot, a one-time challenge or replay protection. Valid repeated requests can delete records added later, and concurrent records present when the deletion transaction begins are included. The API does not silently retry. Standard-library leading-slash normalization is unchanged; normalized owner routes require the same confirmation. This guard does not qualify production retention/erasure or browser behavior.
 
 ## Atomicity, privacy and limits
 

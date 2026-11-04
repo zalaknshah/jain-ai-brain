@@ -16,6 +16,7 @@ from jace.reasoner import LocalReasoner
 
 ALICE = 'synthetic-owner-delete-alice-' + 'a' * 32
 BOB = 'synthetic-owner-delete-bob-' + 'b' * 32
+OWNER_CONFIRM = ('X-JACE-Confirm-Owner-Delete', 'all-memories-graph-and-audit:alice')
 
 
 class OwnerDeletionTargetTests(unittest.TestCase):
@@ -62,7 +63,7 @@ class OwnerDeletionTargetTests(unittest.TestCase):
             for query in ('memory_scope=home', 'memory_scope=default', 'memory_scope=home&memory_scope=work',
                           'memory_id=1', 'before_id=2&limit=1', 'user_id=bob', 'unknown=value'):
                 with self.subTest(query=query):
-                    status, headers, body = self.delete('/v1/memory/alice?' + query)
+                    status, headers, body = self.delete('/v1/memory/alice?' + query, headers=[OWNER_CONFIRM])
                     self.assertEqual(status, 400)
                     self.assertIn('error', body)
                     self.assertEqual(headers['Cache-Control'], 'no-store')
@@ -75,7 +76,7 @@ class OwnerDeletionTargetTests(unittest.TestCase):
                            '/v1/memory/alice#', '/v1/memory/alice;home', '/v1/memory/alice;',
                            'http://localhost/v1/memory/alice'):
                 with self.subTest(target=target):
-                    self.assertEqual(self.delete(target)[0], 400)
+                    self.assertEqual(self.delete(target, headers=[OWNER_CONFIRM])[0], 400)
                     self.assert_unchanged()
             admission.assert_not_called()
 
@@ -88,16 +89,16 @@ class OwnerDeletionTargetTests(unittest.TestCase):
             for name, value in fields:
                 for choices in ([(name, value)], [(name.lower(), '')], [(name, value), (name.lower(), value)]):
                     with self.subTest(header=name, choices=len(choices), empty=not choices[0][1]):
-                        self.assertEqual(self.delete(headers=choices)[0], 400)
+                        self.assertEqual(self.delete(headers=[OWNER_CONFIRM, *choices])[0], 400)
                         self.assert_unchanged()
-            self.assertEqual(self.delete(headers=fields)[0], 400)
+            self.assertEqual(self.delete(headers=[OWNER_CONFIRM, *fields])[0], 400)
             self.assert_unchanged()
             admission.assert_not_called()
 
     def test_plain_owner_target_still_deletes_all_scopes_and_only_that_owner(self):
         connection = self.engine.memory.connection
         bob_before = connection.execute("SELECT * FROM memory_audit WHERE user_id='bob'").fetchall()
-        status, _, body = self.delete()
+        status, _, body = self.delete(headers=[OWNER_CONFIRM])
         self.assertEqual(status, 200)
         self.assertEqual(body, {'deleted':4, 'user_id':'alice'})
         self.assertEqual(connection.execute("SELECT COUNT(*) FROM memories WHERE user_id='alice'").fetchone()[0], 0)
@@ -108,7 +109,7 @@ class OwnerDeletionTargetTests(unittest.TestCase):
             self.assertEqual(connection.execute('SELECT COUNT(*) FROM graph_edges WHERE from_id=? OR to_id=?', (node,node)).fetchone()[0], 0)
         self.assertEqual(connection.execute("SELECT * FROM memory_audit WHERE user_id='bob'").fetchall(), bob_before)
         self.assertEqual([item.memory_id for item in self.engine.list_memories('bob', memory_scope='home')], [self.bob.memory_id])
-        self.assertEqual(self.delete()[2], {'deleted':0, 'user_id':'alice'})
+        self.assertEqual(self.delete(headers=[OWNER_CONFIRM])[2], {'deleted':0, 'user_id':'alice'})
 
     def test_authorization_remains_required_before_any_owner_delete(self):
         with patch.object(self.engine, 'request_admission', wraps=self.engine.request_admission) as admission:
@@ -123,7 +124,7 @@ class OwnerDeletionTargetTests(unittest.TestCase):
         self.server.authorization = ApiAuthorization({ALICE:owner, BOB:'bob'})
         memory, _ = self.engine.remember(owner, 'I prefer quiet rooms')
         target = '/v1/memory/' + quote(owner, safe='')
-        self.assertEqual(self.delete(target)[2], {'deleted':1, 'user_id':owner})
+        self.assertEqual(self.delete(target, headers=[('X-JACE-Confirm-Owner-Delete', 'all-memories-graph-and-audit:' + quote(owner, safe=''))])[2], {'deleted':1, 'user_id':owner})
         self.assertEqual([item.memory_id for item in self.engine.list_memories('alice')], [self.alice[0].memory_id])
         self.assertIsNone(self.engine.memory.connection.execute('SELECT id FROM memories WHERE id=?', (memory.memory_id,)).fetchone())
 

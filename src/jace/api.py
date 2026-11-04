@@ -9,7 +9,7 @@ import time
 from contextlib import ExitStack
 from threading import BoundedSemaphore, Lock, Timer
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, unquote, urlparse
+from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from .auth import ApiAuthorization
 from .engine import CognitiveEngine, EngineBusyError
@@ -24,6 +24,7 @@ MAX_BODY_BYTES = 64 * 1024
 MAX_REQUEST_TARGET_BYTES = 8192
 MAX_HEADER_BYTES = 16 * 1024
 DEFAULT_ORIGINS = frozenset({'http://127.0.0.1:8080', 'http://localhost:8080'})
+OWNER_DELETE_HEADER = 'X-JACE-Confirm-Owner-Delete'
 
 
 class JaceHTTPServer(ThreadingHTTPServer):
@@ -261,7 +262,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header('Access-Control-Allow-Origin', origin)
         self.send_header('Vary', 'Origin')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-JACE-Confirm-Delete, X-JACE-Confirm-Audit-Cleanup, X-JACE-If-Memory-Revision')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-JACE-Confirm-Delete, X-JACE-Confirm-Audit-Cleanup, X-JACE-If-Memory-Revision, ' + OWNER_DELETE_HEADER)
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
         self.send_header('Connection', 'close')
         self.end_headers()
@@ -390,6 +391,14 @@ class JaceHandler(BaseHTTPRequestHandler):
             if any(self.headers.get_all(name, []) for name in
                    ('X-JACE-Confirm-Delete', 'X-JACE-Confirm-Audit-Cleanup', 'X-JACE-If-Memory-Revision')):
                 self._send(400, {'error': 'single-item deletion headers are not accepted for whole-owner deletion; use the memory-item endpoint'})
+                return
+            # A public caller assertion, not an access token or evidence that
+            # a human reviewed this request. Bind the purpose and exact owner;
+            # URL encoding keeps non-ASCII/punctuation subjects header-safe.
+            confirmation = 'all-memories-graph-and-audit:' + quote(subject, safe='')
+            if self.headers.get_all(OWNER_DELETE_HEADER, []) != [confirmation]:
+                self._send(409, {'error': 'explicit whole-owner deletion confirmation is required; this deletes all memory scopes (including expired records), associated graph records and all owner audit records',
+                                 'required_header': f'{OWNER_DELETE_HEADER}: {confirmation}', 'automatic_retry': False})
                 return
             self._send(200, {'deleted': self.engine.forget_user(subject), 'user_id': subject})
             return

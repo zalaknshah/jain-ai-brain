@@ -102,7 +102,7 @@ class EngineAdmissionTests(unittest.TestCase):
                 ('GET','/v1/graph/search?q=care',None,{}),
                 ('GET','/v1/memory/alice',None,{}),
                 ('DELETE',f'/v1/memory-item/{memory.memory_id}',None,{'X-JACE-Confirm-Delete':str(memory.memory_id)}),
-                ('DELETE','/v1/memory/alice',None,{}),
+                ('DELETE','/v1/memory/alice',None,{'X-JACE-Confirm-Owner-Delete':'all-memories-graph-and-audit:alice'}),
                 ('PATCH','/v1/memory',{'memory_id':memory.memory_id,'content':'I prefer unwanted changes'},{}),
                 ('PATCH','/v1/memory-expiration',{'memory_id':memory.memory_id,'expires_at':None},{}),
                 ('PATCH','/v1/cleaning-profiles',{'memory_id':memory.memory_id,'profile':{}},{}),
