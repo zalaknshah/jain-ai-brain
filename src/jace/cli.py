@@ -26,6 +26,13 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("health")
     sub.add_parser("source-capabilities", help="read-only source IO platform prerequisites; no engine, source files or database")
+    study = sub.add_parser('source-study', help='private read-only source inspection from JSON stdin; no canonical admission, engine or provider')
+    study.add_argument('--stdin', action='store_true', required=True, help='read a bounded lookup/search JSON request; terminal output may be retained')
+    study.add_argument('--source-file', required=True, help='absolute private path to the exact approved XML; never copied into JACE')
+    study.add_argument('--prepared-dir', required=True, help='absolute private path to the exact reviewed preparation and notices')
+    study.add_argument('--opt-in-source', required=True, help='explicitly accept this source SHA256 for this invocation')
+    study.add_argument('--opt-in-records', required=True, help='explicitly accept this prepared-record SHA256 for this invocation')
+    study.add_argument('--accept-license', required=True, choices=['CC-BY-SA-4.0'])
     dispute = sub.add_parser('prepare-dispute', help='stateless local discussion worksheet from bounded JSON stdin; no memory or provider')
     dispute.add_argument('--stdin', action='store_true', required=True, help='read an explicit JSON worksheet from stdin; input/output may be retained by your terminal')
     ask = sub.add_parser("ask")
@@ -126,6 +133,17 @@ def main() -> None:
     gait.add_argument("--trace", action="store_true")
     args = parser.parse_args()
 
+    if args.command == 'source-study':
+        from .private_study import Consent, MAX_INPUT_BYTES, StudyError, run_request
+        try:
+            serialized = run_request(sys.stdin.buffer.read(MAX_INPUT_BYTES + 1),
+                consent=Consent(args.opt_in_source, args.opt_in_records, args.accept_license,
+                                'private-source-study', True),
+                source_path=args.source_file, prepared_path=args.prepared_dir)
+        except StudyError as error:
+            parser.exit(2, 'Source-study denied: ' + str(error) + '\n')
+        sys.stdout.write(serialized)
+        return
     if args.command == 'prepare-dispute':
         from .dispute import MAX_INPUT_BYTES, MAX_OUTPUT_BYTES, parse_worksheet, prepare_dispute
         try:

@@ -4,6 +4,7 @@ This repository is a runnable local reference prototype. The November 2026 audit
 
 ## Hardening implemented in this development lane
 
+- A separate [private source-study CLI](PRIVATE_SOURCE_STUDY.md) accepts only pinned approved source/preparation bytes with per-invocation source/licence consent. It preserves unreviewed flags and notes, performs literal lookup/fixed fragment retrieval, and never constructs the canonical engine/database/provider. No text or trained weights are bundled; no browser route, translation, scholarly validation or learned decision-making is claimed.
 - Reject recognized harmful input before calling any reasoner or sending context to an optional HTTP model. Recheck returned text with the same limited first-pass policy.
 - Reject the supplied insect-harm memory example. Generic words such as "safely" no longer override a harmful instruction.
 - Require configured per-user HTTP bearer authorization, reject another user's identity, bound request bodies and restrict browser origins. Reject repeated Authorization/Origin headers and duplicate decoded token-map keys instead of choosing one ambiguous identity. Leave the API locked when authorization is unconfigured; CLI use remains available.

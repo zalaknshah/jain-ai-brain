@@ -14,6 +14,7 @@
 !src/jace/canonical.py
 !src/jace/cleaning.py
 !src/jace/cli.py
+!src/jace/private_study.py
 !src/jace/cognitive_graph.py
 !src/jace/context_review.py
 !src/jace/corpus.py

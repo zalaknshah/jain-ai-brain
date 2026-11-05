@@ -12,6 +12,7 @@ The activation graph is the memory/neural-network enhancement: canonical princip
 
 ## Recent measured progress
 
+- [Inspect approved private source material](docs/PRIVATE_SOURCE_STUDY.md): an explicit per-invocation CLI keeps source study separate from canonical reasoning, memory and providers. Source files are supplied privately; no corpus or learned model is bundled. This is literal lookup and fixed fragment retrieval, not Jain decision-making.
 - [Run actual small CPU training](docs/CPU_EVIDENCE_ROUTER.md): real optimization and reload on original synthetic notes. Ranking improved on a small holdout, while accept/abstain decisions were worse than TF-IDF. This is not an Agama-trained language model.
 - [Inspect bounded humanoid motion](docs/FREEBASE_GAIT_PROBE.md): an original contact-aware controller performs two measured alternating steps and recovers double support over eight seconds in the pinned simulation. Independent modest-push cases pass and a stronger push fails. This is not sustained walking, general balance or hardware qualification. The earlier [posture feedback](docs/FREEBASE_BALANCE.md) remains separate.
 - [Use the local text prototype](docs/LOCAL_QUALIFICATION.md): installed-package smoke verified; real browser/audio and hosted deployment remain unqualified.
