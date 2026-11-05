@@ -6,6 +6,7 @@ language and arbitrary instructions are not interpreted here.
 """
 from __future__ import annotations
 
+import re
 import unicodedata
 
 from .text import lexical_terms
@@ -47,27 +48,78 @@ def native_harm_cue(text: str) -> bool:
 # Any recognized negation declines a fixed practical plan. This deliberately
 # also abstains on some benign negative constraints, instead of pretending the
 # template has understood them. Explicit structured planners remain separate.
-_NEGATION = frozenset({'नहीं', 'नही', 'मत', 'बिना', 'ना', 'નહીં', 'નહિ', 'ના', 'ન', 'વગર', 'not', 'no', 'never', 'without', 'don'})
+_NEGATION = frozenset({'नहीं', 'नही', 'न', 'मत', 'बिना', 'ना', 'નહીં', 'નહિ', 'નથી', 'ના', 'ન', 'વગર', 'not', 'no', 'never', 'without', 'don'})
 _TECHNICAL = frozenset({'कोड', 'सॉफ्टवेयर', 'डेटाबेस', 'रिपॉजिटरी', 'डेटासेट',
                         'કોડ', 'સોફ્ટવેર', 'ડેટાબેઝ', 'રિપોઝિટરી', 'ડેટાસેટ'})
+
+
+# These added aliases are only enabled for a single, uncomplicated request.
+# This deliberately declines even some valid multi-clause requests instead of
+# attaching a new domain word to an unrelated clause or ignoring another task.
+_ADDED_ALIASES = frozenset({'ઘરના', 'કપડાંને', 'कारोबार', 'भागीदार', 'अनबन', 'વેપારમાં', 'સાથી'})
+# The discarded cupboard alias still signals an ambiguous additional subject.
+# Do not let removing its positive match make a compound silently select a
+# different plan instead.
+_AMBIGUOUS_SUBJECTS = frozenset({'કબાટની'})
+_CONJUNCTIONS = frozenset({'और', 'तथा', 'एवं', 'लेकिन', 'परंतु', 'અને', 'તથા', 'પરંતુ', 'પણ',
+                         'and', 'also', 'plus', 'but', 'however'})
+_NON_WARDROBE_OBJECTS = frozenset({
+    'રમકડાં', 'રમકડાંના', 'રમકડાંની', 'રમકડાંનું', 'પુસ્તક', 'પુસ્તકો', 'પુસ્તકોના', 'પુસ્તકોની',
+    'खिलौने', 'खिलौनों', 'पुस्तक', 'पुस्तकें', 'किताब', 'किताबें', 'books', 'toys',
+})
+
+# New business aliases require an explicit adjacent business-partner-conflict
+# phrase at the start. Independent bags of words wrongly joined life/sports
+# partners to unrelated business context, even within one sentence. This small
+# phrase grammar intentionally misses other valid word orders; it is not a
+# dependency parser or a claim to understand relationships.
+_DISPUTE_ALIASES = frozenset({'कारोबार', 'भागीदार', 'अनबन', 'વેપારમાં', 'સાથી'})
+_ALIASED_DISPUTE_SUBJECT = re.compile(
+    r"^(?:मेरे\s+)?(?:कारोबार|व्यापार|व्यवसाय|बिजनेस)\s+"
+    r"(?:(?:के|में)\s+)?(?:साझेदार|साथी|पार्टनर|भागीदार)\s+"
+    r"(?:से|के\s+साथ)\s+(?:विवाद|मतभेद|असहमति|अनबन|झगड़ा|झगड़ा)(?=\s|$|[.!?।॥,;:])"
+    r"|^(?:મારા\s+)?(?:ધંધામાં|ધંધાના|વ્યવસાયમાં|વ્યવસાયના|વ્યવસાયનો|બિઝનેસના|બિઝનેસ|વેપારમાં)\s+"
+    r"(?:ભાગીદાર|ભાગીદારે|પાર્ટનર|સાથી)\s+(?:સાથે|થી)\s+"
+    r"(?:વિવાદ|મતભેદ|અસહમતિ|ઝઘડો)(?=\s|$|[.!?।॥,;:])"
+)
+
+
+def _aliased_dispute_subject(request: str, words: set[str]) -> bool:
+    return not words & _DISPUTE_ALIASES or bool(
+        _ALIASED_DISPUTE_SUBJECT.match(unicodedata.normalize('NFC', request).strip())
+    )
+
+
+def _simple_alias_request(request: str, words: set[str]) -> bool:
+    if not words & (_ADDED_ALIASES | _AMBIGUOUS_SUBJECTS):
+        return True
+    if words & _CONJUNCTIONS:
+        return False
+    # Commas can separate clauses too. The original Hindi example includes a
+    # follow-up question, so newly aliased input with any internal comma also
+    # abstains rather than making an association across it.
+    pieces = [piece for piece in re.split(r'[.!?।॥,;:\r\n]+', request) if lexical_terms(piece)]
+    return len(pieces) == 1
 
 
 def native_plan_key(request: str) -> str | None:
     if response_language(request) == 'en':
         return None
     words = lexical_terms(request)
-    if words & (_NEGATION | _TECHNICAL):
+    if words & (_NEGATION | _TECHNICAL) or not _simple_alias_request(request, words):
         return None
+    # Whole-word aliases only: do not strip suffixes or infer a missing subject.
+    # A disagreement still needs explicit business, partner and conflict cues.
     matches = []
     if words & {'साफ', 'सफ़ाई', 'सफाई', 'सफाई-काम', 'झाड़ू', 'સાફ', 'સફાઈ', 'સફાઇ', 'ઝાડુ', 'ઝાડૂ'} and words & {
-        'घर', 'कमरा', 'कमरे', 'फर्श', 'ઘર', 'ઘરની', 'ઘરમાં', 'ઓરડો', 'ઓરડાની', 'ઓરડામાં', 'ફર્શ'}:
+        'घर', 'कमरा', 'कमरे', 'फर्श', 'ઘર', 'ઘરની', 'ઘરમાં', 'ઘરના', 'ઓરડો', 'ઓરડાની', 'ઓરડામાં', 'ફર્શ'}:
         matches.append('cleaning')
-    if words & {'अलमारी', 'कपड़े', 'कपड़ों', 'कपडे', 'कपडों', 'કબાટ', 'કપડાં', 'કપડા', 'કપડાંનું', 'કપડાંની'} and words & {
+    if not words & _NON_WARDROBE_OBJECTS and words & {'अलमारी', 'कपड़े', 'कपड़ों', 'कपडे', 'कपडों', 'કબાટ', 'કપડાં', 'કપડાંને', 'કપડા', 'કપડાંનું', 'કપડાંની'} and words & {
         'व्यवस्थित', 'सजाऊँ', 'सजाऊं', 'सजाना', 'ગોઠવવું', 'ગોઠવું', 'ગોઠવવા', 'ગોઠવણ', 'ગોઠવો', 'વ્યવસ્થિત'}:
         matches.append('wardrobe')
-    if words & {'व्यापार', 'व्यवसाय', 'बिजनेस', 'ધંધા', 'ધંધામાં', 'વ્યવસાય', 'વ્યવસાયમાં', 'વ્યવસાયના', 'વ્યવસાયનો', 'ધંધાના', 'બિઝનેસના', 'બિઝનેસ', 'business'} and words & {
-        'साझेदार', 'साथी', 'पार्टनर', 'ભાગીદાર', 'ભાગીદારે', 'પાર્ટનર', 'partner'} and words & {
-        'विवाद', 'मतभेद', 'असहमति', 'झगड़ा', 'झगड़ा', 'વિવાદ', 'મતભેદ', 'અસહમતિ', 'ઝઘડો'}:
+    if _aliased_dispute_subject(request, words) and words & {'व्यापार', 'व्यवसाय', 'बिजनेस', 'कारोबार', 'ધંધા', 'ધંધામાં', 'વ્યવસાય', 'વ્યવસાયમાં', 'વ્યવસાયના', 'વ્યવસાયનો', 'ધંધાના', 'બિઝનેસના', 'બિઝનેસ', 'વેપારમાં', 'business'} and words & {
+        'साझेदार', 'साथी', 'पार्टनर', 'भागीदार', 'ભાગીદાર', 'ભાગીદારે', 'પાર્ટનર', 'સાથી', 'partner'} and words & {
+        'विवाद', 'मतभेद', 'असहमति', 'अनबन', 'झगड़ा', 'झगड़ा', 'વિવાદ', 'મતભેદ', 'અસહમતિ', 'ઝઘડો'}:
         matches.append('dispute')
     return matches[0] if len(matches) == 1 else None
 
