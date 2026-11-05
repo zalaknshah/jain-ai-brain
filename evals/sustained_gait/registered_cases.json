@@ -1,0 +1,48 @@
+{
+  "neutral_posture": null,
+  "review_forward_late_transfer": [
+    2100,
+    2125,
+    [
+      12,
+      0,
+      0
+    ]
+  ],
+  "review_backward_later_swing": [
+    2600,
+    2620,
+    [
+      -10,
+      0,
+      0
+    ]
+  ],
+  "review_lateral_late_transfer": [
+    3000,
+    3025,
+    [
+      0,
+      8,
+      0
+    ]
+  ],
+  "review_diagonal_last_swing": [
+    3500,
+    3520,
+    [
+      8,
+      -6,
+      0
+    ]
+  ],
+  "review_harsh_late_lateral": [
+    2800,
+    2850,
+    [
+      0,
+      250,
+      0
+    ]
+  ]
+}

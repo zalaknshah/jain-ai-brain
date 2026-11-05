@@ -1,0 +1,23 @@
+# Independent frozen six-step review
+
+Verdict: nominal and all four preregistered modest perturbations pass independent raw-trace recomputation of the frozen FINAL lateral-displacement interpretation. Harsh perturbation fails honestly and is preserved. This is a small deterministic exact-state simulation experiment, not general walking, balance, hardware, learned-policy or robustness qualification.
+
+All 14 freeze hashes verified BEFORE case registration and again after evaluation. Ten pre-existing source/model files are byte-identical to base c785c6d5e6158ef7f01194424540c61cd46bc4f9. No candidate edits or commits. Frozen candidate ID sustained-v6-frozen-20261105; API/controller/metrics/worker hashes remain those in candidate_freeze.json.
+
+Seven capped child episodes: nominal, four modest pushes, one harsh lateral push, nominal repeat. Only Python 3.12.14 environment specified by parent used; no installations/network/hardware. Child imports apply AS=1 GiB, CPU=15 s and file-size=1 MiB before MuJoCo; stripped environment, one numerical thread, --confirmed-simulation, outer subprocess timeout=30 s. Full raw stdout reports, stderr and process records are retained beside the reproducible harness.
+
+Nominal: all 5000 steps/20 s; advance 0.1947829427 m, final lateral -0.0017470341 m; conservative uninterrupted settled tail 4.024 s. Each step has 0.544–0.548 s loaded opposite-foot single support, 0.03648–0.03748 m actual lowest capsule clearance, 0.04022 m first / 0.08054–0.08078 m later measured advance, subsequent contact and 1.636–5.072 s loaded landing-foot contact. Exact alternating phase order; final second both feet >20 N. Independent analysis reads raw trace fields rather than acceptance labels and derives phase transitions from row phase changes. Capsule-height measurement formula inspected: min(world center z - radius - half-length * abs(world capsule axis z)); source capsule geometry and plane unchanged. Trace does not include full geom transforms, so it is not an independent replay of geometric measurements themselves.
+
+Four modest perturbations: all pass, net advance 0.1944213001–0.1950214853 m; settled tail 4.024–4.072 s. Descriptive case names were preregistered before run; actual phases differ from some names and are recorded in actual_perturbation_phases.json. Force vectors and timing, rather than names, define cases.
+
+Harsh: 250 N world lateral force at 11.2–11.4 s; stopped at step 2854 / 11.416 s for unexpected self-contact (one observation, no nonfoot floor contact). Only four swings completed, advance 0.1452927645 m, final lateral 0.0846478133 m, settled tail zero, acceptance false. CPU reported 15.113889 s, outer wall 23.73927 s. The configured Linux integer CPU limit is NOT an exact 15.000-second stopwatch; slight overrun is visible and must not be hidden. No successful outcome claimed for this run.
+
+Successful episodes reported ~8.15–10.59 CPU s, 8.63–11.29 outer wall s; overall peak reported RSS <=121272 KiB. Nominal and repeat physical traces, gait traces, phase events and final root position are exactly identical. Reported peak RSS can include inherited process high-water marks and is not an exact allocation measurement.
+
+Contact chatter: nominal left 42/4457 eligible observations, 0.168/17.828 s = 0.9423%; right 43/4466, 0.172/17.864 s = 0.9628%. Across modest cases 0.8292–1.0300% eligible time. Denominator excludes that foot's planned swing; left-endpoint durations use actual timestamp differences. Counts are samples, not independent incidents. Chatter remains a limitation, not evidence of perfectly continuous support.
+
+Important scope ambiguity: <=0.03 m lateral drift is implemented as FINAL displacement. Nominal maximum lateral excursion is 0.1268088 m; it would fail if the intended constraint were <=0.03 m throughout. Candidate flags walking_verified, standing_verified, balance_qualified, hardware_enabled, external_support_enabled and root_state_written_during_episode remain false.
+
+Eight invalid-input/confirmation tests rejected without physics. Numerical-warning/time-reset guard helper checks pass. Six metric mutations (zero clearance, zero support force, no advance, wrong order, never airborne, missing final contact) are rejected. These tests show no discovered acceptance-label false positive on these targeted defects, not an exhaustive proof. No untrusted models or public API arbitrary disturbance support were introduced.
+
+Files: registered_cases.json, hash_verification.json, base_byte_identity.json, run_review.py, analyze.py, independent_results.json, repeatability.json, check_nonphysics.py, nonphysics_checks.json, actual_perturbation_phases.json, plus *.stdout.json/*.stderr.txt/*.process.json.

@@ -1,0 +1,6 @@
+{
+  "trace": true,
+  "gait_trace": true,
+  "phase_transitions": true,
+  "final_root_position_m": true
+}

@@ -1,0 +1,694 @@
+{
+  "review_harsh_late_lateral.stdout": {
+    "independent_accepted": false,
+    "candidate_accepted": false,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 10.003999999999342,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 0.45999999999994934,
+        "clearance_m": 0.03747596205869291,
+        "advance_m": 0.08062361565733478,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      }
+    ],
+    "exact_order": false,
+    "net_advance_m": 0.14529276454937698,
+    "final_lateral_m": 0.0846478132960823,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 0,
+    "final_second_double_support": false,
+    "chatter": {
+      "left": {
+        "airborne_samples": 28,
+        "eligible_samples": 2496,
+        "airborne_s": 0.11199999999998766,
+        "eligible_s": 9.983999999999268,
+        "airborne_fraction": 0.011217948717948305
+      },
+      "right": {
+        "airborne_samples": 69,
+        "eligible_samples": 2499,
+        "airborne_s": 0.27599999999997316,
+        "eligible_s": 9.995999999999343,
+        "airborne_fraction": 0.027611044417766236
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  },
+  "repeat_neutral.stdout": {
+    "independent_accepted": true,
+    "candidate_accepted": true,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 10.003999999999342,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6759999999998154,
+        "clearance_m": 0.03747596205869291,
+        "advance_m": 0.08062361565733478,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 11.695999999999156,
+        "end_s": 12.435999999999074,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 5.072000000001218,
+        "clearance_m": 0.0374418661298815,
+        "advance_m": 0.08067485411215478,
+        "landing_s": 12.255999999999094,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 14.127999999998888,
+        "end_s": 14.84399999999881,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 4.500000000001281,
+        "clearance_m": 0.037477207841013264,
+        "advance_m": 0.08054718171538958,
+        "landing_s": 14.687999999998826,
+        "accepted": true
+      }
+    ],
+    "exact_order": true,
+    "net_advance_m": 0.1947829426938574,
+    "final_lateral_m": -0.0017470340619539682,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 4.024000000001333,
+    "final_second_double_support": true,
+    "chatter": {
+      "left": {
+        "airborne_samples": 42,
+        "eligible_samples": 4457,
+        "airborne_s": 0.1679999999999815,
+        "eligible_s": 17.82800000000018,
+        "airborne_fraction": 0.009423378954452536
+      },
+      "right": {
+        "airborne_samples": 43,
+        "eligible_samples": 4466,
+        "airborne_s": 0.1719999999999846,
+        "eligible_s": 17.864000000000253,
+        "airborne_fraction": 0.00962830273175001
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  },
+  "neutral_posture.stdout": {
+    "independent_accepted": true,
+    "candidate_accepted": true,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 10.003999999999342,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6759999999998154,
+        "clearance_m": 0.03747596205869291,
+        "advance_m": 0.08062361565733478,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 11.695999999999156,
+        "end_s": 12.435999999999074,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 5.072000000001218,
+        "clearance_m": 0.0374418661298815,
+        "advance_m": 0.08067485411215478,
+        "landing_s": 12.255999999999094,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 14.127999999998888,
+        "end_s": 14.84399999999881,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 4.500000000001281,
+        "clearance_m": 0.037477207841013264,
+        "advance_m": 0.08054718171538958,
+        "landing_s": 14.687999999998826,
+        "accepted": true
+      }
+    ],
+    "exact_order": true,
+    "net_advance_m": 0.1947829426938574,
+    "final_lateral_m": -0.0017470340619539682,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 4.024000000001333,
+    "final_second_double_support": true,
+    "chatter": {
+      "left": {
+        "airborne_samples": 42,
+        "eligible_samples": 4457,
+        "airborne_s": 0.1679999999999815,
+        "eligible_s": 17.82800000000018,
+        "airborne_fraction": 0.009423378954452536
+      },
+      "right": {
+        "airborne_samples": 43,
+        "eligible_samples": 4466,
+        "airborne_s": 0.1719999999999846,
+        "eligible_s": 17.864000000000253,
+        "airborne_fraction": 0.00962830273175001
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  },
+  "review_backward_later_swing.stdout": {
+    "independent_accepted": true,
+    "candidate_accepted": true,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 10.003999999999342,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6839999999998145,
+        "clearance_m": 0.03747596205869291,
+        "advance_m": 0.08062361565733478,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 11.695999999999156,
+        "end_s": 12.435999999999074,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 5.072000000001218,
+        "clearance_m": 0.03745018534124699,
+        "advance_m": 0.08078571906818738,
+        "landing_s": 12.255999999999094,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 14.127999999998888,
+        "end_s": 14.84399999999881,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 4.500000000001281,
+        "clearance_m": 0.03747603938767107,
+        "advance_m": 0.08068574945058518,
+        "landing_s": 14.687999999998826,
+        "accepted": true
+      }
+    ],
+    "exact_order": true,
+    "net_advance_m": 0.19442130007574757,
+    "final_lateral_m": -0.0017083751150751354,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 4.024000000001333,
+    "final_second_double_support": true,
+    "chatter": {
+      "left": {
+        "airborne_samples": 42,
+        "eligible_samples": 4457,
+        "airborne_s": 0.1679999999999815,
+        "eligible_s": 17.82800000000018,
+        "airborne_fraction": 0.009423378954452536
+      },
+      "right": {
+        "airborne_samples": 42,
+        "eligible_samples": 4466,
+        "airborne_s": 0.16799999999998505,
+        "eligible_s": 17.864000000000253,
+        "airborne_fraction": 0.009404388714732573
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  },
+  "review_lateral_late_transfer.stdout": {
+    "independent_accepted": true,
+    "candidate_accepted": true,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 10.003999999999342,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6399999999998194,
+        "clearance_m": 0.03747596205869291,
+        "advance_m": 0.08062361565733478,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 11.695999999999156,
+        "end_s": 12.399999999999078,
+        "single_support_s": 0.5439999999999401,
+        "loaded_landing_s": 5.128000000001212,
+        "clearance_m": 0.03743983735288467,
+        "advance_m": 0.08059594354137448,
+        "landing_s": 12.251999999999095,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 14.091999999998892,
+        "end_s": 14.795999999998815,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 4.552000000001275,
+        "clearance_m": 0.03749108075494391,
+        "advance_m": 0.08051769096314479,
+        "landing_s": 14.65199999999883,
+        "accepted": true
+      }
+    ],
+    "exact_order": true,
+    "net_advance_m": 0.19471585775602632,
+    "final_lateral_m": -0.0018126569056548785,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 4.072000000001328,
+    "final_second_double_support": true,
+    "chatter": {
+      "left": {
+        "airborne_samples": 40,
+        "eligible_samples": 4466,
+        "airborne_s": 0.15999999999998238,
+        "eligible_s": 17.86400000000018,
+        "airborne_fraction": 0.008956560680697535
+      },
+      "right": {
+        "airborne_samples": 40,
+        "eligible_samples": 4469,
+        "airborne_s": 0.15999999999998593,
+        "eligible_s": 17.876000000000253,
+        "airborne_fraction": 0.008950548221077628
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  },
+  "review_diagonal_last_swing.stdout": {
+    "independent_accepted": true,
+    "candidate_accepted": true,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 10.003999999999342,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6759999999998154,
+        "clearance_m": 0.03747596205869291,
+        "advance_m": 0.08062361565733478,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 11.695999999999156,
+        "end_s": 12.435999999999074,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 5.084000000001216,
+        "clearance_m": 0.0374418661298815,
+        "advance_m": 0.08067485411215478,
+        "landing_s": 12.255999999999094,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 14.119999999998889,
+        "end_s": 14.823999999998811,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 4.512000000001279,
+        "clearance_m": 0.03748138864210269,
+        "advance_m": 0.08052168624542086,
+        "landing_s": 14.679999999998827,
+        "accepted": true
+      }
+    ],
+    "exact_order": true,
+    "net_advance_m": 0.19483412770812045,
+    "final_lateral_m": -0.0017539023893282865,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 4.044000000001331,
+    "final_second_double_support": true,
+    "chatter": {
+      "left": {
+        "airborne_samples": 44,
+        "eligible_samples": 4457,
+        "airborne_s": 0.17599999999998062,
+        "eligible_s": 17.82800000000018,
+        "airborne_fraction": 0.009872111285616941
+      },
+      "right": {
+        "airborne_samples": 42,
+        "eligible_samples": 4469,
+        "airborne_s": 0.16799999999998505,
+        "eligible_s": 17.876000000000253,
+        "airborne_fraction": 0.009398075632131499
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  },
+  "review_forward_late_transfer.stdout": {
+    "independent_accepted": true,
+    "candidate_accepted": true,
+    "steps": [
+      {
+        "foot": 0,
+        "start_s": 2.0760000000000014,
+        "end_s": 2.772000000000002,
+        "single_support_s": 0.5440000000000005,
+        "loaded_landing_s": 1.635999999999871,
+        "clearance_m": 0.036482716378347387,
+        "advance_m": 0.040217202099126534,
+        "landing_s": 2.632000000000002,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 4.463999999999952,
+        "end_s": 5.171999999999874,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6719999999998159,
+        "clearance_m": 0.03715123424390623,
+        "advance_m": 0.08077600484232683,
+        "landing_s": 5.02399999999989,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 6.863999999999687,
+        "end_s": 7.599999999999606,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.6399999999998194,
+        "clearance_m": 0.037441340278072714,
+        "advance_m": 0.08054262771053446,
+        "landing_s": 7.423999999999626,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 9.29199999999942,
+        "end_s": 9.999999999999343,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 1.643999999999819,
+        "clearance_m": 0.037473909274430554,
+        "advance_m": 0.08057555717220045,
+        "landing_s": 9.851999999999359,
+        "accepted": true
+      },
+      {
+        "foot": 0,
+        "start_s": 11.691999999999156,
+        "end_s": 12.395999999999079,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 5.080000000001217,
+        "clearance_m": 0.037437593783964274,
+        "advance_m": 0.08065004795450899,
+        "landing_s": 12.251999999999095,
+        "accepted": true
+      },
+      {
+        "foot": 1,
+        "start_s": 14.087999999998893,
+        "end_s": 14.823999999998811,
+        "single_support_s": 0.5479999999999396,
+        "loaded_landing_s": 4.50800000000128,
+        "clearance_m": 0.03746334458745966,
+        "advance_m": 0.0806527325548139,
+        "landing_s": 14.64799999999883,
+        "accepted": true
+      }
+    ],
+    "exact_order": true,
+    "net_advance_m": 0.1950214852571918,
+    "final_lateral_m": -0.00174110688796024,
+    "max_lateral_excursion_m": 0.12680880452051027,
+    "settled_tail_conservative_s": 4.0480000000013305,
+    "final_second_double_support": true,
+    "chatter": {
+      "left": {
+        "airborne_samples": 46,
+        "eligible_samples": 4466,
+        "airborne_s": 0.18399999999997974,
+        "eligible_s": 17.86400000000018,
+        "airborne_fraction": 0.010300044782802166
+      },
+      "right": {
+        "airborne_samples": 37,
+        "eligible_samples": 4462,
+        "airborne_s": 0.14799999999998725,
+        "eligible_s": 17.848000000000255,
+        "airborne_fraction": 0.008292245629761606
+      }
+    },
+    "flags": {
+      "walking_verified": false,
+      "standing_verified": false,
+      "balance_qualified": false,
+      "hardware_enabled": false,
+      "external_support_enabled": false,
+      "root_state_written_during_episode": false
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "review_forward_late_transfer": {
+    "start_s": 8.4,
+    "end_s": 8.5,
+    "force_N": [
+      12,
+      0,
+      0
+    ],
+    "actual_phase_at_start": "shift_left"
+  },
+  "review_backward_later_swing": {
+    "start_s": 10.4,
+    "end_s": 10.48,
+    "force_N": [
+      -10,
+      0,
+      0
+    ],
+    "actual_phase_at_start": "shift_right"
+  },
+  "review_lateral_late_transfer": {
+    "start_s": 12.0,
+    "end_s": 12.1,
+    "force_N": [
+      0,
+      8,
+      0
+    ],
+    "actual_phase_at_start": "swing_left"
+  },
+  "review_diagonal_last_swing": {
+    "start_s": 14.0,
+    "end_s": 14.08,
+    "force_N": [
+      8,
+      -6,
+      0
+    ],
+    "actual_phase_at_start": "shift_left"
+  },
+  "review_harsh_late_lateral": {
+    "start_s": 11.200000000000001,
+    "end_s": 11.4,
+    "force_N": [
+      0,
+      250,
+      0
+    ],
+    "actual_phase_at_start": "shift_right"
+  }
+}

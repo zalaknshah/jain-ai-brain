@@ -1,0 +1,35 @@
+{
+  "candidate_id": "sustained-v7-observed-resource-verdict-20261105",
+  "base_commit": "f8a86edb1bcd421f2ff344753b821068c28a5238",
+  "controller_development_version": 5,
+  "implementation_sha256": {
+    "src/jace/freebase_sustained.py": "ca98ed0e61f97b263160fd50639472b1965cb7f46d6bc1412eba1d82bd5a190d",
+    "src/jace/freebase_sustained_controller.py": "280ba566c9110666209d2e9d4374734561c14b43c65e25723a74aaf79d573f03",
+    "src/jace/freebase_sustained_metrics.py": "87541a3a77df3552f1fe6ff6ffafd44d29a7c89437db8ce96952dae43031f3d5",
+    "src/jace/freebase_sustained_worker.py": "9c7ba7ad9e5d150c77c4410c43b92e0e6edcafcab06de6785055904ed443f0f1",
+    "src/jace/freebase.py": "e09021829102c98bae3b311c6b1755d94fa7ad466aee37cded342ab5abb86c50",
+    "src/jace/freebase_worker.py": "4a9e479c17c5ef7f4fc9ac36972890c4888c03f8a952f45ac972781b7cde17ba",
+    "src/jace/freebase_gait.py": "01d4b2debf155c866962e0cc3c603ac635b467363c3f31b52d6d16332ddb0654",
+    "src/jace/freebase_gait_controller.py": "7f2ed4f7db866e66514645dd2920c512ee6c0e1b9ad5fba41fba9236e0defdce",
+    "src/jace/freebase_gait_metrics.py": "ee7d138091042fe23ec1d0c339aa68ac56005b6a90c8a246922fefe7c26b454f",
+    "src/jace/freebase_balance.py": "9a9f85f44ec106878c94586e4c53b5ba47220b9ae6da7bfd8afa9596c14edbeb",
+    "src/jace/freebase_balance_controller.py": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "src/jace/data/unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+    "src/jace/data/unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee",
+    "src/jace/data/unitree_g1_source.json": "a6a815cf363674a4b1419fd827ed57d7f10a07c3f76b93b30c00d6b85c889224",
+    "src/jace/freebase_sustained_resources.py": "7550024881206bb956f42ec34a3e6e679e125d05cdf0a5b12966bec9aeebd94b",
+    "scripts/evaluate_sustained_gait.py": "9ef40af59d89430593bfcf6fbd1528c61787113016efdc47f0638afaca34727d",
+    "tests/test_sustained_resource_verdict.py": "90e3e55d776259d6a34e0ddd257ac74d79a89914067977fd334e51e35989d83b"
+  },
+  "planned_steps": 6,
+  "max_physics_steps": 5000,
+  "simulation_seconds": 20,
+  "limits": {
+    "address_space_bytes": 1073741824,
+    "cpu_seconds": 15,
+    "outer_wall_seconds": 30
+  },
+  "acceptance": "Original six-step physical criteria plus fail-closed observed resource counters. This does not qualify full-lifetime resource use or reliability.",
+  "historical_physical_candidate_freeze_sha256": "27c7bdfb6b9d3cdb0676e07b2d32b7997be4ce2b9ce1eceba7d2465df04a1915",
+  "frozen_before_correction_review": true
+}

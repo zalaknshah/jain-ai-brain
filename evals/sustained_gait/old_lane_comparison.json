@@ -1,0 +1,151 @@
+{
+  "base_commit": "c785c6d5e6158ef7f01194424540c61cd46bc4f9",
+  "compared_fields": "All reports and full traces except peak_rss_kib (process measurement). Existing source files are unchanged.",
+  "cases": [
+    {
+      "case": "diagnostic:neutral_posture",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 255,
+      "terminal_reason": "posture_guard_triggered"
+    },
+    {
+      "case": "diagnostic:forward_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 215,
+      "terminal_reason": "posture_guard_triggered"
+    },
+    {
+      "case": "diagnostic:lateral_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 140,
+      "terminal_reason": "unexpected_contact_detected"
+    },
+    {
+      "case": "diagnostic:initial_tilt",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 0,
+      "terminal_reason": "posture_guard_triggered"
+    },
+    {
+      "case": "diagnostic:sensor_dropout",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 100,
+      "terminal_reason": "sensor_guard_triggered"
+    },
+    {
+      "case": "balance:neutral_posture",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "balance:forward_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 366,
+      "terminal_reason": "posture_guard_triggered"
+    },
+    {
+      "case": "balance:lateral_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 144,
+      "terminal_reason": "unexpected_contact_detected"
+    },
+    {
+      "case": "balance:backward_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "balance:diagonal_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "balance:reverse_lateral_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "balance:initial_tilt",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 0,
+      "terminal_reason": "posture_guard_triggered"
+    },
+    {
+      "case": "balance:sensor_dropout",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 100,
+      "terminal_reason": "sensor_guard_triggered"
+    },
+    {
+      "case": "gait:neutral_posture",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:initial_tilt",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 0,
+      "terminal_reason": "posture_guard_triggered"
+    },
+    {
+      "case": "gait:sensor_dropout",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 100,
+      "terminal_reason": "sensor_guard_triggered"
+    },
+    {
+      "case": "gait:forward_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:lateral_push",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:small_forward_transfer",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:small_backward_first_swing",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:small_lateral_first_swing",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:medium_reverse_lateral_transfer",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:medium_diagonal_second_swing",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 2000,
+      "terminal_reason": "step_budget_reached"
+    },
+    {
+      "case": "gait:strong_forward_first_swing",
+      "all_physical_report_and_trace_fields_equal": true,
+      "steps": 662,
+      "terminal_reason": "posture_guard_triggered"
+    }
+  ],
+  "all_equal": true
+}

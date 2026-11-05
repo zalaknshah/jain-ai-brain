@@ -1,0 +1,12 @@
+{
+  "src/jace/freebase.py": true,
+  "src/jace/freebase_worker.py": true,
+  "src/jace/freebase_gait.py": true,
+  "src/jace/freebase_gait_controller.py": true,
+  "src/jace/freebase_gait_metrics.py": true,
+  "src/jace/freebase_balance.py": true,
+  "src/jace/freebase_balance_controller.py": true,
+  "src/jace/data/unitree_g1_headless.xml": true,
+  "src/jace/data/unitree_g1_scene.xml": true,
+  "src/jace/data/unitree_g1_source.json": true
+}

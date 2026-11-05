@@ -1,0 +1,26 @@
+import sys,json,copy,pathlib
+from jace.freebase_sustained_worker import _apply_resource_limits,_numerical_guard_reason
+_apply_resource_limits()
+from jace.freebase_sustained import run_sustained_probe
+from jace.freebase_sustained_metrics import summarize_sustained_probe
+O=pathlib.Path('/workspace/scratch/ab4f5a53ff95/jace-sustained-independent');checks={}
+for label,args in [('no_confirmation',{}),('bool_steps',{'steps':True}),('zero_steps',{'steps':0}),('over_budget',{'steps':5001}),('float_steps',{'steps':3.5}),('string_confirmation',{'confirm_simulation':'yes'}),('string_trace',{'include_trace':'trace'}),('unknown_case',{'scenario':'not_registered'})]:
+ try:run_sustained_probe(**args);checks[label]=False
+ except (ValueError,TypeError):checks[label]=True
+checks['numerical_warning_guard']=_numerical_guard_reason({'mjWARN_BADQPOS':1},1.,1.)=='numerical_warning_guard_triggered'
+checks['time_reset_guard']=_numerical_guard_reason({},0.,1.)=='simulation_time_guard_triggered'
+d=json.loads((O/'neutral_posture.stdout.json').read_text())
+def summarize(tr,ev):
+ return summarize_sustained_probe(tr,ev,d['initial_foot_body_positions_m'],d['final_foot_body_positions_m'],d['initial_root_position_m'],d['final_root_position_m'],d['final_foot_capsule_clearance_m'],d['elapsed_simulation_s'])
+for kind in ['no_clearance','no_support_force','no_foot_advance','wrong_order','never_airborne','final_contact_missing']:
+ tr=copy.deepcopy(d['gait_trace']);ev=copy.deepcopy(d['phase_transitions'])
+ for r in tr:
+  if kind=='no_clearance':r['foot_clearance_m']=[0.,0.]
+  if kind=='no_support_force':r['normal_forces_n']=[0.,0.]
+  if kind=='no_foot_advance':r['feet']=copy.deepcopy(d['initial_foot_body_positions_m'])
+  if kind=='never_airborne':r['contacts']=[3,3]
+ if kind=='wrong_order':ev[1]['to']='swing_right'
+ if kind=='final_contact_missing':tr[-1]['contacts']=[0,0]
+ result=summarize(tr,ev)
+ checks['reject_'+kind]=not (result['six_step_sequence_observed'] and result['last_second_double_support_observed'])
+(O/'nonphysics_checks.json').write_text(json.dumps(checks,indent=2));print(checks);assert all(checks.values())

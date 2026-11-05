@@ -1,0 +1,147 @@
+[
+  {
+    "field": "worker_cpu_seconds_used",
+    "value": "-inf",
+    "violations": [
+      "worker_cpu_seconds_used_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_cpu_seconds_used",
+    "value": "False",
+    "violations": [
+      "worker_cpu_seconds_used_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_cpu_seconds_used",
+    "value": "[]",
+    "violations": [
+      "worker_cpu_seconds_used_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_cpu_seconds_used",
+    "value": "{}",
+    "violations": [
+      "worker_cpu_seconds_used_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_cpu_seconds_used",
+    "value": "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "violations": [
+      "worker_cpu_seconds_used_exceeded"
+    ]
+  },
+  {
+    "field": "worker_elapsed_wall_seconds",
+    "value": "-inf",
+    "violations": [
+      "worker_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_elapsed_wall_seconds",
+    "value": "False",
+    "violations": [
+      "worker_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_elapsed_wall_seconds",
+    "value": "[]",
+    "violations": [
+      "worker_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_elapsed_wall_seconds",
+    "value": "{}",
+    "violations": [
+      "worker_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "worker_elapsed_wall_seconds",
+    "value": "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "violations": [
+      "worker_elapsed_wall_seconds_exceeded"
+    ]
+  },
+  {
+    "field": "outer_elapsed_wall_seconds",
+    "value": "-inf",
+    "violations": [
+      "outer_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "outer_elapsed_wall_seconds",
+    "value": "False",
+    "violations": [
+      "outer_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "outer_elapsed_wall_seconds",
+    "value": "[]",
+    "violations": [
+      "outer_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "outer_elapsed_wall_seconds",
+    "value": "{}",
+    "violations": [
+      "outer_elapsed_wall_seconds_missing_or_invalid"
+    ]
+  },
+  {
+    "field": "outer_elapsed_wall_seconds",
+    "value": "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "violations": [
+      "outer_elapsed_wall_seconds_exceeded"
+    ]
+  },
+  {
+    "field": "resource_limits",
+    "value": "None",
+    "violations": [
+      "configured_address_space_bytes_missing_or_unexpected",
+      "configured_cpu_seconds_missing_or_unexpected",
+      "configured_outer_wall_seconds_missing_or_unexpected"
+    ]
+  },
+  {
+    "field": "resource_limits",
+    "value": "[]",
+    "violations": [
+      "configured_address_space_bytes_missing_or_unexpected",
+      "configured_cpu_seconds_missing_or_unexpected",
+      "configured_outer_wall_seconds_missing_or_unexpected"
+    ]
+  },
+  {
+    "field": "resource_limits",
+    "value": "True",
+    "violations": [
+      "configured_address_space_bytes_missing_or_unexpected",
+      "configured_cpu_seconds_missing_or_unexpected",
+      "configured_outer_wall_seconds_missing_or_unexpected"
+    ]
+  },
+  {
+    "field": "resource_limits",
+    "value": "'invalid'",
+    "violations": [
+      "configured_address_space_bytes_missing_or_unexpected",
+      "configured_cpu_seconds_missing_or_unexpected",
+      "configured_outer_wall_seconds_missing_or_unexpected"
+    ]
+  },
+  {
+    "launcher_malformed_limits": "TypeError",
+    "detail": "'NoneType' object does not support item assignment"
+  }
+]

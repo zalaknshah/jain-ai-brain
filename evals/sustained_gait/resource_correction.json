@@ -1,0 +1,51 @@
+{
+  "original_commit": "f8a86edb1bcd421f2ff344753b821068c28a5238",
+  "original_report_sha256": "951a23445ad0347ed2c2460ad63ac2739781ffb9a6dbbd5c3fcea4f416d08115",
+  "original_report_filename": "installed-neutral_posture.stdout",
+  "measurement_source": "Outside-checkout installed-package smoke, supplied by parent. No new physics run for this correction.",
+  "finding": "Original acceptance was computed before usage sampling and never checked observed resource counters. Whole-process cumulative CPU already exceeded the budget at the pre-output sample.",
+  "before": {
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "net_pelvis_advance_m": 0.1947829426938574,
+    "worker_cpu_seconds_used": 15.80148,
+    "worker_elapsed_wall_seconds": 24.875193871033844,
+    "outer_elapsed_wall_seconds": 25.074059182952624,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15,
+      "outer_wall_seconds": 30
+    }
+  },
+  "after": {
+    "physical_six_step_criteria_met": true,
+    "observed_resource_budget_satisfied": false,
+    "sustained_probe_accepted": false,
+    "resource_budget_violations": [
+      "worker_cpu_seconds_used_exceeded"
+    ],
+    "resource_verdict_stage": "launcher_return",
+    "resource_accounting_scope": {
+      "worker_cpu": "Cumulative worker-process CPU through the reporting sample, including startup/imports; excludes later verdict, JSON/output and process exit.",
+      "worker_wall": "Monotonic elapsed time from _run entry through the reporting sample; excludes prior startup and later verdict/output/exit.",
+      "outer_wall": "Launcher elapsed time through subprocess completion and response parsing, before the final verdict and caller work.",
+      "full_worker_lifetime_cpu_measured": false,
+      "resource_reliability_qualified": false
+    }
+  },
+  "all_original_measurements_unchanged": true,
+  "resource_reliability_qualified": false,
+  "new_physics_runs": 0,
+  "prior_harsh_case_reclassification": {
+    "original_report_sha256": "c907f5982c91186cb87f766202b8179939b44dcda5b5acf1c68020ebd2f7b8a3",
+    "steps": 2854,
+    "terminal_reason": "unexpected_contact_detected",
+    "worker_cpu_seconds_used": 15.113889,
+    "physical_six_step_criteria_met": false,
+    "sustained_probe_accepted": false,
+    "resource_budget_violations": [
+      "worker_cpu_seconds_used_exceeded"
+    ]
+  }
+}

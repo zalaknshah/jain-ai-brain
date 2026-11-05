@@ -1,0 +1,26 @@
+import os,sys,json,pathlib,subprocess,time,hashlib
+OUT=pathlib.Path(__file__).parent
+ROOT=pathlib.Path('/workspace/scratch/ab4f5a53ff95/jace-sustained-gait')
+CASES=json.loads((OUT/'registered_cases.json').read_text())
+code='''import sys,json
+from jace.freebase_sustained_worker import _apply_resource_limits
+_apply_resource_limits()
+assert sys.argv[3] == '--confirmed-simulation'
+import jace.freebase_sustained as api
+name=sys.argv[1]; disturbance=json.loads(sys.argv[2])
+api.DISTURBANCES[name]=disturbance
+api.SCENARIOS=tuple(api.DISTURBANCES)
+from jace.freebase_sustained_worker import _run
+print(json.dumps(_run(name,5000,True,confirm_simulation=True),allow_nan=False))
+'''
+env={'PATH':os.defpath,'PYTHONPATH':str(ROOT/'src'),'PYTHONNOUSERSITE':'1','OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1','MKL_NUM_THREADS':'1','TMPDIR':'/workspace/scratch/ab4f5a53ff95/jace-tmp'}
+for name,dist in list(CASES.items())+[('repeat_neutral',None)]:
+ start=time.monotonic()
+ try:
+  p=subprocess.run([sys.executable,'-c',code,name,json.dumps(dist),'--confirmed-simulation'],env=env,capture_output=True,text=True,timeout=30)
+  (OUT/(name+'.stdout.json')).write_text(p.stdout);(OUT/(name+'.stderr.txt')).write_text(p.stderr)
+  rec={'case':name,'returncode':p.returncode,'outer_wall_s':time.monotonic()-start}
+  if p.returncode==0:
+   d=json.loads(p.stdout);rec.update({k:d.get(k) for k in ['steps','terminal_reason','sustained_probe_accepted','worker_cpu_seconds_used','peak_rss_kib','resource_limits']})
+ except subprocess.TimeoutExpired:rec={'case':name,'timeout':True}
+ (OUT/(name+'.process.json')).write_text(json.dumps(rec,indent=2));print(json.dumps(rec),flush=True)

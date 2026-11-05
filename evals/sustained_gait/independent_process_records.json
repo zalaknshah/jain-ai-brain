@@ -1,0 +1,100 @@
+[
+  {
+    "case": "neutral_posture",
+    "returncode": 0,
+    "outer_wall_s": 8.625648555986118,
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "worker_cpu_seconds_used": 8.147519,
+    "peak_rss_kib": 89212,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  },
+  {
+    "case": "repeat_neutral",
+    "returncode": 0,
+    "outer_wall_s": 11.292418508033734,
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "worker_cpu_seconds_used": 10.592931,
+    "peak_rss_kib": 121272,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  },
+  {
+    "case": "review_backward_later_swing",
+    "returncode": 0,
+    "outer_wall_s": 9.02993553201668,
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "worker_cpu_seconds_used": 8.535251,
+    "peak_rss_kib": 98388,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  },
+  {
+    "case": "review_diagonal_last_swing",
+    "returncode": 0,
+    "outer_wall_s": 8.807565141003579,
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "worker_cpu_seconds_used": 8.242487,
+    "peak_rss_kib": 109908,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  },
+  {
+    "case": "review_forward_late_transfer",
+    "returncode": 0,
+    "outer_wall_s": 8.742038047988899,
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "worker_cpu_seconds_used": 8.248510000000001,
+    "peak_rss_kib": 85260,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  },
+  {
+    "case": "review_harsh_late_lateral",
+    "returncode": 0,
+    "outer_wall_s": 23.739269840007182,
+    "steps": 2854,
+    "terminal_reason": "unexpected_contact_detected",
+    "sustained_probe_accepted": false,
+    "worker_cpu_seconds_used": 15.113889,
+    "peak_rss_kib": 121272,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  },
+  {
+    "case": "review_lateral_late_transfer",
+    "returncode": 0,
+    "outer_wall_s": 9.577409113990143,
+    "steps": 5000,
+    "terminal_reason": "step_budget_reached",
+    "sustained_probe_accepted": true,
+    "worker_cpu_seconds_used": 8.830048000000001,
+    "peak_rss_kib": 109840,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    }
+  }
+]

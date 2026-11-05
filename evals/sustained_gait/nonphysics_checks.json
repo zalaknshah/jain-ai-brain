@@ -1,0 +1,18 @@
+{
+  "no_confirmation": true,
+  "bool_steps": true,
+  "zero_steps": true,
+  "over_budget": true,
+  "float_steps": true,
+  "string_confirmation": true,
+  "string_trace": true,
+  "unknown_case": true,
+  "numerical_warning_guard": true,
+  "time_reset_guard": true,
+  "reject_no_clearance": true,
+  "reject_no_support_force": true,
+  "reject_no_foot_advance": true,
+  "reject_wrong_order": true,
+  "reject_never_airborne": true,
+  "reject_final_contact_missing": true
+}

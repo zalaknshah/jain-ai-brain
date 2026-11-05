@@ -1,0 +1,10 @@
+{
+  "method": "Corrected evaluator with physics API mocked to deterministic reclassified archived reports; zero physics processes.",
+  "exit_code": 1,
+  "calls_to_mock": 4,
+  "failures": [
+    "neutral_posture: overall acceptance differs from the fixed regression expectation; physical=True, observed_budget=False, violations=['worker_cpu_seconds_used_exceeded']"
+  ],
+  "nominal_physical_criteria_met": true,
+  "nominal_accepted": false
+}

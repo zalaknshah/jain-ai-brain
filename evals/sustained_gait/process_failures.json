@@ -1,0 +1,55 @@
+{
+  "failures": [
+    {
+      "stage": "initial focused unittest run",
+      "test": "test_six_continuous_steps_and_each_actual_step",
+      "scenario": "neutral_posture",
+      "trace_requested": true,
+      "worker_returncode": -9,
+      "stderr": "",
+      "meaning": "Killed by signal 9. Cause is not established; no successful report/acceptance. Not an automatic retry. Later deliberate verification is reported separately.",
+      "suite_tests": 49,
+      "suite_errors": 1,
+      "suite_wall_seconds": 76.034,
+      "log_sha256": "159ecdf37de01ad46eeff63b65a48ce983450f0bfc7995871e6b3c67781a21bd",
+      "source_manifest": "candidate_freeze.json",
+      "caps": {
+        "address_space_bytes": 1073741824,
+        "cpu_seconds": 15,
+        "outer_wall_seconds": 30
+      },
+      "qualification_consequence": "Resource/process reliability remains unresolved despite other successful nominal and independent episodes. Do not present successful reruns as a diagnosis or cancellation of this failure.",
+      "suite_command": "PYTHONPATH=src TMPDIR=/workspace/scratch/ab4f5a53ff95/jace-tmp /workspace/shared/jace-mujoco-env/bin/python -m unittest discover -s tests -p 'test_freebase*.py' -v",
+      "worker_command": [
+        "/workspace/shared/jace-mujoco-env/bin/python",
+        "-m",
+        "jace.freebase_sustained_worker",
+        "neutral_posture",
+        "5000",
+        "trace",
+        "--confirmed-simulation"
+      ],
+      "suite_started_utc": "2026-11-05T14:27:48.861497779Z",
+      "suite_finished_utc": "2026-11-05T14:29:05.042638589Z",
+      "timestamp_basis": "Filesystem birth and modification times of the dedicated redirected suite log; individual worker start/end was not logged.",
+      "worker_elapsed_or_cpu_usage": null,
+      "worker_usage_reason_unavailable": "Worker returned signal9 without a JSON report; failing branch does not retain elapsed-time measurement.",
+      "concurrency_context": {
+        "independent_review_running": true,
+        "overlapping_review_harsh_case_finished_utc": "2026-11-05T14:29:06.752729859Z",
+        "overlapping_review_harsh_case_outer_wall_s": 23.73927,
+        "earlier_review_case_finished_utc": "2026-11-05T14:28:42.888552422Z",
+        "known_other_physics_at_that_time": "The dedicated focused suite and independent reviewer were running concurrently. No claim that this caused the termination."
+      },
+      "permitted_source_audit": {
+        "API_sha256": "28c875eaf8702811aaf728bedc7ed6b6cce559970c37bc1f765f0a613ba3c4bb",
+        "worker_sha256": "ca03283f743f73f8dfd81f72c6ce340ca31bc91f87501ad6f5768e632d011ee3",
+        "observed_branch": "API lines52-54: subprocess returned nonzero exit -9.",
+        "outer_timeout_branch_not_taken": "API lines50-51 would instead report exceeded its wall-time cap when subprocess.TimeoutExpired is raised.",
+        "explicit_candidate_kill_calls": false,
+        "CPU_cap_is_possible_not_proven_cause": "Worker sets RLIMIT_CPU soft=hard=15; SIGKILL is compatible with hard CPU-limit enforcement, but no resource usage or OS cause record for this process was captured. Other external/resource termination remains possible.",
+        "investigation_scope": "Own source, dedicated test log, independent process records and filesystem timestamps only; no syscall tracing, privileged kernel log access or denied route."
+      }
+    }
+  ]
+}

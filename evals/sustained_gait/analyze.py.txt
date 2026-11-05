@@ -1,0 +1,53 @@
+import json,pathlib,math,hashlib
+O=pathlib.Path(__file__).parent
+
+def longest(rows,p):
+ start=None;best=0
+ for r in rows:
+  if p(r):
+   if start is None:start=r['t']
+   best=max(best,r['t']-start)
+  else:start=None
+ return best
+
+reports={}
+for file in O.glob('*.stdout.json'):
+ d=json.loads(file.read_text());tr=d['gait_trace']; phases=[]
+ for i,r in enumerate(tr):
+  if not phases or phases[-1][0]!=r['phase']:phases.append((r['phase'],i))
+ steps=[]
+ for n,(phase,start) in enumerate(phases):
+  if not phase.startswith('swing_'):continue
+  foot=0 if phase=='swing_left' else 1;end=phases[n+1][1] if n+1<len(phases) else len(tr)-1
+  rows=tr[start:end+1];air=[r for r in rows if r['contacts'][foot]==0]
+  land=next((r for r in rows if air and r['t']>air[0]['t'] and r['contacts'][foot]>0 and r['normal_forces_n'][foot]>.5),None)
+  next_same=next((idx for p,idx in phases[n+1:] if p==phase),len(tr)-1)
+  support=longest(rows,lambda r:r['contacts'][foot]==0 and r['contacts'][1-foot]>0 and r['normal_forces_n'][1-foot]>50)
+  loaded=longest(tr[end:next_same+1],lambda r:r['contacts'][foot]>0 and r['normal_forces_n'][foot]>50)
+  clearance=max([r['foot_clearance_m'][foot] for r in air],default=0)
+  advance=rows[-1]['feet'][foot][0]-rows[0]['feet'][foot][0]
+  ok=foot==len(steps)%2 and support>=.1-1e-8 and loaded>=.1-1e-8 and clearance>=.01 and advance>=(.03 if not steps else .06) and land is not None and n+1<len(phases)
+  steps.append(dict(foot=foot,start_s=rows[0]['t'],end_s=rows[-1]['t'],single_support_s=support,loaded_landing_s=loaded,clearance_m=clearance,advance_m=advance,landing_s=land['t'] if land else None,accepted=ok))
+ tail=[]
+ for r in reversed(d['trace']):
+  if r['root_speed_m_s']<.05 and r['root_angular_speed_rad_s']<.1 and r['maximum_joint_rate_rad_s']<.1 and r['tilt_rad']<.1:tail.append(r)
+  else:break
+ settled=(tail[0]['simulation_time_s']-tail[-1]['simulation_time_s']) if tail else 0
+ final=[r for r in tr if r['t']>=tr[-1]['t']-1-1e-8]
+ double=final[-1]['t']-final[0]['t']>=1-1e-8 and all(all(r['contacts'][f]>0 and r['normal_forces_n'][f]>20 for f in (0,1)) for r in final)
+ dx=tr[-1]['root'][0]-tr[0]['root'][0];dy=tr[-1]['root'][1]-tr[0]['root'][1]
+ chatter={}
+ for f,side in enumerate(('left','right')):
+  eligible=airborne=0.;samples=0;eligible_samples=0
+  for a,b in zip(tr,tr[1:]):
+   if a['phase']!='swing_'+side:
+    dt=b['t']-a['t'];eligible+=dt;eligible_samples+=1
+    if a['contacts'][f]==0:airborne+=dt;samples+=1
+  chatter[side]=dict(airborne_samples=samples,eligible_samples=eligible_samples,airborne_s=airborne,eligible_s=eligible,airborne_fraction=airborne/eligible)
+ order=[p for p,i in phases]==['settle']+['shift_right','swing_left','shift_left','swing_right']*3+['recover']
+ ok=len(steps)==6 and all(s['accepted'] for s in steps) and order and dx>=.17 and abs(dy)<=.03 and d['steps']==5000 and d['terminal_reason']=='step_budget_reached' and settled>=1 and double
+ reports[file.stem]=dict(independent_accepted=ok,candidate_accepted=d['sustained_probe_accepted'],steps=steps,exact_order=order,net_advance_m=dx,final_lateral_m=dy,max_lateral_excursion_m=max(abs(r['root'][1]-tr[0]['root'][1]) for r in tr),settled_tail_conservative_s=settled,final_second_double_support=double,chatter=chatter,flags={k:d.get(k) for k in ['walking_verified','standing_verified','balance_qualified','hardware_enabled','external_support_enabled','root_state_written_during_episode']})
+(O/'independent_results.json').write_text(json.dumps(reports,indent=2))
+a=json.loads((O/'neutral_posture.stdout.json').read_text());b=json.loads((O/'repeat_neutral.stdout.json').read_text());repeat={k:a[k]==b[k] for k in ['trace','gait_trace','phase_transitions','final_root_position_m']};(O/'repeatability.json').write_text(json.dumps(repeat,indent=2))
+for name,r in reports.items():print(name,r['independent_accepted'],r['net_advance_m'],r['settled_tail_conservative_s'],r['chatter'])
+print('repeatability',repeat)

@@ -1,0 +1,58 @@
+{
+  "base_commit": "f8a86edb1bcd421f2ff344753b821068c28a5238",
+  "protected_bytes_unchanged": {
+    "src/jace/freebase_sustained_controller.py": true,
+    "src/jace/freebase_sustained_metrics.py": true,
+    "tests/test_freebase_sustained.py": true,
+    "src/jace/freebase.py": true,
+    "src/jace/freebase_worker.py": true,
+    "src/jace/freebase_gait.py": true,
+    "src/jace/freebase_gait_controller.py": true,
+    "src/jace/freebase_gait_worker.py": true,
+    "src/jace/freebase_gait_metrics.py": true,
+    "src/jace/freebase_balance.py": true,
+    "src/jace/freebase_balance_controller.py": true,
+    "src/jace/freebase_balance_worker.py": true,
+    "src/jace/data/unitree_g1_headless.xml": true,
+    "src/jace/data/unitree_g1_scene.xml": true,
+    "src/jace/data/unitree_g1_source.json": true,
+    "evals/sustained_gait/candidate_freeze.json": true,
+    "evals/sustained_gait/results.json": true,
+    "evals/sustained_gait/process_failures.json": true,
+    "evals/sustained_gait/validation.json": true,
+    "evals/sustained_gait/independent_results.json": true
+  },
+  "worker_identical_except_import_and_final_report_verdict": true,
+  "limits_and_physics_loop_unchanged": true,
+  "new_physics_runs": 0,
+  "deterministic_contract_tests": {
+    "run": 17,
+    "failures": 0,
+    "errors": 0,
+    "log_sha256": "627fa46becc926951e9d473594fb06c30c4e3fed67708071c3abd486cd08f3e1",
+    "scope": "Ten new pure classification tests and seven existing nonphysics launcher/metric contract tests."
+  },
+  "resource_reliability_qualified": false,
+  "note": "Contract/classification tests only. No performance rerun, changed limits or weakened existing physical/performance test.",
+  "archived_evaluator_regression": {
+    "method": "Corrected evaluator with physics API mocked to deterministic reclassified archived reports; zero physics processes.",
+    "exit_code": 1,
+    "calls_to_mock": 4,
+    "failures": [
+      "neutral_posture: overall acceptance differs from the fixed regression expectation; physical=True, observed_budget=False, violations=['worker_cpu_seconds_used_exceeded']"
+    ],
+    "nominal_physical_criteria_met": true,
+    "nominal_accepted": false
+  },
+  "independent_review": {
+    "blocking_issues": false,
+    "selected_nonphysics_tests": 17,
+    "additional_pure_rejection_cases": 19,
+    "actual_archived_reclassification_verified": true,
+    "all_original_fields_except_acceptance_preserved": true,
+    "final_freeze_verified": true,
+    "review_sha256": "2567e598ad1e9b3125f1a88394bcc6544ad3696e9ddabd5ea31eeffb3ae85e6e",
+    "final_test_log_sha256": "7a0ee20749beba563498bb9b4457e050026bcc0ebf43fc39715e8c49e158938f",
+    "new_physics_runs": 0
+  }
+}

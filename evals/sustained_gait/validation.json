@@ -1,0 +1,83 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "numerical_stack": {
+    "mujoco": "3.17.0",
+    "numpy": "2.5.4"
+  },
+  "frozen_candidate_sources_unchanged": true,
+  "initial_focused_suite": {
+    "tests": 49,
+    "errors": 1,
+    "wall_seconds": 76.034,
+    "outcome": "Failure. One nominal worker returned -9. See process_failures.json; reliability unresolved.",
+    "log_sha256": "159ecdf37de01ad46eeff63b65a48ce983450f0bfc7995871e6b3c67781a21bd"
+  },
+  "separate_full_suite": {
+    "tests": 692,
+    "failures": 0,
+    "errors": 0,
+    "wall_seconds": 137.876,
+    "command": "PYTHONPATH=src python -m unittest discover -s tests -v",
+    "includes_all_49_focused_tests": true,
+    "log_sha256": "8e3f4a22fffb9ca6858bfc3081eb44286256aec0623b84c47fc7c069edcbedac",
+    "note": "Passing separate aggregate does not diagnose/cancel the earlier process failure. Only a clarifying performance-gate comment was added to test source after this run; executable AST unchanged."
+  },
+  "frozen_evaluator": {
+    "outcome": "All four expected outcomes reproduced",
+    "report_sha256": "88a9e7f2bcdb7fa12a8a5c16bdd59b094190492df5d0221a2c9ec4e7066ac688",
+    "cases": [
+      {
+        "scenario": "neutral_posture",
+        "steps": 5000,
+        "terminal_reason": "step_budget_reached",
+        "sustained_probe_accepted": true,
+        "worker_cpu_seconds_used": 10.283447,
+        "outer_elapsed_wall_seconds": 10.400979432975873,
+        "peak_rss_kib": 86628
+      },
+      {
+        "scenario": "initial_tilt",
+        "steps": 0,
+        "terminal_reason": "posture_guard_triggered",
+        "sustained_probe_accepted": false,
+        "worker_cpu_seconds_used": 0.256757,
+        "outer_elapsed_wall_seconds": 0.3276442819624208,
+        "peak_rss_kib": 63224
+      },
+      {
+        "scenario": "sensor_dropout",
+        "steps": 100,
+        "terminal_reason": "sensor_guard_triggered",
+        "sustained_probe_accepted": false,
+        "worker_cpu_seconds_used": 0.38230400000000003,
+        "outer_elapsed_wall_seconds": 0.46948408999014646,
+        "peak_rss_kib": 63532
+      },
+      {
+        "scenario": "strong_forward_third_swing",
+        "steps": 1882,
+        "terminal_reason": "controller_feasibility_guard_triggered",
+        "sustained_probe_accepted": false,
+        "worker_cpu_seconds_used": 3.380471,
+        "outer_elapsed_wall_seconds": 3.457550904015079,
+        "peak_rss_kib": 72192
+      }
+    ]
+  },
+  "old_lanes": {
+    "cases": 24,
+    "all_reports_and_full_traces_equal_except_RSS": true
+  },
+  "independent_review": {
+    "nominal_plus_four_modest_cases": true,
+    "nominal_repeat_identical": true,
+    "harsh_failure_preserved": true,
+    "invalid_input_cases": 8,
+    "numerical_guard_checks": 2,
+    "metric_mutation_checks": 6
+  },
+  "new_source_ast_parse": true,
+  "resource_reliability_qualified": false,
+  "general_walking_qualified": false,
+  "hardware_qualified": false
+}
