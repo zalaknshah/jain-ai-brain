@@ -19,7 +19,9 @@ def run_freebase_diagnostic(scenario: str = 'neutral_posture', *, steps: int = 1
 
 def _run_capped_worker(scenario: str, *, steps: int, confirm_simulation: bool,
                        include_trace: bool, mode: str) -> dict:
-    if mode == 'balance':
+    if mode == 'gait_probe':
+        from .freebase_gait import SCENARIOS as scenarios
+    elif mode == 'balance':
         from .freebase_balance import SCENARIOS as scenarios
     elif mode == 'diagnostic':
         scenarios = SCENARIOS
@@ -35,11 +37,15 @@ def _run_capped_worker(scenario: str, *, steps: int, confirm_simulation: bool,
         raise ValueError('explicit simulation confirmation is required; no diagnostic physics was run')
     if os.name != 'posix' or sys.platform != 'linux':
         raise RuntimeError('this diagnostic requires Linux/POSIX process resource limits; no unrestricted fallback is run')
+    if mode == 'gait_probe':
+        from .freebase_gait import validate_gait_runtime
+        validate_gait_runtime()
     # A clean subprocess, not a security sandbox for arbitrary executable models.
     # Only our packaged, hash-checked XML is accepted. Never load TorchScript here.
     env = {'PATH': os.defpath, 'PYTHONPATH': str(Path(__file__).resolve().parents[1]),
            'PYTHONNOUSERSITE': '1', 'OPENBLAS_NUM_THREADS': '1', 'OMP_NUM_THREADS': '1', 'MKL_NUM_THREADS': '1'}
-    module = 'jace.freebase_balance_worker' if mode == 'balance' else 'jace.freebase_worker'
+    module = {'diagnostic': 'jace.freebase_worker', 'balance': 'jace.freebase_balance_worker',
+              'gait_probe': 'jace.freebase_gait_worker'}[mode]
     command = [sys.executable, '-m', module, scenario, str(steps),
                'trace' if include_trace else 'summary', '--confirmed-simulation']
     try:

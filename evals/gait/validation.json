@@ -1,0 +1,40 @@
+{
+  "base_commit": "674230bb315b1c15fc6298c9d2b51994c06ea132",
+  "full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "tests": 672,
+    "outcome": "passed",
+    "elapsed_wall_s": 119.714,
+    "log_sha256": "5fb2f8dcf8a66fe82605fbea9e1d655ae417c4f20143708699823695b5b67489"
+  },
+  "focused_suite": {
+    "command": "python -m unittest discover -s tests -p 'test_gait_runtime_compatibility.py' -v",
+    "tests": 9,
+    "outcome": "passed"
+  },
+  "evaluation": {
+    "command": "python scripts/evaluate_gait_probe.py --confirm-simulation",
+    "fixed_cases": 11,
+    "accepted_two_step_horizons": 8,
+    "explicit_guard_failures": 3,
+    "assertions_passed": true,
+    "output_sha256": "9aabe2629329302adf8c78348a56b4079a3c4caaeeb10badbcf4362747b3c65e"
+  },
+  "independent_review": {
+    "frozen_cases": 7,
+    "accepted_two_step_horizons": 6,
+    "strong_push_guard_failures": 1,
+    "control_trace_and_dynamics_exact": true,
+    "existing_mode_exact_regressions": 8,
+    "feasibility_fault_stop_after_one_step": true
+  },
+  "scope": "Only bounded simulation two-step evidence; walking/balance/hardware qualification remains false.",
+  "runtime_compatibility_review": {
+    "independent_guard_tests": 6,
+    "compatibility_tests_on_python_3_13_5": 9,
+    "exact_qualified_runtime_replays": 11,
+    "controller_unchanged": true,
+    "installations_performed": 0,
+    "legacy_python_3_10_and_3_11_checks": "synthetic; no installer/resolver execution"
+  }
+}

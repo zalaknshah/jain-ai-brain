@@ -1,0 +1,397 @@
+{
+  "mj_step_calls": 1,
+  "report": {
+    "schema": "jace.freebase.gait_probe.v1",
+    "scenario": "neutral_posture",
+    "scope": "Experimental two-step finite-horizon simulation, not general walking or balance qualification",
+    "backend_version": "3.17.0",
+    "simulation_confirmed": true,
+    "steps": 1,
+    "elapsed_simulation_s": 0.004,
+    "terminal_reason": "controller_feasibility_guard_triggered",
+    "no_guard_triggered_within_horizon": false,
+    "standing_verified": false,
+    "locomotion_controller": true,
+    "pretrained_policy_loaded": false,
+    "hardware_enabled": false,
+    "free_base": true,
+    "actuated_joints": 29,
+    "mass_kg": 33.341142000000005,
+    "minimum_pelvis_height_m": 0.783675,
+    "maximum_tilt_rad": 8.074769038782936e-05,
+    "maximum_joint_rate_rad_s": 0.12149160297502093,
+    "maximum_actuator_force_nm": 6.413001335775567,
+    "maximum_foot_contact_points": 12,
+    "nonfoot_floor_contact_observations": 0,
+    "self_contact_observations": 0,
+    "final_root_position_m": [
+      -1.0991263100655429e-05,
+      2.3973144165301492e-08,
+      0.7837404863598149
+    ],
+    "source_commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+    "modified_model_sha256": {
+      "unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+      "unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee"
+    },
+    "peak_rss_kib": 62720,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    },
+    "initial_observation": {
+      "simulation_time_s": 0.0,
+      "pelvis_height_m": 0.783675,
+      "tilt_rad": 0.0,
+      "foot_contact_points": 12,
+      "nonfoot_floor_contacts": 0,
+      "self_contacts": 0
+    },
+    "numerical_warning_counts": {
+      "mjWARN_BADQPOS": 0,
+      "mjWARN_BADQVEL": 0,
+      "mjWARN_BADQACC": 0,
+      "mjWARN_BADCTRL": 0
+    },
+    "controller_id": "g1-contact-two-step-prototype-v1",
+    "controller_sha256": "7f2ed4f7db866e66514645dd2920c512ee6c0e1b9ad5fba41fba9236e0defdce",
+    "walking_verified": false,
+    "balance_qualified": false,
+    "external_support_enabled": false,
+    "controller_uses_exact_simulator_state": true,
+    "root_state_written_during_episode": false,
+    "initial_root_position_m": [
+      0.0,
+      0.0,
+      0.783675
+    ],
+    "final_root_linear_velocity_m_s": [
+      -0.002747815775163857,
+      5.993286041325373e-06,
+      0.01637158995369868
+    ],
+    "final_root_angular_velocity_rad_s": [
+      2.1748616467510604e-06,
+      -0.020186922394070394,
+      1.9871476387927333e-05
+    ],
+    "final_joint_rate_rad_s": 0.12149160297502093,
+    "settled_tail_s": 0.0,
+    "finite_horizon_posture_accepted": false,
+    "target_clipping_observations": 0,
+    "maximum_target_delta_rad": 0.3116281546429448,
+    "disturbance": null,
+    "phase_transitions": [],
+    "final_phase": "settle",
+    "initial_foot_body_positions_m": [
+      [
+        -0.02600160119878335,
+        0.118506455,
+        0.03447281760469524
+      ],
+      [
+        -0.02600160119878335,
+        -0.118506455,
+        0.03447281760469524
+      ]
+    ],
+    "final_foot_body_positions_m": [
+      [
+        -0.02600890966715421,
+        0.11850664962586051,
+        0.034561607198015064
+      ],
+      [
+        -0.026008905665013928,
+        -0.11850652047274171,
+        0.034561628073645274
+      ]
+    ],
+    "foot_body_displacements_m": [
+      [
+        -7.308468370860466e-06,
+        1.9462586051122166e-07,
+        8.878959331982267e-05
+      ],
+      [
+        -7.304466230578094e-06,
+        -6.547274171431194e-08,
+        8.881046895003325e-05
+      ]
+    ],
+    "net_pelvis_advance_m": -1.0991263100655429e-05,
+    "maximum_foot_capsule_clearance_m": [
+      -0.00044194579115617867,
+      -0.0004419184573522527
+    ],
+    "final_foot_capsule_clearance_m": [
+      -0.00044194579115617867,
+      -0.0004419184573522527
+    ],
+    "airborne_intervals": [],
+    "loaded_single_support_intervals": [],
+    "ordered_alternating_support_observed": false,
+    "both_feet_cleared_and_landed": false,
+    "last_second_double_support_observed": false,
+    "two_step_sequence_observed": false,
+    "out_of_planned_swing_airborne_observations": {
+      "left": 0,
+      "right": 0
+    },
+    "maximum_controller_inequality_residual": 0.0,
+    "maximum_controller_iterations": 1,
+    "contact_wrenches_are_prediction_only": true,
+    "controller_parameters": {
+      "root_kp": 80,
+      "joint_weight": 0.1,
+      "upper_weight": 1.0,
+      "drop": 0.025,
+      "swing_s": 0.6,
+      "transfer_s": 1.6,
+      "recover_s": 1.0,
+      "settle_s": 0.4,
+      "step_m": 0.04,
+      "moment_weight": 0.1,
+      "arm_roll": 0.8,
+      "arm_pitch": 0.2,
+      "support_x_offset": 0.03
+    },
+    "numpy_version": "2.5.4",
+    "final_gait_observation": {
+      "t": 0.004,
+      "phase": "settle",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        161.30484950009156,
+        161.09733007230287
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          -0.02600890966715421,
+          0.11850664962586051,
+          0.034561607198015064
+        ],
+        [
+          -0.026008905665013928,
+          -0.11850652047274171,
+          0.034561628073645274
+        ]
+      ],
+      "root": [
+        -1.0991263100655429e-05,
+        2.3973144165301492e-08,
+        0.7837404863598149
+      ],
+      "com": [
+        0.007657908641978384,
+        8.229430684877498e-05,
+        0.687067403385629
+      ],
+      "foot_clearance_m": [
+        -0.00044194579115617867,
+        -0.0004419184573522527
+      ],
+      "root_linear_velocity_m_s": [
+        -0.002747815775163857,
+        5.993286041325373e-06,
+        0.01637158995369868
+      ],
+      "root_angular_velocity_rad_s": [
+        2.1748616467510604e-06,
+        -0.020186922394070394,
+        1.9871476387927333e-05
+      ],
+      "maximum_joint_rate_rad_s": 0.12149160297502093
+    },
+    "gait_trace": [
+      {
+        "t": 0.0,
+        "phase": "settle",
+        "normal_forces_n": [
+          199.16884547721054,
+          199.18063735823975
+        ],
+        "contacts": [
+          6,
+          6
+        ],
+        "foot_clearance_m": [
+          -0.000527182395304777,
+          -0.000527182395304777
+        ],
+        "feet": [
+          [
+            -0.02600160119878335,
+            0.118506455,
+            0.03447281760469524
+          ],
+          [
+            -0.02600160119878335,
+            -0.118506455,
+            0.03447281760469524
+          ]
+        ],
+        "foot_targets": [
+          [
+            -0.02600160119878335,
+            0.118506455,
+            0.03447281760469524
+          ],
+          [
+            -0.02600160119878335,
+            -0.118506455,
+            0.03447281760469524
+          ]
+        ],
+        "com_target": [
+          0.00764846834705904,
+          8.226090168117387e-05,
+          0.6869949200705132
+        ],
+        "joint_position": [
+          -0.1,
+          0.0,
+          0.0,
+          0.3,
+          -0.2,
+          0.0,
+          -0.1,
+          0.0,
+          0.0,
+          0.3,
+          -0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          1.28,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          -0.2,
+          0.0,
+          1.28,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "root_linear_velocity_m_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "root_angular_velocity_rad_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "maximum_joint_rate_rad_s": 0.0,
+        "qp_iterations": 1,
+        "constraint_residual": -3.2818094632099313,
+        "active_constraints": 0,
+        "predicted_wrenches": [
+          0.08659433642640914,
+          -4.579778778144651e-06,
+          164.31715949802654,
+          -0.00011832833504040705,
+          -6.399827540324444,
+          9.344096770140696e-05,
+          0.08878729982637426,
+          -4.579778778149273e-06,
+          164.09514520888163,
+          -0.00011832833505449547,
+          -6.392188417792494,
+          9.344096770140725e-05
+        ],
+        "max_torque": 6.232563092858896,
+        "clipped": 0,
+        "root": [
+          0.0,
+          0.0,
+          0.783675
+        ],
+        "com": [
+          0.00764846834705904,
+          8.226090168117387e-05,
+          0.6869949200705132
+        ]
+      },
+      {
+        "t": 0.004,
+        "phase": "settle",
+        "sample_kind": "final_post_step",
+        "normal_forces_n": [
+          161.30484950009156,
+          161.09733007230287
+        ],
+        "contacts": [
+          6,
+          6
+        ],
+        "feet": [
+          [
+            -0.02600890966715421,
+            0.11850664962586051,
+            0.034561607198015064
+          ],
+          [
+            -0.026008905665013928,
+            -0.11850652047274171,
+            0.034561628073645274
+          ]
+        ],
+        "root": [
+          -1.0991263100655429e-05,
+          2.3973144165301492e-08,
+          0.7837404863598149
+        ],
+        "com": [
+          0.007657908641978384,
+          8.229430684877498e-05,
+          0.687067403385629
+        ],
+        "foot_clearance_m": [
+          -0.00044194579115617867,
+          -0.0004419184573522527
+        ],
+        "root_linear_velocity_m_s": [
+          -0.002747815775163857,
+          5.993286041325373e-06,
+          0.01637158995369868
+        ],
+        "root_angular_velocity_rad_s": [
+          2.1748616467510604e-06,
+          -0.020186922394070394,
+          1.9871476387927333e-05
+        ],
+        "maximum_joint_rate_rad_s": 0.12149160297502093
+      }
+    ],
+    "controller_status": "experimental_two_step_only",
+    "controller_failure_detail": "independent injected failure after first genuine step",
+    "two_step_probe_accepted": false,
+    "trace": [
+      {
+        "step": 1,
+        "simulation_time_s": 0.004,
+        "pelvis_height_m": 0.7837404863598149,
+        "tilt_rad": 8.074769038782936e-05,
+        "foot_contact_points": 12,
+        "nonfoot_floor_contacts": 0,
+        "self_contacts": 0,
+        "root_speed_m_s": 0.016600586889196554,
+        "root_angular_speed_rad_s": 0.02018693229170341,
+        "maximum_joint_rate_rad_s": 0.12149160297502093,
+        "terminal_reason": null
+      }
+    ]
+  }
+}

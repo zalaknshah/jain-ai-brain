@@ -11,6 +11,8 @@ dependencies = []
 
 [project.optional-dependencies]
 simulation = ["mujoco==3.17.0"]
+# The qualified experimental gait stack requires Python 3.12+ (NumPy metadata).
+gait = ["mujoco==3.17.0", "numpy==2.5.4"]
 
 [project.scripts]
 jace = "jace.cli:main"

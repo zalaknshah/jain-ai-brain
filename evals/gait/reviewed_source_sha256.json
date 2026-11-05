@@ -1,0 +1,20 @@
+{
+  "src/jace/freebase.py": "e09021829102c98bae3b311c6b1755d94fa7ad466aee37cded342ab5abb86c50",
+  "src/jace/freebase_balance.py": "9a9f85f44ec106878c94586e4c53b5ba47220b9ae6da7bfd8afa9596c14edbeb",
+  "src/jace/freebase_balance_controller.py": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+  "src/jace/freebase_balance_worker.py": "86c3126b221613e8ed97f16eda89ce66e140ca2a4af7971aa594b3431b6b2591",
+  "src/jace/freebase_gait.py": "01d4b2debf155c866962e0cc3c603ac635b467363c3f31b52d6d16332ddb0654",
+  "src/jace/freebase_gait_controller.py": "7f2ed4f7db866e66514645dd2920c512ee6c0e1b9ad5fba41fba9236e0defdce",
+  "src/jace/freebase_gait_metrics.py": "ee7d138091042fe23ec1d0c339aa68ac56005b6a90c8a246922fefe7c26b454f",
+  "src/jace/freebase_gait_worker.py": "e0f5b94b9bfb83ba38f49b90c02264de7e3c9cc7b6a4ac81689d21af0431d18a",
+  "src/jace/freebase_worker.py": "4a9e479c17c5ef7f4fc9ac36972890c4888c03f8a952f45ac972781b7cde17ba",
+  "src/jace/data/unitree_g1_LICENSE.txt": "98335465f43a20b5850e4651db6e74c4aa1e9fc8e8813d38f345178045c0da50",
+  "src/jace/data/unitree_g1_NOTICE.txt": "d430030d9e167debbd3d293e750e736c8690f934ddd8731948645d28206856ab",
+  "src/jace/data/unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+  "src/jace/data/unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee",
+  "src/jace/data/unitree_g1_source.json": "a6a815cf363674a4b1419fd827ed57d7f10a07c3f76b93b30c00d6b85c889224",
+  "pyproject.toml": "4db14f780aacdcb274237848a0518b8f44c8e55ec0db4af53884b0c06df3474e",
+  "tests/test_gait_runtime_compatibility.py": "7514ea732800e673b004a02934b31f1b71cbac8a17a1c624a34215dabea4cab4",
+  "tests/test_freebase_gait.py": "7d67c6743949b8bd642ca930a8f177b5153b805873fb701a9f8c111c2d026b9b",
+  "docs/FREEBASE_GAIT_PROBE.md": "cb733d618e2a8815b0acc7f8b4cbe991e2cb9afbfd8c1ff5bf1eedd7a118fb57"
+}

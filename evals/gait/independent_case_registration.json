@@ -1,0 +1,66 @@
+{
+  "frozen_sha256": "ae9270e733e53c1f79311d97865b8c9b8b45840a5c2fec9b65dd31f9d0e8df7d",
+  "cases": {
+    "baseline": null,
+    "small_forward_transfer": [
+      225,
+      250,
+      [
+        12.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "small_backward_first_swing": [
+      575,
+      600,
+      [
+        -12.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "small_lateral_first_swing": [
+      625,
+      650,
+      [
+        0.0,
+        12.0,
+        0.0
+      ]
+    ],
+    "medium_reverse_lateral_transfer": [
+      1150,
+      1175,
+      [
+        0.0,
+        -25.0,
+        0.0
+      ]
+    ],
+    "medium_diagonal_second_swing": [
+      1325,
+      1350,
+      [
+        25.0,
+        25.0,
+        0.0
+      ]
+    ],
+    "strong_forward_first_swing": [
+      575,
+      625,
+      [
+        300.0,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "time_step_s": 0.004,
+  "pulse_intervals": "inclusive start step, exclusive end step; world-frame pelvis force N",
+  "caps": "1 GiB address space,15 CPU seconds,30 outer-wall seconds,2000 steps",
+  "acceptance": "No process/numerical/physical guard; chronological right-only then left-only support; both feet geometric clearance > 0.005 m then contact landing; left x > .02 m,right x > .04 m,pelvis x > .015 m; final 1 s both feet contact and root speed < .05 m/s,angular < .1 rad/s,joint speed < .1 rad/s,tilt < .1 rad. This is a bounded two-step check, never walking qualification.",
+  "baseline_mapping": "Original baseline case maps to public neutral_posture; pulse times/forces unchanged.",
+  "case_label_correction": "medium_reverse_lateral_transfer actually applies during right swing; label retained for exact evidence continuity."
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "jace.gait.runtime-compatibility.v1",
+  "corrects_commit": "674230bb315b1c15fc6298c9d2b51994c06ea132",
+  "project_requires_python": ">=3.10",
+  "optional_extras": {
+    "simulation": [
+      "mujoco==3.17.0"
+    ],
+    "gait": [
+      "mujoco==3.17.0",
+      "numpy==2.5.4"
+    ]
+  },
+  "qualified_gait_runtime": {
+    "python": ">=3.12",
+    "mujoco": "3.17.0",
+    "numpy": "2.5.4"
+  },
+  "preflight": {
+    "public_before_worker": true,
+    "private_runner_before_backend_import": true,
+    "loaded_versions_before_model_creation": true,
+    "legacy_paths_bypass_gait_gate": true
+  },
+  "offline_generated_metadata": "Metadata-Version: 2.4\nName: jace\nVersion: 0.1.0\nSummary: Local-first Jain AI Cognitive Engine reference implementation\nRequires-Python: >=3.10\nProvides-Extra: simulation\nRequires-Dist: mujoco==3.17.0; extra == \"simulation\"\nProvides-Extra: gait\nRequires-Dist: mujoco==3.17.0; extra == \"gait\"\nRequires-Dist: numpy==2.5.4; extra == \"gait\"\n",
+  "independent_guard_tests_passed": 6,
+  "compatibility_tests_on_cpython_3_13_5_passed": 9,
+  "qualified_cpython_3_12_14_replays_exact_except_peak_rss": 11,
+  "controller_unchanged_sha256": "7f2ed4f7db866e66514645dd2920c512ee6c0e1b9ad5fba41fba9236e0defdce",
+  "reviewed_source_sha256": {
+    "pyproject.toml": "4db14f780aacdcb274237848a0518b8f44c8e55ec0db4af53884b0c06df3474e",
+    "src/jace/freebase.py": "e09021829102c98bae3b311c6b1755d94fa7ad466aee37cded342ab5abb86c50",
+    "src/jace/freebase_gait.py": "01d4b2debf155c866962e0cc3c603ac635b467363c3f31b52d6d16332ddb0654",
+    "src/jace/freebase_worker.py": "4a9e479c17c5ef7f4fc9ac36972890c4888c03f8a952f45ac972781b7cde17ba",
+    "src/jace/freebase_gait_controller.py": "7f2ed4f7db866e66514645dd2920c512ee6c0e1b9ad5fba41fba9236e0defdce",
+    "tests/test_gait_runtime_compatibility.py": "7514ea732800e673b004a02934b31f1b71cbac8a17a1c624a34215dabea4cab4",
+    "tests/test_freebase_gait.py": "7d67c6743949b8bd642ca930a8f177b5153b805873fb701a9f8c111c2d026b9b",
+    "docs/FREEBASE_GAIT_PROBE.md": "cb733d618e2a8815b0acc7f8b4cbe991e2cb9afbfd8c1ff5bf1eedd7a118fb57"
+  },
+  "package_installations_performed": 0,
+  "limitations": [
+    "Python 3.10/3.11 checks were synthetic; those interpreters were unavailable.",
+    "No package installation or dependency-resolver execution was performed.",
+    "This correction changes packaging/runtime preflight only; no numerical retuning or broader walking qualification."
+  ]
+}

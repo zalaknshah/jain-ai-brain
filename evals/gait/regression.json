@@ -1,0 +1,58 @@
+[
+  {
+    "controller": "source_servo",
+    "scenario": "neutral_posture",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "posture_guard_triggered",
+    "steps": 255
+  },
+  {
+    "controller": "source_servo",
+    "scenario": "forward_push",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "posture_guard_triggered",
+    "steps": 215
+  },
+  {
+    "controller": "source_servo",
+    "scenario": "sensor_dropout",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "sensor_guard_triggered",
+    "steps": 100
+  },
+  {
+    "controller": "source_servo",
+    "scenario": "initial_tilt",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "posture_guard_triggered",
+    "steps": 0
+  },
+  {
+    "controller": "posture_feedback",
+    "scenario": "neutral_posture",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "step_budget_reached",
+    "steps": 2000
+  },
+  {
+    "controller": "posture_feedback",
+    "scenario": "forward_push",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "posture_guard_triggered",
+    "steps": 366
+  },
+  {
+    "controller": "posture_feedback",
+    "scenario": "sensor_dropout",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "sensor_guard_triggered",
+    "steps": 100
+  },
+  {
+    "controller": "posture_feedback",
+    "scenario": "initial_tilt",
+    "exact_report_match_excluding_peak_rss": true,
+    "terminal_reason": "posture_guard_triggered",
+    "steps": 0
+  }
+]

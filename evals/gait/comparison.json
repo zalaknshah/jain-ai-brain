@@ -1,0 +1,492 @@
+{
+  "baseline": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 2000,
+    "packaged_samples": 2001,
+    "final_sample": {
+      "t": 7.999999999999562,
+      "phase": "recover",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        165.42573878632714,
+        161.65638257405982
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          0.014221942781697115,
+          0.12098299664390945,
+          0.03487810193631156
+        ],
+        [
+          0.05407208357273051,
+          -0.11942041203222657,
+          0.0348099702725773
+        ]
+      ],
+      "root": [
+        0.03503264740575961,
+        -0.0013615770808163227,
+        0.738281031251837
+      ],
+      "com": [
+        0.0638664576056376,
+        0.000641042605792929,
+        0.6625205575957476
+      ],
+      "foot_clearance_m": [
+        -0.0001395860232916764,
+        -0.0002605890364252081
+      ],
+      "root_linear_velocity_m_s": [
+        3.8088168735743767e-05,
+        -0.00013568594378722494,
+        -0.00015739708731820712
+      ],
+      "root_angular_velocity_rad_s": [
+        -0.0008190879821616227,
+        -0.0003958997206697262,
+        2.279579343515206e-05
+      ],
+      "maximum_joint_rate_rad_s": 0.002511765910471018
+    },
+    "two_step_probe_accepted": true,
+    "terminal_reason": "step_budget_reached",
+    "chatter": {
+      "left": 34,
+      "right": 31
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  },
+  "small_forward_transfer": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 2000,
+    "packaged_samples": 2001,
+    "final_sample": {
+      "t": 7.999999999999562,
+      "phase": "recover",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        165.41227874578502,
+        161.6701871395431
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          0.014216377367167948,
+          0.12095953064340412,
+          0.03487810384030596
+        ],
+        [
+          0.05405948410040463,
+          -0.11944392864001052,
+          0.03480999285714853
+        ]
+      ],
+      "root": [
+        0.03541655333729235,
+        -0.0014283744088279034,
+        0.7383491155421104
+      ],
+      "com": [
+        0.06386705143842791,
+        0.0006233039443350939,
+        0.6625701065686859
+      ],
+      "foot_clearance_m": [
+        -0.00013958755297114936,
+        -0.00026054286355295777
+      ],
+      "root_linear_velocity_m_s": [
+        2.862539154888426e-05,
+        -0.00014397687162334965,
+        -0.0001655127092053883
+      ],
+      "root_angular_velocity_rad_s": [
+        -0.0008467349139717754,
+        -0.00044434617151663594,
+        7.875899582358088e-05
+      ],
+      "maximum_joint_rate_rad_s": 0.0025233007955791443
+    },
+    "two_step_probe_accepted": true,
+    "terminal_reason": "step_budget_reached",
+    "chatter": {
+      "left": 33,
+      "right": 30
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  },
+  "small_backward_first_swing": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 2000,
+    "packaged_samples": 2001,
+    "final_sample": {
+      "t": 7.999999999999562,
+      "phase": "recover",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        165.41079464621183,
+        161.6712936248641
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          0.014370804070311325,
+          0.12099314470109618,
+          0.03487798672891164
+        ],
+        [
+          0.05410095485431265,
+          -0.11943967039074908,
+          0.03480996421276741
+        ]
+      ],
+      "root": [
+        0.03462946271575656,
+        -0.0014354272220356975,
+        0.7383011052904603
+      ],
+      "com": [
+        0.0639257492477936,
+        0.0006248123872776267,
+        0.6625412729953953
+      ],
+      "foot_clearance_m": [
+        -0.00013979111124444457,
+        -0.0002605933153252669
+      ],
+      "root_linear_velocity_m_s": [
+        5.856135512716233e-05,
+        -0.00013507288052524711,
+        -0.00015611245633107357
+      ],
+      "root_angular_velocity_rad_s": [
+        -0.0008231505605782061,
+        -0.0003729530396122717,
+        5.116532331794209e-05
+      ],
+      "maximum_joint_rate_rad_s": 0.0024737940447605872
+    },
+    "two_step_probe_accepted": true,
+    "terminal_reason": "step_budget_reached",
+    "chatter": {
+      "left": 34,
+      "right": 32
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  },
+  "small_lateral_first_swing": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 2000,
+    "packaged_samples": 2001,
+    "final_sample": {
+      "t": 7.999999999999562,
+      "phase": "recover",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        165.2164845823876,
+        161.8657313438149
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          0.014319099223048293,
+          0.12060436002923648,
+          0.03487794675326353
+        ],
+        [
+          0.054031799296495986,
+          -0.11949372135149743,
+          0.034810104788760066
+        ]
+      ],
+      "root": [
+        0.03510448745170807,
+        -0.0012974708042400723,
+        0.7384583504463605
+      ],
+      "com": [
+        0.06392935843881123,
+        0.0005075613520661743,
+        0.6626723699880922
+      ],
+      "foot_clearance_m": [
+        -0.0001399335549541882,
+        -0.00026025604781442977
+      ],
+      "root_linear_velocity_m_s": [
+        2.9863407045765358e-05,
+        -0.00014649891787487504,
+        -0.00015756265755093523
+      ],
+      "root_angular_velocity_rad_s": [
+        -0.0008207469856503594,
+        -0.00037762106854581705,
+        9.567499395745568e-05
+      ],
+      "maximum_joint_rate_rad_s": 0.0026147435856218146
+    },
+    "two_step_probe_accepted": true,
+    "terminal_reason": "step_budget_reached",
+    "chatter": {
+      "left": 25,
+      "right": 33
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  },
+  "medium_reverse_lateral_transfer": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 2000,
+    "packaged_samples": 2001,
+    "final_sample": {
+      "t": 7.999999999999562,
+      "phase": "recover",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        166.23358372194008,
+        160.85061414352148
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          0.013128583436061502,
+          0.12031170836253387,
+          0.03487841366246147
+        ],
+        [
+          0.05386356816039117,
+          -0.11890997245937138,
+          0.03481114315645983
+        ]
+      ],
+      "root": [
+        0.03447542971710156,
+        -0.0017573428705672015,
+        0.7383196904220066
+      ],
+      "com": [
+        0.06354599987675656,
+        0.0009944446269067922,
+        0.6625135963322075
+      ],
+      "foot_clearance_m": [
+        -0.00013873485315005603,
+        -0.00025885711550690496
+      ],
+      "root_linear_velocity_m_s": [
+        -0.00019964634913060544,
+        -0.0001720303537166153,
+        -0.00023132086621862772
+      ],
+      "root_angular_velocity_rad_s": [
+        -0.0011060774226856907,
+        5.8325068450128576e-05,
+        3.1675802073220826e-05
+      ],
+      "maximum_joint_rate_rad_s": 0.0029038669948318542
+    },
+    "two_step_probe_accepted": true,
+    "terminal_reason": "step_budget_reached",
+    "chatter": {
+      "left": 56,
+      "right": 18
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  },
+  "medium_diagonal_second_swing": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 2000,
+    "packaged_samples": 2001,
+    "final_sample": {
+      "t": 7.999999999999562,
+      "phase": "recover",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        163.9101730113667,
+        163.1711283299008
+      ],
+      "contacts": [
+        6,
+        6
+      ],
+      "feet": [
+        [
+          0.01399407076678686,
+          0.1231112113285002,
+          0.03487979214050943
+        ],
+        [
+          0.053389613663014486,
+          -0.11966904497512738,
+          0.03480849972458212
+        ]
+      ],
+      "root": [
+        0.034815253520663156,
+        -0.0009318516859704458,
+        0.7380783713586265
+      ],
+      "com": [
+        0.06360057917995476,
+        0.0005543653300669781,
+        0.6623404605924957
+      ],
+      "foot_clearance_m": [
+        -0.00013726656664475058,
+        -0.0002625418782539881
+      ],
+      "root_linear_velocity_m_s": [
+        -0.00012096093029554388,
+        -0.00015652794947166403,
+        -0.00019753223863290791
+      ],
+      "root_angular_velocity_rad_s": [
+        -0.0011292749842433504,
+        -6.307564899211305e-05,
+        0.0009424267759049263
+      ],
+      "maximum_joint_rate_rad_s": 0.002765461656986448
+    },
+    "two_step_probe_accepted": true,
+    "terminal_reason": "step_budget_reached",
+    "chatter": {
+      "left": 34,
+      "right": 40
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  },
+  "strong_forward_first_swing": {
+    "all_original_control_fields_exact": true,
+    "control_differences": [],
+    "dynamics_exact": true,
+    "dynamics_differences": [],
+    "original_samples": 662,
+    "packaged_samples": 663,
+    "final_sample": {
+      "t": 2.648000000000002,
+      "phase": "swing_left",
+      "sample_kind": "final_post_step",
+      "normal_forces_n": [
+        0.0,
+        105.20130328698897
+      ],
+      "contacts": [
+        0,
+        1
+      ],
+      "feet": [
+        [
+          0.06411530754031235,
+          0.11834911360623829,
+          0.04102494033777236
+        ],
+        [
+          -0.004595465637487457,
+          -0.20975836838646444,
+          0.04354315122886945
+        ]
+      ],
+      "root": [
+        0.4914628554219972,
+        -0.11985633509564232,
+        0.5464421624151669
+      ],
+      "com": [
+        0.40415371744692175,
+        -0.11338842787783965,
+        0.5457545191059509
+      ],
+      "foot_clearance_m": [
+        0.0004024581352416218,
+        -9.6178436548096e-06
+      ],
+      "root_linear_velocity_m_s": [
+        1.543134646315192,
+        -0.14785521885456465,
+        -1.4128923746245075
+      ],
+      "root_angular_velocity_rad_s": [
+        1.0916501744724862,
+        0.8307943813161709,
+        -3.0241535495868757
+      ],
+      "maximum_joint_rate_rad_s": 16.73865897256431
+    },
+    "two_step_probe_accepted": false,
+    "terminal_reason": "posture_guard_triggered",
+    "chatter": {
+      "left": 0,
+      "right": 5
+    },
+    "flags": {
+      "walking_verified": false,
+      "balance_qualified": false,
+      "locomotion_controller": true,
+      "controller_status": "experimental_two_step_only"
+    }
+  }
+}

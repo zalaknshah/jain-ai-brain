@@ -1,0 +1,8 @@
+{
+  "command_returned_source_bounded_targets": true,
+  "root_and_joint_state_unchanged": true,
+  "applied_forces_and_ctrl_unchanged": true,
+  "model_masses_and_force_caps_unchanged": true,
+  "physics_steps_executed": 0,
+  "scope": "One model-initialization/control-computation contract check, not gait or safety qualification"
+}

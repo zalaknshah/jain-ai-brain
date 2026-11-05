@@ -1,0 +1,2333 @@
+{
+  "scope": "Development trials, not heldout validation. All failures retained; surviving horizons are not automatic gait successes. Final packaged code preserves version14 case0 math.",
+  "trials": [
+    {
+      "development_version": 1,
+      "case_index": 0,
+      "source_sha256": "d7738b4d7f20073c56585a9205ba50e9508669f800ac75b1c72d81377ca7672e",
+      "probe_parameters": {
+        "hip_roll_shift_rad": 0.12,
+        "knee_swing_rad": 0.2
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 3.1400000000000023,
+      "maximum_tilt_rad": 0.5007843589104881,
+      "maximum_joint_rate_rad_s": 2.7065193949920294,
+      "final_root_position_m": [
+        0.06057596979552304,
+        -0.5400190180218737,
+        0.6449119212580458
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 158
+      },
+      "foot_displacement_m": {
+        "left": [
+          -0.009982737364105689,
+          -0.15287897455075747,
+          0.006282579056308791
+        ],
+        "right": [
+          -0.0003530320881856494,
+          0.007685022858229307,
+          0.0007438232547218836
+        ]
+      }
+    },
+    {
+      "development_version": 1,
+      "case_index": 1,
+      "source_sha256": "d7738b4d7f20073c56585a9205ba50e9508669f800ac75b1c72d81377ca7672e",
+      "probe_parameters": {
+        "hip_roll_shift_rad": 0.16,
+        "knee_swing_rad": 0.2
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 2.692000000000002,
+      "maximum_tilt_rad": 0.5022467178872283,
+      "maximum_joint_rate_rad_s": 2.4707321507761097,
+      "final_root_position_m": [
+        0.02441083189430221,
+        -0.5824054762109526,
+        0.6048080960480833
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 127
+      },
+      "foot_displacement_m": {
+        "left": [
+          -0.009703565269017063,
+          -0.14890060000290412,
+          0.007889476152444203
+        ],
+        "right": [
+          -0.001735658530464923,
+          0.0049805651483456614,
+          0.004356021592246507
+        ]
+      }
+    },
+    {
+      "development_version": 1,
+      "case_index": 2,
+      "source_sha256": "d7738b4d7f20073c56585a9205ba50e9508669f800ac75b1c72d81377ca7672e",
+      "probe_parameters": {
+        "hip_roll_shift_rad": 0.16,
+        "knee_swing_rad": 0.35
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 2.680000000000002,
+      "maximum_tilt_rad": 0.47008137214868945,
+      "maximum_joint_rate_rad_s": 2.9253968435683055,
+      "final_root_position_m": [
+        0.028971640411694016,
+        -0.5659882559605625,
+        0.615519901178993
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 126
+      },
+      "foot_displacement_m": {
+        "left": [
+          0.010977316083919324,
+          -0.15588598415358046,
+          0.004127253905013197
+        ],
+        "right": [
+          -0.0007677069011614718,
+          0.0044547236110665245,
+          0.002614587114338405
+        ]
+      }
+    },
+    {
+      "development_version": 1,
+      "case_index": 3,
+      "source_sha256": "d7738b4d7f20073c56585a9205ba50e9508669f800ac75b1c72d81377ca7672e",
+      "probe_parameters": {
+        "hip_roll_shift_rad": 0.2,
+        "knee_swing_rad": 0.2
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.9720000000000015,
+      "maximum_tilt_rad": 0.036473821520586786,
+      "maximum_joint_rate_rad_s": 2.481412197288753,
+      "final_root_position_m": [
+        0.0172789064333483,
+        -0.19986209521636336,
+        0.756669625599352
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 9
+      },
+      "foot_displacement_m": {
+        "left": [
+          0.0014045594843608289,
+          -0.012402132219802312,
+          0.0006846264221463082
+        ],
+        "right": [
+          -0.00019604874895139818,
+          0.0019793765323187495,
+          0.0005517907355117105
+        ]
+      }
+    },
+    {
+      "development_version": 2,
+      "case_index": 0,
+      "source_sha256": "1b410a41f7ea759d1a76d1515c181e910428f734991ac329381d6f350a155530",
+      "probe_parameters": {
+        "kp": 0.5,
+        "kd": 0.15,
+        "target_y": -0.1
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 2.880000000000002,
+      "maximum_tilt_rad": 0.503186294591419,
+      "maximum_joint_rate_rad_s": 2.53783507769399,
+      "final_root_position_m": [
+        0.005307457476902285,
+        -0.45946658320900846,
+        0.7076014579040073
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 146
+      }
+    },
+    {
+      "development_version": 2,
+      "case_index": 1,
+      "source_sha256": "1b410a41f7ea759d1a76d1515c181e910428f734991ac329381d6f350a155530",
+      "probe_parameters": {
+        "kp": 1,
+        "kd": 0.2,
+        "target_y": -0.1
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 2.892000000000002,
+      "maximum_tilt_rad": 0.506148424742152,
+      "maximum_joint_rate_rad_s": 2.5344906724327094,
+      "final_root_position_m": [
+        0.0017087498901229368,
+        -0.3986408709490623,
+        0.7448282396999844
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 165
+      }
+    },
+    {
+      "development_version": 2,
+      "case_index": 2,
+      "source_sha256": "1b410a41f7ea759d1a76d1515c181e910428f734991ac329381d6f350a155530",
+      "probe_parameters": {
+        "kp": 2,
+        "kd": 0.3,
+        "target_y": -0.1
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 2.984000000000002,
+      "maximum_tilt_rad": 0.5030588718396899,
+      "maximum_joint_rate_rad_s": 2.5673258445439933,
+      "final_root_position_m": [
+        -0.00278102583401419,
+        -0.33068483406372695,
+        0.7749649202759775
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 188
+      }
+    },
+    {
+      "development_version": 2,
+      "case_index": 3,
+      "source_sha256": "1b410a41f7ea759d1a76d1515c181e910428f734991ac329381d6f350a155530",
+      "probe_parameters": {
+        "kp": 3,
+        "kd": 0.4,
+        "target_y": -0.1
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 3.0760000000000023,
+      "maximum_tilt_rad": 0.43623715568822535,
+      "maximum_joint_rate_rad_s": 2.540274368753046,
+      "final_root_position_m": [
+        -0.0024292326786199457,
+        -0.26694156674335145,
+        0.789465824297198
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 211
+      }
+    },
+    {
+      "development_version": 2,
+      "case_index": 4,
+      "source_sha256": "1b410a41f7ea759d1a76d1515c181e910428f734991ac329381d6f350a155530",
+      "probe_parameters": {
+        "kp": 4,
+        "kd": 0.6,
+        "target_y": -0.1
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 3.5400000000000027,
+      "maximum_tilt_rad": 0.37542938056303315,
+      "maximum_joint_rate_rad_s": 2.546703549684111,
+      "final_root_position_m": [
+        -0.0202972618342822,
+        -0.22119234918316868,
+        0.7959398313721321
+      ],
+      "settled_tail_s": 0.0,
+      "single_support_steps": {
+        "left": 0,
+        "right": 286
+      }
+    },
+    {
+      "development_version": 2,
+      "case_index": 5,
+      "source_sha256": "1b410a41f7ea759d1a76d1515c181e910428f734991ac329381d6f350a155530",
+      "probe_parameters": {
+        "kp": 6,
+        "kd": 0.8,
+        "target_y": -0.1
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.07411505903954882,
+      "maximum_joint_rate_rad_s": 2.549637788595712,
+      "final_root_position_m": [
+        -0.0226983237110711,
+        -0.13744721365440826,
+        0.7766745073587077
+      ],
+      "settled_tail_s": 5.124,
+      "single_support_steps": {
+        "left": 0,
+        "right": 61
+      }
+    },
+    {
+      "development_version": 3,
+      "case_index": 0,
+      "source_sha256": "03ed470f5741cc41f831c101f38ec8cddd76b84c827ad1545d414287e86017ff",
+      "probe_parameters": {
+        "kp": 6,
+        "kd": 0.8,
+        "x_feedback": false
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 4.743999999999921,
+      "maximum_tilt_rad": 0.29757873567819537,
+      "maximum_joint_rate_rad_s": 2.5863101449596,
+      "final_root_position_m": [
+        -0.04378144197273539,
+        -0.17168336331194362,
+        0.7993839357899675
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 275
+      }
+    },
+    {
+      "development_version": 3,
+      "case_index": 1,
+      "source_sha256": "03ed470f5741cc41f831c101f38ec8cddd76b84c827ad1545d414287e86017ff",
+      "probe_parameters": {
+        "kp": 8,
+        "kd": 1.0,
+        "x_feedback": false
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 5.427999999999845,
+      "maximum_tilt_rad": 0.26562782245906047,
+      "maximum_joint_rate_rad_s": 3.3726731034886446,
+      "final_root_position_m": [
+        -0.045846322971493395,
+        -0.15056838221631205,
+        0.7989208489074584
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 172
+      }
+    },
+    {
+      "development_version": 3,
+      "case_index": 2,
+      "source_sha256": "03ed470f5741cc41f831c101f38ec8cddd76b84c827ad1545d414287e86017ff",
+      "probe_parameters": {
+        "kp": 10,
+        "kd": 1.2,
+        "x_feedback": false
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.06213238303523131,
+      "maximum_joint_rate_rad_s": 2.514493181244667,
+      "final_root_position_m": [
+        -0.00945825243087424,
+        -0.13377442722250818,
+        0.777516147349354
+      ],
+      "settled_tail_s": 5.0520000000000005,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 56
+      }
+    },
+    {
+      "development_version": 3,
+      "case_index": 3,
+      "source_sha256": "03ed470f5741cc41f831c101f38ec8cddd76b84c827ad1545d414287e86017ff",
+      "probe_parameters": {
+        "kp": 6,
+        "kd": 0.8,
+        "x_feedback": true
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 3.932000000000003,
+      "maximum_tilt_rad": 0.30197386370420376,
+      "maximum_joint_rate_rad_s": 3.445485326062465,
+      "final_root_position_m": [
+        0.00421173064556826,
+        -0.17283413853042007,
+        0.7950079973815692
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_left",
+      "single_support_steps": {
+        "left": 4,
+        "right": 327
+      }
+    },
+    {
+      "development_version": 3,
+      "case_index": 4,
+      "source_sha256": "03ed470f5741cc41f831c101f38ec8cddd76b84c827ad1545d414287e86017ff",
+      "probe_parameters": {
+        "kp": 8,
+        "kd": 1.0,
+        "x_feedback": true
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 4.223999999999978,
+      "maximum_tilt_rad": 0.28083482072005983,
+      "maximum_joint_rate_rad_s": 3.4679115243620617,
+      "final_root_position_m": [
+        0.00039053671337678714,
+        -0.15174577366669367,
+        0.7970092601909332
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 182
+      }
+    },
+    {
+      "development_version": 4,
+      "case_index": 0,
+      "source_sha256": "788040df062bc566a26f05498a406fa20106a795b2033ec04ba6e0f7d9b4d960",
+      "probe_parameters": {
+        "root_kp": 40,
+        "joint_weight": 0.1
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.0044821269936699305,
+      "maximum_joint_rate_rad_s": 0.10332925868466526,
+      "final_root_position_m": [
+        -0.0002816333314720806,
+        5.076643092093211e-06,
+        0.7845333997085707
+      ],
+      "settled_tail_s": 7.996
+    },
+    {
+      "development_version": 4,
+      "case_index": 1,
+      "source_sha256": "788040df062bc566a26f05498a406fa20106a795b2033ec04ba6e0f7d9b4d960",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.0015618713022310996,
+      "maximum_joint_rate_rad_s": 0.10332925868466526,
+      "final_root_position_m": [
+        -0.00030124934783951117,
+        2.8350792911002134e-06,
+        0.7842200089281531
+      ],
+      "settled_tail_s": 7.992
+    },
+    {
+      "development_version": 4,
+      "case_index": 2,
+      "source_sha256": "788040df062bc566a26f05498a406fa20106a795b2033ec04ba6e0f7d9b4d960",
+      "probe_parameters": {
+        "root_kp": 120,
+        "joint_weight": 0.1
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.0006874917926115793,
+      "maximum_joint_rate_rad_s": 0.10332925868466526,
+      "final_root_position_m": [
+        -0.00024611240275700244,
+        9.714429656836992e-07,
+        0.7840705437242521
+      ],
+      "settled_tail_s": 7.996
+    },
+    {
+      "development_version": 4,
+      "case_index": 3,
+      "source_sha256": "788040df062bc566a26f05498a406fa20106a795b2033ec04ba6e0f7d9b4d960",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 1.0
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.0012877989962790343,
+      "maximum_joint_rate_rad_s": 0.1033251171888135,
+      "final_root_position_m": [
+        -5.783051573204878e-05,
+        -4.767412246263261e-06,
+        0.7838023600395239
+      ],
+      "settled_tail_s": 7.996
+    },
+    {
+      "development_version": 5,
+      "case_index": 0,
+      "source_sha256": "d795a1f1634d88be8a03570ecee3bd81342801386bdf558329eb8ffae0cad660",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "drop": 0.025,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.1960000000000008,
+      "maximum_tilt_rad": 0.05909387736842632,
+      "maximum_joint_rate_rad_s": 0.6954611219301869,
+      "final_root_position_m": [
+        -0.0057501178808485555,
+        -0.007699175978463255,
+        0.7575500109291786
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -6.069518851014449e-05,
+          0.0007149327505612951,
+          0.0005195145946723934
+        ],
+        [
+          -6.532209004431536e-05,
+          0.0007173843488307713,
+          0.000520452301281879
+        ]
+      ]
+    },
+    {
+      "development_version": 5,
+      "case_index": 1,
+      "source_sha256": "d795a1f1634d88be8a03570ecee3bd81342801386bdf558329eb8ffae0cad660",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "drop": 0.045,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 0.5120000000000003,
+      "maximum_tilt_rad": 0.043306129614247055,
+      "maximum_joint_rate_rad_s": 1.062047286173134,
+      "final_root_position_m": [
+        -0.0014262940566115185,
+        3.868536274109988e-05,
+        0.7701352449230153
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "settle",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -2.3161341743054703e-05,
+          -1.2116552748631104e-07,
+          0.00038423856879840623
+        ],
+        [
+          -2.2848444108408694e-05,
+          4.169572421150458e-06,
+          0.00038430800652946434
+        ]
+      ]
+    },
+    {
+      "development_version": 5,
+      "case_index": 2,
+      "source_sha256": "d795a1f1634d88be8a03570ecee3bd81342801386bdf558329eb8ffae0cad660",
+      "probe_parameters": {
+        "root_kp": 120,
+        "joint_weight": 0.1,
+        "drop": 0.045,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 0.46400000000000036,
+      "maximum_tilt_rad": 0.032191633017567396,
+      "maximum_joint_rate_rad_s": 1.1340306053924942,
+      "final_root_position_m": [
+        -0.0016898214984242257,
+        3.401821844955503e-05,
+        0.7708913455497434
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "settle",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -3.5233712019439034e-05,
+          -4.0756648596318445e-07,
+          0.00038684682066347786
+        ],
+        [
+          -3.631932069494276e-05,
+          4.803649911191976e-06,
+          0.00038693082089415187
+        ]
+      ]
+    },
+    {
+      "development_version": 5,
+      "case_index": 3,
+      "source_sha256": "d795a1f1634d88be8a03570ecee3bd81342801386bdf558329eb8ffae0cad660",
+      "probe_parameters": {
+        "root_kp": 120,
+        "joint_weight": 0.1,
+        "drop": 0.045,
+        "swing_s": 1.0
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 0.46400000000000036,
+      "maximum_tilt_rad": 0.032191633017567396,
+      "maximum_joint_rate_rad_s": 1.1340306053924942,
+      "final_root_position_m": [
+        -0.0016898214984242257,
+        3.401821844955503e-05,
+        0.7708913455497434
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "settle",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -3.5233712019439034e-05,
+          -4.0756648596318445e-07,
+          0.00038684682066347786
+        ],
+        [
+          -3.631932069494276e-05,
+          4.803649911191976e-06,
+          0.00038693082089415187
+        ]
+      ]
+    },
+    {
+      "development_version": 6,
+      "case_index": 0,
+      "source_sha256": "b907b89a21a8439e9eacb19f0a59698ec2cc701d406e26a77ca278fb8efc3e89",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.0,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.7040000000000013,
+      "maximum_tilt_rad": 0.00860541779087209,
+      "maximum_joint_rate_rad_s": 1.9776470168599627,
+      "final_root_position_m": [
+        -0.018852201430590153,
+        -0.11058111446903084,
+        0.7841754321845362
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.0026770654828921873,
+          -0.009094915462552478,
+          0.002915707525975364
+        ],
+        [
+          -0.0026403171180319276,
+          -0.009843730672909376,
+          0.002985151053045594
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.7040000000000013,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.0005288478074909064
+        }
+      ]
+    },
+    {
+      "development_version": 6,
+      "case_index": 1,
+      "source_sha256": "b907b89a21a8439e9eacb19f0a59698ec2cc701d406e26a77ca278fb8efc3e89",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.015,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.7160000000000013,
+      "maximum_tilt_rad": 0.02588308774447563,
+      "maximum_joint_rate_rad_s": 1.4553631899458912,
+      "final_root_position_m": [
+        -0.03414922905539487,
+        -0.1135080063771758,
+        0.7648931104226893
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.0027654561130779354,
+          -0.009438864178117776,
+          0.002976754732828997
+        ],
+        [
+          -0.002618395222086546,
+          -0.009908659741519013,
+          0.002971044037354896
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.7160000000000013,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.000708627751941665
+        }
+      ]
+    },
+    {
+      "development_version": 6,
+      "case_index": 2,
+      "source_sha256": "b907b89a21a8439e9eacb19f0a59698ec2cc701d406e26a77ca278fb8efc3e89",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.7200000000000013,
+      "maximum_tilt_rad": 0.03492929339257563,
+      "maximum_joint_rate_rad_s": 1.4173787932142103,
+      "final_root_position_m": [
+        -0.03961599078094596,
+        -0.11450299849354471,
+        0.7515562142546968
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.0028568035890918116,
+          -0.009759513945002268,
+          0.003032642515598691
+        ],
+        [
+          -0.002681824869097328,
+          -0.010112140687424623,
+          0.0029933455996091346
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.7200000000000013,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.0006281513580733145
+        }
+      ]
+    },
+    {
+      "development_version": 6,
+      "case_index": 3,
+      "source_sha256": "b907b89a21a8439e9eacb19f0a59698ec2cc701d406e26a77ca278fb8efc3e89",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 10.0,
+        "drop": 0.025,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.7200000000000013,
+      "maximum_tilt_rad": 0.035319870620446586,
+      "maximum_joint_rate_rad_s": 1.4281596922993518,
+      "final_root_position_m": [
+        -0.03968293309367603,
+        -0.11474599775245926,
+        0.751540314628074
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.002871572676614184,
+          -0.009768425454332055,
+          0.0030357545844082734
+        ],
+        [
+          -0.0026985572004799736,
+          -0.010121814487866379,
+          0.002995987153029428
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.7200000000000013,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.0006881084804902099
+        }
+      ]
+    },
+    {
+      "development_version": 6,
+      "case_index": 4,
+      "source_sha256": "b907b89a21a8439e9eacb19f0a59698ec2cc701d406e26a77ca278fb8efc3e89",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 10.0,
+        "drop": 0.035,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.7240000000000013,
+      "maximum_tilt_rad": 0.041037593641143864,
+      "maximum_joint_rate_rad_s": 1.5033158683761036,
+      "final_root_position_m": [
+        -0.04392037506056503,
+        -0.116619919179221,
+        0.7385026797545403
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.0029714093765968383,
+          -0.010085352437960646,
+          0.0030944034265539336
+        ],
+        [
+          -0.0027876289771035997,
+          -0.010375744028036274,
+          0.0030352292762587663
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.7240000000000013,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.0017744231955123396
+        }
+      ]
+    },
+    {
+      "development_version": 7,
+      "case_index": 0,
+      "source_sha256": "bdaf9dab3aaeb85a42595fe3f1e9dbf85722b709a9b3f780682f4e801d7c8908",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.0,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.8280000000000014,
+      "maximum_tilt_rad": 0.07536962455718103,
+      "maximum_joint_rate_rad_s": 6.863611300119032,
+      "final_root_position_m": [
+        -0.01858359586347028,
+        -0.2026277142923155,
+        0.7598714569539115
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 6,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.016745347971623116,
+          0.0023930791833225717,
+          0.00760679506922117
+        ],
+        [
+          -0.03566658296763563,
+          -0.008662834768461067,
+          0.010957409821530872
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.8280000000000014,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.005010457036848645
+        }
+      ]
+    },
+    {
+      "development_version": 7,
+      "case_index": 1,
+      "source_sha256": "bdaf9dab3aaeb85a42595fe3f1e9dbf85722b709a9b3f780682f4e801d7c8908",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.015,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.8440000000000014,
+      "maximum_tilt_rad": 0.11665925089889036,
+      "maximum_joint_rate_rad_s": 6.4465278393845775,
+      "final_root_position_m": [
+        -0.03308357290058319,
+        -0.20682037081168403,
+        0.7475431694642342
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 1,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.005721740326864656,
+          -0.013749500115021032,
+          0.005141451477775026
+        ],
+        [
+          -0.005683869949907258,
+          -0.017130221736029586,
+          0.0056439867167751845
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.8440000000000014,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.004682501639694817
+        }
+      ]
+    },
+    {
+      "development_version": 7,
+      "case_index": 2,
+      "source_sha256": "bdaf9dab3aaeb85a42595fe3f1e9dbf85722b709a9b3f780682f4e801d7c8908",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.8480000000000014,
+      "maximum_tilt_rad": 0.14318592860032206,
+      "maximum_joint_rate_rad_s": 5.630485377908101,
+      "final_root_position_m": [
+        -0.039637568590168995,
+        -0.20400707385846614,
+        0.7340044713138442
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.005418749381439415,
+          -0.01624692624882418,
+          0.004159132739161964
+        ],
+        [
+          -0.00432478884543849,
+          -0.017575376521856353,
+          0.0038260893389292783
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.8480000000000014,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.005097531130736133
+        }
+      ]
+    },
+    {
+      "development_version": 7,
+      "case_index": 3,
+      "source_sha256": "bdaf9dab3aaeb85a42595fe3f1e9dbf85722b709a9b3f780682f4e801d7c8908",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 10.0,
+        "drop": 0.025,
+        "swing_s": 0.8
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 1.8480000000000014,
+      "maximum_tilt_rad": 0.14389264250802689,
+      "maximum_joint_rate_rad_s": 5.683038369613177,
+      "final_root_position_m": [
+        -0.03955233872443132,
+        -0.204772807449959,
+        0.7339576918308142
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 0
+      },
+      "foot_displacements_m": [
+        [
+          -0.0055043328801886796,
+          -0.01622534604433469,
+          0.004236852075175157
+        ],
+        [
+          -0.004342088414557722,
+          -0.017627264736009632,
+          0.0038324540636688886
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 1.8480000000000014,
+          "pair": [
+            "right_hip_collision",
+            "right_hand_collision"
+          ],
+          "distance": -0.005198456410468913
+        }
+      ]
+    },
+    {
+      "development_version": 8,
+      "case_index": 0,
+      "source_sha256": "f35824cfacdf6393077846e81b30f0b143dd54da94e5eac244e61f3d59874a31",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 0.1
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 3.1480000000000024,
+      "maximum_tilt_rad": 0.09334674811510447,
+      "maximum_joint_rate_rad_s": 4.163240490012141,
+      "final_root_position_m": [
+        -0.06500525880899595,
+        -0.07299417262570804,
+        0.7533352212722685
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 319
+      },
+      "foot_displacements_m": [
+        [
+          0.07874362677571554,
+          -0.006021151313287648,
+          0.006315297934164771
+        ],
+        [
+          -0.0004661173661028306,
+          -0.0004824361215747808,
+          0.00020017343341049987
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 3.1480000000000024,
+          "pair": [
+            "left_hip_collision",
+            "left_hand_collision"
+          ],
+          "distance": -0.0014359837919045992
+        }
+      ]
+    },
+    {
+      "development_version": 8,
+      "case_index": 1,
+      "source_sha256": "f35824cfacdf6393077846e81b30f0b143dd54da94e5eac244e61f3d59874a31",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 1.0
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 2.2720000000000016,
+      "maximum_tilt_rad": 0.19048253304955418,
+      "maximum_joint_rate_rad_s": 8.208297102271349,
+      "final_root_position_m": [
+        -0.05303527865323363,
+        -0.19062882285264054,
+        0.7784279895199223
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 101
+      },
+      "foot_displacements_m": [
+        [
+          -0.09725921943417154,
+          -0.28140510486223935,
+          0.2140806306305375
+        ],
+        [
+          -0.00013856289955881118,
+          0.00021631016763372368,
+          0.00034708168015435553
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 2.2720000000000016,
+          "pair": [
+            "right_shin_collision",
+            "left_foot_box_collision"
+          ],
+          "distance": -0.004633514439995379
+        }
+      ]
+    },
+    {
+      "development_version": 8,
+      "case_index": 2,
+      "source_sha256": "f35824cfacdf6393077846e81b30f0b143dd54da94e5eac244e61f3d59874a31",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 10.0
+      },
+      "terminal_reason": "unexpected_contact_detected",
+      "elapsed_simulation_s": 2.2760000000000016,
+      "maximum_tilt_rad": 0.1782027060205059,
+      "maximum_joint_rate_rad_s": 7.017714143485013,
+      "final_root_position_m": [
+        -0.058492732651563004,
+        -0.18706436102233956,
+        0.7750305683785449
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_right",
+      "single_support_steps": {
+        "left": 0,
+        "right": 102
+      },
+      "foot_displacements_m": [
+        [
+          -0.08602545839330958,
+          -0.23884976231619665,
+          0.2057049913729671
+        ],
+        [
+          -0.0001696977118594914,
+          6.654037716753713e-05,
+          0.00029405540730152724
+        ]
+      ],
+      "unexpected_contact_events": [
+        {
+          "time": 2.2760000000000016,
+          "pair": [
+            "right_linkage_brace_collision",
+            "left_foot_box_collision"
+          ],
+          "distance": -0.0020452719909822975
+        }
+      ]
+    },
+    {
+      "development_version": 9,
+      "case_index": 0,
+      "source_sha256": "7f04bda0360929afaa8b6bd7ce68cc9a1d49f26f1b86f245453e57c4582c8af3",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 3.4800000000000026,
+      "maximum_tilt_rad": 0.5012668458746738,
+      "maximum_joint_rate_rad_s": 5.523495042291541,
+      "final_root_position_m": [
+        -0.08482352398181284,
+        0.010925665960801304,
+        0.7215286835669724
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 402
+      },
+      "foot_displacements_m": [
+        [
+          0.07486243864870676,
+          -0.015096191266904285,
+          0.034302480733829036
+        ],
+        [
+          -0.0029265652174690696,
+          0.005262601915570556,
+          0.0020154325602587814
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 9,
+      "case_index": 1,
+      "source_sha256": "7f04bda0360929afaa8b6bd7ce68cc9a1d49f26f1b86f245453e57c4582c8af3",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 0.1,
+        "arm_roll": 1.1,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 3.4440000000000026,
+      "maximum_tilt_rad": 0.5069948399065387,
+      "maximum_joint_rate_rad_s": 5.422450742006071,
+      "final_root_position_m": [
+        -0.08447335039327546,
+        -0.0076336579146607025,
+        0.7151748752248548
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 393
+      },
+      "foot_displacements_m": [
+        [
+          0.07576428093017054,
+          -0.011886192680349947,
+          0.030440775645369816
+        ],
+        [
+          -0.002620646715053774,
+          0.0044460966384691075,
+          0.0018012505438783633
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 9,
+      "case_index": 2,
+      "source_sha256": "7f04bda0360929afaa8b6bd7ce68cc9a1d49f26f1b86f245453e57c4582c8af3",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.6
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 3.4400000000000026,
+      "maximum_tilt_rad": 0.5045521400300832,
+      "maximum_joint_rate_rad_s": 5.744159130630164,
+      "final_root_position_m": [
+        -0.09857729366448471,
+        -0.004546675198506703,
+        0.7144235325399908
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 392
+      },
+      "foot_displacements_m": [
+        [
+          0.07461160243136107,
+          -0.0115078810616238,
+          0.030472507913727645
+        ],
+        [
+          -0.0025701262603650063,
+          0.004017856500155861,
+          0.0016998542831238514
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 9,
+      "case_index": 3,
+      "source_sha256": "7f04bda0360929afaa8b6bd7ce68cc9a1d49f26f1b86f245453e57c4582c8af3",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "moment_weight": 0.05,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "posture_guard_triggered",
+      "elapsed_simulation_s": 3.5720000000000027,
+      "maximum_tilt_rad": 0.5034761684925002,
+      "maximum_joint_rate_rad_s": 5.434793248085643,
+      "final_root_position_m": [
+        -0.08361780888419353,
+        0.013755744763055458,
+        0.7226047714992041
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 417
+      },
+      "foot_displacements_m": [
+        [
+          0.0752438026609962,
+          -0.016875511879676758,
+          0.03615353403475151
+        ],
+        [
+          -0.0028806071163581387,
+          0.005695525256887463,
+          0.0021741277446983634
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 10,
+      "case_index": 0,
+      "source_sha256": "0d4d782a7668491f7e16310b22639ef9817355c29f22b6c1716a00909fe6061e",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "step_m": 0.08,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.011113369021022054,
+      "maximum_joint_rate_rad_s": 2.9891032216162414,
+      "final_root_position_m": [
+        -0.08404878616989377,
+        -0.1440501657261107,
+        0.7302088435043228
+      ],
+      "settled_tail_s": 4.764,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 239
+      },
+      "foot_displacements_m": [
+        [
+          0.07951850077328684,
+          0.0014835725049727883,
+          0.0008191311228901987
+        ],
+        [
+          -9.451990078394867e-05,
+          -0.00013888878118806236,
+          0.00017937723690913954
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 10,
+      "case_index": 1,
+      "source_sha256": "0d4d782a7668491f7e16310b22639ef9817355c29f22b6c1716a00909fe6061e",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 1.0,
+        "step_m": 0.08,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.011990986813837711,
+      "maximum_joint_rate_rad_s": 2.9161579252110745,
+      "final_root_position_m": [
+        -0.08390997089399942,
+        -0.1440204137607537,
+        0.7301604282851305
+      ],
+      "settled_tail_s": 4.5920000000000005,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 279
+      },
+      "foot_displacements_m": [
+        [
+          0.07953825184298005,
+          0.0014879189327499515,
+          0.0008230898037323575
+        ],
+        [
+          -8.113162259867218e-05,
+          -0.0001242251098661079,
+          0.00017935918639112175
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 10,
+      "case_index": 2,
+      "source_sha256": "0d4d782a7668491f7e16310b22639ef9817355c29f22b6c1716a00909fe6061e",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.012173470932844554,
+      "maximum_joint_rate_rad_s": 2.9781138602887527,
+      "final_root_position_m": [
+        -0.08061031513398687,
+        -0.14427159099809078,
+        0.7310206347063413
+      ],
+      "settled_tail_s": 4.772,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 240
+      },
+      "foot_displacements_m": [
+        [
+          0.03971632180517504,
+          0.0013180488228337478,
+          0.0008153999043017321
+        ],
+        [
+          -6.004779794653928e-05,
+          1.0936525763741156e-05,
+          0.00017944120734621205
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 10,
+      "case_index": 3,
+      "source_sha256": "0d4d782a7668491f7e16310b22639ef9817355c29f22b6c1716a00909fe6061e",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 1.0,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.012895361634844225,
+      "maximum_joint_rate_rad_s": 2.909492377763606,
+      "final_root_position_m": [
+        -0.08049237390572082,
+        -0.14421850652155924,
+        0.730975042629397
+      ],
+      "settled_tail_s": 4.6000000000000005,
+      "final_phase": "swing_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 295
+      },
+      "foot_displacements_m": [
+        [
+          0.03970173338106536,
+          0.0013118619161692907,
+          0.0008197923578341371
+        ],
+        [
+          -6.0076519770593806e-05,
+          7.781626078395831e-06,
+          0.00017947913321531006
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 11,
+      "case_index": 0,
+      "source_sha256": "62a16c3d8957b23bd2c337d5d276b8d0975f55f2ed8f13bb9f77b4e813468be4",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.2,
+        "step_m": 0.08,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 3.788000000000003,
+      "maximum_tilt_rad": 0.09860660419758292,
+      "maximum_joint_rate_rad_s": 27.29004974542043,
+      "final_root_position_m": [
+        -0.07194339019392727,
+        -0.09508275113700206,
+        0.7165226166348587
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_left",
+      "single_support_steps": {
+        "left": 0,
+        "right": 304
+      },
+      "foot_displacements_m": [
+        [
+          0.06964367882097192,
+          0.005187754057364408,
+          0.01156300682853359
+        ],
+        [
+          -0.00568463302413607,
+          -0.03374658219376121,
+          0.0010462109515766496
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 11,
+      "case_index": 1,
+      "source_sha256": "62a16c3d8957b23bd2c337d5d276b8d0975f55f2ed8f13bb9f77b4e813468be4",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "step_m": 0.08,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 6.363999999999742,
+      "maximum_tilt_rad": 0.02461930533304843,
+      "maximum_joint_rate_rad_s": 23.625283546172884,
+      "final_root_position_m": [
+        -0.006967267762736066,
+        0.1432101520376264,
+        0.7290791425399119
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "swing_right",
+      "single_support_steps": {
+        "left": 288,
+        "right": 313
+      },
+      "foot_displacements_m": [
+        [
+          0.08000995252666368,
+          0.003693683114026347,
+          0.0001785276994772031
+        ],
+        [
+          0.15823126928232784,
+          -0.00046108299574734724,
+          0.0016824280682607717
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 11,
+      "case_index": 2,
+      "source_sha256": "62a16c3d8957b23bd2c337d5d276b8d0975f55f2ed8f13bb9f77b4e813468be4",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.2,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 4.599999999999937,
+      "maximum_tilt_rad": 0.02781651017569372,
+      "maximum_joint_rate_rad_s": 21.424470056862614,
+      "final_root_position_m": [
+        -0.03457283451413017,
+        0.14087074003812067,
+        0.7340919568827406
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "shift_left",
+      "single_support_steps": {
+        "left": 45,
+        "right": 316
+      },
+      "foot_displacements_m": [
+        [
+          0.03678406211235482,
+          0.016748489579625866,
+          0.003089464461318331
+        ],
+        [
+          -0.0012041388636379394,
+          0.0013214724287424762,
+          0.001485962271399674
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 11,
+      "case_index": 3,
+      "source_sha256": "62a16c3d8957b23bd2c337d5d276b8d0975f55f2ed8f13bb9f77b4e813468be4",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.0259585337421383,
+      "maximum_joint_rate_rad_s": 4.030914631858515,
+      "final_root_position_m": [
+        -0.026952732810344996,
+        0.007800324620807406,
+        0.7305301037146522
+      ],
+      "settled_tail_s": 0.012,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 304,
+        "right": 320
+      },
+      "foot_displacements_m": [
+        [
+          0.03965391248872077,
+          0.003852158185791113,
+          0.00036140268694558053
+        ],
+        [
+          0.07996442339791951,
+          -0.001713972625098814,
+          0.0002912793853299539
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 12,
+      "case_index": 0,
+      "source_sha256": "2d82e12e1c4b8a4a5aabb57eac362de97f061ef1143af00271113d5645e6e4fc",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.03958027343089705,
+      "maximum_joint_rate_rad_s": 4.262038050037231,
+      "final_root_position_m": [
+        -0.002467990818026087,
+        -0.002345950468069426,
+        0.7364246790909241
+      ],
+      "settled_tail_s": 0.676,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 256,
+        "right": 256
+      },
+      "foot_displacements_m": [
+        [
+          0.03975897920323229,
+          0.0026976210789669414,
+          0.00035105704870085075
+        ],
+        [
+          0.08008364275876936,
+          -0.0014358574190583284,
+          0.0003004089308128177
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 12,
+      "case_index": 1,
+      "source_sha256": "2d82e12e1c4b8a4a5aabb57eac362de97f061ef1143af00271113d5645e6e4fc",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 1.0,
+        "arm_pitch": 0.2
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.03561132632253667,
+      "maximum_joint_rate_rad_s": 4.227576569481211,
+      "final_root_position_m": [
+        -0.0052214778316587345,
+        -0.0023623003652892918,
+        0.7286930898338492
+      ],
+      "settled_tail_s": 0.8160000000000001,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 242,
+        "right": 267
+      },
+      "foot_displacements_m": [
+        [
+          0.03980701632404393,
+          0.002819675360983237,
+          0.00035084842589452186
+        ],
+        [
+          0.08004261646121519,
+          -0.0012861210957198776,
+          0.00030053567686014193
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 12,
+      "case_index": 2,
+      "source_sha256": "2d82e12e1c4b8a4a5aabb57eac362de97f061ef1143af00271113d5645e6e4fc",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": -0.3
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.03957399623809095,
+      "maximum_joint_rate_rad_s": 4.269156971765884,
+      "final_root_position_m": [
+        -0.023460185268982577,
+        -0.0025655949038635483,
+        0.7313203296880394
+      ],
+      "settled_tail_s": 0.744,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 250,
+        "right": 257
+      },
+      "foot_displacements_m": [
+        [
+          0.03975837773442886,
+          0.0027804637443573504,
+          0.0003507901868848029
+        ],
+        [
+          0.08009494317385854,
+          -0.0013591192276564967,
+          0.0003005903304032359
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 12,
+      "case_index": 3,
+      "source_sha256": "2d82e12e1c4b8a4a5aabb57eac362de97f061ef1143af00271113d5645e6e4fc",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 0.8,
+        "settle_s": 0.8,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.039568820411877335,
+      "maximum_joint_rate_rad_s": 3.9772683715883925,
+      "final_root_position_m": [
+        -0.0024270984209383774,
+        -0.002008281908902394,
+        0.7365333584077749
+      ],
+      "settled_tail_s": 0.392,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 256,
+        "right": 255
+      },
+      "foot_displacements_m": [
+        [
+          0.03965456330087237,
+          0.002886579989508073,
+          0.0003514871605789713
+        ],
+        [
+          0.08009864186545715,
+          -0.0015577698013335417,
+          0.0003001785351642444
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 13,
+      "case_index": 0,
+      "source_sha256": "b5d9fee2655ac39017c924526735c19cdcdc85b8128bab943e18b81ddd2cb7fa",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.6,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.4,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 5.995999999999783,
+      "maximum_tilt_rad": 0.08856964540172332,
+      "maximum_joint_rate_rad_s": 23.01883559802457,
+      "final_root_position_m": [
+        0.03337999353947878,
+        0.08505000818489533,
+        0.7309653810268899
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 256,
+        "right": 192
+      },
+      "foot_displacements_m": [
+        [
+          0.0420023280637838,
+          0.007907655235458846,
+          0.0032827956717766393
+        ],
+        [
+          0.07667485650992789,
+          -0.004465929059893445,
+          0.001672128105162804
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 13,
+      "case_index": 1,
+      "source_sha256": "b5d9fee2655ac39017c924526735c19cdcdc85b8128bab943e18b81ddd2cb7fa",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.6,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 5.903999999999793,
+      "maximum_tilt_rad": 0.020803643014968454,
+      "maximum_joint_rate_rad_s": 23.603679299838618,
+      "final_root_position_m": [
+        0.016368136263277044,
+        0.14150646665575714,
+        0.7400615588593229
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 199,
+        "right": 192
+      },
+      "foot_displacements_m": [
+        [
+          0.04022634611072718,
+          0.009853393767549054,
+          0.0024519502599098103
+        ],
+        [
+          0.07905655997472119,
+          -0.0003043822531888646,
+          0.002516638156016042
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 13,
+      "case_index": 2,
+      "source_sha256": "b5d9fee2655ac39017c924526735c19cdcdc85b8128bab943e18b81ddd2cb7fa",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.4,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 6.135999999999767,
+      "maximum_tilt_rad": 0.02061037786603334,
+      "maximum_joint_rate_rad_s": 21.940548784815903,
+      "final_root_position_m": [
+        0.016210090334430112,
+        0.13911729722197938,
+        0.7389720621285347
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 250,
+        "right": 253
+      },
+      "foot_displacements_m": [
+        [
+          0.03929581831542724,
+          0.007240196138880814,
+          0.0017717057556169563
+        ],
+        [
+          0.07980165969345374,
+          -0.00040543414390291355,
+          0.00017952426059812676
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 13,
+      "case_index": 3,
+      "source_sha256": "b5d9fee2655ac39017c924526735c19cdcdc85b8128bab943e18b81ddd2cb7fa",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "joint_rate_guard_triggered",
+      "elapsed_simulation_s": 6.323999999999747,
+      "maximum_tilt_rad": 0.020472626123113794,
+      "maximum_joint_rate_rad_s": 22.72886558168692,
+      "final_root_position_m": [
+        0.01614392363121503,
+        0.13899712162118255,
+        0.7389760958193387
+      ],
+      "settled_tail_s": 0.0,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 248,
+        "right": 253
+      },
+      "foot_displacements_m": [
+        [
+          0.03926783627782985,
+          0.00724880016741801,
+          0.0017563351685913747
+        ],
+        [
+          0.07983535764848151,
+          -0.00042374487398672,
+          0.00017016012913610712
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 14,
+      "case_index": 0,
+      "source_sha256": "ae9270e733e53c1f79311d97865b8c9b8b45840a5c2fec9b65dd31f9d0e8df7d",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.6,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.4,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.02085302362728012,
+      "maximum_joint_rate_rad_s": 4.40222372673567,
+      "final_root_position_m": [
+        0.03503264740575961,
+        -0.0013615770808163227,
+        0.738281031251837
+      ],
+      "settled_tail_s": 1.524,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 194,
+        "right": 192
+      },
+      "foot_displacements_m": [
+        [
+          0.040223631215780875,
+          0.0024765574815050206,
+          0.00040528318629864946
+        ],
+        [
+          0.0800735972119418,
+          -0.0009144878220198049,
+          0.00033715367287237563
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 14,
+      "case_index": 1,
+      "source_sha256": "ae9270e733e53c1f79311d97865b8c9b8b45840a5c2fec9b65dd31f9d0e8df7d",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.6,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.02073414212890032,
+      "maximum_joint_rate_rad_s": 4.401563157930692,
+      "final_root_position_m": [
+        0.03501833309757742,
+        -0.0013624494795217085,
+        0.7383134967008234
+      ],
+      "settled_tail_s": 1.324,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 194,
+        "right": 192
+      },
+      "foot_displacements_m": [
+        [
+          0.04024371800810443,
+          0.0024791906919943707,
+          0.0004052126616941043
+        ],
+        [
+          0.08006578849401808,
+          -0.0009440471151199031,
+          0.00033721294970291693
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 14,
+      "case_index": 2,
+      "source_sha256": "ae9270e733e53c1f79311d97865b8c9b8b45840a5c2fec9b65dd31f9d0e8df7d",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.4,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.021125294737975822,
+      "maximum_joint_rate_rad_s": 4.390164373180635,
+      "final_root_position_m": [
+        0.0349691163071399,
+        -0.0013623198439641872,
+        0.7384914580572851
+      ],
+      "settled_tail_s": 1.064,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 250,
+        "right": 252
+      },
+      "foot_displacements_m": [
+        [
+          0.04018969683219163,
+          0.002525661173607932,
+          0.0004051229554912772
+        ],
+        [
+          0.07999310169222887,
+          -0.0011269011569478848,
+          0.00033726464315517873
+        ]
+      ],
+      "unexpected_contact_events": []
+    },
+    {
+      "development_version": 14,
+      "case_index": 3,
+      "source_sha256": "ae9270e733e53c1f79311d97865b8c9b8b45840a5c2fec9b65dd31f9d0e8df7d",
+      "probe_parameters": {
+        "root_kp": 80,
+        "joint_weight": 0.1,
+        "upper_weight": 1.0,
+        "drop": 0.025,
+        "swing_s": 0.8,
+        "transfer_s": 1.6,
+        "recover_s": 1.0,
+        "settle_s": 0.6,
+        "step_m": 0.04,
+        "moment_weight": 0.1,
+        "arm_roll": 0.8,
+        "arm_pitch": 0.2,
+        "support_x_offset": 0.03
+      },
+      "terminal_reason": "step_budget_reached",
+      "elapsed_simulation_s": 7.999999999999562,
+      "maximum_tilt_rad": 0.0211815547625304,
+      "maximum_joint_rate_rad_s": 4.383769689699251,
+      "final_root_position_m": [
+        0.03496486513846714,
+        -0.0013282334699714939,
+        0.7385193181076315
+      ],
+      "settled_tail_s": 0.876,
+      "final_phase": "recover",
+      "single_support_steps": {
+        "left": 248,
+        "right": 253
+      },
+      "foot_displacements_m": [
+        [
+          0.04019497876151724,
+          0.0025256306128752654,
+          0.0004050989058913407
+        ],
+        [
+          0.08002331436356604,
+          -0.0011752726527908819,
+          0.00033725899049207725
+        ]
+      ],
+      "unexpected_contact_events": []
+    }
+  ]
+}

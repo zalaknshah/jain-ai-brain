@@ -1,0 +1,44 @@
+{
+  "baseline": {
+    "final_second_samples": 251,
+    "final_second_min_foot_normal_force_n": 161.40844818518502,
+    "final_sample_time": 7.999999999999562,
+    "accepted": true
+  },
+  "small_forward_transfer": {
+    "final_second_samples": 251,
+    "final_second_min_foot_normal_force_n": 161.44558287552485,
+    "final_sample_time": 7.999999999999562,
+    "accepted": true
+  },
+  "small_backward_first_swing": {
+    "final_second_samples": 251,
+    "final_second_min_foot_normal_force_n": 161.4241969797839,
+    "final_sample_time": 7.999999999999562,
+    "accepted": true
+  },
+  "small_lateral_first_swing": {
+    "final_second_samples": 251,
+    "final_second_min_foot_normal_force_n": 161.62741425284116,
+    "final_sample_time": 7.999999999999562,
+    "accepted": true
+  },
+  "medium_reverse_lateral_transfer": {
+    "final_second_samples": 251,
+    "final_second_min_foot_normal_force_n": 160.42900075137086,
+    "final_sample_time": 7.999999999999562,
+    "accepted": true
+  },
+  "medium_diagonal_second_swing": {
+    "final_second_samples": 251,
+    "final_second_min_foot_normal_force_n": 163.05290349123055,
+    "final_sample_time": 7.999999999999562,
+    "accepted": true
+  },
+  "strong_forward_first_swing": {
+    "final_second_samples": 0,
+    "final_second_min_foot_normal_force_n": null,
+    "final_sample_time": 2.648000000000002,
+    "accepted": false
+  }
+}

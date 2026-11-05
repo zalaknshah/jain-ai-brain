@@ -32,14 +32,23 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
     if confirm_simulation is not True:
         raise ValueError('explicit simulation confirmation is required')
     from .freebase import SCENARIOS, MAX_STEPS
-    if controller == 'posture_feedback':
+    if controller == 'contact_gait':
+        from .freebase_gait import (SCENARIOS, DISTURBANCES, CONTROLLER_ID, ControllerFeasibilityError,
+                                    validate_gait_runtime, validate_gait_backend_versions)
+    elif controller == 'posture_feedback':
         from .freebase_balance import SCENARIOS, DISTURBANCES, CONTROLLER_ID
     elif controller != 'source_servo':
         raise ValueError('unknown free-base controller')
     if scenario not in SCENARIOS or type(steps) is not int or not 1 <= steps <= MAX_STEPS or type(include_trace) is not bool:
         raise ValueError('invalid internal simulation scenario or budget')
+    if controller == 'contact_gait':
+        validate_gait_runtime()
     import resource
     import mujoco
+    if controller == 'contact_gait':
+        import numpy
+        validate_gait_backend_versions(getattr(mujoco, '__version__', 'unknown'),
+                                       getattr(numpy, '__version__', 'unknown'))
     from .simulator import decide_motion
     directory = Path(__file__).with_name('data')
     provenance = json.loads((directory / 'unitree_g1_source.json').read_text())
@@ -68,7 +77,10 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
         data.qpos[3:7] = [math.cos(.4), 0, math.sin(.4), 0]  # 0.8 rad initial tilt.
     mujoco.mj_forward(model, data)
     feedback = None
-    if controller == 'posture_feedback':
+    if controller == 'contact_gait':
+        from .freebase_gait_controller import ContactGaitPrototype
+        feedback = ContactGaitPrototype(model, data)
+    elif controller == 'posture_feedback':
         from .freebase_balance_controller import PostureFeedback
         feedback = PostureFeedback(model, data)
     initial_root_position = [float(v) for v in data.qpos[:3]]
@@ -78,6 +90,7 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
     max_foot_contacts = nonfoot_contacts = self_contacts = 0
     completed = 0
     terminal = 'step_budget_reached'
+    controller_failure = None
     trace = []
 
     def numerical_warnings() -> dict[str, int]:
@@ -142,7 +155,15 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
                 disturbance = DISTURBANCES[scenario]
                 if disturbance is not None and disturbance[0] <= step < disturbance[1]:
                     data.xfrc_applied[pelvis, :3] = disturbance[2]
-                data.ctrl[:] = feedback.command(data)
+                if controller == 'contact_gait':
+                    try:
+                        data.ctrl[:] = feedback.command(data)
+                    except ControllerFeasibilityError as error:
+                        terminal = 'controller_feasibility_guard_triggered'
+                        controller_failure = str(error)
+                        break
+                else:
+                    data.ctrl[:] = feedback.command(data)
             elif 100 <= step < 125 and scenario in {'forward_push', 'lateral_push'}:
                 data.xfrc_applied[pelvis, 0 if scenario == 'forward_push' else 1] = 100
             # Diagnostic retains source targets; balance only changes bounded ctrl.
@@ -200,6 +221,17 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
             disturbance=(None if DISTURBANCES[scenario] is None else {
                 'start_step': DISTURBANCES[scenario][0], 'end_step_exclusive': DISTURBANCES[scenario][1],
                 'pelvis_force_world_n': list(DISTURBANCES[scenario][2])}))
+    if controller == 'contact_gait':
+        result.update(feedback.probe_report(data, include_trace=include_trace))
+        result.update(
+            schema='jace.freebase.gait_probe.v1', locomotion_controller=True,
+            controller_status='experimental_two_step_only',
+            scope='Experimental two-step finite-horizon simulation, not general walking or balance qualification',
+            controller_sha256=hashlib.sha256(Path(__file__).with_name('freebase_gait_controller.py').read_bytes()).hexdigest(),
+            controller_failure_detail=controller_failure,
+            two_step_probe_accepted=(result['finite_horizon_posture_accepted']
+                                    and result['two_step_sequence_observed']
+                                    and result['last_second_double_support_observed']))
     if include_trace:
         result['trace'] = trace
     return result
