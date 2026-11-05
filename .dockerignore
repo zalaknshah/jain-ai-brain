@@ -37,6 +37,7 @@
 !src/jace/freebase_sustained_worker.py
 !src/jace/freebase_worker.py
 !src/jace/limits.py
+!src/jace/language_support.py
 !src/jace/memory.py
 !src/jace/memory_scope.py
 !src/jace/model_output.py

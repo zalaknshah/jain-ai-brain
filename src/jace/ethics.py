@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 
 from .models import EthicalAssessment
+from .language_support import native_harm_cue
 
 
 _HARM_PATTERNS = {
@@ -37,6 +38,8 @@ def assess(text: str) -> EthicalAssessment:
     lowered = _PREVENTION_MARKERS.sub(" ", text.lower())
     reasons: list[str] = []
     harmful = []
+    if native_harm_cue(text):
+        harmful.append('a listed Hindi/Gujarati harm or weapon cue (context is not fully interpreted)')
     for label, pattern in _HARM_PATTERNS.items():
         if re.search(pattern, lowered):
             harmful.append(label)

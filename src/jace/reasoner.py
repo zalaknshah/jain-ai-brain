@@ -9,6 +9,7 @@ from typing import Protocol
 from .model_transport import BoundedModelOpener, model_endpoint as _model_endpoint, model_authorization
 from .models import ActionProposal, CanonicalEntry, EthicalAssessment, Memory, Perspective
 from .practical import plan_for
+from .language_support import TEXT, response_language
 from .model_output import check_model_output, checked_text, citation_records, strict_json, source_integrity_reference
 
 
@@ -28,7 +29,11 @@ class LocalReasoner:
     """A predictable fallback that works without model weights or credentials."""
 
     def respond(self, request: str, assessment: EthicalAssessment, perspectives: list[Perspective], evidence: list[CanonicalEntry], memories: list[Memory]) -> tuple[str, ActionProposal | None]:
+        language = response_language(request)
+        translated = TEXT.get(language)
         if not assessment.allowed:
+            if translated:
+                return translated['refusal'], None
             return (
                 f"I cannot help carry out that request because it presents a high risk of harm. {assessment.safer_alternative}",
                 None,
@@ -36,36 +41,40 @@ class LocalReasoner:
 
         plan = plan_for(request)
         if plan is not None:
-            response = "Practical plan: " + plan.name + " (rule-based suggestions, not an Agama quotation).\n"
+            response = ((translated['plan'] + plan.name + translated['notice']) if translated else
+                        "Practical plan: " + plan.name + " (rule-based suggestions, not an Agama quotation).") + "\n"
             response += "\n".join(f"{index}. {step}" for index, step in enumerate(plan.steps, 1))
-            response += f"\nTrade-off and uncertainty: {plan.tradeoff}\n{plan.question}"
+            response += "\n" + (translated['tradeoff'] if translated else 'Trade-off and uncertainty: ') + plan.tradeoff + "\n" + plan.question
         else:
-            response = (
+            response = translated['fallback'] if translated else (
                 "This rule-based prototype does not have a tailored practical plan for this question. "
                 "A cautious starting point is to clarify the desired outcome, affected people or living beings, "
                 "resource needs and a reversible next step. What outcome and constraints matter here?"
             )
-        response += "\n" + self._grounding(evidence)
+        response += "\n" + self._grounding(evidence, language)
         if memories:
-            response += (
-                "\nRelevant saved preferences are supplied separately in memories_used. "
+            response += "\n" + (translated['memories'] if translated else (
+                "Relevant saved preferences are supplied separately in memories_used. "
                 "This fixed plan has not interpreted or reconciled them; check whether they change the suggestions."
-            )
-        return response, None if plan is not None else self._action_for(request)
+            ))
+        return response, None if plan is not None or translated else self._action_for(request)
 
     @staticmethod
-    def _grounding(evidence: list[CanonicalEntry]) -> str:
+    def _grounding(evidence: list[CanonicalEntry], language: str = 'en') -> str:
+        translated = TEXT.get(language)
         reviewed = [entry for entry in evidence if entry.verified is True and all(
             isinstance(value, str) and value.strip()
             for value in (entry.work, entry.source, entry.language, entry.location, entry.license)
         )]
         if not reviewed:
+            if translated:
+                return translated['no_source']
             return (
                 "Grounding: no reviewed canonical passage was retrieved. Built-in principles are unverified "
                 "sample summaries, not Agama quotations or scholarly citations. A qualified source review is "
                 "needed before attributing these suggestions to a specific Jain text."
             )
-        lines = [
+        lines = [translated['sources'] if translated else
             "Retrieved source records (review and license are declarations in the supplied corpus, not independently validated here). "
             "The practical suggestions above are not quotations or proof of what these texts prescribe:"
         ]
@@ -74,7 +83,7 @@ class LocalReasoner:
             passage = entry.principle
             if len(passage) > 600:
                 passage = passage[:600].rstrip('\r') + "… [excerpt truncated]"
-            lines.append("Retrieved passage: " + passage)
+            lines.append((translated['passage'] if translated else "Retrieved passage: ") + passage)
             lines.append(source_integrity_reference(entry))
         return "\n".join(lines)
 

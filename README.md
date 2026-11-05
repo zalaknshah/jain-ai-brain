@@ -192,6 +192,10 @@ Responses separate practical suggestions from retrieved passages. Built-in sampl
 
 The offline evaluation script forces the local fallback and built-in fixture even when model/corpus environment variables are set. Its eight checked-in cases are regressions, not a scholarly or model-quality benchmark.
 
+### Hindi and Gujarati local text
+
+The local fallback has authored Hindi/Gujarati versions of its three existing practical plans, plus abstention, refusal and source-limit messages. Type native-script questions such as `घर की सफाई कैसे करूँ?` or `વ્યવસાયના ભાગીદાર સાથે મતભેદ કેવી રીતે ઉકેલું?`. Exact source passages stay in their original language. This is bounded script/keyword routing, not translation, general multilingual reasoning, Agama training or verified audio. See [examples and limits](docs/HINDI_GUJARATI_LOCAL.md).
+
 ### Local HTTP service bounds
 
 The local server admits at most 16 simultaneous connections by default and returns 503 when full. Headers and bodies must finish within one absolute 10-second read deadline, including slow byte-by-byte sends. Targets are limited to 8 KiB, headers to 16 KiB after standard-library parsing, and JSON bodies to 64 KiB. Ambiguous Content-Length and Transfer-Encoding framing are rejected. Each connection handles one request and closes.

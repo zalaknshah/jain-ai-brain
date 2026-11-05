@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import re
 
 from .text import lexical_terms
+from .language_support import PLANS, native_plan_key, response_language, script_cues
 
 
 @dataclass(frozen=True)
@@ -14,6 +15,7 @@ class PracticalPlan:
     steps: tuple[str, ...]
     tradeoff: str
     question: str
+    language: str = 'en'
 
 
 _CLEANING = PracticalPlan(
@@ -54,6 +56,17 @@ _DISPUTE = PracticalPlan(
 )
 
 
+def _english_plan_keys(words: set[str]) -> set[str]:
+    matches = set()
+    if words & {"clean", "cleaning", "sweep", "sweeping"} and words & {"house", "home", "room", "rooms", "floor", "floors"}:
+        matches.add('cleaning')
+    if words & {"wardrobe", "closet"} and words & {"organize", "organise", "organizing", "organising", "declutter", "decluttering", "tidy"}:
+        matches.add('wardrobe')
+    if words & {"dispute", "disagreement", "conflict", "argue", "argument"} and {"business", "partner"} <= words:
+        matches.add('dispute')
+    return matches
+
+
 def plan_for(request: str) -> PracticalPlan | None:
     """Recognize only the three bounded household/work examples in the brief."""
     words = lexical_terms(request)
@@ -63,12 +76,20 @@ def plan_for(request: str) -> PracticalPlan | None:
         return None
     if re.search(r"\b(?:do not|don't|don’t|never)\s+(?:clean|sweep|organize|organise|declutter|tidy)\b", request, re.I):
         return None
-    matches = []
-    if words & {"clean", "cleaning", "sweep", "sweeping"} and words & {"house", "home", "room", "rooms", "floor", "floors"}:
-        matches.append(_CLEANING)
-    if words & {"wardrobe", "closet"} and words & {"organize", "organise", "organizing", "organising", "declutter", "decluttering", "tidy"}:
-        matches.append(_WARDROBE)
-    if words & {"dispute", "disagreement", "conflict", "argue", "argument"} and {"business", "partner"} <= words:
-        matches.append(_DISPUTE)
+    plans = {'cleaning': _CLEANING, 'wardrobe': _WARDROBE, 'dispute': _DISPUTE}
+    english_keys = _english_plan_keys(words)
+    language = response_language(request)
+    if language in PLANS:
+        key = native_plan_key(request)
+        # Do not discard a second supported task simply because it was written
+        # in English. Repetition of the same scenario is not a second task.
+        if key is None or len(english_keys | {key}) != 1:
+            return None
+        original = plans[key]
+        name, steps, tradeoff, question = PLANS[language][key]
+        return PracticalPlan(name, original.retrieval_terms, steps, tradeoff, question, language)
+    # Mixed Gujarati/Devanagari is not silently assigned a language or plan.
+    if all(script_cues(request)):
+        return None
     # Avoid pretending a single plan handles a compound or ambiguous request.
-    return matches[0] if len(matches) == 1 else None
+    return plans[next(iter(english_keys))] if len(english_keys) == 1 else None
