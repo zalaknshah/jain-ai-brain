@@ -13,7 +13,19 @@ WALL_TIMEOUT_S = 30
 
 def run_freebase_diagnostic(scenario: str = 'neutral_posture', *, steps: int = 1250,
                             confirm_simulation: bool = False, include_trace: bool = False) -> dict:
-    if scenario not in SCENARIOS:
+    return _run_capped_worker(scenario, steps=steps, confirm_simulation=confirm_simulation,
+                             include_trace=include_trace, mode='diagnostic')
+
+
+def _run_capped_worker(scenario: str, *, steps: int, confirm_simulation: bool,
+                       include_trace: bool, mode: str) -> dict:
+    if mode == 'balance':
+        from .freebase_balance import SCENARIOS as scenarios
+    elif mode == 'diagnostic':
+        scenarios = SCENARIOS
+    else:
+        raise ValueError('unknown free-base worker mode')
+    if scenario not in scenarios:
         raise ValueError('unknown free-base diagnostic scenario')
     if isinstance(steps, bool) or not isinstance(steps, int) or not 1 <= steps <= MAX_STEPS:
         raise ValueError(f'steps must be an integer between 1 and {MAX_STEPS}')
@@ -27,7 +39,8 @@ def run_freebase_diagnostic(scenario: str = 'neutral_posture', *, steps: int = 1
     # Only our packaged, hash-checked XML is accepted. Never load TorchScript here.
     env = {'PATH': os.defpath, 'PYTHONPATH': str(Path(__file__).resolve().parents[1]),
            'PYTHONNOUSERSITE': '1', 'OPENBLAS_NUM_THREADS': '1', 'OMP_NUM_THREADS': '1', 'MKL_NUM_THREADS': '1'}
-    command = [sys.executable, '-m', 'jace.freebase_worker', scenario, str(steps),
+    module = 'jace.freebase_balance_worker' if mode == 'balance' else 'jace.freebase_worker'
+    command = [sys.executable, '-m', module, scenario, str(steps),
                'trace' if include_trace else 'summary', '--confirmed-simulation']
     try:
         result = subprocess.run(command, capture_output=True, text=True, env=env, timeout=WALL_TIMEOUT_S, check=False)
@@ -40,7 +53,7 @@ def run_freebase_diagnostic(scenario: str = 'neutral_posture', *, steps: int = 1
         report = json.loads(result.stdout)
     except ValueError:
         raise RuntimeError('invalid diagnostic report; no success claimed') from None
-    if not isinstance(report, dict) or report.get('schema') != 'jace.freebase.diagnostic.v1':
+    if not isinstance(report, dict) or report.get('schema') != f'jace.freebase.{mode}.v1':
         raise RuntimeError('unexpected diagnostic report; no success claimed')
     report.setdefault('resource_limits', {})['outer_wall_seconds'] = WALL_TIMEOUT_S
     return report

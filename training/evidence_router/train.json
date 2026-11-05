@@ -1,0 +1,386 @@
+[
+  {
+    "id": "train-000",
+    "family": "garden",
+    "query": "A snail is on the garden path. Which consideration helps me avoid injuring it when carrying pots?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-001",
+    "family": "balcony",
+    "query": "I want to move a planter but nesting birds may be disturbed. What should I consider?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-002",
+    "family": "cycling",
+    "query": "My cycle route passes animals on a narrow lane. Which concern should guide a safer alternative?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-003",
+    "family": "picnic",
+    "query": "Ants are beside our picnic blanket. I want to leave without crushing living beings.",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-004",
+    "family": "workshop",
+    "query": "A beetle is near the workshop door. I want to reduce harm while opening it.",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-005",
+    "family": "pond",
+    "query": "The pond has small living creatures. Which note addresses disturbance from draining it?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-006",
+    "family": "porch",
+    "query": "There are insects where I would put a heavy parcel. What concern matters before acting?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-007",
+    "family": "orchard",
+    "query": "Fruit picking might injure a nesting animal. Select a consideration about avoiding injury.",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "train-008",
+    "family": "garden",
+    "query": "I have several usable garden pots. Before buying more, which note addresses actual need and reuse?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-009",
+    "family": "balcony",
+    "query": "Can I repair the balcony chair rather than buy another and throw this one away?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-010",
+    "family": "cycling",
+    "query": "I want another bicycle although mine works. Which consideration addresses unnecessary consumption?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-011",
+    "family": "picnic",
+    "query": "We have reusable picnic plates. Which note helps avoid buying disposable replacements?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-012",
+    "family": "workshop",
+    "query": "The workshop has surplus tools. I want to review what is genuinely needed before acquiring more.",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-013",
+    "family": "pond",
+    "query": "Maintaining the pond uses resources. Which note asks whether extra equipment is necessary?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-014",
+    "family": "porch",
+    "query": "I keep buying parcel storage boxes. Which consideration addresses accumulation of possessions?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-015",
+    "family": "orchard",
+    "query": "Can we reuse fruit crates and repair broken ones instead of replacing them all?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "train-016",
+    "family": "garden",
+    "query": "Two gardeners disagree about who damaged a plant. How should we compare their accounts and evidence?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-017",
+    "family": "balcony",
+    "query": "One neighbour says our balcony use is noisy; another disagrees. Which note helps hear both views?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-018",
+    "family": "cycling",
+    "query": "Cyclists and walkers describe the same incident differently. What guides checking competing accounts?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-019",
+    "family": "picnic",
+    "query": "Two friends blame each other for a missing picnic bag. I want to separate facts from interpretations.",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-020",
+    "family": "workshop",
+    "query": "Workshop members disagree about what happened. How do we hear each concern without assuming motives?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-021",
+    "family": "pond",
+    "query": "Residents have competing explanations for the pond change. Which note supports comparing evidence?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-022",
+    "family": "porch",
+    "query": "A neighbour alleges someone took a parcel. Which note asks us to distinguish observation from accusation?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-023",
+    "family": "orchard",
+    "query": "Two orchard workers dispute a decision. I want to understand their perspectives without assuming both claims are true.",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "train-024",
+    "family": "garden",
+    "query": "One plant grew after we changed its position. Can I conclude this always works for every plant?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-025",
+    "family": "balcony",
+    "query": "A balcony reading looks safe today. Which note cautions against an unconditional claim about all conditions?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-026",
+    "family": "cycling",
+    "query": "The route was clear once. How should I qualify the claim that it is always safe?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-027",
+    "family": "picnic",
+    "query": "The weather was dry at one picnic. What limits should I state before making a universal prediction?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-028",
+    "family": "workshop",
+    "query": "One tool trial succeeded. Which consideration asks what evidence would change my conclusion?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-029",
+    "family": "pond",
+    "query": "A single pond sample looked clear. Should the conclusion depend on when and where it was taken?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-030",
+    "family": "porch",
+    "query": "The porch camera captured only one angle. Which note addresses uncertainty and limits of a conclusion?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-031",
+    "family": "orchard",
+    "query": "A result holds for this tree and season. Which note warns against generalizing to all circumstances?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "train-032",
+    "family": "garden",
+    "query": "A blog says an ancient Jain text requires this gardening method. Which note asks for an edition and checked passage?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-033",
+    "family": "balcony",
+    "query": "Someone attributes balcony rules to an Agama but provides no verse or source. What should I verify?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-034",
+    "family": "cycling",
+    "query": "Can you give an exact scripture quotation on bicycles when no source text has been supplied?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-035",
+    "family": "picnic",
+    "query": "A claimed religious quote about picnics has no textual reference. Which note helps check its attribution?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-036",
+    "family": "workshop",
+    "query": "I need to cite a Jain text in workshop guidance. Which note calls for identifying the edition and passage?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-037",
+    "family": "pond",
+    "query": "A pond rule is supposedly in scripture. What source and location are needed before attributing it?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-038",
+    "family": "porch",
+    "query": "The porch notice invents a verse reference. Which note addresses unsupported textual citations?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-039",
+    "family": "orchard",
+    "query": "I want an exact Agama quotation for orchard work. What should happen if the passage is unavailable?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "train-040",
+    "family": "garden",
+    "query": "These pots belong to another gardener. Which note addresses asking permission before moving them?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-041",
+    "family": "balcony",
+    "query": "I want to give away my neighbour's balcony chair. Which consideration checks the owner's agreement?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-042",
+    "family": "cycling",
+    "query": "Can a robot move my bicycle without my confirmation? Which note addresses authority to act?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-043",
+    "family": "picnic",
+    "query": "May I commit everyone to a paid picnic booking before they agree?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-044",
+    "family": "workshop",
+    "query": "Before changing shared workshop equipment, which note asks for consent and a reversible trial?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-045",
+    "family": "pond",
+    "query": "Someone proposed changing the pond but no owner agreed. Does a suggestion authorize execution?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-046",
+    "family": "porch",
+    "query": "I can transfer another person's parcel to a new address. What approval is needed before an external action?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "train-047",
+    "family": "orchard",
+    "query": "A trial would change another worker's schedule. Which note says to obtain explicit agreement?",
+    "relevant": [
+      "consent"
+    ]
+  }
+]

@@ -1,0 +1,507 @@
+[
+  {
+    "schema": "jace.freebase.balance.v1",
+    "scenario": "neutral_posture",
+    "scope": "Finite-horizon free-base posture feedback experiment, not full balance qualification or walking",
+    "backend_version": "3.17.0",
+    "simulation_confirmed": true,
+    "steps": 1,
+    "elapsed_simulation_s": 0.004,
+    "terminal_reason": "numerical_warning_guard_triggered",
+    "no_guard_triggered_within_horizon": false,
+    "standing_verified": false,
+    "locomotion_controller": false,
+    "pretrained_policy_loaded": false,
+    "hardware_enabled": false,
+    "free_base": true,
+    "actuated_joints": 29,
+    "mass_kg": 33.341142000000005,
+    "minimum_pelvis_height_m": 0.783675,
+    "maximum_tilt_rad": 0.00019795320069099717,
+    "maximum_joint_rate_rad_s": 0.3033721017242914,
+    "maximum_actuator_force_nm": 0.6977558339658678,
+    "maximum_foot_contact_points": 12,
+    "nonfoot_floor_contact_observations": 0,
+    "self_contact_observations": 0,
+    "final_root_position_m": [
+      -2.6026904857476387e-05,
+      2.5376290395641077e-08,
+      0.7836997800023368
+    ],
+    "source_commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+    "modified_model_sha256": {
+      "unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+      "unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee"
+    },
+    "peak_rss_kib": 62796,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    },
+    "initial_observation": {
+      "simulation_time_s": 0.0,
+      "pelvis_height_m": 0.783675,
+      "tilt_rad": 0.0,
+      "foot_contact_points": 12,
+      "nonfoot_floor_contacts": 0,
+      "self_contacts": 0
+    },
+    "numerical_warning_counts": {
+      "mjWARN_BADQPOS": 1,
+      "mjWARN_BADQVEL": 0,
+      "mjWARN_BADQACC": 0,
+      "mjWARN_BADCTRL": 0
+    },
+    "controller_id": "g1-posture-feedback-v1",
+    "controller_sha256": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "walking_verified": false,
+    "balance_qualified": false,
+    "external_support_enabled": false,
+    "controller_uses_exact_simulator_state": true,
+    "root_state_written_during_episode": false,
+    "initial_root_position_m": [
+      0.0,
+      0.0,
+      0.783675
+    ],
+    "final_root_linear_velocity_m_s": [
+      -0.006506726214369096,
+      6.344072598910269e-06,
+      0.006195000584182647
+    ],
+    "final_root_angular_velocity_rad_s": [
+      1.8768675103160975e-06,
+      -0.049488300137393845,
+      -2.9535551422322216e-05
+    ],
+    "final_joint_rate_rad_s": 0.3033721017242914,
+    "settled_tail_s": 0.0,
+    "finite_horizon_posture_accepted": false,
+    "target_clipping_observations": 0,
+    "maximum_target_delta_rad": 0.0,
+    "disturbance": null,
+    "trace": [
+      {
+        "step": 1,
+        "simulation_time_s": 0.004,
+        "pelvis_height_m": 0.7836997800023368,
+        "tilt_rad": 0.00019795320069099717,
+        "foot_contact_points": 12,
+        "nonfoot_floor_contacts": 0,
+        "self_contacts": 0,
+        "root_speed_m_s": 0.00898418379787716,
+        "root_angular_speed_rad_s": 0.04948830898667084,
+        "maximum_joint_rate_rad_s": 0.3033721017242914,
+        "terminal_reason": "numerical_warning_guard_triggered"
+      }
+    ],
+    "injected_fault": "mjWARN_BADQPOS",
+    "genuine_step_executed": true,
+    "expected_guard_verified": true,
+    "worker_sha256": "a832fcb58fc29eb34d26255d76149afb79a693bc4a990a9e9d8057e66d639882"
+  },
+  {
+    "schema": "jace.freebase.balance.v1",
+    "scenario": "neutral_posture",
+    "scope": "Finite-horizon free-base posture feedback experiment, not full balance qualification or walking",
+    "backend_version": "3.17.0",
+    "simulation_confirmed": true,
+    "steps": 1,
+    "elapsed_simulation_s": 0.004,
+    "terminal_reason": "numerical_warning_guard_triggered",
+    "no_guard_triggered_within_horizon": false,
+    "standing_verified": false,
+    "locomotion_controller": false,
+    "pretrained_policy_loaded": false,
+    "hardware_enabled": false,
+    "free_base": true,
+    "actuated_joints": 29,
+    "mass_kg": 33.341142000000005,
+    "minimum_pelvis_height_m": 0.783675,
+    "maximum_tilt_rad": 0.00019795320069099717,
+    "maximum_joint_rate_rad_s": 0.3033721017242914,
+    "maximum_actuator_force_nm": 0.6977558339658678,
+    "maximum_foot_contact_points": 12,
+    "nonfoot_floor_contact_observations": 0,
+    "self_contact_observations": 0,
+    "final_root_position_m": [
+      -2.6026904857476387e-05,
+      2.5376290395641077e-08,
+      0.7836997800023368
+    ],
+    "source_commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+    "modified_model_sha256": {
+      "unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+      "unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee"
+    },
+    "peak_rss_kib": 62740,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    },
+    "initial_observation": {
+      "simulation_time_s": 0.0,
+      "pelvis_height_m": 0.783675,
+      "tilt_rad": 0.0,
+      "foot_contact_points": 12,
+      "nonfoot_floor_contacts": 0,
+      "self_contacts": 0
+    },
+    "numerical_warning_counts": {
+      "mjWARN_BADQPOS": 0,
+      "mjWARN_BADQVEL": 1,
+      "mjWARN_BADQACC": 0,
+      "mjWARN_BADCTRL": 0
+    },
+    "controller_id": "g1-posture-feedback-v1",
+    "controller_sha256": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "walking_verified": false,
+    "balance_qualified": false,
+    "external_support_enabled": false,
+    "controller_uses_exact_simulator_state": true,
+    "root_state_written_during_episode": false,
+    "initial_root_position_m": [
+      0.0,
+      0.0,
+      0.783675
+    ],
+    "final_root_linear_velocity_m_s": [
+      -0.006506726214369096,
+      6.344072598910269e-06,
+      0.006195000584182647
+    ],
+    "final_root_angular_velocity_rad_s": [
+      1.8768675103160975e-06,
+      -0.049488300137393845,
+      -2.9535551422322216e-05
+    ],
+    "final_joint_rate_rad_s": 0.3033721017242914,
+    "settled_tail_s": 0.0,
+    "finite_horizon_posture_accepted": false,
+    "target_clipping_observations": 0,
+    "maximum_target_delta_rad": 0.0,
+    "disturbance": null,
+    "trace": [
+      {
+        "step": 1,
+        "simulation_time_s": 0.004,
+        "pelvis_height_m": 0.7836997800023368,
+        "tilt_rad": 0.00019795320069099717,
+        "foot_contact_points": 12,
+        "nonfoot_floor_contacts": 0,
+        "self_contacts": 0,
+        "root_speed_m_s": 0.00898418379787716,
+        "root_angular_speed_rad_s": 0.04948830898667084,
+        "maximum_joint_rate_rad_s": 0.3033721017242914,
+        "terminal_reason": "numerical_warning_guard_triggered"
+      }
+    ],
+    "injected_fault": "mjWARN_BADQVEL",
+    "genuine_step_executed": true,
+    "expected_guard_verified": true,
+    "worker_sha256": "a832fcb58fc29eb34d26255d76149afb79a693bc4a990a9e9d8057e66d639882"
+  },
+  {
+    "schema": "jace.freebase.balance.v1",
+    "scenario": "neutral_posture",
+    "scope": "Finite-horizon free-base posture feedback experiment, not full balance qualification or walking",
+    "backend_version": "3.17.0",
+    "simulation_confirmed": true,
+    "steps": 1,
+    "elapsed_simulation_s": 0.004,
+    "terminal_reason": "numerical_warning_guard_triggered",
+    "no_guard_triggered_within_horizon": false,
+    "standing_verified": false,
+    "locomotion_controller": false,
+    "pretrained_policy_loaded": false,
+    "hardware_enabled": false,
+    "free_base": true,
+    "actuated_joints": 29,
+    "mass_kg": 33.341142000000005,
+    "minimum_pelvis_height_m": 0.783675,
+    "maximum_tilt_rad": 0.00019795320069099717,
+    "maximum_joint_rate_rad_s": 0.3033721017242914,
+    "maximum_actuator_force_nm": 0.6977558339658678,
+    "maximum_foot_contact_points": 12,
+    "nonfoot_floor_contact_observations": 0,
+    "self_contact_observations": 0,
+    "final_root_position_m": [
+      -2.6026904857476387e-05,
+      2.5376290395641077e-08,
+      0.7836997800023368
+    ],
+    "source_commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+    "modified_model_sha256": {
+      "unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+      "unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee"
+    },
+    "peak_rss_kib": 62700,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    },
+    "initial_observation": {
+      "simulation_time_s": 0.0,
+      "pelvis_height_m": 0.783675,
+      "tilt_rad": 0.0,
+      "foot_contact_points": 12,
+      "nonfoot_floor_contacts": 0,
+      "self_contacts": 0
+    },
+    "numerical_warning_counts": {
+      "mjWARN_BADQPOS": 0,
+      "mjWARN_BADQVEL": 0,
+      "mjWARN_BADQACC": 1,
+      "mjWARN_BADCTRL": 0
+    },
+    "controller_id": "g1-posture-feedback-v1",
+    "controller_sha256": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "walking_verified": false,
+    "balance_qualified": false,
+    "external_support_enabled": false,
+    "controller_uses_exact_simulator_state": true,
+    "root_state_written_during_episode": false,
+    "initial_root_position_m": [
+      0.0,
+      0.0,
+      0.783675
+    ],
+    "final_root_linear_velocity_m_s": [
+      -0.006506726214369096,
+      6.344072598910269e-06,
+      0.006195000584182647
+    ],
+    "final_root_angular_velocity_rad_s": [
+      1.8768675103160975e-06,
+      -0.049488300137393845,
+      -2.9535551422322216e-05
+    ],
+    "final_joint_rate_rad_s": 0.3033721017242914,
+    "settled_tail_s": 0.0,
+    "finite_horizon_posture_accepted": false,
+    "target_clipping_observations": 0,
+    "maximum_target_delta_rad": 0.0,
+    "disturbance": null,
+    "trace": [
+      {
+        "step": 1,
+        "simulation_time_s": 0.004,
+        "pelvis_height_m": 0.7836997800023368,
+        "tilt_rad": 0.00019795320069099717,
+        "foot_contact_points": 12,
+        "nonfoot_floor_contacts": 0,
+        "self_contacts": 0,
+        "root_speed_m_s": 0.00898418379787716,
+        "root_angular_speed_rad_s": 0.04948830898667084,
+        "maximum_joint_rate_rad_s": 0.3033721017242914,
+        "terminal_reason": "numerical_warning_guard_triggered"
+      }
+    ],
+    "injected_fault": "mjWARN_BADQACC",
+    "genuine_step_executed": true,
+    "expected_guard_verified": true,
+    "worker_sha256": "a832fcb58fc29eb34d26255d76149afb79a693bc4a990a9e9d8057e66d639882"
+  },
+  {
+    "schema": "jace.freebase.balance.v1",
+    "scenario": "neutral_posture",
+    "scope": "Finite-horizon free-base posture feedback experiment, not full balance qualification or walking",
+    "backend_version": "3.17.0",
+    "simulation_confirmed": true,
+    "steps": 1,
+    "elapsed_simulation_s": 0.004,
+    "terminal_reason": "numerical_warning_guard_triggered",
+    "no_guard_triggered_within_horizon": false,
+    "standing_verified": false,
+    "locomotion_controller": false,
+    "pretrained_policy_loaded": false,
+    "hardware_enabled": false,
+    "free_base": true,
+    "actuated_joints": 29,
+    "mass_kg": 33.341142000000005,
+    "minimum_pelvis_height_m": 0.783675,
+    "maximum_tilt_rad": 0.00019795320069099717,
+    "maximum_joint_rate_rad_s": 0.3033721017242914,
+    "maximum_actuator_force_nm": 0.6977558339658678,
+    "maximum_foot_contact_points": 12,
+    "nonfoot_floor_contact_observations": 0,
+    "self_contact_observations": 0,
+    "final_root_position_m": [
+      -2.6026904857476387e-05,
+      2.5376290395641077e-08,
+      0.7836997800023368
+    ],
+    "source_commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+    "modified_model_sha256": {
+      "unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+      "unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee"
+    },
+    "peak_rss_kib": 62928,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    },
+    "initial_observation": {
+      "simulation_time_s": 0.0,
+      "pelvis_height_m": 0.783675,
+      "tilt_rad": 0.0,
+      "foot_contact_points": 12,
+      "nonfoot_floor_contacts": 0,
+      "self_contacts": 0
+    },
+    "numerical_warning_counts": {
+      "mjWARN_BADQPOS": 0,
+      "mjWARN_BADQVEL": 0,
+      "mjWARN_BADQACC": 0,
+      "mjWARN_BADCTRL": 1
+    },
+    "controller_id": "g1-posture-feedback-v1",
+    "controller_sha256": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "walking_verified": false,
+    "balance_qualified": false,
+    "external_support_enabled": false,
+    "controller_uses_exact_simulator_state": true,
+    "root_state_written_during_episode": false,
+    "initial_root_position_m": [
+      0.0,
+      0.0,
+      0.783675
+    ],
+    "final_root_linear_velocity_m_s": [
+      -0.006506726214369096,
+      6.344072598910269e-06,
+      0.006195000584182647
+    ],
+    "final_root_angular_velocity_rad_s": [
+      1.8768675103160975e-06,
+      -0.049488300137393845,
+      -2.9535551422322216e-05
+    ],
+    "final_joint_rate_rad_s": 0.3033721017242914,
+    "settled_tail_s": 0.0,
+    "finite_horizon_posture_accepted": false,
+    "target_clipping_observations": 0,
+    "maximum_target_delta_rad": 0.0,
+    "disturbance": null,
+    "trace": [
+      {
+        "step": 1,
+        "simulation_time_s": 0.004,
+        "pelvis_height_m": 0.7836997800023368,
+        "tilt_rad": 0.00019795320069099717,
+        "foot_contact_points": 12,
+        "nonfoot_floor_contacts": 0,
+        "self_contacts": 0,
+        "root_speed_m_s": 0.00898418379787716,
+        "root_angular_speed_rad_s": 0.04948830898667084,
+        "maximum_joint_rate_rad_s": 0.3033721017242914,
+        "terminal_reason": "numerical_warning_guard_triggered"
+      }
+    ],
+    "injected_fault": "mjWARN_BADCTRL",
+    "genuine_step_executed": true,
+    "expected_guard_verified": true,
+    "worker_sha256": "a832fcb58fc29eb34d26255d76149afb79a693bc4a990a9e9d8057e66d639882"
+  },
+  {
+    "schema": "jace.freebase.balance.v1",
+    "scenario": "neutral_posture",
+    "scope": "Finite-horizon free-base posture feedback experiment, not full balance qualification or walking",
+    "backend_version": "3.17.0",
+    "simulation_confirmed": true,
+    "steps": 1,
+    "elapsed_simulation_s": 0.0,
+    "terminal_reason": "simulation_time_guard_triggered",
+    "no_guard_triggered_within_horizon": false,
+    "standing_verified": false,
+    "locomotion_controller": false,
+    "pretrained_policy_loaded": false,
+    "hardware_enabled": false,
+    "free_base": true,
+    "actuated_joints": 29,
+    "mass_kg": 33.341142000000005,
+    "minimum_pelvis_height_m": 0.783675,
+    "maximum_tilt_rad": 0.00019795320069099717,
+    "maximum_joint_rate_rad_s": 0.3033721017242914,
+    "maximum_actuator_force_nm": 0.6977558339658678,
+    "maximum_foot_contact_points": 12,
+    "nonfoot_floor_contact_observations": 0,
+    "self_contact_observations": 0,
+    "final_root_position_m": [
+      -2.6026904857476387e-05,
+      2.5376290395641077e-08,
+      0.7836997800023368
+    ],
+    "source_commit": "98a70c569c4c1b6da467a20012f766ee1f8dc521",
+    "modified_model_sha256": {
+      "unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+      "unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee"
+    },
+    "peak_rss_kib": 63036,
+    "resource_limits": {
+      "address_space_bytes": 1073741824,
+      "cpu_seconds": 15
+    },
+    "initial_observation": {
+      "simulation_time_s": 0.0,
+      "pelvis_height_m": 0.783675,
+      "tilt_rad": 0.0,
+      "foot_contact_points": 12,
+      "nonfoot_floor_contacts": 0,
+      "self_contacts": 0
+    },
+    "numerical_warning_counts": {
+      "mjWARN_BADQPOS": 0,
+      "mjWARN_BADQVEL": 0,
+      "mjWARN_BADQACC": 0,
+      "mjWARN_BADCTRL": 0
+    },
+    "controller_id": "g1-posture-feedback-v1",
+    "controller_sha256": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "walking_verified": false,
+    "balance_qualified": false,
+    "external_support_enabled": false,
+    "controller_uses_exact_simulator_state": true,
+    "root_state_written_during_episode": false,
+    "initial_root_position_m": [
+      0.0,
+      0.0,
+      0.783675
+    ],
+    "final_root_linear_velocity_m_s": [
+      -0.006506726214369096,
+      6.344072598910269e-06,
+      0.006195000584182647
+    ],
+    "final_root_angular_velocity_rad_s": [
+      1.8768675103160975e-06,
+      -0.049488300137393845,
+      -2.9535551422322216e-05
+    ],
+    "final_joint_rate_rad_s": 0.3033721017242914,
+    "settled_tail_s": 0.0,
+    "finite_horizon_posture_accepted": false,
+    "target_clipping_observations": 0,
+    "maximum_target_delta_rad": 0.0,
+    "disturbance": null,
+    "trace": [
+      {
+        "step": 1,
+        "simulation_time_s": 0.0,
+        "pelvis_height_m": 0.7836997800023368,
+        "tilt_rad": 0.00019795320069099717,
+        "foot_contact_points": 12,
+        "nonfoot_floor_contacts": 0,
+        "self_contacts": 0,
+        "root_speed_m_s": 0.00898418379787716,
+        "root_angular_speed_rad_s": 0.04948830898667084,
+        "maximum_joint_rate_rad_s": 0.3033721017242914,
+        "terminal_reason": "simulation_time_guard_triggered"
+      }
+    ],
+    "injected_fault": "reset_time",
+    "genuine_step_executed": true,
+    "expected_guard_verified": true,
+    "worker_sha256": "a832fcb58fc29eb34d26255d76149afb79a693bc4a990a9e9d8057e66d639882"
+  }
+]

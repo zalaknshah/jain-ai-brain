@@ -1,0 +1,242 @@
+[
+  {
+    "id": "heldout-000",
+    "family": "cleaning",
+    "query": "There are tiny insects on the kitchen floor. I want to clean while reducing avoidable injury.",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "heldout-001",
+    "family": "wardrobe",
+    "query": "A moth is resting in the wardrobe. What concern matters before I shift the clothes?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "heldout-002",
+    "family": "dispute",
+    "query": "During a business dispute I want to avoid harming the other person. Which consideration focuses on harm?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "heldout-003",
+    "family": "hygiene",
+    "query": "I need necessary cleaning but cannot guarantee that no living beings are affected. Which note addresses that limit?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "heldout-004",
+    "family": "cleaning",
+    "query": "Which consideration helps me avoid consuming extra water and buying unnecessary cleaning supplies?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "heldout-005",
+    "family": "wardrobe",
+    "query": "My wardrobe is full of usable clothes. I want to repair and rewear before buying replacements.",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "heldout-006",
+    "family": "dispute",
+    "query": "Our business disagreement involves buying more equipment than we need. Which consideration addresses consumption?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "heldout-007",
+    "family": "hygiene",
+    "query": "Necessary hygiene must be maintained; which consideration asks me to examine actual resource needs rather than simply use less?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "heldout-008",
+    "family": "cleaning",
+    "query": "Housemates give conflicting accounts of who dirtied the floor. What guides assessing their evidence?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "heldout-009",
+    "family": "wardrobe",
+    "query": "My family disagrees about which clothes are useful. Which note asks us to hear affected people and compare views?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "heldout-010",
+    "family": "dispute",
+    "query": "My business partner and I disagree about an incident. Which note helps separate agreed observations from interpretations?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "heldout-011",
+    "family": "hygiene",
+    "query": "People offer competing explanations for a hygiene problem. Which note helps evaluate the accounts rather than treat every claim as true?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "heldout-012",
+    "family": "cleaning",
+    "query": "One cleaned patch looks fine. Can I claim that every surface will always be safe with this method?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "heldout-013",
+    "family": "wardrobe",
+    "query": "I used a jacket once this winter. What guides stating uncertainty before concluding nobody needs it?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "heldout-014",
+    "family": "dispute",
+    "query": "I saw only one message in a business dispute. Which note warns against an absolute conclusion from limited information?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "heldout-015",
+    "family": "hygiene",
+    "query": "A single test cannot establish safety for all conditions. Which note asks what would change the conclusion?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "heldout-016",
+    "family": "cleaning",
+    "query": "Give the exact Agama verse requiring this floor-cleaning method; no edition or passage has been supplied.",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "heldout-017",
+    "family": "wardrobe",
+    "query": "Someone says scripture mandates a precise number of clothes. Which note asks us to verify the textual attribution?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "heldout-018",
+    "family": "dispute",
+    "query": "I need an exact Jain scripture quotation proving my business partner wrong, but have no source. Which note applies?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "heldout-019",
+    "family": "hygiene",
+    "query": "A hygiene recommendation is attributed to an ancient text without a reference. Which evidence is needed before calling it a quotation?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "heldout-020",
+    "family": "cleaning",
+    "query": "The room belongs to another person. Which consideration addresses permission before rearranging it to clean?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "heldout-021",
+    "family": "wardrobe",
+    "query": "I want to donate my partner's clothes. Which consideration checks ownership and agreement before transfer?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "heldout-022",
+    "family": "dispute",
+    "query": "A business trial creates a new commitment. Which note requires both parties to agree before proceeding?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "heldout-023",
+    "family": "hygiene",
+    "query": "The proposed hygiene changes affect a shared space. Which note asks about authorization before execution?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "heldout-024",
+    "family": "weather",
+    "query": "Will it rain tomorrow in my city?",
+    "relevant": []
+  },
+  {
+    "id": "heldout-025",
+    "family": "finance",
+    "query": "What is the current price of a railway company share?",
+    "relevant": []
+  },
+  {
+    "id": "heldout-026",
+    "family": "recipe",
+    "query": "How many grams of flour are in this recipe?",
+    "relevant": []
+  },
+  {
+    "id": "heldout-027",
+    "family": "translation",
+    "query": "Translate this sentence into a language I have not specified.",
+    "relevant": []
+  },
+  {
+    "id": "heldout-028",
+    "family": "medicine",
+    "query": "Which antibiotic dose should I use for this infection?",
+    "relevant": []
+  },
+  {
+    "id": "heldout-029",
+    "family": "schedule",
+    "query": "When will my next parcel arrive?",
+    "relevant": []
+  },
+  {
+    "id": "heldout-030",
+    "family": "history",
+    "query": "Who built this library and in which year?",
+    "relevant": []
+  },
+  {
+    "id": "heldout-031",
+    "family": "arithmetic_heldout",
+    "query": "What is the exact number resulting from this calculation?",
+    "relevant": []
+  }
+]

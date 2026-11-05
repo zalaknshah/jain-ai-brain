@@ -1,0 +1,122 @@
+[
+  {
+    "id": "development-000",
+    "family": "library",
+    "query": "A moth rests on a library book. I want to avoid injury when taking the book.",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "development-001",
+    "family": "camp",
+    "query": "Camping equipment would disturb nearby animals. Which consideration addresses living beings?",
+    "relevant": [
+      "noninjury"
+    ]
+  },
+  {
+    "id": "development-002",
+    "family": "library",
+    "query": "The library chairs can be repaired. Which consideration helps avoid unnecessary replacements?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "development-003",
+    "family": "camp",
+    "query": "I already own camping supplies. Should I review my actual needs before buying more?",
+    "relevant": [
+      "restraint"
+    ]
+  },
+  {
+    "id": "development-004",
+    "family": "library",
+    "query": "Two readers disagree about a library incident. Which note calls for comparing their accounts?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "development-005",
+    "family": "camp",
+    "query": "Camp members blame each other. Which consideration separates observations from assumptions?",
+    "relevant": [
+      "perspectives"
+    ]
+  },
+  {
+    "id": "development-006",
+    "family": "library",
+    "query": "One quiet library visit does not prove it is always quiet. Which note explains the limits?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "development-007",
+    "family": "camp",
+    "query": "A tent worked in one condition. What guides qualifying a general conclusion?",
+    "relevant": [
+      "conditional"
+    ]
+  },
+  {
+    "id": "development-008",
+    "family": "library",
+    "query": "A library display claims a precise Agama quotation with no edition or passage. What must be checked?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "development-009",
+    "family": "camp",
+    "query": "I need a scripture citation about camping, but no relevant text is available. Which note applies?",
+    "relevant": [
+      "provenance"
+    ]
+  },
+  {
+    "id": "development-010",
+    "family": "library",
+    "query": "I would discard books owned by another reader. Which note addresses permission?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "development-011",
+    "family": "camp",
+    "query": "Before committing the camp to a booking, which note calls for explicit agreement?",
+    "relevant": [
+      "consent"
+    ]
+  },
+  {
+    "id": "development-012",
+    "family": "astronomy",
+    "query": "What is the orbital period of Neptune?",
+    "relevant": []
+  },
+  {
+    "id": "development-013",
+    "family": "arithmetic",
+    "query": "Calculate seventeen multiplied by twenty three.",
+    "relevant": []
+  },
+  {
+    "id": "development-014",
+    "family": "syntax",
+    "query": "How does a compiler parse this program?",
+    "relevant": []
+  },
+  {
+    "id": "development-015",
+    "family": "geology",
+    "query": "List the mineral components of granite.",
+    "relevant": []
+  }
+]

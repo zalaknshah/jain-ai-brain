@@ -1,10 +1,23 @@
-"""Internal capped worker. Source position servos only, deliberately no gait controller."""
+"""Capped worker sharing model verification and guards across simulation experiments."""
 from __future__ import annotations
 import hashlib
 import json
 import math
 from pathlib import Path
 import sys
+
+
+NUMERICAL_WARNINGS = ('mjWARN_BADQPOS', 'mjWARN_BADQVEL', 'mjWARN_BADQACC', 'mjWARN_BADCTRL')
+
+
+def _numerical_guard_reason(warnings: dict[str, int], actual_time: float, expected_time: float) -> str | None:
+    # MuJoCo may reset an unstable state to finite values. Finiteness alone is
+    # insufficient evidence that no numerical failure happened during a step.
+    if any(warnings.values()):
+        return 'numerical_warning_guard_triggered'
+    if not math.isfinite(actual_time) or abs(actual_time - expected_time) > 1e-8:
+        return 'simulation_time_guard_triggered'
+    return None
 
 
 def _apply_resource_limits() -> None:
@@ -14,9 +27,17 @@ def _apply_resource_limits() -> None:
     resource.setrlimit(resource.RLIMIT_FSIZE, (1024**2, 1024**2))
 
 
-def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: bool = False) -> dict:
+def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: bool = False,
+         controller: str = 'source_servo') -> dict:
     if confirm_simulation is not True:
         raise ValueError('explicit simulation confirmation is required')
+    from .freebase import SCENARIOS, MAX_STEPS
+    if controller == 'posture_feedback':
+        from .freebase_balance import SCENARIOS, DISTURBANCES, CONTROLLER_ID
+    elif controller != 'source_servo':
+        raise ValueError('unknown free-base controller')
+    if scenario not in SCENARIOS or type(steps) is not int or not 1 <= steps <= MAX_STEPS or type(include_trace) is not bool:
+        raise ValueError('invalid internal simulation scenario or budget')
     import resource
     import mujoco
     from .simulator import decide_motion
@@ -46,12 +67,22 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
     if scenario == 'initial_tilt':
         data.qpos[3:7] = [math.cos(.4), 0, math.sin(.4), 0]  # 0.8 rad initial tilt.
     mujoco.mj_forward(model, data)
+    feedback = None
+    if controller == 'posture_feedback':
+        from .freebase_balance_controller import PostureFeedback
+        feedback = PostureFeedback(model, data)
+    initial_root_position = [float(v) for v in data.qpos[:3]]
+    settled_steps = 0
     minimum_height = float(data.qpos[2])
     maximum_tilt = maximum_torque = maximum_joint_rate = 0.0
     max_foot_contacts = nonfoot_contacts = self_contacts = 0
     completed = 0
     terminal = 'step_budget_reached'
     trace = []
+
+    def numerical_warnings() -> dict[str, int]:
+        return {name: int(data.warning[getattr(mujoco.mjtWarning, name)].number)
+                for name in NUMERICAL_WARNINGS}
 
     def observe() -> tuple[dict, str | None]:
         nonlocal minimum_height, maximum_tilt, maximum_torque, maximum_joint_rate
@@ -80,8 +111,11 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
         max_foot_contacts = max(max_foot_contacts, foot)
         nonfoot_contacts += nonfoot
         self_contacts += self_count
-        reason = None
-        if height < .55 or tilt > .5:
+        reason = _numerical_guard_reason(numerical_warnings(), float(data.time),
+                                         completed * float(model.opt.timestep))
+        if reason:
+            pass
+        elif height < .55 or tilt > .5:
             reason = 'posture_guard_triggered'
         elif nonfoot or self_count:
             reason = 'unexpected_contact_detected'
@@ -104,13 +138,27 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
                 terminal = 'sensor_guard_triggered'
                 break
             data.xfrc_applied[:] = 0
-            if 100 <= step < 125 and scenario in {'forward_push', 'lateral_push'}:
+            if feedback is not None:
+                disturbance = DISTURBANCES[scenario]
+                if disturbance is not None and disturbance[0] <= step < disturbance[1]:
+                    data.xfrc_applied[pelvis, :3] = disturbance[2]
+                data.ctrl[:] = feedback.command(data)
+            elif 100 <= step < 125 and scenario in {'forward_push', 'lateral_push'}:
                 data.xfrc_applied[pelvis, 0 if scenario == 'forward_push' else 1] = 100
-            # Keep the source home position targets. No learned policy or gait.
+            # Diagnostic retains source targets; balance only changes bounded ctrl.
+            # Neither path changes root state, model, gravity, contacts or support.
             mujoco.mj_step(model, data)
             mujoco.mj_forward(model, data)
             completed += 1
             state, reason = observe()
+            if feedback is not None:
+                linear_speed = math.sqrt(sum(float(v)**2 for v in data.qvel[:3]))
+                angular_speed = math.sqrt(sum(float(v)**2 for v in data.qvel[3:6]))
+                joint_speed = max(abs(float(v)) for v in data.qvel[6:])
+                settled_steps = settled_steps + 1 if (linear_speed < .05 and angular_speed < .1
+                    and joint_speed < .1 and state['tilt_rad'] < .1) else 0
+                state.update(root_speed_m_s=linear_speed, root_angular_speed_rad_s=angular_speed,
+                             maximum_joint_rate_rad_s=joint_speed)
             if include_trace:
                 trace.append({'step': completed, **state, 'terminal_reason': reason})
             if reason:
@@ -132,7 +180,26 @@ def _run(scenario: str, steps: int, include_trace: bool, *, confirm_simulation: 
               'peak_rss_kib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
               'resource_limits': {'address_space_bytes': resource.getrlimit(resource.RLIMIT_AS)[0],
                                   'cpu_seconds': resource.getrlimit(resource.RLIMIT_CPU)[0]},
-              'initial_observation': initial}
+              'initial_observation': initial, 'numerical_warning_counts': numerical_warnings()}
+    if feedback is not None:
+        result.update(
+            schema='jace.freebase.balance.v1', controller_id=CONTROLLER_ID,
+            controller_sha256=hashlib.sha256(Path(__file__).with_name('freebase_balance_controller.py').read_bytes()).hexdigest(),
+            scope='Finite-horizon free-base posture feedback experiment, not full balance qualification or walking',
+            walking_verified=False, balance_qualified=False, external_support_enabled=False,
+            controller_uses_exact_simulator_state=True, root_state_written_during_episode=False,
+            initial_root_position_m=initial_root_position,
+            final_root_linear_velocity_m_s=[float(v) for v in data.qvel[:3]],
+            final_root_angular_velocity_rad_s=[float(v) for v in data.qvel[3:6]],
+            final_joint_rate_rad_s=max(abs(float(v)) for v in data.qvel[6:]),
+            settled_tail_s=settled_steps * float(model.opt.timestep),
+            finite_horizon_posture_accepted=(terminal == 'step_budget_reached' and steps == MAX_STEPS
+                                            and settled_steps >= 250),
+            target_clipping_observations=feedback.clipped_target_observations,
+            maximum_target_delta_rad=feedback.maximum_target_delta_rad,
+            disturbance=(None if DISTURBANCES[scenario] is None else {
+                'start_step': DISTURBANCES[scenario][0], 'end_step_exclusive': DISTURBANCES[scenario][1],
+                'pelvis_force_world_n': list(DISTURBANCES[scenario][2])}))
     if include_trace:
         result['trace'] = trace
     return result

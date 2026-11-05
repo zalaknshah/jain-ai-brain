@@ -15,6 +15,7 @@ from .physics import SCENARIOS, run_physics_scenario
 from .articulated import ARTICULATION_SCENARIOS, run_articulation_scenario
 from .reaching import plan_hand_target, run_hand_target
 from .freebase import SCENARIOS as FREEBASE_SCENARIOS, run_freebase_diagnostic
+from .freebase_balance import SCENARIOS as BALANCE_SCENARIOS, run_freebase_balance
 
 
 def main() -> None:
@@ -112,6 +113,11 @@ def main() -> None:
     freebase.add_argument("--steps", type=int, default=1250)
     freebase.add_argument("--confirm-simulation", action="store_true")
     freebase.add_argument("--trace", action="store_true")
+    balance = sub.add_parser("simulate-balance", help="bounded free-base posture feedback experiment, not walking")
+    balance.add_argument("--scenario", choices=BALANCE_SCENARIOS, default="neutral_posture")
+    balance.add_argument("--steps", type=int, default=2000)
+    balance.add_argument("--confirm-simulation", action="store_true")
+    balance.add_argument("--trace", action="store_true")
     args = parser.parse_args()
 
     if args.command == 'prepare-dispute':
@@ -133,9 +139,10 @@ def main() -> None:
     if args.command == "serve":
         serve()
         return
-    if args.command == "diagnose-freebase":
+    if args.command in {"diagnose-freebase", "simulate-balance"}:
         try:
-            result = run_freebase_diagnostic(args.scenario, steps=args.steps,
+            runner = run_freebase_balance if args.command == "simulate-balance" else run_freebase_diagnostic
+            result = runner(args.scenario, steps=args.steps,
                                             confirm_simulation=args.confirm_simulation, include_trace=args.trace)
         except (ValueError, RuntimeError) as error:
             parser.exit(2, str(error) + "\n")

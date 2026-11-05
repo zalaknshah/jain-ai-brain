@@ -1,0 +1,10 @@
+{
+ "review_front_right_early": [150, 180, [35.0, -45.0, 0.0]],
+ "review_back_left_late": [700, 730, [-45.0, 35.0, 0.0]],
+ "review_back_right_mid": [420, 450, [-40.0, -40.0, 0.0]],
+ "review_forward_late": [950, 970, [55.0, 0.0, 0.0]],
+ "review_left_late": [1100, 1120, [0.0, 55.0, 0.0]],
+ "review_right_early": [45, 75, [0.0, -50.0, 0.0]],
+ "review_strong_front_right": [500, 540, [150.0, -150.0, 0.0]],
+ "review_strong_backward": [800, 850, [-180.0, 0.0, 0.0]]
+}

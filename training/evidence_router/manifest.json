@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "data_kind": "original_synthetic",
+  "source": "Original JACE development fixtures authored for this experiment; no imported scripture or personal memories.",
+  "license": "MIT",
+  "contains_personal_data": false,
+  "canonical_or_scholarly_reviewed": false,
+  "split_policy": "Scenario-family-disjoint positive queries. One fixed shared editorial-note catalogue. Train positive families garden/balcony/cycling/picnic/workshop/pond/porch/orchard; development library/camp; heldout cleaning/wardrobe/dispute/hygiene. All family IDs are disjoint, but negative domains are not fully independent: arithmetic appears in development and heldout. Same author and overlapping concepts mean this is not an independent benchmark.",
+  "files": {
+    "corpus.json": "e0a0c8dfad0615842ad8cb3bbf4ff163b8999dcec1f84aefe9f93c092657d0b7",
+    "train.json": "f40ac7dc1869e92ca2f98c8f37a35d3f33590bea291a4871eafb633ddc3d5a1f",
+    "development.json": "a91c9a8dda93edf3d1d8800484b72510eb8327f5f6d545c2b48011985f1b0ac6",
+    "heldout.json": "9f6412c7c2b7ae6204feebf59a9e05f0a8d6ac08b35057f04b7d26f8ca85f20f"
+  }
+}

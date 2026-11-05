@@ -10,6 +10,12 @@ The implementation is deliberately safe to run on a laptop. It does not pretend 
 
 The activation graph is the memory/neural-network enhancement: canonical principles are immutable nodes, aligned memories become dynamic nodes, and each query performs bounded seed → expand → rerank retrieval. This creates persistent associative structure without pretending that live user text has retrained model weights.
 
+## Recent measured progress
+
+- [Run actual small CPU training](docs/CPU_EVIDENCE_ROUTER.md): real optimization and reload on original synthetic notes. Ranking improved on a small holdout, while accept/abstain decisions were worse than TF-IDF. This is not an Agama-trained language model.
+- [Inspect free-base posture feedback](docs/FREEBASE_BALANCE.md): eight seconds within current guards, with independent modest-push recovery and stronger-push failures. Walking and general balance remain unresolved.
+- [Use the local text prototype](docs/LOCAL_QUALIFICATION.md): installed-package smoke verified; real browser/audio and hosted deployment remain unqualified.
+
 ## Quick start
 
 Requires Python 3.10+.

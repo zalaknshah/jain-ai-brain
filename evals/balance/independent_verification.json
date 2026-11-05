@@ -1,0 +1,7 @@
+{
+  "all_eight_dynamics_metrics_exactly_match_original": true,
+  "all_five_faults_explicitly_stop_after_one_step": true,
+  "supersedes_worker_sha256": "2daf8dd030e05c61102544225a66c2dc5554ec4f6baf7c2e4d77e1dcdf5d36c8",
+  "hardened_worker_sha256": "a832fcb58fc29eb34d26255d76149afb79a693bc4a990a9e9d8057e66d639882",
+  "controller_unchanged_sha256": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726"
+}
