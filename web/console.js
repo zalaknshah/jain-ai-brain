@@ -13,6 +13,7 @@ let pendingRequest = null;
 let speechVersion = 0;
 let responseText = '';
 let pendingPlayback = null;
+let automaticPlayback = false;
 let boundIdentity = null, learnConsent = null, requestSubmitted = false;
 const MAX_RESPONSE_BYTES = 1024 * 1024;
 
@@ -90,7 +91,16 @@ async function boundedJSON(response, version, ctx, rawInput) {
 function stopPlayback() {
   speechVersion += 1;
   pendingPlayback = null;
+  automaticPlayback = false;
   if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+function changedReadAloud() {
+  if (!guardIdentity()) return;
+  if (!element('speak-replies').checked && automaticPlayback) {
+    stopPlayback();
+    status.textContent = 'Automatic playback cancelled. The text response remains available.';
+  }
 }
 
 function cancelListening() {
@@ -176,10 +186,12 @@ function startListening() {
   }
 }
 
-function readResponse() {
+function readResponse(automatic = false) {
   if (!guardIdentity()) return;
   stopPlayback();
   if (!responseText) return;
+  // A click event is not an automatic-playback request.
+  automaticPlayback = automatic === true;
   const version = speechVersion;
   if (recognition) {
     // Fail closed: request abort, but wait for the browser's end event before
@@ -194,8 +206,15 @@ function readResponse() {
 
 function playResponse() {
   if (!guardIdentity() || !responseText) return;
+  // Check again at dispatch, including silent checkbox changes while waiting
+  // for dictation to end. Manual Read response remains an explicit request.
+  if (automaticPlayback && !element('speak-replies').checked) {
+    changedReadAloud();
+    return;
+  }
   const synthesis = window.speechSynthesis;
   if (!synthesis || !window.SpeechSynthesisUtterance) {
+    automaticPlayback = false;
     status.textContent = 'Speech playback is unavailable. The text response remains available.';
     return;
   }
@@ -204,6 +223,7 @@ function playResponse() {
   const voice = voices.find(item => item.lang.toLowerCase() === language)
     || voices.find(item => item.lang.toLowerCase().split('-')[0] === language.split('-')[0]);
   if (!voice) {
+    automaticPlayback = false;
     status.textContent = 'No matching speech voice is available yet. Try again after voices load, choose another voice language, or read the text.';
     return;
   }
@@ -211,12 +231,13 @@ function playResponse() {
   const utterance = new window.SpeechSynthesisUtterance(responseText);
   utterance.lang = voice.lang;
   utterance.voice = voice;
-  utterance.onend = () => { if (version === speechVersion && guardIdentity()) status.textContent = 'Playback finished.'; };
-  utterance.onerror = () => { if (version === speechVersion && guardIdentity()) status.textContent = 'Playback stopped or failed. The text response remains available.'; };
+  utterance.onend = () => { if (version === speechVersion && guardIdentity()) { automaticPlayback = false; status.textContent = 'Playback finished.'; } };
+  utterance.onerror = () => { if (version === speechVersion && guardIdentity()) { automaticPlayback = false; status.textContent = 'Playback stopped or failed. The text response remains available.'; } };
   try {
     synthesis.speak(utterance);
     status.textContent = 'Reading the response. Voice selection does not translate its text.';
   } catch (_) {
+    automaticPlayback = false;
     status.textContent = 'Speech playback failed. The text response remains available.';
   }
 }
@@ -268,7 +289,7 @@ async function ask() {
     responseText = data.response; answer.textContent = responseText; element('read').disabled = false;
     meta.textContent = `scope: ${ctx.scope} · ${data.ethical_assessment?.risk_level || 'unknown'} risk · ${data.perspectives?.length || 0} perspectives · ${data.canonical_evidence?.length || 0} source record(s)`;
     status.textContent = 'Response ready. Voice language does not translate its text.';
-    if (element('speak-replies').checked) readResponse();
+    if (element('speak-replies').checked) readResponse(true);
   } catch (error) {
     if (!current(version,ctx,rawInput)) return;
     const uncertain = requestSubmitted;
@@ -293,6 +314,8 @@ element('stop').onclick = () => {
 element('send').onclick = ask;
 element('cancel').onclick = stopReply;
 element('read').onclick = readResponse;
+element('speak-replies').oninput = changedReadAloud;
+element('speak-replies').onchange = changedReadAloud;
 element('language').onchange = () => {
   if (!guardIdentity()) return;
   stopPlayback();

@@ -14,6 +14,12 @@ class VoiceConsoleTests(unittest.TestCase):
         result = subprocess.run(["node", str(harness), name], capture_output=True, text=True, timeout=10)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_autoplay_optout_pending(self): self.run_scenario('autoplay_optout_pending')
+    def test_autoplay_optout_active(self): self.run_scenario('autoplay_optout_active')
+    def test_autoplay_optout_manual(self): self.run_scenario('autoplay_optout_manual')
+    def test_autoplay_optout_no_resurrection(self): self.run_scenario('autoplay_optout_no_resurrection')
+    def test_autoplay_optout_before_reply(self): self.run_scenario('autoplay_optout_before_reply')
+
     def test_binding_retained_identity(self):self.run_scenario('binding_retained_identity')
     def test_binding_silent_health(self):self.run_scenario('binding_silent_health')
     def test_binding_silent_reply(self):self.run_scenario('binding_silent_reply')

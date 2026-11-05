@@ -53,7 +53,47 @@ const restore=()=>{
 const changeIdentity=field=>{el(field).value=field==='api'?'https://different.example':field==='token'?'another-'+ 'z'.repeat(32):field==='user'?'bob':'work';};
 const blank=()=>{assert.equal(el('input').value,'');assert.equal(el('read').disabled,true);assert.equal(el('learn').checked,false);assert.equal(el('meta small').textContent,'');assert.notEqual(el('answer').textContent,'PRIVATE');};
 async function run(){
-  if(scenario==='binding_retained_identity'){
+  if(scenario==='autoplay_optout_pending'){
+    for(const event of ['input','change','silent']){
+      call('startListening()');const mic=recognizers.at(-1);
+      el('speak-replies').checked=true;await call('ask()');
+      const before=spoken.length;assert.equal(before,0);
+      el('speak-replies').checked=false;
+      if(event!=='silent')el('speak-replies')['on'+event]();
+      mic.onend();assert.equal(spoken.length,before);
+      assert.match(el('status').textContent,/Automatic playback cancelled/);
+      assert.equal(el('answer').textContent,'Fixture response');
+      el('speak-replies').checked=true;mic.onend();assert.equal(spoken.length,before);
+    }
+  } else if(scenario==='autoplay_optout_active'){
+    el('speak-replies').checked=true;await call('ask()');
+    const active=spoken.at(-1),before=cancelled;assert.equal(spoken.length,1);
+    el('speak-replies').checked=false;el('speak-replies').onchange();
+    assert.equal(cancelled,before+1);assert.match(el('status').textContent,/Automatic playback cancelled/);
+    const status=el('status').textContent;active.onend();active.onerror();
+    assert.equal(el('status').textContent,status);assert.equal(el('answer').textContent,'Fixture response');
+    assert.equal(el('read').disabled,false);
+  } else if(scenario==='autoplay_optout_manual'){
+    await call('ask()');call('startListening()');const mic=recognizers.at(-1);
+    el('read').onclick({type:'click'});
+    el('speak-replies').checked=false;el('speak-replies').onchange();
+    mic.onend();assert.equal(spoken.length,1);
+    const before=cancelled;el('speak-replies').oninput();assert.equal(cancelled,before);
+    spoken[0].onend();assert.equal(el('status').textContent,'Playback finished.');
+  } else if(scenario==='autoplay_optout_no_resurrection'){
+    call('startListening()');const mic=recognizers.at(-1);
+    el('speak-replies').checked=true;await call('ask()');
+    el('speak-replies').checked=false;el('speak-replies').onchange();
+    el('speak-replies').checked=true;el('speak-replies').onchange();
+    mic.onend();assert.equal(spoken.length,0);
+    await call('ask()');assert.equal(spoken.length,1);
+  } else if(scenario==='autoplay_optout_before_reply'){
+    const hold=deferred();fetchImpl=()=>hold.promise;
+    el('speak-replies').checked=true;const pending=call('ask()');await flush();
+    el('speak-replies').checked=false;el('speak-replies').onchange();
+    hold.resolve(reply('Fixture response'));await pending;assert.equal(spoken.length,0);
+    assert.equal(el('answer').textContent,'Fixture response');
+  } else if(scenario==='binding_retained_identity'){
     for(const field of ['user','api','token','memory-scope']){restore();checkLearn();const before=requests.length;changeIdentity(field);await call('ask()');assert.equal(requests.length,before);blank();if(field!=='memory-scope')assert.equal(el('token').value,'');}
   } else if(scenario==='binding_silent_health'){
     for(const field of ['user','api','token','memory-scope']){restore();const hold=deferred();capabilityImpl=()=>hold.promise;checkLearn();const before=sent.length,p=call('ask()');await flush();changeIdentity(field);hold.resolve(response({memory_scope_protocol:1}));await p;assert.equal(sent.length,before);blank();}

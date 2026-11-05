@@ -67,11 +67,32 @@ Do not paste real tokens into examples or logs. Without configured authorization
 the API remains locked except for public health information. The browser text
 console additionally needs an approved origin and access route.
 
-The checked-in Docker/Compose recipe is not a verified public deployment. It
-publishes port 8787 on all host interfaces by default, has no TLS termination,
-and does not provision credentials. Do not use that recipe unchanged to expose
-a shared machine or Internet endpoint. No Docker execution is implied by the
-package smoke test below.
+The checked-in Docker/Compose recipe is not a verified deployment. Compose
+publishes port 8787 on host loopback (`127.0.0.1`) by default; `JACE_HOST=0.0.0.0`
+inside the container is needed for that mapping and does not change the host
+port declaration. Verify the selected Docker host's actual networking before
+relying on loopback isolation. The recipe has no TLS termination and does not
+provision credentials. Do not change it to expose a shared machine or Internet
+endpoint without the deployment decisions below. No Docker execution is implied
+by the package smoke test.
+
+The build context uses a default-deny `.dockerignore`: each package Python file,
+built-in asset and required packaging file is allowed by its exact path. The root
+`data/` directory, `.env`, Git metadata, research, tests, browser pages, caches
+and existing build outputs are excluded. Keep private content out of allowed
+source files too; an allowlist does not inspect their contents. New required
+package files need an explicit allowlist update. The image uses packaged
+sample principles, not a copy of a local runtime database or source collection.
+
+Building needs Docker/Compose and access to the Python base image and Python
+build tools. A build can download these dependencies; it is not the offline
+wheel command above. The core image has no simulation/gait extras or browser
+pages. Compose keeps runtime data in the `jace-data` named volume at `/app/data`;
+it survives stopping or removing containers. Use only synthetic data during
+qualification. Ctrl-C or `docker compose stop` requests a stop; actual container
+signal handling, in-flight request completion and data persistence still need
+qualification on the selected host. Do not remove the volume just to stop a
+service. Neither the Docker engine nor container startup/shutdown was run here.
 
 A public deployment additionally needs an explicitly selected account/host,
 approved exposure and budget, HTTPS, credential lifecycle, origin restrictions,

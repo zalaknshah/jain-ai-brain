@@ -132,16 +132,30 @@ For material whose copying/review is permitted but whose passages still need rev
 
 ### Container and checks
 
+The container recipe is an unqualified local API starting point, not a public
+deployment. Compose publishes only on host loopback (`127.0.0.1:8787`); the
+container still listens on its internal interfaces for that mapping. Docker
+networking must be checked on the selected host before relying on this boundary.
+The build context allowlist excludes runtime databases and research files.
+Only the six packaged sample principles are included, and HTTP routes other
+than health remain locked without separately authorized credentials. See
+[local deployment prerequisites and limits](docs/LOCAL_QUALIFICATION.md).
+
 ```bash
 docker compose up --build
-python scripts/evaluate.py
 ```
+
+Stop with Ctrl-C or `docker compose stop`. The `jace-data` volume persists;
+stopping containers does not erase conversations or audit records. Do not use
+real personal data for a smoke test. Docker startup, shutdown and networking
+have not been executed in the current qualification environment.
 
 The checks below are runnable locally. This branch does not contain a GitHub Actions workflow, and no remote CI result is claimed. Any future CI configuration must be introduced on `main` under the repository owner's main-only workflow policy; feature branches must not contain or trigger workflows.
 
 Run checks with:
 
 ```bash
+python scripts/evaluate.py
 python -m unittest discover -s tests -v
 ```
 
