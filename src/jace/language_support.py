@@ -52,6 +52,15 @@ _NEGATION = frozenset({'नहीं', 'नही', 'न', 'मत', 'बिन�
 _TECHNICAL = frozenset({'कोड', 'सॉफ्टवेयर', 'डेटाबेस', 'रिपॉजिटरी', 'डेटासेट',
                         'કોડ', 'સોફ્ટવેર', 'ડેટાબેઝ', 'રિપોઝિટરી', 'ડેટાસેટ'})
 
+# A practical subject is not enough when the request asks for a poem about it.
+# These whole-word cues conservatively decline even incidental poetry mentions.
+# This is not creative-intent detection: unlisted forms and other output genres
+# remain outside this small guard. English-only routing is unchanged.
+_POETRY = frozenset({
+    'कविता', 'कविताएँ', 'कविताएं', 'कविताओं', 'काव्य',
+    'કવિતા', 'કવિતાઓ', 'કાવ્ય', 'poem', 'poems', 'poetry',
+})
+
 
 # These added aliases are only enabled for a single, uncomplicated request.
 # This deliberately declines even some valid multi-clause requests instead of
@@ -106,7 +115,7 @@ def native_plan_key(request: str) -> str | None:
     if response_language(request) == 'en':
         return None
     words = lexical_terms(request)
-    if words & (_NEGATION | _TECHNICAL) or not _simple_alias_request(request, words):
+    if words & (_NEGATION | _TECHNICAL | _POETRY) or not _simple_alias_request(request, words):
         return None
     # Whole-word aliases only: do not strip suffixes or infer a missing subject.
     # A disagreement still needs explicit business, partner and conflict cues.
