@@ -22,6 +22,7 @@ class ContainerRecipeTests(unittest.TestCase):
         # general Docker ignore parser whose semantics might differ from Docker.
         expected = {
             '!Dockerfile', '!pyproject.toml', '!README.md', '!LICENSE',
+            '!src/jace_study_query.py',
             *('!' + path.relative_to(ROOT).as_posix()
               for path in (ROOT / 'src/jace').glob('*.py')),
             *('!src/jace/data/' + name for name in ASSETS),
@@ -60,7 +61,7 @@ class ContainerRecipeTests(unittest.TestCase):
         ):
             with self.subTest(synthetic_name=name):
                 self.assertNotIn(name, allowed)
-        for name in ('src/jace/cli.py', 'src/jace/data/canonical.json', 'pyproject.toml'):
+        for name in ('src/jace/cli.py', 'src/jace_study_query.py', 'src/jace/data/canonical.json', 'pyproject.toml'):
             self.assertIn(name, allowed)
 
     def test_image_does_not_copy_runtime_data_or_entire_checkout(self):

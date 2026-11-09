@@ -192,6 +192,10 @@ Responses separate practical suggestions from retrieved passages. Built-in sampl
 
 The offline evaluation script forces the local fallback and built-in fixture even when model/corpus environment variables are set. Its eight checked-in cases are regressions, not a scholarly or model-quality benchmark.
 
+### Sanskrit query preparation
+
+The separate [query-preview helper](docs/PREPARE_SANSKRIT_QUERY.md) converts explicitly declared Sanskrit fragments from Devanagari or Gujarati script to Latin IAST for human review. It opens no sources and does not translate Hindi/Gujarati questions or run a search. Existing source-study opt-ins remain required.
+
 ### Hindi and Gujarati local text
 
 The local fallback has authored Hindi/Gujarati versions of its three existing practical plans, plus abstention, refusal and source-limit messages. Type native-script questions such as `घर की सफाई कैसे करूँ?` or `વ્યવસાયના ભાગીદાર સાથે મતભેદ કેવી રીતે ઉકેલું?`. Exact source passages stay in their original language. This is bounded script/keyword routing, not translation, general multilingual reasoning, Agama training or verified audio. See [examples and limits](docs/HINDI_GUJARATI_LOCAL.md).

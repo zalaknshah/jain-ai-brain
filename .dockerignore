@@ -6,6 +6,7 @@
 !pyproject.toml
 !README.md
 !LICENSE
+!src/jace_study_query.py
 !src/jace/__init__.py
 !src/jace/api.py
 !src/jace/articulated.py

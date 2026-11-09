@@ -17,9 +17,11 @@ gait = ["mujoco==3.17.0", "numpy==2.5.4"]
 [project.scripts]
 jace = "jace.cli:main"
 jace-train = "jace.training_cli:main"
+jace-prepare-study-query = "jace_study_query:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+py-modules = ["jace_study_query"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
