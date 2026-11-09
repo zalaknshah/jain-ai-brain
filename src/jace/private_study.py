@@ -31,6 +31,8 @@ FEATURES = ['bm25_squashed', 'idf_token_coverage', 'character_trigram_cosine',
 LEXICAL = [1.0, 0.0, 0.0, 0.0, 0.0]
 FIXED_BLEND = [0.55, 0.0, 0.45, 0.0, 0.0]
 ADMISSION_FLAGS = ('runtime_admitted', 'training_admitted', 'scholarly_verified')
+STUDY_CATEGORIES = ('root_text', 'commentary', 'editorial_note', 'paratext',
+                    'quotation_fragment', 'edition_metadata')
 WARNING = ('UNREVIEWED SOURCE STUDY ONLY. Exact edition excerpts are not a translation, '
            'doctrinal validation, or advice for business or personal decisions. This is one '
            'Digambara commentary, not the complete Agama canon. Inherited language labels '
@@ -305,7 +307,7 @@ class StudySession:
         result = copy.deepcopy(record)
         warnings = [WARNING]
         if not eligible(record):
-            warnings.append('EXCLUDED FROM DEFAULT SEARCH AND LEARNING. Literal citation inspection only.')
+            warnings.append('EXCLUDED FROM DEFAULT SEARCH AND LEARNING. Literal source inspection only.')
         if record['citation_status'] == 'source_identifier_incomplete':
             warnings.append('INCOMPLETE SOURCE IDENTIFIER: no missing verse number has been inferred.')
         if record['quotation_context_review_required']:
@@ -326,6 +328,33 @@ class StudySession:
             record = matches[0] if len(matches) == 1 else None
         response = self._envelope()
         response.update(status='found' if record else 'not_found', results=[self._present(record)] if record else [])
+        return response
+
+    def browse(self, *, offset=0, limit=5, chapter=None, category=None):
+        """Inspect exact records in pinned preparation order, without relevance ranking.
+
+        Filters select recorded metadata only. Adjacent entries do not establish
+        a root/commentary relationship, speaker, endorsement or doctrinal context.
+        Each request is stateless and remains bound to the same pinned preparation.
+        """
+        self._require_active()
+        _validate_browse_options(offset, limit, chapter, category)
+        selected = [record for record in self._records.values()
+                    if (chapter is None or record.get('chapter') == chapter)
+                    and (category is None or record.get('category') == category)]
+        total = len(selected)
+        if offset > total:
+            raise StudyError('Browse offset exceeds the number of records matching these filters')
+        page = selected[offset:offset + limit]
+        next_offset = offset + len(page)
+        response = self._envelope()
+        response.update(status='page' if page else 'complete',
+                        results=[self._present(record) for record in page],
+                        order='prepared_record_order', offset=offset, limit=limit,
+                        total=total, next_offset=next_offset if next_offset < total else None,
+                        filters={'chapter': chapter, 'category': category},
+                        reason='Literal inspection in preparation order, not relevance or a doctrinal relationship. '
+                               'All categories retain their original review warnings; metadata filters make no corrections.')
         return response
 
     def search(self, query, *, query_language=None, limit=5, ranking='fixed_blend'):
@@ -365,6 +394,17 @@ MAX_INPUT_BYTES = 4096
 MAX_OUTPUT_BYTES = 256 * 1024
 
 
+def _validate_browse_options(offset, limit, chapter, category):
+    if type(offset) is not int or not 0 <= offset <= 2000:
+        raise StudyError('Browse offset must be an integer between 0 and 2000')
+    if type(limit) is not int or not 1 <= limit <= 20:
+        raise StudyError('Result limit must be an integer between 1 and 20')
+    if chapter is not None and (not isinstance(chapter, str) or chapter not in tuple(str(n) for n in range(1, 11))):
+        raise StudyError('Browse chapter must be an exact string from 1 through 10')
+    if category is not None and (not isinstance(category, str) or category not in STUDY_CATEGORIES):
+        raise StudyError('Browse category must be one of the documented source categories')
+
+
 def parse_request(raw):
     """Bounded stdin protocol; source queries never belong in command-line arguments."""
     if not isinstance(raw, bytes) or not 1 <= len(raw) <= MAX_INPUT_BYTES:
@@ -376,6 +416,13 @@ def parse_request(raw):
     if operation == 'lookup':
         if set(request) != {'operation', 'id'} or not isinstance(request['id'], str) or not 1 <= len(request['id']) <= 512:
             raise StudyError('Lookup requires only operation and a bounded nonempty id')
+    elif operation == 'browse':
+        if set(request) - {'operation', 'offset', 'limit', 'chapter', 'category'}:
+            raise StudyError('Browse accepts only operation, offset, limit, chapter and category')
+        if any(key in request and request[key] is None for key in ('chapter', 'category')):
+            raise StudyError('Omit unused browse filters; explicit null filters are not supported')
+        _validate_browse_options(request.get('offset', 0), request.get('limit', 5),
+                                 request.get('chapter'), request.get('category'))
     elif operation == 'search':
         if not {'operation', 'query', 'query_language'} <= set(request) or set(request) - {
                 'operation', 'query', 'query_language', 'limit', 'ranking'}:
@@ -389,16 +436,21 @@ def parse_request(raw):
         if request.get('ranking', 'fixed_blend') not in ('lexical', 'fixed_blend'):
             raise StudyError('Only untrained lexical or fixed-blend ranking is supported')
     else:
-        raise StudyError('Only lookup and search are supported; no training or action operation')
+        raise StudyError('Only lookup, browse and search are supported; no training or action operation')
     return request
 
 
 def run_request(raw, *, consent, source_path, prepared_path):
     request = parse_request(raw)
     with StudySession(consent, source_path=source_path, prepared_path=prepared_path) as session:
-        result = session.lookup(request['id']) if request['operation'] == 'lookup' else session.search(
-            request['query'], query_language=request['query_language'], limit=request.get('limit', 5),
-            ranking=request.get('ranking', 'fixed_blend'))
+        if request['operation'] == 'lookup':
+            result = session.lookup(request['id'])
+        elif request['operation'] == 'browse':
+            result = session.browse(offset=request.get('offset', 0), limit=request.get('limit', 5),
+                                    chapter=request.get('chapter'), category=request.get('category'))
+        else:
+            result = session.search(request['query'], query_language=request['query_language'],
+                                    limit=request.get('limit', 5), ranking=request.get('ranking', 'fixed_blend'))
         serialized = json.dumps(result, ensure_ascii=False, allow_nan=False) + '\n'
         if len(serialized.encode('utf-8')) > MAX_OUTPUT_BYTES:
             raise StudyError('Source-study response exceeds the private 256 KiB output limit')

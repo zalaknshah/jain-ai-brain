@@ -26,10 +26,11 @@ licence for trained weights. The command uploads nothing.
 
 ## Behavior
 
-Literal lookup preserves all 1,396 records with root/commentary/note categories,
+Literal lookup and paginated browsing preserve all 1,396 records with root/commentary/note categories,
 citations, exact parsed text parts and warnings. Default lexical/fixed-blend
 search uses 1,251 complete-citation root/commentary records without unresolved
-quotation context. Incomplete IDs and notes remain explicit-lookup-only. No
+quotation context. Incomplete IDs and notes remain literal-inspection-only,
+through explicit lookup or browsing with the same per-invocation opt-in. No
 missing citation, speaker or doctrinal endorsement is inferred.
 
 Search is mechanical source-fragment matching, not semantic relevance or advice.
@@ -64,6 +65,25 @@ jace source-study --stdin \
 ```
 
 Lookup JSON: `{ "operation": "lookup", "id": "TAS_1.1" }`.
+Browse JSON: `{ "operation": "browse", "limit": 5 }`. Browsing returns records
+in the pinned preparation's order, without ranking. Optional `chapter` is an exact
+string from `"1"` through `"10"`; optional `category` is `root_text`, `commentary`,
+`editorial_note`, `paratext`, `quotation_fragment` or `edition_metadata`. Omit
+unused filters rather than sending null. Filters select existing metadata only.
+Unfiltered browsing includes records whose chapter is unassigned. Excluded notes,
+quotations and incomplete citations remain marked; browsing does not make them
+searchable or admitted. Adjacency is not a reviewed doctrinal relationship.
+
+Each page reports `total` matching records and `next_offset`. To continue, repeat
+the same filters with that `offset`, plus the same source/preparation/licence
+opt-in on the new invocation. A null `next_offset` means the last page. Offsets
+count records in the filtered preparation, starting at zero; changing filters
+starts a different sequence, so restart at zero. Exact-end requests return an
+empty `complete` response; offsets beyond the matching total are rejected.
+The limit is 1-20, default 5. Requests and pages remain subject to the same byte
+limits; if a page exceeds the output limit, retry explicitly with a smaller limit.
+There is no persistent browsing session or automatic follow-up request.
+
 Search JSON requires `operation: "search"`, `query`, and
 `query_language: "sa-Latn"`, optionally integer `limit` (1-20) and `ranking`
 (`lexical` or `fixed_blend`). Unknown fields, training, learned-model loading,
@@ -95,7 +115,8 @@ public assets, an allowed browser route and qualified deployment. Repository
 collaboration is not runtime authorization. These web controls are not implemented.
 
 Synthetic tests cover consent, source integrity, no-follow IO, revocation, copied
-outputs, flags/notes, exclusion/abstention, bounded JSON stdin, fixed-only ranking
+outputs, flags/notes, complete ordered pagination, exact metadata filters,
+exclusion/abstention, bounded JSON stdin, fixed-only ranking
 and no-engine dispatch. Separate private smoke evidence checks approved local
 source files without adding text to the repository or wheel. Browser/audio,
 Windows, hosted access, multi-user service and doctrinal/business competence
