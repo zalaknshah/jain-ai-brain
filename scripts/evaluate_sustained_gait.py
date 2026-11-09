@@ -21,7 +21,7 @@ def main() -> int:
     args = parser.parse_args()
     if not args.confirm_simulation:
         parser.error('--confirm-simulation is required; no physics was run')
-    manifest = json.loads((ROOT / 'evals/sustained_gait/resource_verdict_freeze.json').read_text())
+    manifest = json.loads((ROOT / 'evals/sustained_gait/lifetime_accounting_freeze.json').read_text())
     for name, expected in manifest['implementation_sha256'].items():
         if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
             parser.error(f'frozen source changed: {name}; no physics was run')

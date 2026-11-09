@@ -1,0 +1,39 @@
+{
+  "candidate_id": "sustained-post-exit-accounting-20261109",
+  "base_commit": "adf1362a9e359e59e664bb9948a957764e151ee6",
+  "base_tree": "d85291b85bfe551211d841cd23e960a33b5c9e05",
+  "implementation_sha256": {
+    "src/jace/freebase_sustained.py": "093dc3ce027ac6fae113851d2feecf6065ebbd8ec3cafe90edce541fa1414ba8",
+    "src/jace/freebase_sustained_controller.py": "280ba566c9110666209d2e9d4374734561c14b43c65e25723a74aaf79d573f03",
+    "src/jace/freebase_sustained_metrics.py": "87541a3a77df3552f1fe6ff6ffafd44d29a7c89437db8ce96952dae43031f3d5",
+    "src/jace/freebase_sustained_worker.py": "9c7ba7ad9e5d150c77c4410c43b92e0e6edcafcab06de6785055904ed443f0f1",
+    "src/jace/freebase.py": "e09021829102c98bae3b311c6b1755d94fa7ad466aee37cded342ab5abb86c50",
+    "src/jace/freebase_worker.py": "4a9e479c17c5ef7f4fc9ac36972890c4888c03f8a952f45ac972781b7cde17ba",
+    "src/jace/freebase_gait.py": "01d4b2debf155c866962e0cc3c603ac635b467363c3f31b52d6d16332ddb0654",
+    "src/jace/freebase_gait_controller.py": "7f2ed4f7db866e66514645dd2920c512ee6c0e1b9ad5fba41fba9236e0defdce",
+    "src/jace/freebase_gait_metrics.py": "ee7d138091042fe23ec1d0c339aa68ac56005b6a90c8a246922fefe7c26b454f",
+    "src/jace/freebase_balance.py": "9a9f85f44ec106878c94586e4c53b5ba47220b9ae6da7bfd8afa9596c14edbeb",
+    "src/jace/freebase_balance_controller.py": "2d0d9970b33c074ed1569a2c96bb0b8ff1ce1e0e5887bf80198b6b56ecc59726",
+    "src/jace/data/unitree_g1_headless.xml": "5dda747f3baa22960a6027cbb55ca38c370ce80bc843589b79113643ca63e19f",
+    "src/jace/data/unitree_g1_scene.xml": "2c11388717a65de188c1b0c14523fe54424c039e215ab84df0744b1be01ccfee",
+    "src/jace/data/unitree_g1_source.json": "a6a815cf363674a4b1419fd827ed57d7f10a07c3f76b93b30c00d6b85c889224",
+    "src/jace/freebase_sustained_resources.py": "a1b40b102bff7695ab136c008f67e01fd6af60103041ea33eece3a7fad8e9738",
+    "scripts/evaluate_sustained_gait.py": "a174091f4457ce7f73119ffc7b2622e179e3ba2a21629449890def9dd873d58f",
+    "tests/test_sustained_resource_verdict.py": "7fd92c2fb4a176f14d05077d4b82a3942d92cb1d0aae0762ac596ef60ba059c4",
+    "src/jace/worker_accounting.py": "1afb1e30e5a06b8745144b8c41c540a52990640cff67a8e29cb1668c663e01cb",
+    "tests/test_worker_accounting.py": "3f1768d84808a70433bcfbe4831cd851668168e3fb97a6210d69ec8a1a7fcfae",
+    "tests/test_freebase_sustained.py": "9858486a2c979b2e677a4e79028a3623be1bc141ef4d57377d48ca84674edd01"
+  },
+  "planned_steps": 6,
+  "max_physics_steps": 5000,
+  "simulation_seconds": 20,
+  "limits": {
+    "address_space_bytes": 1073741824,
+    "cpu_seconds": 15,
+    "outer_wall_seconds": 30
+  },
+  "acceptance": "Original physical criteria and observed resource bounds, plus launcher-measured per-PID post-exit CPU not exceeding 15 seconds. Direct worker only; no process-tree or reliability qualification.",
+  "historical_resource_verdict_freeze_sha256": "4749ad398194d57f3d537c90a2c0099c85e6e9a571bf1e261b807ba1dff16982",
+  "physics_rerun": false,
+  "source_of_new_measurements": "Synthetic Linux subprocess tests, not a fresh physics run."
+}

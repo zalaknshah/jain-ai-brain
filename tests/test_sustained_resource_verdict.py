@@ -3,6 +3,7 @@ import copy
 import json
 import math
 import subprocess
+from jace.worker_accounting import AccountedWorker
 import unittest
 from unittest.mock import patch
 from jace.freebase_sustained_resources import apply_observed_resource_verdict
@@ -22,6 +23,42 @@ def fixture():
 
 
 class ObservedResourceVerdictTests(unittest.TestCase):
+    def test_post_exit_overage_rejects_an_in_budget_reporting_sample(self):
+        report = fixture()
+        report.update(final_worker_cpu_seconds_used=15.00001,
+                      final_worker_usage_source='wait4_reaped_child')
+        apply_observed_resource_verdict(report, include_outer_wall=True, require_lifetime_cpu=True)
+        self.assertTrue(report['physical_six_step_criteria_met'])
+        self.assertFalse(report['sustained_probe_accepted'])
+        self.assertEqual(report['resource_budget_violations'], ['final_worker_cpu_seconds_used_exceeded'])
+        self.assertTrue(report['resource_accounting_scope']['full_worker_lifetime_cpu_measured'])
+        self.assertFalse(report['resource_accounting_scope']['resource_reliability_qualified'])
+
+    def test_post_exit_boundary_and_inconsistent_or_missing_accounting(self):
+        for value, source, passed in ((15., 'wait4_reaped_child', True),
+                (math.nextafter(15., math.inf), 'wait4_reaped_child', False),
+                (9., 'wait4_reaped_child', False), (None, 'wait4_reaped_child', False),
+                (True, 'wait4_reaped_child', False), ('12', 'wait4_reaped_child', False),
+                (-1, 'wait4_reaped_child', False), (float('nan'), 'wait4_reaped_child', False),
+                (float('inf'), 'wait4_reaped_child', False), (12., None, False),
+                (12., 'worker_assertion', False)):
+            with self.subTest(value=value, source=source):
+                report = fixture()
+                report.update(final_worker_cpu_seconds_used=value, final_worker_usage_source=source)
+                apply_observed_resource_verdict(report, include_outer_wall=True, require_lifetime_cpu=True)
+                self.assertEqual(report['sustained_probe_accepted'], passed)
+
+    def test_launcher_replaces_worker_claims_with_its_own_final_usage(self):
+        report = fixture()
+        report.update(final_worker_cpu_seconds_used=0., final_worker_usage_source='invented')
+        response = AccountedWorker(0, json.dumps(report), '', 15.001)
+        with patch('jace.freebase_sustained.validate_gait_runtime'), patch(
+                'jace.freebase_sustained.run_accounted_worker', return_value=response):
+            result = run_sustained_probe(confirm_simulation=True)
+        self.assertFalse(result['sustained_probe_accepted'])
+        self.assertEqual(result['final_worker_cpu_seconds_used'], 15.001)
+        self.assertEqual(result['final_worker_usage_source'], 'wait4_reaped_child')
+
     def test_archived_installed_overage_preserves_physical_success_but_rejects_acceptance(self):
         report = fixture()
         report.update(worker_cpu_seconds_used=15.80148,
@@ -93,9 +130,9 @@ class ObservedResourceVerdictTests(unittest.TestCase):
 
     def test_launcher_rejects_an_overbudget_worker_that_claims_acceptance(self):
         report = fixture(); report['worker_cpu_seconds_used'] = 15.80148
-        response = subprocess.CompletedProcess([], 0, json.dumps(report), '')
+        response = AccountedWorker(0, json.dumps(report), '', 16.)
         with patch('jace.freebase_sustained.validate_gait_runtime'), patch(
-                'jace.freebase_sustained.subprocess.run', return_value=response) as worker:
+                'jace.freebase_sustained.run_accounted_worker', return_value=response) as worker:
             result = run_sustained_probe(confirm_simulation=True)
         self.assertEqual(worker.call_count, 1)
         self.assertTrue(result['physical_six_step_criteria_met'])
@@ -103,9 +140,9 @@ class ObservedResourceVerdictTests(unittest.TestCase):
         self.assertIn('worker_cpu_seconds_used_exceeded', result['resource_budget_violations'])
 
     def test_launcher_gate_includes_its_own_outer_measurement(self):
-        response = subprocess.CompletedProcess([], 0, json.dumps(fixture()), '')
+        response = AccountedWorker(0, json.dumps(fixture()), '', 10.25)
         with patch('jace.freebase_sustained.validate_gait_runtime'), patch(
-                'jace.freebase_sustained.subprocess.run', return_value=response), patch(
+                'jace.freebase_sustained.run_accounted_worker', return_value=response), patch(
                 'jace.freebase_sustained.time.monotonic', side_effect=[100., 130.01]):
             result = run_sustained_probe(confirm_simulation=True)
         self.assertFalse(result['sustained_probe_accepted'])
@@ -121,9 +158,9 @@ class ObservedResourceVerdictTests(unittest.TestCase):
     def test_launcher_preserves_malformed_limit_evidence_without_accepting(self):
         for value in (None, [], 'not a mapping'):
             report = fixture(); report['resource_limits'] = value
-            response = subprocess.CompletedProcess([], 0, json.dumps(report), '')
+            response = AccountedWorker(0, json.dumps(report), '', 16.)
             with patch('jace.freebase_sustained.validate_gait_runtime'), patch(
-                    'jace.freebase_sustained.subprocess.run', return_value=response):
+                    'jace.freebase_sustained.run_accounted_worker', return_value=response):
                 result = run_sustained_probe(confirm_simulation=True)
             self.assertEqual(result['resource_limits'], value)
             self.assertTrue(result['physical_six_step_criteria_met'])

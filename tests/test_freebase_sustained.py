@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+from jace.worker_accounting import AccountedWorker
 import sys
 import unittest
 from unittest.mock import patch
@@ -27,7 +28,7 @@ class SustainedContractTests(unittest.TestCase):
         self.addCleanup(preflight.stop)
 
     def test_invalid_inputs_and_no_confirmation_never_spawn(self):
-        with patch('jace.freebase_sustained.subprocess.run') as worker:
+        with patch('jace.freebase_sustained.run_accounted_worker') as worker:
             for options in ({}, {'confirm_simulation': 1}, {'confirm_simulation': 'yes'},
                             {'confirm_simulation': True, 'steps': 5001},
                             {'confirm_simulation': True, 'steps': 0},
@@ -40,9 +41,9 @@ class SustainedContractTests(unittest.TestCase):
             worker.assert_not_called()
 
     def test_capped_isolated_worker_no_retry(self):
-        response = subprocess.CompletedProcess([], 0, '{"schema":"jace.freebase.sustained_probe.v1"}', '')
+        response = AccountedWorker(0, '{"schema":"jace.freebase.sustained_probe.v1"}', '', 10.25)
         with patch.dict(os.environ, {'SYNTHETIC_TEST_SECRET': 'not-a-credential'}):
-            with patch('jace.freebase_sustained.subprocess.run', return_value=response) as worker:
+            with patch('jace.freebase_sustained.run_accounted_worker', return_value=response) as worker:
                 run_sustained_probe(confirm_simulation=True)
         args, kwargs = worker.call_args
         self.assertIn('jace.freebase_sustained_worker', args[0])
@@ -51,7 +52,7 @@ class SustainedContractTests(unittest.TestCase):
         self.assertEqual(kwargs['timeout'], 30)
         self.assertEqual(kwargs['env']['OPENBLAS_NUM_THREADS'], '1')
         self.assertNotIn('SYNTHETIC_TEST_SECRET', kwargs['env'])
-        with patch('jace.freebase_sustained.subprocess.run', side_effect=subprocess.TimeoutExpired('worker', 30)) as worker:
+        with patch('jace.freebase_sustained.run_accounted_worker', side_effect=subprocess.TimeoutExpired('worker', 30)) as worker:
             with self.assertRaises(RuntimeError):
                 run_sustained_probe(confirm_simulation=True)
             self.assertEqual(worker.call_count, 1)
@@ -59,8 +60,8 @@ class SustainedContractTests(unittest.TestCase):
     def test_wrong_schema_or_failed_worker_is_not_success(self):
         for code, output in ((0, '{"schema":"jace.freebase.gait_probe.v1"}'), (0, 'not json'),
                              (-9, ''), (2, '')):
-            response = subprocess.CompletedProcess([], code, output, 'synthetic worker error')
-            with patch('jace.freebase_sustained.subprocess.run', return_value=response):
+            response = AccountedWorker(code, output, 'synthetic worker error', 10.25)
+            with patch('jace.freebase_sustained.run_accounted_worker', return_value=response):
                 with self.assertRaises(RuntimeError):
                     run_sustained_probe(confirm_simulation=True)
 

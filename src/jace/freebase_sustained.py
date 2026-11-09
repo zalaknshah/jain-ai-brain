@@ -7,6 +7,7 @@ import subprocess
 import sys
 import time
 from .freebase_sustained_resources import apply_observed_resource_verdict
+from .worker_accounting import run_accounted_worker
 
 from .freebase_gait import (ControllerFeasibilityError, validate_gait_runtime,
                             validate_gait_backend_versions)
@@ -47,7 +48,7 @@ def _run_capped_worker(scenario: str, *, steps: int, confirm_simulation: bool,
                'trace' if include_trace else 'summary', '--confirmed-simulation']
     started = time.monotonic()
     try:
-        result = subprocess.run(command, capture_output=True, text=True, env=env, timeout=WALL_TIMEOUT_S, check=False)
+        result = run_accounted_worker(command, env=env, timeout=WALL_TIMEOUT_S)
     except subprocess.TimeoutExpired:
         raise RuntimeError('free-base diagnostic exceeded its wall-time cap; process stopped, outcome is not a success') from None
     if result.returncode != 0:
@@ -61,5 +62,8 @@ def _run_capped_worker(scenario: str, *, steps: int, confirm_simulation: bool,
         raise RuntimeError('unexpected diagnostic report; no success claimed')
     if isinstance(report.get('resource_limits'), dict):
         report['resource_limits']['outer_wall_seconds'] = WALL_TIMEOUT_S
+    # Replace any child-supplied claims with the launcher's own post-exit usage.
+    report['final_worker_cpu_seconds_used'] = result.lifetime_cpu_seconds
+    report['final_worker_usage_source'] = 'wait4_reaped_child'
     report['outer_elapsed_wall_seconds'] = time.monotonic() - started
-    return apply_observed_resource_verdict(report, include_outer_wall=True)
+    return apply_observed_resource_verdict(report, include_outer_wall=True, require_lifetime_cpu=True)

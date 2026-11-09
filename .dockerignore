@@ -61,6 +61,7 @@
 !src/jace/training_cli.py
 !src/jace/training_worker.py
 !src/jace/wardrobe.py
+!src/jace/worker_accounting.py
 !src/jace/data/articulated_scene.xml
 !src/jace/data/canonical.json
 !src/jace/data/slider_scene.xml
