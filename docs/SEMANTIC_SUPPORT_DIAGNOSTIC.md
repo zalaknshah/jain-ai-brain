@@ -34,3 +34,10 @@ answer. It does not add semantic validation to an external model's generated tex
 
 No corpus admission, model training, source rights clearance, scholarly review or
 doctrinal qualification follows from either the fixtures or this diagnostic.
+
+For a separate, broader original-fiction evaluation surface, see
+[contrastive claim-support evaluation](CLAIM_SUPPORT_EVALUATION.md). It keeps
+passages and citations fixed within 48 matched claims, separates supplied class
+predictions from abstention and citation validity, and reports full confusion
+counts and complete-triple success. It does not add a semantic classifier or
+convert this diagnostic's exposed examples into unseen holdouts.

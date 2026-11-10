@@ -1,0 +1,1014 @@
+{
+  "protocol": 1,
+  "scope": "Original fictional, open-world claim-support regression challenge. Labels concern the supplied passages only, not outside knowledge. Exact citations are shared within matched triples and do not by themselves imply claim support. Public disclosure makes this a regression challenge, not an unseen benchmark or evidence of improved general reasoning.",
+  "cases": [
+    {
+      "id": "c-031",
+      "group_id": "cinderfen_seedlings",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Cinderfen nursery, some of the seedlings in tray Orra have striped leaves. Some seedlings in that same tray do not have striped leaves. Every seedling in tray Orra has a clay marker."
+        }
+      ],
+      "claim": "No seedling in tray Orra has striped leaves.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Cinderfen nursery, some of the seedlings in tray Orra have striped leaves. Some seedlings in that same tray do not have striped leaves. Every seedling in tray Orra has a clay marker."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The explicit existence of striped seedlings contradicts universal absence."
+    },
+    {
+      "id": "c-042",
+      "group_id": "velvetquay_crate",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Velvetquay depot at sunset, crate Neri was entirely inside room Saffron. Rooms Saffron and Indigo are disjoint rooms. Room Saffron is inside the west warehouse."
+        }
+      ],
+      "claim": "Crate Neri was inside the west warehouse at sunset.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Velvetquay depot at sunset, crate Neri was entirely inside room Saffron. Rooms Saffron and Indigo are disjoint rooms. Room Saffron is inside the west warehouse."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Containment in Saffron and Saffron’s containment in the warehouse imply warehouse location."
+    },
+    {
+      "id": "c-025",
+      "group_id": "velvetquay_crate",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Velvetquay depot at sunset, crate Neri was entirely inside room Saffron. Rooms Saffron and Indigo are disjoint rooms. Room Saffron is inside the west warehouse."
+        }
+      ],
+      "claim": "Crate Neri was beside a window at sunset.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Velvetquay depot at sunset, crate Neri was entirely inside room Saffron. Rooms Saffron and Indigo are disjoint rooms. Room Saffron is inside the west warehouse."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Its room location supplies no information about proximity to a window."
+    },
+    {
+      "id": "c-022",
+      "group_id": "dapplemere_flags",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Dapplemere tournament, team Oru is a member of the eastern division and team Venn is a member of the western division."
+        },
+        {
+          "id": "p2",
+          "text": "For this same fictional Dapplemere tournament, the flag rule requires every eastern-division team to carry a green flag and forbids every western-division team from carrying a green flag. Teams may carry more than one flag color."
+        }
+      ],
+      "claim": "Under the Dapplemere flag rule, team Venn is allowed to carry a green flag.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Dapplemere tournament, team Oru is a member of the eastern division and team Venn is a member of the western division."
+        },
+        {
+          "passage_id": "p2",
+          "quote": "For this same fictional Dapplemere tournament, the flag rule requires every eastern-division team to carry a green flag and forbids every western-division team from carrying a green flag. Teams may carry more than one flag color."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Venn’s actual western-division membership activates the express green-flag prohibition."
+    },
+    {
+      "id": "c-008",
+      "group_id": "rippleforge_permission",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Rippleforge workshop, any apprentice who holds a copper permit may enter the kiln room. Apprentice Vey holds a copper permit. Apprentice Tulo may enter the kiln room. Apprentice Rinn may not enter the kiln room."
+        }
+      ],
+      "claim": "Apprentice Rinn holds a copper permit.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Rippleforge workshop, any apprentice who holds a copper permit may enter the kiln room. Apprentice Vey holds a copper permit. Apprentice Tulo may enter the kiln room. Apprentice Rinn may not enter the kiln room."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "A copper permit would imply permission, which is explicitly denied to Rinn."
+    },
+    {
+      "id": "c-044",
+      "group_id": "mossvault_tokens",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Mossvault game, a bowl began the round with nine tokens. The keeper removed four tokens, then added two. No other tokens entered or left the bowl during the round."
+        }
+      ],
+      "claim": "The Mossvault bowl contained five tokens at the end of the round.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Mossvault game, a bowl began the round with nine tokens. The keeper removed four tokens, then added two. No other tokens entered or left the bowl during the round."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Five is the intermediate count; the final count is seven."
+    },
+    {
+      "id": "c-001",
+      "group_id": "silversedge_log",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Silversedge expedition log, scout Fira wrote, \"The red tent is empty.\" Scribe Noll copied Fira’s sentence into the log and attributed it to Fira. Noll made no claim about whether the red tent was empty. No observation confirming or refuting Fira’s report appears in the log."
+        }
+      ],
+      "claim": "Noll claimed in the Silversedge log that the red tent was empty.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Silversedge expedition log, scout Fira wrote, \"The red tent is empty.\" Scribe Noll copied Fira’s sentence into the log and attributed it to Fira. Noll made no claim about whether the red tent was empty. No observation confirming or refuting Fira’s report appears in the log."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The passage explicitly says Noll made no claim about the tent’s emptiness."
+    },
+    {
+      "id": "c-026",
+      "group_id": "lanternmere_races",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Lanternmere regatta, the single opening bell rang at 08:10. The single start flare rose at 08:25, and the first boat departed at 08:40, all on the same morning."
+        }
+      ],
+      "claim": "The last boat in the Lanternmere regatta departed at 09:00.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Lanternmere regatta, the single opening bell rang at 08:10. The single start flare rose at 08:25, and the first boat departed at 08:40, all on the same morning."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Only the first departure is timed; the last departure is unconstrained."
+    },
+    {
+      "id": "c-012",
+      "group_id": "starfen_lockers",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Starfen archive, capsule Daro was entirely inside locker M at noon. It remained entirely inside that locker throughout the noon inspection."
+        },
+        {
+          "id": "p2",
+          "text": "In the same fictional Starfen archive throughout the noon inspection, locker M was entirely inside the cedar vault. The cedar vault and the birch vault are disjoint spaces."
+        }
+      ],
+      "claim": "Capsule Daro was in the cedar vault during the noon inspection.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Starfen archive, capsule Daro was entirely inside locker M at noon. It remained entirely inside that locker throughout the noon inspection."
+        },
+        {
+          "passage_id": "p2",
+          "quote": "In the same fictional Starfen archive throughout the noon inspection, locker M was entirely inside the cedar vault. The cedar vault and the birch vault are disjoint spaces."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Daro was entirely inside M throughout the inspection, and M was entirely inside the cedar vault during that same interval."
+    },
+    {
+      "id": "c-011",
+      "group_id": "cloudmill_inventory",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Cloudmill store, the entire stock at noon was seven brass spools and four clay spools. These were eleven distinct spools; there were no others in the store at noon."
+        }
+      ],
+      "claim": "At noon, the Cloudmill store held three more brass spools than clay spools.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Cloudmill store, the entire stock at noon was seven brass spools and four clay spools. These were eleven distinct spools; there were no others in the store at noon."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Seven minus four equals three."
+    },
+    {
+      "id": "c-003",
+      "group_id": "ivermist_station",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Ivermist station, the ruby cabinet is east of the pearl cabinet. The pearl cabinet is east of the slate cabinet. All three cabinets lie on one straight east-west line and occupy distinct fixed positions."
+        }
+      ],
+      "claim": "The ruby cabinet is east of the slate cabinet.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Ivermist station, the ruby cabinet is east of the pearl cabinet. The pearl cabinet is east of the slate cabinet. All three cabinets lie on one straight east-west line and occupy distinct fixed positions."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The two eastward relations compose along the same straight line."
+    },
+    {
+      "id": "c-021",
+      "group_id": "hollowkite_hearing",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Hollowkite hearing, the clerk recorded witness Zori’s only statement as: \"The northern hatch is locked.\" Witness Pem’s only statement was: \"I have not checked the northern hatch.\" The record does not certify the hatch’s actual state."
+        }
+      ],
+      "claim": "The northern hatch was locked at the time of the Hollowkite hearing.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Hollowkite hearing, the clerk recorded witness Zori’s only statement as: \"The northern hatch is locked.\" Witness Pem’s only statement was: \"I have not checked the northern hatch.\" The record does not certify the hatch’s actual state."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "A witness assertion is recorded, without establishing the actual hatch state."
+    },
+    {
+      "id": "c-037",
+      "group_id": "glasswing_beacon",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Glasswing port, the east beacon did not flash during the entire frost watch. The west beacon flashed twice during that watch."
+        }
+      ],
+      "claim": "The east beacon flashed at least once during the frost watch at Glasswing port.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Glasswing port, the east beacon did not flash during the entire frost watch. The west beacon flashed twice during that watch."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The passage explicitly excludes any east-beacon flash during that watch."
+    },
+    {
+      "id": "c-046",
+      "group_id": "cinderfen_seedlings",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Cinderfen nursery, some of the seedlings in tray Orra have striped leaves. Some seedlings in that same tray do not have striped leaves. Every seedling in tray Orra has a clay marker."
+        }
+      ],
+      "claim": "Not all seedlings in tray Orra have striped leaves.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Cinderfen nursery, some of the seedlings in tray Orra have striped leaves. Some seedlings in that same tray do not have striped leaves. Every seedling in tray Orra has a clay marker."
+        }
+      ],
+      "label": "supported",
+      "rationale": "An explicit unstriped seedling is a counterexample to universal striping."
+    },
+    {
+      "id": "c-038",
+      "group_id": "starfen_lockers",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Starfen archive, capsule Daro was entirely inside locker M at noon. It remained entirely inside that locker throughout the noon inspection."
+        },
+        {
+          "id": "p2",
+          "text": "In the same fictional Starfen archive throughout the noon inspection, locker M was entirely inside the cedar vault. The cedar vault and the birch vault are disjoint spaces."
+        }
+      ],
+      "claim": "Capsule Daro was in the birch vault during the noon inspection.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Starfen archive, capsule Daro was entirely inside locker M at noon. It remained entirely inside that locker throughout the noon inspection."
+        },
+        {
+          "passage_id": "p2",
+          "quote": "In the same fictional Starfen archive throughout the noon inspection, locker M was entirely inside the cedar vault. The cedar vault and the birch vault are disjoint spaces."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The combined location facts place Daro entirely inside the cedar vault during the inspection, excluding the disjoint birch vault."
+    },
+    {
+      "id": "c-043",
+      "group_id": "silversedge_log",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Silversedge expedition log, scout Fira wrote, \"The red tent is empty.\" Scribe Noll copied Fira’s sentence into the log and attributed it to Fira. Noll made no claim about whether the red tent was empty. No observation confirming or refuting Fira’s report appears in the log."
+        }
+      ],
+      "claim": "The Silversedge log attributes the claim that the red tent is empty to Fira.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Silversedge expedition log, scout Fira wrote, \"The red tent is empty.\" Scribe Noll copied Fira’s sentence into the log and attributed it to Fira. Noll made no claim about whether the red tent was empty. No observation confirming or refuting Fira’s report appears in the log."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The source expressly identifies Fira as the claimant, even though Noll copied the sentence."
+    },
+    {
+      "id": "c-020",
+      "group_id": "reedwake_couriers",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Reedwake guild, every courier assigned to the winter route carries a felt badge. At least one courier is assigned to that route. No courier assigned to the winter route carries a tin badge."
+        }
+      ],
+      "claim": "Every Reedwake courier carrying a felt badge is assigned to the winter route.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Reedwake guild, every courier assigned to the winter route carries a felt badge. At least one courier is assigned to that route. No courier assigned to the winter route carries a tin badge."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The forward rule does not establish its converse; felt badges outside the route are neither required nor excluded."
+    },
+    {
+      "id": "c-010",
+      "group_id": "mossvault_tokens",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Mossvault game, a bowl began the round with nine tokens. The keeper removed four tokens, then added two. No other tokens entered or left the bowl during the round."
+        }
+      ],
+      "claim": "The Mossvault bowl contained seven tokens at the end of the round.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Mossvault game, a bowl began the round with nine tokens. The keeper removed four tokens, then added two. No other tokens entered or left the bowl during the round."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Nine minus four plus two is seven, with other changes excluded."
+    },
+    {
+      "id": "c-035",
+      "group_id": "brambleglass_alarm",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Brambleglass observatory, whenever the lens is uncovered during a watch, the warning chime sounds during that watch. During the dawn watch the lens was uncovered. During the dusk watch the chime did not sound."
+        }
+      ],
+      "claim": "The lens was uncovered during the Brambleglass dusk watch.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Brambleglass observatory, whenever the lens is uncovered during a watch, the warning chime sounds during that watch. During the dawn watch the lens was uncovered. During the dusk watch the chime did not sound."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "An uncovered lens would require a chime; the explicitly absent dusk chime excludes an uncovered dusk lens."
+    },
+    {
+      "id": "c-036",
+      "group_id": "dapplemere_flags",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Dapplemere tournament, team Oru is a member of the eastern division and team Venn is a member of the western division."
+        },
+        {
+          "id": "p2",
+          "text": "For this same fictional Dapplemere tournament, the flag rule requires every eastern-division team to carry a green flag and forbids every western-division team from carrying a green flag. Teams may carry more than one flag color."
+        }
+      ],
+      "claim": "Under the Dapplemere flag rule, team Oru must carry a white flag.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Dapplemere tournament, team Oru is a member of the eastern division and team Venn is a member of the western division."
+        },
+        {
+          "passage_id": "p2",
+          "quote": "For this same fictional Dapplemere tournament, the flag rule requires every eastern-division team to carry a green flag and forbids every western-division team from carrying a green flag. Teams may carry more than one flag color."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The supplied rule neither requires nor forbids a white flag for Oru."
+    },
+    {
+      "id": "c-029",
+      "group_id": "dapplemere_flags",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Dapplemere tournament, team Oru is a member of the eastern division and team Venn is a member of the western division."
+        },
+        {
+          "id": "p2",
+          "text": "For this same fictional Dapplemere tournament, the flag rule requires every eastern-division team to carry a green flag and forbids every western-division team from carrying a green flag. Teams may carry more than one flag color."
+        }
+      ],
+      "claim": "Under the Dapplemere flag rule, team Oru must carry a green flag.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Dapplemere tournament, team Oru is a member of the eastern division and team Venn is a member of the western division."
+        },
+        {
+          "passage_id": "p2",
+          "quote": "For this same fictional Dapplemere tournament, the flag rule requires every eastern-division team to carry a green flag and forbids every western-division team from carrying a green flag. Teams may carry more than one flag color."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Oru’s actual eastern-division membership activates the green-flag requirement."
+    },
+    {
+      "id": "c-048",
+      "group_id": "opalreach_bridge",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Opalreach valley, the footbridge was closed continuously from the start of Day 3 until the start of Day 6. It was open continuously throughout Days 6 and 7. Each numbered day begins at midnight."
+        }
+      ],
+      "claim": "The Opalreach footbridge was closed at noon on Day 8.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Opalreach valley, the footbridge was closed continuously from the start of Day 3 until the start of Day 6. It was open continuously throughout Days 6 and 7. Each numbered day begins at midnight."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No state is given for Day 8, and persistence beyond Day 7 is not established."
+    },
+    {
+      "id": "c-006",
+      "group_id": "ivermist_station",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Ivermist station, the ruby cabinet is east of the pearl cabinet. The pearl cabinet is east of the slate cabinet. All three cabinets lie on one straight east-west line and occupy distinct fixed positions."
+        }
+      ],
+      "claim": "The ruby cabinet is west of the slate cabinet.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Ivermist station, the ruby cabinet is east of the pearl cabinet. The pearl cabinet is east of the slate cabinet. All three cabinets lie on one straight east-west line and occupy distinct fixed positions."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The fixed distinct positions establish the opposite east-west ordering."
+    },
+    {
+      "id": "c-047",
+      "group_id": "velvetquay_crate",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Velvetquay depot at sunset, crate Neri was entirely inside room Saffron. Rooms Saffron and Indigo are disjoint rooms. Room Saffron is inside the west warehouse."
+        }
+      ],
+      "claim": "Crate Neri was inside room Indigo at sunset.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Velvetquay depot at sunset, crate Neri was entirely inside room Saffron. Rooms Saffron and Indigo are disjoint rooms. Room Saffron is inside the west warehouse."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The crate was entirely inside Saffron, which is disjoint from Indigo."
+    },
+    {
+      "id": "c-002",
+      "group_id": "rippleforge_permission",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Rippleforge workshop, any apprentice who holds a copper permit may enter the kiln room. Apprentice Vey holds a copper permit. Apprentice Tulo may enter the kiln room. Apprentice Rinn may not enter the kiln room."
+        }
+      ],
+      "claim": "Apprentice Vey may enter the Rippleforge kiln room.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Rippleforge workshop, any apprentice who holds a copper permit may enter the kiln room. Apprentice Vey holds a copper permit. Apprentice Tulo may enter the kiln room. Apprentice Rinn may not enter the kiln room."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Vey satisfies the permit condition, so the stated permission follows."
+    },
+    {
+      "id": "c-004",
+      "group_id": "cloudmill_inventory",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Cloudmill store, the entire stock at noon was seven brass spools and four clay spools. These were eleven distinct spools; there were no others in the store at noon."
+        }
+      ],
+      "claim": "At noon, three of the Cloudmill store’s brass spools were cracked.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Cloudmill store, the entire stock at noon was seven brass spools and four clay spools. These were eleven distinct spools; there were no others in the store at noon."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The stock counts give no information about cracks."
+    },
+    {
+      "id": "c-013",
+      "group_id": "opalreach_bridge",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Opalreach valley, the footbridge was closed continuously from the start of Day 3 until the start of Day 6. It was open continuously throughout Days 6 and 7. Each numbered day begins at midnight."
+        }
+      ],
+      "claim": "The Opalreach footbridge was closed at noon on Day 7.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Opalreach valley, the footbridge was closed continuously from the start of Day 3 until the start of Day 6. It was open continuously throughout Days 6 and 7. Each numbered day begins at midnight."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Noon on Day 7 lies within the stated continuous opening."
+    },
+    {
+      "id": "c-041",
+      "group_id": "thistlework_seals",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Thistlework workshop at the noon inspection, parcel Lume bore no amber stamps and no violet stamps of any kind. A silver cord was tied around that parcel."
+        }
+      ],
+      "claim": "At the noon inspection, parcel Lume bore an amber stamp.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Thistlework workshop at the noon inspection, parcel Lume bore no amber stamps and no violet stamps of any kind. A silver cord was tied around that parcel."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The explicit absence of any amber stamp at the noon inspection contradicts the claim."
+    },
+    {
+      "id": "c-040",
+      "group_id": "thistlework_seals",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Thistlework workshop at the noon inspection, parcel Lume bore no amber stamps and no violet stamps of any kind. A silver cord was tied around that parcel."
+        }
+      ],
+      "claim": "At the noon inspection, parcel Lume bore a copper stamp.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Thistlework workshop at the noon inspection, parcel Lume bore no amber stamps and no violet stamps of any kind. A silver cord was tied around that parcel."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The passage establishes neither the presence nor the absence of a copper stamp at the noon inspection."
+    },
+    {
+      "id": "c-045",
+      "group_id": "ivermist_station",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Ivermist station, the ruby cabinet is east of the pearl cabinet. The pearl cabinet is east of the slate cabinet. All three cabinets lie on one straight east-west line and occupy distinct fixed positions."
+        }
+      ],
+      "claim": "The ruby cabinet is two meters from the slate cabinet.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Ivermist station, the ruby cabinet is east of the pearl cabinet. The pearl cabinet is east of the slate cabinet. All three cabinets lie on one straight east-west line and occupy distinct fixed positions."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Ordering does not determine distance."
+    },
+    {
+      "id": "c-017",
+      "group_id": "glasswing_beacon",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Glasswing port, the east beacon did not flash during the entire frost watch. The west beacon flashed twice during that watch."
+        }
+      ],
+      "claim": "The east beacon remained without a flash throughout the frost watch at Glasswing port.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Glasswing port, the east beacon did not flash during the entire frost watch. The west beacon flashed twice during that watch."
+        }
+      ],
+      "label": "supported",
+      "rationale": "No flash during the entire watch entails the paraphrased absence."
+    },
+    {
+      "id": "c-005",
+      "group_id": "cinderfen_seedlings",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Cinderfen nursery, some of the seedlings in tray Orra have striped leaves. Some seedlings in that same tray do not have striped leaves. Every seedling in tray Orra has a clay marker."
+        }
+      ],
+      "claim": "Most seedlings in tray Orra have striped leaves.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Cinderfen nursery, some of the seedlings in tray Orra have striped leaves. Some seedlings in that same tray do not have striped leaves. Every seedling in tray Orra has a clay marker."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Both kinds exist, but their proportions are not specified."
+    },
+    {
+      "id": "c-032",
+      "group_id": "hollowkite_hearing",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Hollowkite hearing, the clerk recorded witness Zori’s only statement as: \"The northern hatch is locked.\" Witness Pem’s only statement was: \"I have not checked the northern hatch.\" The record does not certify the hatch’s actual state."
+        }
+      ],
+      "claim": "At the Hollowkite hearing, Zori’s only statement said that the northern hatch was unlocked.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Hollowkite hearing, the clerk recorded witness Zori’s only statement as: \"The northern hatch is locked.\" Witness Pem’s only statement was: \"I have not checked the northern hatch.\" The record does not certify the hatch’s actual state."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The complete sole statement asserts locked, not unlocked."
+    },
+    {
+      "id": "c-014",
+      "group_id": "starfen_lockers",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Starfen archive, capsule Daro was entirely inside locker M at noon. It remained entirely inside that locker throughout the noon inspection."
+        },
+        {
+          "id": "p2",
+          "text": "In the same fictional Starfen archive throughout the noon inspection, locker M was entirely inside the cedar vault. The cedar vault and the birch vault are disjoint spaces."
+        }
+      ],
+      "claim": "Capsule Daro was sealed during the noon inspection.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Starfen archive, capsule Daro was entirely inside locker M at noon. It remained entirely inside that locker throughout the noon inspection."
+        },
+        {
+          "passage_id": "p2",
+          "quote": "In the same fictional Starfen archive throughout the noon inspection, locker M was entirely inside the cedar vault. The cedar vault and the birch vault are disjoint spaces."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The location facts establish neither that the capsule was sealed nor that it was unsealed."
+    },
+    {
+      "id": "c-034",
+      "group_id": "brambleglass_alarm",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Brambleglass observatory, whenever the lens is uncovered during a watch, the warning chime sounds during that watch. During the dawn watch the lens was uncovered. During the dusk watch the chime did not sound."
+        }
+      ],
+      "claim": "The warning chime sounded during the Brambleglass dawn watch.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Brambleglass observatory, whenever the lens is uncovered during a watch, the warning chime sounds during that watch. During the dawn watch the lens was uncovered. During the dusk watch the chime did not sound."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The uncovered lens satisfies the antecedent of the given rule."
+    },
+    {
+      "id": "c-016",
+      "group_id": "mossvault_tokens",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Mossvault game, a bowl began the round with nine tokens. The keeper removed four tokens, then added two. No other tokens entered or left the bowl during the round."
+        }
+      ],
+      "claim": "The Mossvault bowl contained seven blue tokens at the end of the round.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Mossvault game, a bowl began the round with nine tokens. The keeper removed four tokens, then added two. No other tokens entered or left the bowl during the round."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The total is known but the token colors are not."
+    },
+    {
+      "id": "c-024",
+      "group_id": "lanternmere_races",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Lanternmere regatta, the single opening bell rang at 08:10. The single start flare rose at 08:25, and the first boat departed at 08:40, all on the same morning."
+        }
+      ],
+      "claim": "The Lanternmere start flare rose fifteen minutes before the opening bell.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Lanternmere regatta, the single opening bell rang at 08:10. The single start flare rose at 08:25, and the first boat departed at 08:40, all on the same morning."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The established ordering is after, not before."
+    },
+    {
+      "id": "c-007",
+      "group_id": "rippleforge_permission",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Rippleforge workshop, any apprentice who holds a copper permit may enter the kiln room. Apprentice Vey holds a copper permit. Apprentice Tulo may enter the kiln room. Apprentice Rinn may not enter the kiln room."
+        }
+      ],
+      "claim": "Apprentice Tulo holds a copper permit.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Rippleforge workshop, any apprentice who holds a copper permit may enter the kiln room. Apprentice Vey holds a copper permit. Apprentice Tulo may enter the kiln room. Apprentice Rinn may not enter the kiln room."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Permission is established, but the one-way permit rule does not imply that every permitted apprentice has a permit."
+    },
+    {
+      "id": "c-030",
+      "group_id": "silversedge_log",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Silversedge expedition log, scout Fira wrote, \"The red tent is empty.\" Scribe Noll copied Fira’s sentence into the log and attributed it to Fira. Noll made no claim about whether the red tent was empty. No observation confirming or refuting Fira’s report appears in the log."
+        }
+      ],
+      "claim": "The red tent in the Silversedge expedition was empty.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Silversedge expedition log, scout Fira wrote, \"The red tent is empty.\" Scribe Noll copied Fira’s sentence into the log and attributed it to Fira. Noll made no claim about whether the red tent was empty. No observation confirming or refuting Fira’s report appears in the log."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The attributed report is not confirmed or refuted as an observation of fact."
+    },
+    {
+      "id": "c-028",
+      "group_id": "brambleglass_alarm",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Brambleglass observatory, whenever the lens is uncovered during a watch, the warning chime sounds during that watch. During the dawn watch the lens was uncovered. During the dusk watch the chime did not sound."
+        }
+      ],
+      "claim": "The lens was covered during the Brambleglass noon watch.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Brambleglass observatory, whenever the lens is uncovered during a watch, the warning chime sounds during that watch. During the dawn watch the lens was uncovered. During the dusk watch the chime did not sound."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither noon lens state nor noon chime state is specified."
+    },
+    {
+      "id": "c-019",
+      "group_id": "thistlework_seals",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Thistlework workshop at the noon inspection, parcel Lume bore no amber stamps and no violet stamps of any kind. A silver cord was tied around that parcel."
+        }
+      ],
+      "claim": "At the noon inspection, parcel Lume lacked both amber stamps and violet stamps.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Thistlework workshop at the noon inspection, parcel Lume bore no amber stamps and no violet stamps of any kind. A silver cord was tied around that parcel."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The explicit absence of all amber and violet stamps at the noon inspection supports the claim."
+    },
+    {
+      "id": "c-039",
+      "group_id": "glasswing_beacon",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Glasswing port, the east beacon did not flash during the entire frost watch. The west beacon flashed twice during that watch."
+        }
+      ],
+      "claim": "The east beacon was broken during the frost watch at Glasswing port.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Glasswing port, the east beacon did not flash during the entire frost watch. The west beacon flashed twice during that watch."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Failure to flash establishes neither that it was broken nor that it was working."
+    },
+    {
+      "id": "c-009",
+      "group_id": "opalreach_bridge",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Opalreach valley, the footbridge was closed continuously from the start of Day 3 until the start of Day 6. It was open continuously throughout Days 6 and 7. Each numbered day begins at midnight."
+        }
+      ],
+      "claim": "The Opalreach footbridge was closed at noon on Day 5.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Opalreach valley, the footbridge was closed continuously from the start of Day 3 until the start of Day 6. It was open continuously throughout Days 6 and 7. Each numbered day begins at midnight."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Noon on Day 5 lies within the stated continuous closure."
+    },
+    {
+      "id": "c-027",
+      "group_id": "reedwake_couriers",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Reedwake guild, every courier assigned to the winter route carries a felt badge. At least one courier is assigned to that route. No courier assigned to the winter route carries a tin badge."
+        }
+      ],
+      "claim": "Some Reedwake courier assigned to the winter route carries a felt badge.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Reedwake guild, every courier assigned to the winter route carries a felt badge. At least one courier is assigned to that route. No courier assigned to the winter route carries a tin badge."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Universal felt-badge coverage and explicit existence jointly imply this existential claim."
+    },
+    {
+      "id": "c-033",
+      "group_id": "cloudmill_inventory",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Cloudmill store, the entire stock at noon was seven brass spools and four clay spools. These were eleven distinct spools; there were no others in the store at noon."
+        }
+      ],
+      "claim": "At noon, the Cloudmill store held two more brass spools than clay spools.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Cloudmill store, the entire stock at noon was seven brass spools and four clay spools. These were eleven distinct spools; there were no others in the store at noon."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The established difference is three, not two."
+    },
+    {
+      "id": "c-015",
+      "group_id": "reedwake_couriers",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Reedwake guild, every courier assigned to the winter route carries a felt badge. At least one courier is assigned to that route. No courier assigned to the winter route carries a tin badge."
+        }
+      ],
+      "claim": "Some Reedwake courier assigned to the winter route carries a tin badge.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Reedwake guild, every courier assigned to the winter route carries a felt badge. At least one courier is assigned to that route. No courier assigned to the winter route carries a tin badge."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The no-tin rule excludes this existential claim."
+    },
+    {
+      "id": "c-018",
+      "group_id": "hollowkite_hearing",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Hollowkite hearing, the clerk recorded witness Zori’s only statement as: \"The northern hatch is locked.\" Witness Pem’s only statement was: \"I have not checked the northern hatch.\" The record does not certify the hatch’s actual state."
+        }
+      ],
+      "claim": "At the Hollowkite hearing, Zori said that the northern hatch was locked.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Hollowkite hearing, the clerk recorded witness Zori’s only statement as: \"The northern hatch is locked.\" Witness Pem’s only statement was: \"I have not checked the northern hatch.\" The record does not certify the hatch’s actual state."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The recorded statement attributes the locked-hatch assertion to Zori."
+    },
+    {
+      "id": "c-023",
+      "group_id": "lanternmere_races",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p1",
+          "text": "In the fictional Lanternmere regatta, the single opening bell rang at 08:10. The single start flare rose at 08:25, and the first boat departed at 08:40, all on the same morning."
+        }
+      ],
+      "claim": "The Lanternmere start flare rose fifteen minutes after the opening bell.",
+      "citations": [
+        {
+          "passage_id": "p1",
+          "quote": "In the fictional Lanternmere regatta, the single opening bell rang at 08:10. The single start flare rose at 08:25, and the first boat departed at 08:40, all on the same morning."
+        }
+      ],
+      "label": "supported",
+      "rationale": "08:25 is fifteen minutes after 08:10 on the same morning."
+    }
+  ]
+}
