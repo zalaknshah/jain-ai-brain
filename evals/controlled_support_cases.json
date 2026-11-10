@@ -1,0 +1,1158 @@
+{
+  "protocol": 1,
+  "scope": "Original fictional controlled-English unary-logic challenge. Sixteen matched triples in the exact documented fragment; labels are independently authored against all supplied passages. This tests only bounded Boolean entailment, not general language, doctrinal reasoning, source truth, admission or deployment readiness.",
+  "cases": [
+    {
+      "id": "c-bb57624a3a0640f79341",
+      "group_id": "g-6627cdf341e746ac99b0",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-f5c0c9ccdeca42b18377",
+          "text": "No dovric object is salven. Object Fyrel is salven. Object Fyrel is telmic."
+        }
+      ],
+      "claim": "Object Fyrel is not telmic.",
+      "citations": [
+        {
+          "passage_id": "p-f5c0c9ccdeca42b18377",
+          "quote": "No dovric object is salven."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Telmic is explicitly true."
+    },
+    {
+      "id": "c-b5eda54bfe0342d28a37",
+      "group_id": "g-efedb7e8cba0492e97c2",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-97d0151e205a48f6a052",
+          "text": "Every zurnic object is pefren. Object Gavor is lemvic."
+        }
+      ],
+      "claim": "Object Gavor is lemvic.",
+      "citations": [
+        {
+          "passage_id": "p-97d0151e205a48f6a052",
+          "quote": "Every zurnic object is pefren."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Lemvic is an explicit supplied fact."
+    },
+    {
+      "id": "c-edf8baf354db45519d41",
+      "group_id": "g-b6ef805e98114f068fa2",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-f439c57bcfee46fc8283",
+          "text": "Every cilven object is nusric."
+        },
+        {
+          "id": "p-9b8d1592c5f04683b8ab",
+          "text": "Every nusric object is ferpic."
+        },
+        {
+          "id": "p-879dafb8bccd46f1bffa",
+          "text": "Object Uxvar is not ferpic."
+        },
+        {
+          "id": "p-e7adb5a3dedb43a89b62",
+          "text": "Object Uxvar is lomric."
+        }
+      ],
+      "claim": "Object Uxvar is not ganvic.",
+      "citations": [
+        {
+          "passage_id": "p-f439c57bcfee46fc8283",
+          "quote": "Every cilven object is nusric."
+        },
+        {
+          "passage_id": "p-e7adb5a3dedb43a89b62",
+          "quote": "Object Uxvar is lomric."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Ganvic is unconstrained by every source."
+    },
+    {
+      "id": "c-3e7da48be66d4bc099bc",
+      "group_id": "g-f8518d5c8ac5495483fe",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-e8ccbf5c0e2846e5ac89",
+          "text": "Every jirvic object is not jirvic. Every lurfen object is mavric."
+        }
+      ],
+      "claim": "Object Qerun is mavric.",
+      "citations": [
+        {
+          "passage_id": "p-e8ccbf5c0e2846e5ac89",
+          "quote": "Every lurfen object is mavric."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No lurfen fact is given. Set lurfen false and vary mavric freely."
+    },
+    {
+      "id": "c-4cb115cd8a054bd8a4bf",
+      "group_id": "g-5a2b5e40220d49a792fc",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-2e48965329ba4092bbd8",
+          "text": "Every talric object is jopven. Object Pexor is not talric. Object Pexor is qirnic."
+        }
+      ],
+      "claim": "Object Pexor is not jopven.",
+      "citations": [
+        {
+          "passage_id": "p-2e48965329ba4092bbd8",
+          "quote": "Every talric object is jopven."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "With talric false the implication is satisfied for either jopven value; denying the antecedent is invalid."
+    },
+    {
+      "id": "c-9a10bbc70f1242a28eaa",
+      "group_id": "g-b6ef805e98114f068fa2",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-f439c57bcfee46fc8283",
+          "text": "Every cilven object is nusric."
+        },
+        {
+          "id": "p-9b8d1592c5f04683b8ab",
+          "text": "Every nusric object is ferpic."
+        },
+        {
+          "id": "p-879dafb8bccd46f1bffa",
+          "text": "Object Uxvar is not ferpic."
+        },
+        {
+          "id": "p-e7adb5a3dedb43a89b62",
+          "text": "Object Uxvar is lomric."
+        }
+      ],
+      "claim": "Object Uxvar is nusric.",
+      "citations": [
+        {
+          "passage_id": "p-f439c57bcfee46fc8283",
+          "quote": "Every cilven object is nusric."
+        },
+        {
+          "passage_id": "p-e7adb5a3dedb43a89b62",
+          "quote": "Object Uxvar is lomric."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Nusric implies ferpic, which is explicitly false."
+    },
+    {
+      "id": "c-d6e7493b23214ff8911d",
+      "group_id": "g-acbfd1829f7d456888d8",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-dee6699c6dc14689a74c",
+          "text": "Every welfic object is parven. No parven object is xebric. Object Kyvor is welfic."
+        }
+      ],
+      "claim": "Object Kyvor is not xebric.",
+      "citations": [
+        {
+          "passage_id": "p-dee6699c6dc14689a74c",
+          "quote": "No parven object is xebric."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Welfic gives parven, which excludes xebric."
+    },
+    {
+      "id": "c-f194cee371a1494eaa46",
+      "group_id": "g-ae61248320714bf5bca8",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-67cb3edf47de44e88925",
+          "text": "Object Wyrel is huxric."
+        },
+        {
+          "id": "p-fbcedf4cbbfd42b9beaa",
+          "text": "Every huxric object is bivren."
+        },
+        {
+          "id": "p-41a3c2ee584b4ad6ad91",
+          "text": "No bivren object is qelvic."
+        },
+        {
+          "id": "p-707aae716bf744be955f",
+          "text": "Object Xavor is qelvic."
+        }
+      ],
+      "claim": "Object Wyrel is surfic.",
+      "citations": [
+        {
+          "passage_id": "p-67cb3edf47de44e88925",
+          "quote": "Object Wyrel is huxric."
+        },
+        {
+          "passage_id": "p-707aae716bf744be955f",
+          "quote": "Object Xavor is qelvic."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Surfic is a query-only property and can vary independently."
+    },
+    {
+      "id": "c-f277a396add4482b9e93",
+      "group_id": "g-9dc55c4ba29a40998565",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-95d404359cb640ecbdfd",
+          "text": "Every kovren object is not tibric. Object Invek is kovren."
+        }
+      ],
+      "claim": "Object Invek is not tibric.",
+      "citations": [
+        {
+          "passage_id": "p-95d404359cb640ecbdfd",
+          "quote": "Every kovren object is not tibric."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The given kovren fact activates the negative universal."
+    },
+    {
+      "id": "c-73667d7ffc9a421da865",
+      "group_id": "g-d41aba31e9ad4efdaae9",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-a3b730f191da49dbbedb",
+          "text": "Object Syvar is valnic."
+        },
+        {
+          "id": "p-9342308c216c430c8f82",
+          "text": "Every valnic object is delric."
+        },
+        {
+          "id": "p-175887e5bb764d9cbc22",
+          "text": "Every delric object is zumven."
+        },
+        {
+          "id": "p-25d1c678f463404a8454",
+          "text": "Every zumven object is not pabric."
+        },
+        {
+          "id": "p-12b442cb1898464d9758",
+          "text": "Object Tyvor is kefric."
+        }
+      ],
+      "claim": "Object Syvar is not delric.",
+      "citations": [
+        {
+          "passage_id": "p-12b442cb1898464d9758",
+          "quote": "Object Tyvor is kefric."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The first and second passages establish delric."
+    },
+    {
+      "id": "c-b4853a5c1b0d454c91b7",
+      "group_id": "g-efedb7e8cba0492e97c2",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-97d0151e205a48f6a052",
+          "text": "Every zurnic object is pefren. Object Gavor is lemvic."
+        }
+      ],
+      "claim": "Object Havir is pefren.",
+      "citations": [
+        {
+          "passage_id": "p-97d0151e205a48f6a052",
+          "quote": "Every zurnic object is pefren."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The rule does not assert zurnic objects. For Havir, zurnic can be false and pefren can vary."
+    },
+    {
+      "id": "c-aa4f1f66c6dc4ff5b032",
+      "group_id": "g-b38edd9628c94f92a74f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-a080fb67b73c460aabe4",
+          "text": "Every xalvic object is nurmic. Every nurmic object is befren. Object Dovek is not befren."
+        }
+      ],
+      "claim": "Object Dovek is not xalvic.",
+      "citations": [
+        {
+          "passage_id": "p-a080fb67b73c460aabe4",
+          "quote": "Every xalvic object is nurmic."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Xalvic would imply nurmic and then befren, contrary to the negative fact."
+    },
+    {
+      "id": "c-136dbc5413824368954e",
+      "group_id": "g-5a2b5e40220d49a792fc",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-2e48965329ba4092bbd8",
+          "text": "Every talric object is jopven. Object Pexor is not talric. Object Pexor is qirnic."
+        }
+      ],
+      "claim": "Object Pexor is not talric.",
+      "citations": [
+        {
+          "passage_id": "p-2e48965329ba4092bbd8",
+          "quote": "Every talric object is jopven."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Not talric is explicitly supplied."
+    },
+    {
+      "id": "c-a37ca7d95ffc4d308839",
+      "group_id": "g-ae61248320714bf5bca8",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-67cb3edf47de44e88925",
+          "text": "Object Wyrel is huxric."
+        },
+        {
+          "id": "p-fbcedf4cbbfd42b9beaa",
+          "text": "Every huxric object is bivren."
+        },
+        {
+          "id": "p-41a3c2ee584b4ad6ad91",
+          "text": "No bivren object is qelvic."
+        },
+        {
+          "id": "p-707aae716bf744be955f",
+          "text": "Object Xavor is qelvic."
+        }
+      ],
+      "claim": "Object Wyrel is not qelvic.",
+      "citations": [
+        {
+          "passage_id": "p-67cb3edf47de44e88925",
+          "quote": "Object Wyrel is huxric."
+        },
+        {
+          "passage_id": "p-707aae716bf744be955f",
+          "quote": "Object Xavor is qelvic."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The first three sources imply bivren for Wyrel and therefore exclude qelvic."
+    },
+    {
+      "id": "c-408f5a2304e941b6b07c",
+      "group_id": "g-947c86fe22e747eea40f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-2090af0befa84447a3b6",
+          "text": "Object Vexil is not zefric. Object Vexil is polven."
+        }
+      ],
+      "claim": "Object Vexil is thremic.",
+      "citations": [
+        {
+          "passage_id": "p-2090af0befa84447a3b6",
+          "quote": "Object Vexil is polven."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Thremic occurs only in the query and can independently be true or false."
+    },
+    {
+      "id": "c-fe3a17418ced4114a261",
+      "group_id": "g-9dc55c4ba29a40998565",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-95d404359cb640ecbdfd",
+          "text": "Every kovren object is not tibric. Object Invek is kovren."
+        }
+      ],
+      "claim": "Object Jovul is not tibric.",
+      "citations": [
+        {
+          "passage_id": "p-95d404359cb640ecbdfd",
+          "quote": "Every kovren object is not tibric."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Jovul has no kovren fact. Kovren false allows tibric either true or false."
+    },
+    {
+      "id": "c-e3fdab2a1b6c41ee89b3",
+      "group_id": "g-9dc55c4ba29a40998565",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-95d404359cb640ecbdfd",
+          "text": "Every kovren object is not tibric. Object Invek is kovren."
+        }
+      ],
+      "claim": "Object Invek is tibric.",
+      "citations": [
+        {
+          "passage_id": "p-95d404359cb640ecbdfd",
+          "quote": "Every kovren object is not tibric."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Kovren entails not tibric for Invek."
+    },
+    {
+      "id": "c-3ea6eee4535b4c5fab9f",
+      "group_id": "g-ae61248320714bf5bca8",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-67cb3edf47de44e88925",
+          "text": "Object Wyrel is huxric."
+        },
+        {
+          "id": "p-fbcedf4cbbfd42b9beaa",
+          "text": "Every huxric object is bivren."
+        },
+        {
+          "id": "p-41a3c2ee584b4ad6ad91",
+          "text": "No bivren object is qelvic."
+        },
+        {
+          "id": "p-707aae716bf744be955f",
+          "text": "Object Xavor is qelvic."
+        }
+      ],
+      "claim": "Object Xavor is bivren.",
+      "citations": [
+        {
+          "passage_id": "p-67cb3edf47de44e88925",
+          "quote": "Object Wyrel is huxric."
+        },
+        {
+          "passage_id": "p-707aae716bf744be955f",
+          "quote": "Object Xavor is qelvic."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The exclusion and Xavor qelvic together imply not bivren for Xavor."
+    },
+    {
+      "id": "c-e10058920e7d46ffa4c4",
+      "group_id": "g-51956afa2a4e45ada95b",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-e6c478cf90b44b2c84b8",
+          "text": "Every halvic object is zoprim. Every zoprim object is halvic. Object Ryven is halvic. Every yulric object is mefven. Every mefven object is yulric."
+        }
+      ],
+      "claim": "Object Ryven is not halvic.",
+      "citations": [
+        {
+          "passage_id": "p-e6c478cf90b44b2c84b8",
+          "quote": "Every zoprim object is halvic."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Halvic is an explicit fact."
+    },
+    {
+      "id": "c-f6226f657cd841689663",
+      "group_id": "g-b38edd9628c94f92a74f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-a080fb67b73c460aabe4",
+          "text": "Every xalvic object is nurmic. Every nurmic object is befren. Object Dovek is not befren."
+        }
+      ],
+      "claim": "Object Dovek is nurmic.",
+      "citations": [
+        {
+          "passage_id": "p-a080fb67b73c460aabe4",
+          "quote": "Every xalvic object is nurmic."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Nurmic implies the explicitly denied befren."
+    },
+    {
+      "id": "c-98015a521e2e4af594b7",
+      "group_id": "g-4c7eaccacde9487ea8cc",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-ea9e4d7270774aec96f9",
+          "text": "Every zebnic object is kalven."
+        },
+        {
+          "id": "p-92a2af0223994293a9d3",
+          "text": "Every kalven object is zebnic."
+        },
+        {
+          "id": "p-88605f1f35f749339a61",
+          "text": "Object Yovek is not kalven."
+        },
+        {
+          "id": "p-6e3f9876faf64ce6b7d2",
+          "text": "Object Zevir is ruptic."
+        },
+        {
+          "id": "p-868555fd0542463e8a07",
+          "text": "Every ruptic object is nofvic."
+        }
+      ],
+      "claim": "Object Yovek is not nofvic.",
+      "citations": [
+        {
+          "passage_id": "p-6e3f9876faf64ce6b7d2",
+          "quote": "Object Zevir is ruptic."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Yovek has no ruptic fact. Its zebnic and kalven must be false, while nofvic can vary with ruptic false."
+    },
+    {
+      "id": "c-847017fa3e954bd4a3f3",
+      "group_id": "g-e68fe50a2e99486c9aa9",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-de630b4d63fd453b96cc",
+          "text": "Every uldric object is vosnic. Object Lyrek is uldric. Object Lyrek is fepnic."
+        }
+      ],
+      "claim": "Object Lyrek is vosnic.",
+      "citations": [
+        {
+          "passage_id": "p-de630b4d63fd453b96cc",
+          "quote": "Every uldric object is vosnic."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Uldric is given and universally implies vosnic."
+    },
+    {
+      "id": "c-90a44275d4bf4a22b675",
+      "group_id": "g-51956afa2a4e45ada95b",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-e6c478cf90b44b2c84b8",
+          "text": "Every halvic object is zoprim. Every zoprim object is halvic. Object Ryven is halvic. Every yulric object is mefven. Every mefven object is yulric."
+        }
+      ],
+      "claim": "Object Ryven is yulric.",
+      "citations": [
+        {
+          "passage_id": "p-e6c478cf90b44b2c84b8",
+          "quote": "Every zoprim object is halvic."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The separate cycle allows both yulric and mefven false, or both true, independently of the grounded cycle."
+    },
+    {
+      "id": "c-637e6be005244639b0a5",
+      "group_id": "g-0ded1d220ce84c94bb2f",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-dd6eed400b9f42fb967a",
+          "text": "Every nezric object is fomven. Object Oryvek is fomven. Object Oryvek is not pugric."
+        }
+      ],
+      "claim": "Object Oryvek is nezric.",
+      "citations": [
+        {
+          "passage_id": "p-dd6eed400b9f42fb967a",
+          "quote": "Every nezric object is fomven."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Fomven does not imply nezric. Both nezric values satisfy the implication with fomven true."
+    },
+    {
+      "id": "c-de7abc111c214b8a970c",
+      "group_id": "g-f8518d5c8ac5495483fe",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-e8ccbf5c0e2846e5ac89",
+          "text": "Every jirvic object is not jirvic. Every lurfen object is mavric."
+        }
+      ],
+      "claim": "Object Qerun is jirvic.",
+      "citations": [
+        {
+          "passage_id": "p-e8ccbf5c0e2846e5ac89",
+          "quote": "Every lurfen object is mavric."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The self-negative implication requires jirvic to be false."
+    },
+    {
+      "id": "c-34fce99d0e714e5d9ea4",
+      "group_id": "g-e68fe50a2e99486c9aa9",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-de630b4d63fd453b96cc",
+          "text": "Every uldric object is vosnic. Object Lyrek is uldric. Object Lyrek is fepnic."
+        }
+      ],
+      "claim": "Object Myvek is uldric.",
+      "citations": [
+        {
+          "passage_id": "p-de630b4d63fd453b96cc",
+          "quote": "Every uldric object is vosnic."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No fact constrains Myvek. Uldric may be false, or true together with vosnic."
+    },
+    {
+      "id": "c-137057e894fe4eb3b62f",
+      "group_id": "g-51956afa2a4e45ada95b",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-e6c478cf90b44b2c84b8",
+          "text": "Every halvic object is zoprim. Every zoprim object is halvic. Object Ryven is halvic. Every yulric object is mefven. Every mefven object is yulric."
+        }
+      ],
+      "claim": "Object Ryven is zoprim.",
+      "citations": [
+        {
+          "passage_id": "p-e6c478cf90b44b2c84b8",
+          "quote": "Every zoprim object is halvic."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The grounded halvic fact activates halvic implies zoprim."
+    },
+    {
+      "id": "c-184eaac905b741dbb68c",
+      "group_id": "g-b38edd9628c94f92a74f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-a080fb67b73c460aabe4",
+          "text": "Every xalvic object is nurmic. Every nurmic object is befren. Object Dovek is not befren."
+        }
+      ],
+      "claim": "Object Dovek is not klorven.",
+      "citations": [
+        {
+          "passage_id": "p-a080fb67b73c460aabe4",
+          "quote": "Every xalvic object is nurmic."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Klorven is unconstrained; either polarity has a model."
+    },
+    {
+      "id": "c-fc491118ba6542a3a82d",
+      "group_id": "g-6627cdf341e746ac99b0",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-f5c0c9ccdeca42b18377",
+          "text": "No dovric object is salven. Object Fyrel is salven. Object Fyrel is telmic."
+        }
+      ],
+      "claim": "Object Fyrel is not dovric.",
+      "citations": [
+        {
+          "passage_id": "p-f5c0c9ccdeca42b18377",
+          "quote": "No dovric object is salven."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Dovric and salven cannot both hold; salven is given."
+    },
+    {
+      "id": "c-c0b091ed8bc74315ab31",
+      "group_id": "g-947c86fe22e747eea40f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-2090af0befa84447a3b6",
+          "text": "Object Vexil is not zefric. Object Vexil is polven."
+        }
+      ],
+      "claim": "Object Vexil is not zefric.",
+      "citations": [
+        {
+          "passage_id": "p-2090af0befa84447a3b6",
+          "quote": "Object Vexil is polven."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The first supplied fact explicitly denies zefric."
+    },
+    {
+      "id": "c-d96fe75977394acdb4eb",
+      "group_id": "g-760de578dc2a48958347",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-e8d44b759db54566be65",
+          "text": "Object Navor is beglic. Every beglic object is draxen. Every draxen object is silvic. Every silvic object is not tudren."
+        }
+      ],
+      "claim": "Object Navor is not silvic.",
+      "citations": [
+        {
+          "passage_id": "p-e8d44b759db54566be65",
+          "quote": "Object Navor is beglic."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The first two implication steps establish silvic."
+    },
+    {
+      "id": "c-ff8d0f1220264a5299fd",
+      "group_id": "g-acbfd1829f7d456888d8",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-dee6699c6dc14689a74c",
+          "text": "Every welfic object is parven. No parven object is xebric. Object Kyvor is welfic."
+        }
+      ],
+      "claim": "Object Kyvor is not parven.",
+      "citations": [
+        {
+          "passage_id": "p-dee6699c6dc14689a74c",
+          "quote": "No parven object is xebric."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The universal and explicit welfic fact imply parven."
+    },
+    {
+      "id": "c-7631723cc9f7457fbe27",
+      "group_id": "g-b6ef805e98114f068fa2",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-f439c57bcfee46fc8283",
+          "text": "Every cilven object is nusric."
+        },
+        {
+          "id": "p-9b8d1592c5f04683b8ab",
+          "text": "Every nusric object is ferpic."
+        },
+        {
+          "id": "p-879dafb8bccd46f1bffa",
+          "text": "Object Uxvar is not ferpic."
+        },
+        {
+          "id": "p-e7adb5a3dedb43a89b62",
+          "text": "Object Uxvar is lomric."
+        }
+      ],
+      "claim": "Object Uxvar is not cilven.",
+      "citations": [
+        {
+          "passage_id": "p-f439c57bcfee46fc8283",
+          "quote": "Every cilven object is nusric."
+        },
+        {
+          "passage_id": "p-e7adb5a3dedb43a89b62",
+          "quote": "Object Uxvar is lomric."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Cilven would imply nusric and ferpic across the first two sources, contradicting the third source."
+    },
+    {
+      "id": "c-38f4574822934aa89b72",
+      "group_id": "g-0ded1d220ce84c94bb2f",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-dd6eed400b9f42fb967a",
+          "text": "Every nezric object is fomven. Object Oryvek is fomven. Object Oryvek is not pugric."
+        }
+      ],
+      "claim": "Object Oryvek is not pugric.",
+      "citations": [
+        {
+          "passage_id": "p-dd6eed400b9f42fb967a",
+          "quote": "Every nezric object is fomven."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The supplied negative pugric fact establishes the claim."
+    },
+    {
+      "id": "c-d15eebb24bc24dddbbe3",
+      "group_id": "g-d41aba31e9ad4efdaae9",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-a3b730f191da49dbbedb",
+          "text": "Object Syvar is valnic."
+        },
+        {
+          "id": "p-9342308c216c430c8f82",
+          "text": "Every valnic object is delric."
+        },
+        {
+          "id": "p-175887e5bb764d9cbc22",
+          "text": "Every delric object is zumven."
+        },
+        {
+          "id": "p-25d1c678f463404a8454",
+          "text": "Every zumven object is not pabric."
+        },
+        {
+          "id": "p-12b442cb1898464d9758",
+          "text": "Object Tyvor is kefric."
+        }
+      ],
+      "claim": "Object Syvar is not pabric.",
+      "citations": [
+        {
+          "passage_id": "p-12b442cb1898464d9758",
+          "quote": "Object Tyvor is kefric."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The uncited first four passages join valnic through delric and zumven to not pabric."
+    },
+    {
+      "id": "c-08ff6a3869d5444f8c0d",
+      "group_id": "g-4c7eaccacde9487ea8cc",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-ea9e4d7270774aec96f9",
+          "text": "Every zebnic object is kalven."
+        },
+        {
+          "id": "p-92a2af0223994293a9d3",
+          "text": "Every kalven object is zebnic."
+        },
+        {
+          "id": "p-88605f1f35f749339a61",
+          "text": "Object Yovek is not kalven."
+        },
+        {
+          "id": "p-6e3f9876faf64ce6b7d2",
+          "text": "Object Zevir is ruptic."
+        },
+        {
+          "id": "p-868555fd0542463e8a07",
+          "text": "Every ruptic object is nofvic."
+        }
+      ],
+      "claim": "Object Zevir is nofvic.",
+      "citations": [
+        {
+          "passage_id": "p-6e3f9876faf64ce6b7d2",
+          "quote": "Object Zevir is ruptic."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The last two sources establish nofvic for Zevir."
+    },
+    {
+      "id": "c-ada31d254cf14eff9226",
+      "group_id": "g-efedb7e8cba0492e97c2",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-97d0151e205a48f6a052",
+          "text": "Every zurnic object is pefren. Object Gavor is lemvic."
+        }
+      ],
+      "claim": "Object Gavor is not lemvic.",
+      "citations": [
+        {
+          "passage_id": "p-97d0151e205a48f6a052",
+          "quote": "Every zurnic object is pefren."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The positive lemvic fact excludes this negative query."
+    },
+    {
+      "id": "c-f038673aa06845d6b522",
+      "group_id": "g-acbfd1829f7d456888d8",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-dee6699c6dc14689a74c",
+          "text": "Every welfic object is parven. No parven object is xebric. Object Kyvor is welfic."
+        }
+      ],
+      "claim": "Object Kyvor is not yemvic.",
+      "citations": [
+        {
+          "passage_id": "p-dee6699c6dc14689a74c",
+          "quote": "No parven object is xebric."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The query-only yemvic property can have either value."
+    },
+    {
+      "id": "c-c9d6bcaa5fc24fb0814c",
+      "group_id": "g-6627cdf341e746ac99b0",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-f5c0c9ccdeca42b18377",
+          "text": "No dovric object is salven. Object Fyrel is salven. Object Fyrel is telmic."
+        }
+      ],
+      "claim": "Object Fyrel is not ruvnic.",
+      "citations": [
+        {
+          "passage_id": "p-f5c0c9ccdeca42b18377",
+          "quote": "No dovric object is salven."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No rule or fact constrains ruvnic."
+    },
+    {
+      "id": "c-53231e54bd4b439d9348",
+      "group_id": "g-4c7eaccacde9487ea8cc",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-ea9e4d7270774aec96f9",
+          "text": "Every zebnic object is kalven."
+        },
+        {
+          "id": "p-92a2af0223994293a9d3",
+          "text": "Every kalven object is zebnic."
+        },
+        {
+          "id": "p-88605f1f35f749339a61",
+          "text": "Object Yovek is not kalven."
+        },
+        {
+          "id": "p-6e3f9876faf64ce6b7d2",
+          "text": "Object Zevir is ruptic."
+        },
+        {
+          "id": "p-868555fd0542463e8a07",
+          "text": "Every ruptic object is nofvic."
+        }
+      ],
+      "claim": "Object Yovek is zebnic.",
+      "citations": [
+        {
+          "passage_id": "p-6e3f9876faf64ce6b7d2",
+          "quote": "Object Zevir is ruptic."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Zebnic implies the explicitly denied kalven for Yovek."
+    },
+    {
+      "id": "c-ba7d0b3fd3c448aebc1d",
+      "group_id": "g-d41aba31e9ad4efdaae9",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p-a3b730f191da49dbbedb",
+          "text": "Object Syvar is valnic."
+        },
+        {
+          "id": "p-9342308c216c430c8f82",
+          "text": "Every valnic object is delric."
+        },
+        {
+          "id": "p-175887e5bb764d9cbc22",
+          "text": "Every delric object is zumven."
+        },
+        {
+          "id": "p-25d1c678f463404a8454",
+          "text": "Every zumven object is not pabric."
+        },
+        {
+          "id": "p-12b442cb1898464d9758",
+          "text": "Object Tyvor is kefric."
+        }
+      ],
+      "claim": "Object Tyvor is zumven.",
+      "citations": [
+        {
+          "passage_id": "p-12b442cb1898464d9758",
+          "quote": "Object Tyvor is kefric."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Tyvor has only kefric. Valnic and delric may be false while zumven varies, choosing pabric false when needed."
+    },
+    {
+      "id": "c-72fe8a76ef444a808ed1",
+      "group_id": "g-f8518d5c8ac5495483fe",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-e8ccbf5c0e2846e5ac89",
+          "text": "Every jirvic object is not jirvic. Every lurfen object is mavric."
+        }
+      ],
+      "claim": "Object Qerun is not jirvic.",
+      "citations": [
+        {
+          "passage_id": "p-e8ccbf5c0e2846e5ac89",
+          "quote": "Every lurfen object is mavric."
+        }
+      ],
+      "label": "supported",
+      "rationale": "A true jirvic assignment violates jirvic implies not jirvic, including for the query-only object."
+    },
+    {
+      "id": "c-ab368f349ab84a9dad2b",
+      "group_id": "g-947c86fe22e747eea40f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p-2090af0befa84447a3b6",
+          "text": "Object Vexil is not zefric. Object Vexil is polven."
+        }
+      ],
+      "claim": "Object Vexil is not polven.",
+      "citations": [
+        {
+          "passage_id": "p-2090af0befa84447a3b6",
+          "quote": "Object Vexil is polven."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The second supplied fact establishes polven."
+    },
+    {
+      "id": "c-9b643e788cb84894ab77",
+      "group_id": "g-5a2b5e40220d49a792fc",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-2e48965329ba4092bbd8",
+          "text": "Every talric object is jopven. Object Pexor is not talric. Object Pexor is qirnic."
+        }
+      ],
+      "claim": "Object Pexor is not qirnic.",
+      "citations": [
+        {
+          "passage_id": "p-2e48965329ba4092bbd8",
+          "quote": "Every talric object is jopven."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Qirnic is explicitly supplied positively."
+    },
+    {
+      "id": "c-ca6fbf43560f421a904c",
+      "group_id": "g-0ded1d220ce84c94bb2f",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-dd6eed400b9f42fb967a",
+          "text": "Every nezric object is fomven. Object Oryvek is fomven. Object Oryvek is not pugric."
+        }
+      ],
+      "claim": "Object Oryvek is not fomven.",
+      "citations": [
+        {
+          "passage_id": "p-dd6eed400b9f42fb967a",
+          "quote": "Every nezric object is fomven."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Fomven is explicitly true."
+    },
+    {
+      "id": "c-d39f495fdc9e4e0c8e53",
+      "group_id": "g-760de578dc2a48958347",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-e8d44b759db54566be65",
+          "text": "Object Navor is beglic. Every beglic object is draxen. Every draxen object is silvic. Every silvic object is not tudren."
+        }
+      ],
+      "claim": "Object Navor is not tudren.",
+      "citations": [
+        {
+          "passage_id": "p-e8d44b759db54566be65",
+          "quote": "Object Navor is beglic."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Beglic implies draxen, then silvic, then not tudren."
+    },
+    {
+      "id": "c-981b60a7e2e947a09dd4",
+      "group_id": "g-e68fe50a2e99486c9aa9",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p-de630b4d63fd453b96cc",
+          "text": "Every uldric object is vosnic. Object Lyrek is uldric. Object Lyrek is fepnic."
+        }
+      ],
+      "claim": "Object Lyrek is not fepnic.",
+      "citations": [
+        {
+          "passage_id": "p-de630b4d63fd453b96cc",
+          "quote": "Every uldric object is vosnic."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Fepnic is explicitly true, consistently with uldric and vosnic."
+    },
+    {
+      "id": "c-6b5e2f8982b040d3a831",
+      "group_id": "g-760de578dc2a48958347",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p-e8d44b759db54566be65",
+          "text": "Object Navor is beglic. Every beglic object is draxen. Every draxen object is silvic. Every silvic object is not tudren."
+        }
+      ],
+      "claim": "Object Navor is yorfan.",
+      "citations": [
+        {
+          "passage_id": "p-e8d44b759db54566be65",
+          "quote": "Object Navor is beglic."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Yorfan is disconnected from all facts and rules."
+    }
+  ]
+}

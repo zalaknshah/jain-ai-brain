@@ -125,3 +125,9 @@ label-free inputs, independent source review, genuinely unseen data, broader
 languages/domains, adversarial checks and an explicit decision about runtime
 use. This evaluator grants no publication, corpus admission or deployment
 approval and changes no such boundaries.
+
+A separate [controlled-English unary-logic candidate](CONTROLLED_SUPPORT_CANDIDATE.md)
+now exercises this prediction contract through bounded model checking. It is an
+offline experiment over an exact grammar, not a change to JACE's runtime citation
+matcher or a trained natural-language model. Broader-language coverage and fresh
+in-fragment evaluation must be reported separately.

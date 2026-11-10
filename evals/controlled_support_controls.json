@@ -1,0 +1,266 @@
+[
+  {
+    "case": {
+      "id": "k-25850f41a186436fa30e",
+      "passages": [
+        {
+          "id": "p-aed9fb12cf884a4ba9f4",
+          "text": "Some vernic object is dulfen."
+        }
+      ],
+      "claim": "Object Avrek is dulfen.",
+      "citations": [
+        {
+          "passage_id": "p-aed9fb12cf884a4ba9f4",
+          "quote": "Some vernic object is dulfen."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "Unsupported existential grammar, despite otherwise valid JSON and an exact citation."
+  },
+  {
+    "case": {
+      "id": "k-138ee86baf2c4347837a",
+      "passages": [
+        {
+          "id": "p-d3ac8458baf3435eb50a",
+          "text": "Object Bexun  is pelric."
+        }
+      ],
+      "claim": "Object Bexun is pelric.",
+      "citations": [
+        {
+          "passage_id": "p-d3ac8458baf3435eb50a",
+          "quote": "Object Bexun  is pelric."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "Two internal ASCII spaces violate exact sentence token spacing; not a malformed data schema."
+  },
+  {
+    "case": {
+      "id": "k-a103af65d32946dc93ab",
+      "passages": [
+        {
+          "id": "p-10a7e52a1b1b4358a910",
+          "text": "Object Cavrek is sulvic"
+        }
+      ],
+      "claim": "Object Cavrek is sulvic.",
+      "citations": [
+        {
+          "passage_id": "p-10a7e52a1b1b4358a910",
+          "quote": "Object Cavrek is sulvic"
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "The passage sentence lacks its required terminal period."
+  },
+  {
+    "case": {
+      "id": "k-13f8681acdec4ae9b71d",
+      "passages": [
+        {
+          "id": "p-0c3ed4f6d9544dc597ce",
+          "text": "Object Devun is torfic. It is melven."
+        }
+      ],
+      "claim": "Object Devun is melven.",
+      "citations": [
+        {
+          "passage_id": "p-0c3ed4f6d9544dc597ce",
+          "quote": "Object Devun is torfic."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "The pronoun sentence is outside the supported grammar; the exact cited first sentence does not conceal it."
+  },
+  {
+    "case": {
+      "id": "k-e725b39a90d649efa310",
+      "passages": [
+        {
+          "id": "p-d3ea658b747f4ad9968d",
+          "text": "Object Eryvak is vufric and kelmic."
+        }
+      ],
+      "claim": "Object Eryvak is vufric.",
+      "citations": [
+        {
+          "passage_id": "p-d3ea658b747f4ad9968d",
+          "quote": "Object Eryvak is vufric and kelmic."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "A conjunction in a fact is unsupported grammar."
+  },
+  {
+    "case": {
+      "id": "k-1ae70aadc0684ecaa536",
+      "passages": [
+        {
+          "id": "p-ddfd279b9ba146f58b8d",
+          "text": "Object Fevrek is borvic."
+        }
+      ],
+      "claim": "Object Fevrek is borvic. Object Fevrek is not semric.",
+      "citations": [
+        {
+          "passage_id": "p-ddfd279b9ba146f58b8d",
+          "quote": "Object Fevrek is borvic."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "The claim has two facts, rather than exactly one, while remaining a valid nonempty claim string."
+  },
+  {
+    "case": {
+      "id": "k-d6c0ac84b6b4499aaf14",
+      "passages": [
+        {
+          "id": "p-9b497df1a1644bfeb212",
+          "text": "Object Gavrek is tirvic. Object Gavrek is not tirvic."
+        }
+      ],
+      "claim": "Object Gavrek is tirvic.",
+      "citations": [
+        {
+          "passage_id": "p-9b497df1a1644bfeb212",
+          "quote": "Object Gavrek is tirvic. Object Gavrek is not tirvic."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "Direct opposing facts make the theory inconsistent; there is no explosion-based supported classification."
+  },
+  {
+    "case": {
+      "id": "k-487efb6073e642249b6e",
+      "passages": [
+        {
+          "id": "p-35678c64407c49ad846c",
+          "text": "Every relvic object is junfen. Every junfen object is relvic. Object Hevrek is relvic. Object Hevrek is not junfen."
+        }
+      ],
+      "claim": "Object Hevrek is junfen.",
+      "citations": [
+        {
+          "passage_id": "p-35678c64407c49ad846c",
+          "quote": "Every relvic object is junfen. Every junfen object is relvic. Object Hevrek is relvic. Object Hevrek is not junfen."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "A grounded implication cycle conflicts with the negative junfen fact."
+  },
+  {
+    "case": {
+      "id": "k-eec29c2f2d6340219e9a",
+      "passages": [
+        {
+          "id": "p-e9ff656a88104442bc7a",
+          "text": "Every fosvic object is not fosvic. Object Iryvak is fosvic."
+        }
+      ],
+      "claim": "Object Iryvak is not fosvic.",
+      "citations": [
+        {
+          "passage_id": "p-e9ff656a88104442bc7a",
+          "quote": "Every fosvic object is not fosvic. Object Iryvak is fosvic."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "The positive fact violates the self-negative implication, so the theory has no model."
+  },
+  {
+    "case": {
+      "id": "k-f903e9cdfe1c45948741",
+      "passages": [
+        {
+          "id": "p-fbabf9cc292d47268b84",
+          "text": "Object Jevrek is kalric."
+        },
+        {
+          "id": "p-6c72de0c430946c7b4c1",
+          "text": "Object Kevrun is zapvic. Object Kevrun is not zapvic."
+        }
+      ],
+      "claim": "Object Jevrek is kalric.",
+      "citations": [
+        {
+          "passage_id": "p-fbabf9cc292d47268b84",
+          "quote": "Object Jevrek is kalric."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "An inconsistency on a different object and property invalidates the whole theory, even though the query itself has a direct fact."
+  },
+  {
+    "case": {
+      "id": "k-3aea7d5963864d20aaee",
+      "passages": [
+        {
+          "id": "p-50599877ae4041dfbd77",
+          "text": "Object Levrek is ralvic. Object Levrek is not ralvic."
+        },
+        {
+          "id": "p-9989136e9abe4bfa9ce5",
+          "text": "Object Mevrun is tipfen."
+        }
+      ],
+      "claim": "Object Mevrun is not zebric.",
+      "citations": [
+        {
+          "passage_id": "p-9989136e9abe4bfa9ce5",
+          "quote": "Object Mevrun is tipfen."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "The inconsistent first passage is wholly uncited and unrelated to the query; all supplied passages still count."
+  },
+  {
+    "case": {
+      "id": "k-253a8f3de1f6463ea9e4",
+      "passages": [
+        {
+          "id": "p-8a52e3ed7340430493e2",
+          "text": "Object Nevrek is cinvic."
+        },
+        {
+          "id": "p-2b694607c99d441dbfbc",
+          "text": "Every cinvic object is guvren."
+        },
+        {
+          "id": "p-c2a5847368fb44d6b227",
+          "text": "Every guvren object is pevric."
+        },
+        {
+          "id": "p-3efdd4792f9e4669ad23",
+          "text": "No pevric object is yevnic."
+        },
+        {
+          "id": "p-c79f33c618da48c9a311",
+          "text": "Object Nevrek is yevnic."
+        }
+      ],
+      "claim": "Object Nevrek is cinvic.",
+      "citations": [
+        {
+          "passage_id": "p-8a52e3ed7340430493e2",
+          "quote": "Object Nevrek is cinvic."
+        }
+      ]
+    },
+    "expected_label": "abstain",
+    "rationale": "The chain spanning five sources yields pevric and then not yevnic, conflicting with the last source."
+  }
+]

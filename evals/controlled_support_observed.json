@@ -1,0 +1,342 @@
+{
+  "protocol": 1,
+  "candidate": "controlled_unary_v1",
+  "candidate_source_sha256": "2ad4fd5c50d681f62dcc94fc3ba2f994e23fbd0bd7ebf31409703bdf18fb0262",
+  "evaluator_source_sha256": "f24f017ad344d572e61979519730c5fc8dbd1be162fb24d648ab66deae04ae13",
+  "fixture_sha256": "36138ef46eef332f663491844b03753e58e499d7f89bde5563fe85400ba12baa",
+  "controls_sha256": "6b1b65b00c7c5002afa912dcad0b9ddee01b602001c3991af33b78dcf909edaf",
+  "fresh_input_sha256": "4f0dde3f510cb4eebe873314430d7a303f0a867362946bef211f65da93decdeb",
+  "fresh_prediction_sha256": "3d2094902a294c2f0fd151f3502681d6c641c6d3324c3415c6b997040c6077fd",
+  "fresh_observations": {
+    "cases": 48,
+    "mechanically_valid_citations": 48,
+    "semantic_predictions": 48,
+    "abstentions": 0,
+    "correct_predictions": 48,
+    "coverage": 1.0,
+    "accuracy_when_predicted": 1.0,
+    "correct_fraction_all_cases": 1.0,
+    "unsupported_as_supported": 0,
+    "unsupported_case_count": 32,
+    "unsupported_as_supported_rate": 0.0,
+    "supported_recall": 1.0,
+    "matched_groups": 16,
+    "complete_matched_groups_correct": 16
+  },
+  "fresh_confusion": {
+    "supported": {
+      "supported": 16,
+      "contradicted": 0,
+      "not_established": 0,
+      "abstain": 0
+    },
+    "contradicted": {
+      "supported": 0,
+      "contradicted": 16,
+      "not_established": 0,
+      "abstain": 0
+    },
+    "not_established": {
+      "supported": 0,
+      "contradicted": 0,
+      "not_established": 16,
+      "abstain": 0
+    }
+  },
+  "fresh_predictions": [
+    {
+      "case_id": "c-f194cee371a1494eaa46",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-72fe8a76ef444a808ed1",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-9b643e788cb84894ab77",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-f6226f657cd841689663",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-c9d6bcaa5fc24fb0814c",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-4cb115cd8a054bd8a4bf",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-de7abc111c214b8a970c",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-f038673aa06845d6b522",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-ca6fbf43560f421a904c",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-3ea6eee4535b4c5fab9f",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-847017fa3e954bd4a3f3",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-7631723cc9f7457fbe27",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-fc491118ba6542a3a82d",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-d39f495fdc9e4e0c8e53",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-3e7da48be66d4bc099bc",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-ff8d0f1220264a5299fd",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-ba7d0b3fd3c448aebc1d",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-137057e894fe4eb3b62f",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-fe3a17418ced4114a261",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-edf8baf354db45519d41",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-6b5e2f8982b040d3a831",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-f277a396add4482b9e93",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-b5eda54bfe0342d28a37",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-408f5a2304e941b6b07c",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-38f4574822934aa89b72",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-184eaac905b741dbb68c",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-637e6be005244639b0a5",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-73667d7ffc9a421da865",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-53231e54bd4b439d9348",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-b4853a5c1b0d454c91b7",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-981b60a7e2e947a09dd4",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-ab368f349ab84a9dad2b",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-136dbc5413824368954e",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-e10058920e7d46ffa4c4",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-e3fdab2a1b6c41ee89b3",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-90a44275d4bf4a22b675",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-aa4f1f66c6dc4ff5b032",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-08ff6a3869d5444f8c0d",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-98015a521e2e4af594b7",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-34fce99d0e714e5d9ea4",
+      "label": "not_established"
+    },
+    {
+      "case_id": "c-d96fe75977394acdb4eb",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-bb57624a3a0640f79341",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-c0b091ed8bc74315ab31",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-d15eebb24bc24dddbbe3",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-a37ca7d95ffc4d308839",
+      "label": "supported"
+    },
+    {
+      "case_id": "c-ada31d254cf14eff9226",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-9a10bbc70f1242a28eaa",
+      "label": "contradicted"
+    },
+    {
+      "case_id": "c-d6e7493b23214ff8911d",
+      "label": "supported"
+    }
+  ],
+  "controls": [
+    {
+      "case_id": "k-25850f41a186436fa30e",
+      "label": "abstain",
+      "reason": "unsupported_passage_grammar"
+    },
+    {
+      "case_id": "k-138ee86baf2c4347837a",
+      "label": "abstain",
+      "reason": "unsupported_passage_grammar"
+    },
+    {
+      "case_id": "k-a103af65d32946dc93ab",
+      "label": "abstain",
+      "reason": "unsupported_passage_grammar"
+    },
+    {
+      "case_id": "k-13f8681acdec4ae9b71d",
+      "label": "abstain",
+      "reason": "unsupported_passage_grammar"
+    },
+    {
+      "case_id": "k-e725b39a90d649efa310",
+      "label": "abstain",
+      "reason": "unsupported_passage_grammar"
+    },
+    {
+      "case_id": "k-1ae70aadc0684ecaa536",
+      "label": "abstain",
+      "reason": "unsupported_claim_grammar"
+    },
+    {
+      "case_id": "k-d6c0ac84b6b4499aaf14",
+      "label": "abstain",
+      "reason": "inconsistent_context"
+    },
+    {
+      "case_id": "k-487efb6073e642249b6e",
+      "label": "abstain",
+      "reason": "inconsistent_context"
+    },
+    {
+      "case_id": "k-eec29c2f2d6340219e9a",
+      "label": "abstain",
+      "reason": "inconsistent_context"
+    },
+    {
+      "case_id": "k-f903e9cdfe1c45948741",
+      "label": "abstain",
+      "reason": "inconsistent_context"
+    },
+    {
+      "case_id": "k-3aea7d5963864d20aaee",
+      "label": "abstain",
+      "reason": "inconsistent_context"
+    },
+    {
+      "case_id": "k-253a8f3de1f6463ea9e4",
+      "label": "abstain",
+      "reason": "inconsistent_context"
+    }
+  ],
+  "broader_disclosed_fixture_sha256": "56791ccb519cd90fa8b615c40bb3b3aa17094b4fb702c37f594328c5742c4a31",
+  "broader_disclosed_observations": {
+    "cases": 48,
+    "mechanically_valid_citations": 48,
+    "semantic_predictions": 0,
+    "abstentions": 48,
+    "correct_predictions": 0,
+    "coverage": 0.0,
+    "accuracy_when_predicted": null,
+    "correct_fraction_all_cases": 0.0,
+    "unsupported_as_supported": 0,
+    "unsupported_case_count": 32,
+    "unsupported_as_supported_rate": 0.0,
+    "supported_recall": 0.0,
+    "matched_groups": 16,
+    "complete_matched_groups_correct": 0
+  },
+  "oracle": {
+    "primary_theories": 593,
+    "primary_query_comparisons": 7116,
+    "total_query_comparisons_with_targeted_controls": 7208,
+    "full_global_valuations": 154768,
+    "discrepancies": 0
+  },
+  "review": {
+    "fresh_labels_independently_agreed": 48,
+    "control_labels_independently_agreed": 12,
+    "ambiguity_flags": 0,
+    "candidate_frozen_before_fresh_predictions_and_label_review": true,
+    "no_fresh_case_tuning": true,
+    "initial_to_final_candidate_change": "Diagnostic fields and dependency hash only, before fresh predictions; no semantic, grammar or limit changes."
+  },
+  "limits": [
+    "Exact controlled-English unary logic only, not general NLP or a trained model.",
+    "Fresh examples were intentionally authored within the disclosed grammar; breadth is limited.",
+    "Independent label review agreement is distinct from the frozen candidate results.",
+    "The older broader-English set has zero coverage; abstention is not reasoning accuracy.",
+    "Published fixtures are now disclosed regressions, not future unseen holdouts.",
+    "No runtime API, model-output checker, corpus admission, provider or deployment changed."
+  ]
+}
