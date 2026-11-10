@@ -33,7 +33,7 @@ The JSON request body is capped at 128 KiB; excessive context is rejected rather
 
 Malformed, oversized, incomplete or unavailable responses use a labeled local rule-based fallback. Raw provider errors and rejected output are not echoed. Standard assistant refusal fields and `content_filter` completion results instead produce a fixed refusal with no action. A well-formed refusal dominates incomplete, missing or tool-related finish metadata; it is not replaced by a local navigation proposal.
 
-Model-supplied tool calls and action fields are never executed or interpreted as authorization. The existing local request-based navigation proposal can still be returned on a normal answer or local fallback; it requires explicit confirmation and has no hardware execution path. The engine also rejects malformed custom-reasoner output and proposals lacking the strict confirmation flag. Returned text still passes through the existing English pattern-based harm filter. None of these mechanisms constitutes complete semantic safety.
+Model-supplied tool calls and action fields are never executed or interpreted as authorization. A local navigation proposal can still be returned for an explicit leading movement command on a normal answer or local fallback; recognized source questions suppress it. This limited [source-question and command routing](SOURCE_QUESTION_REASONING.md) is not general intent understanding. A proposal requires explicit confirmation and has no hardware execution path. The engine also rejects malformed custom-reasoner output and proposals lacking the strict confirmation flag. Returned text still passes through the existing English pattern-based harm filter. None of these mechanisms constitutes complete semantic safety.
 
 Configuring a provider still sends the request and selected private memory/source context to that provider. Obtain the appropriate consent, review retention and charges, and provision credentials separately before enabling it. This development work made no external model call and created no credential.
 
@@ -47,3 +47,9 @@ python scripts/evaluate_model_output.py
 Tests use original synthetic records, mocked chat-completion envelopes and a real loopback HTTP server with a synthetic token. They cover the three original practical examples, exact and altered quotations, unknown/unreviewed sources, source-metadata copying, malformed completion payloads, explicit refusal precedence, byte limits, redirect rejection and generic reasoner/action boundaries.
 
 The separate 12-case fixture evaluation checks mechanical admission, including an original Gujarati sentence. It does not contact a provider, use collected religious texts, measure scholarly accuracy or demonstrate multilingual reasoning. Successful fixture results must not be presented as real model performance or a completed grounded-answer product.
+
+`python scripts/evaluate_semantic_support.py` separately exposes the remaining
+[semantic-support gap](SEMANTIC_SUPPORT_DIAGNOSTIC.md). Fourteen original fictional
+examples include contradicted and not-established answers with exact citations.
+The report preserves their actual mechanical acceptance, without calling it a
+semantic pass or an accuracy score.

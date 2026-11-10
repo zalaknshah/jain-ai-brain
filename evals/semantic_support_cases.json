@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "purpose": "Candid semantic-support gap diagnostic, not an accuracy or pass benchmark.",
+  "provenance": "All passages and answers are original fictional English text composed for this diagnostic. No religious text, real user facts, external source acquisition or model/provider calls.",
+  "review": "Fixture author reviewed exact quotes, labels and rationales. verified=true denotes local synthetic fixture review only, not independent scholarly review or runtime corpus admission.",
+  "label_policy": {
+    "supported": "The complete supplied passages support the answer.",
+    "contradicted": "The complete supplied passages explicitly state an incompatible fact.",
+    "not-established": "The supplied passages establish neither the answer nor its negation. Unknown facts are not assumed false."
+  },
+  "cases": [
+    {
+      "id": "negation_omitted",
+      "feature": "Negation omitted from exact substring",
+      "semantic_label": "contradicted",
+      "rationale": "The substring is exact, but its full sentence explicitly denies it and states that the lamp is off.",
+      "records": [
+        {
+          "entry_id": "synthetic:negation_omitted:1",
+          "title": "Original fictional diagnostic negation_omitted, passage 1",
+          "principle": "It is false that the amber lamp is on. The amber lamp is off.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "negation_omitted, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "The amber lamp is on.",
+        "citations": [
+          {
+            "entry_id": "synthetic:negation_omitted:1",
+            "quote": "the amber lamp is on"
+          }
+        ]
+      }
+    },
+    {
+      "id": "number_changed",
+      "feature": "Changed exact count",
+      "semantic_label": "contradicted",
+      "rationale": "Exactly six and exactly nine cannot both describe this tray at noon.",
+      "records": [
+        {
+          "entry_id": "synthetic:number_changed:1",
+          "title": "Original fictional diagnostic number_changed, passage 1",
+          "principle": "At noon, the sealed tray held exactly six wooden tokens.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "number_changed, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "At noon, the sealed tray held exactly nine wooden tokens.",
+        "citations": [
+          {
+            "entry_id": "synthetic:number_changed:1",
+            "quote": "exactly six wooden tokens"
+          }
+        ]
+      }
+    },
+    {
+      "id": "all_from_some_not_all",
+      "feature": "All versus explicitly not all",
+      "semantic_label": "contradicted",
+      "rationale": "The full passage explicitly rules out all twelve being blue.",
+      "records": [
+        {
+          "entry_id": "synthetic:all_from_some_not_all:1",
+          "title": "Original fictional diagnostic all_from_some_not_all, passage 1",
+          "principle": "Some, but not all, of the twelve paper boats were blue.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "all_from_some_not_all, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "All twelve paper boats were blue.",
+        "citations": [
+          {
+            "entry_id": "synthetic:all_from_some_not_all:1",
+            "quote": "paper boats were blue"
+          }
+        ]
+      }
+    },
+    {
+      "id": "all_from_some",
+      "feature": "Some does not establish all",
+      "semantic_label": "not-established",
+      "rationale": "One blue boat does not establish all twelve. The other colors are unknown, so the answer is not contradicted either.",
+      "records": [
+        {
+          "entry_id": "synthetic:all_from_some:1",
+          "title": "Original fictional diagnostic all_from_some, passage 1",
+          "principle": "At least one of the twelve paper boats was blue. The colors of the other eleven boats were not recorded.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "all_from_some, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "All twelve paper boats were blue.",
+        "citations": [
+          {
+            "entry_id": "synthetic:all_from_some:1",
+            "quote": "At least one of the twelve paper boats was blue."
+          }
+        ]
+      }
+    },
+    {
+      "id": "time_changed",
+      "feature": "Changed time",
+      "semantic_label": "contradicted",
+      "rationale": "The passage explicitly denies a Tuesday 5 p.m. ringing.",
+      "records": [
+        {
+          "entry_id": "synthetic:time_changed:1",
+          "title": "Original fictional diagnostic time_changed, passage 1",
+          "principle": "The bell rang once on Tuesday, at 4 p.m., and did not ring at 5 p.m. that day.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "time_changed, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "The bell rang at 5 p.m. on Tuesday.",
+        "citations": [
+          {
+            "entry_id": "synthetic:time_changed:1",
+            "quote": "The bell rang once on Tuesday"
+          }
+        ]
+      }
+    },
+    {
+      "id": "location_changed",
+      "feature": "Changed location",
+      "semantic_label": "contradicted",
+      "rationale": "The passage specifies the north drawer and explicitly excludes the south drawer at the same time.",
+      "records": [
+        {
+          "entry_id": "synthetic:location_changed:1",
+          "title": "Original fictional diagnostic location_changed, passage 1",
+          "principle": "At noon, the only copper key was in the north drawer, not the south drawer.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "location_changed, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "At noon, the copper key was in the south drawer.",
+        "citations": [
+          {
+            "entry_id": "synthetic:location_changed:1",
+            "quote": "the only copper key was in the north drawer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "condition_unmet",
+      "feature": "Unmet sufficient condition",
+      "semantic_label": "not-established",
+      "rationale": "The sufficient condition is unmet. This neither establishes that the gate is open nor proves it is closed; other causes are unspecified.",
+      "records": [
+        {
+          "entry_id": "synthetic:condition_unmet:1",
+          "title": "Original fictional diagnostic condition_unmet, passage 1",
+          "principle": "If the green flag is raised, the gate opens. The green flag is not raised. No other information about the gate is available.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "condition_unmet, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "The gate is open.",
+        "citations": [
+          {
+            "entry_id": "synthetic:condition_unmet:1",
+            "quote": "the gate opens"
+          }
+        ]
+      }
+    },
+    {
+      "id": "speaker_changed",
+      "feature": "Speaker attribution",
+      "semantic_label": "contradicted",
+      "rationale": "Mira is the quoted speaker. Oren is explicitly silent throughout the same meeting.",
+      "records": [
+        {
+          "entry_id": "synthetic:speaker_changed:1",
+          "title": "Original fictional diagnostic speaker_changed, passage 1",
+          "principle": "Mira said, \"The glass kite is ready.\" Oren remained silent throughout the meeting.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "speaker_changed, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "During the meeting, Oren said that the glass kite was ready.",
+        "citations": [
+          {
+            "entry_id": "synthetic:speaker_changed:1",
+            "quote": "The glass kite is ready."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cross_source_link",
+      "feature": "Unsupported link between separate sources",
+      "semantic_label": "not-established",
+      "rationale": "Neither source links the two parcels. Exact quotes from both do not establish shared identity or a delivery route.",
+      "records": [
+        {
+          "entry_id": "synthetic:cross_source_link:1",
+          "title": "Original fictional diagnostic cross_source_link, passage 1",
+          "principle": "Workshop A has a parcel marked Cedar. Its destination is not recorded.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "cross_source_link, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        },
+        {
+          "entry_id": "synthetic:cross_source_link:2",
+          "title": "Original fictional diagnostic cross_source_link, passage 2",
+          "principle": "Workshop B received a parcel this morning. Its origin and markings are not recorded.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "cross_source_link, passage 2",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "Workshop B received Workshop A's parcel marked Cedar this morning.",
+        "citations": [
+          {
+            "entry_id": "synthetic:cross_source_link:1",
+            "quote": "Workshop A has a parcel marked Cedar."
+          },
+          {
+            "entry_id": "synthetic:cross_source_link:2",
+            "quote": "Workshop B received a parcel this morning."
+          }
+        ]
+      }
+    },
+    {
+      "id": "supported_negation",
+      "feature": "Supported negative claim",
+      "semantic_label": "supported",
+      "rationale": "The answer directly repeats the stated amber-lamp condition.",
+      "records": [
+        {
+          "entry_id": "synthetic:supported_negation:1",
+          "title": "Original fictional diagnostic supported_negation, passage 1",
+          "principle": "The amber lamp is off, and the blue lamp is on.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "supported_negation, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "The amber lamp is off.",
+        "citations": [
+          {
+            "entry_id": "synthetic:supported_negation:1",
+            "quote": "The amber lamp is off"
+          }
+        ]
+      }
+    },
+    {
+      "id": "supported_count",
+      "feature": "Supported exact count",
+      "semantic_label": "supported",
+      "rationale": "The count, object, container and time are identical.",
+      "records": [
+        {
+          "entry_id": "synthetic:supported_count:1",
+          "title": "Original fictional diagnostic supported_count, passage 1",
+          "principle": "At noon, the sealed tray held exactly six wooden tokens.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "supported_count, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "At noon, the sealed tray held exactly six wooden tokens.",
+        "citations": [
+          {
+            "entry_id": "synthetic:supported_count:1",
+            "quote": "At noon, the sealed tray held exactly six wooden tokens."
+          }
+        ]
+      }
+    },
+    {
+      "id": "supported_condition",
+      "feature": "Satisfied sufficient condition",
+      "semantic_label": "supported",
+      "rationale": "The passage states that the gate is open at the same moment the flag is raised, and states that the flag is raised now; the answer follows without an opening-delay assumption.",
+      "records": [
+        {
+          "entry_id": "synthetic:supported_condition:1",
+          "title": "Original fictional diagnostic supported_condition, passage 1",
+          "principle": "If the green flag is raised, the gate is open at that same moment. The green flag is raised now.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "supported_condition, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "The gate is open now.",
+        "citations": [
+          {
+            "entry_id": "synthetic:supported_condition:1",
+            "quote": "If the green flag is raised, the gate is open at that same moment. The green flag is raised now."
+          }
+        ]
+      }
+    },
+    {
+      "id": "supported_attribution",
+      "feature": "Supported report of speech",
+      "semantic_label": "supported",
+      "rationale": "The answer reports the attributed speech, without treating the speaker's claim as independently true.",
+      "records": [
+        {
+          "entry_id": "synthetic:supported_attribution:1",
+          "title": "Original fictional diagnostic supported_attribution, passage 1",
+          "principle": "Mira said, \"The glass kite is ready.\" Oren remained silent throughout the meeting.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "supported_attribution, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "Mira said that the glass kite was ready.",
+        "citations": [
+          {
+            "entry_id": "synthetic:supported_attribution:1",
+            "quote": "Mira said, \"The glass kite is ready.\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "supported_two_sources",
+      "feature": "Supported conjunction without invented link",
+      "semantic_label": "supported",
+      "rationale": "Each conjunct is directly stated. The answer does not claim the parcels are identical or that A sent anything to B.",
+      "records": [
+        {
+          "entry_id": "synthetic:supported_two_sources:1",
+          "title": "Original fictional diagnostic supported_two_sources, passage 1",
+          "principle": "Workshop A has a parcel marked Cedar.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "supported_two_sources, passage 1",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        },
+        {
+          "entry_id": "synthetic:supported_two_sources:2",
+          "title": "Original fictional diagnostic supported_two_sources, passage 2",
+          "principle": "Workshop B received a parcel this morning.",
+          "guidance": "Synthetic semantic-support diagnostic only; not runtime corpus material.",
+          "source": "Original English fiction authored for this offline diagnostic; no external source.",
+          "work": "Fictional workshop notes",
+          "language": "en",
+          "location": "supported_two_sources, passage 2",
+          "license": "Original synthetic diagnostic fixture; no third-party text.",
+          "verified": true
+        }
+      ],
+      "content": {
+        "answer": "Workshop A has a parcel marked Cedar, and Workshop B received a parcel this morning.",
+        "citations": [
+          {
+            "entry_id": "synthetic:supported_two_sources:1",
+            "quote": "Workshop A has a parcel marked Cedar."
+          },
+          {
+            "entry_id": "synthetic:supported_two_sources:2",
+            "quote": "Workshop B received a parcel this morning."
+          }
+        ]
+      }
+    }
+  ]
+}
