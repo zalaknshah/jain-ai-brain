@@ -31,8 +31,10 @@ class Perspective:
     sanskrit: str
     label: str
     conclusion: str
-    confidence: float
+    confidence: float | None
     basis: str
+    prompt: str
+    status: str
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

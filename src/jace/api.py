@@ -287,7 +287,7 @@ class JaceHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == '/health':
             # Public liveness must not reveal private memory/graph statistics.
-            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1, 'wardrobe_derivation_protocol': 1, 'context_review_protocol': 1, 'context_evidence_protocol': 1, 'dispute_preparation_protocol': 1})
+            self._send(200, {'status': 'ok', 'service': 'jace', 'authorization_configured': self.server.authorization.enabled, 'memory_scope_protocol': 1, 'memory_management_protocol': 1, 'cleaning_planner_protocol': 1, 'wardrobe_planner_protocol': 1, 'wardrobe_derivation_protocol': 1, 'reflection_prompt_protocol': 1, 'context_review_protocol': 1, 'context_evidence_protocol': 1, 'dispute_preparation_protocol': 1})
             return
         subject = self._authorize()
         if subject is None:

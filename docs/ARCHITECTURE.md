@@ -11,7 +11,7 @@ SQLite memory + immutable canonical store
         ↓
 bounded cognitive graph: seed → expand → rerank
         ↓
-seven Syādvāda perspectives
+seven unanswered editorial reflection prompts
         ↓
 local reasoner or optional OpenAI-compatible model
         ↓
@@ -25,6 +25,10 @@ The system separates three kinds of information:
 | `data/canonical.json` | No at runtime | Unverified sample principles by default; external sources require review declarations |
 | `memories` SQLite table | Yes, user-scoped | Preferences, environmental facts, and approved conversation memories |
 | `graph_nodes` / `graph_edges` | Dynamic nodes only | Associative activation between memories and canonical principles |
+
+## Reflection scaffold, not semantic evaluation
+
+The legacy perspective fields now carry explicitly unevaluated reflection questions and null confidence. Neither input wording nor retrieved passage presence establishes a conclusion. Labels and row count are compatibility identifiers, not a qualified formalization of Jain doctrine. See [the output contract and migration](REFLECTION_PROMPTS.md). This correction does not implement entailment, contradiction detection or calibrated uncertainty.
 
 ## Iterative GraphRAG loop
 

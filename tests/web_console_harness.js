@@ -53,7 +53,17 @@ const restore=()=>{
 const changeIdentity=field=>{el(field).value=field==='api'?'https://different.example':field==='token'?'another-'+ 'z'.repeat(32):field==='user'?'bob':'work';};
 const blank=()=>{assert.equal(el('input').value,'');assert.equal(el('read').disabled,true);assert.equal(el('learn').checked,false);assert.equal(el('meta small').textContent,'');assert.notEqual(el('answer').textContent,'PRIVATE');};
 async function run(){
-  if(scenario==='autoplay_optout_pending'){
+  if(scenario==='reflection_metadata'){
+    for(const perspectives of [[], Array.from({length:7},(_,i)=>({index:i+1,confidence:null,status:'not_evaluated',prompt:'An unanswered question?'})), [{confidence:0.99}], {length:100}]){
+      fetchImpl=async()=>response({user_id:'alice',input:el('input').value.trim(),memory_scope:'default',response:'Original fixture answer',ethical_assessment:{risk_level:'low'},perspectives,canonical_evidence:[]});
+      await call('ask()');
+      assert.equal(el('answer').textContent,'Original fixture answer');
+      const count=Array.isArray(perspectives)?perspectives.length:0;
+      assert.match(el('meta small').textContent,new RegExp(count+' perspective metadata row'));
+      assert.match(el('meta small').textContent,/not validated reasoning/);
+      assert.doesNotMatch(el('meta small').textContent,/99%|confidence|sevenfold analysis/);
+    }
+  } else if(scenario==='autoplay_optout_pending'){
     for(const event of ['input','change','silent']){
       call('startListening()');const mic=recognizers.at(-1);
       el('speak-replies').checked=true;await call('ask()');

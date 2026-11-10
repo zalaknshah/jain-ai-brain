@@ -3,12 +3,14 @@
 JACE is a local-first reference implementation of the Jain AI Brain blueprint. It provides a runnable cognitive loop:
 
 ```text
-input → ethical gate → iterative GraphRAG activation → sevenfold Syādvāda analysis → response/action proposal
+input → ethical gate → iterative GraphRAG activation → unanswered reflection prompts → response/action proposal
 ```
 
 The implementation is deliberately safe to run on a laptop. It does not pretend to be conscious, does not directly drive motors, and does not silently train on user data. Cloud model, vector database, voice, and ROS 2 integrations are explicit adapters.
 
 The activation graph is the memory/neural-network enhancement: canonical principles are immutable nodes, aligned memories become dynamic nodes, and each query performs bounded seed → expand → rerank retrieval. This creates persistent associative structure without pretending that live user text has retrained model weights.
+
+The seven reflection rows are [explicitly unevaluated](docs/REFLECTION_PROMPTS.md). They contain no numeric confidence and do not establish support, contradiction, truth or valid Jain doctrinal reasoning.
 
 ## Recent measured progress
 
@@ -55,7 +57,7 @@ curl -X POST http://127.0.0.1:8787/v1/think \
 ## Endpoints
 
 - `GET /health` — runtime and adapter status.
-- `POST /v1/think` — analyse a request and return a response, seven perspectives, evidence, and any proposed action.
+- `POST /v1/think` — analyse a request and return a response, seven unanswered reflection prompts, evidence, and any proposed action.
 - `POST /v1/think` with `"learn": true` — additionally persist only explicit preference/fact statements from that turn.
 - `POST /v1/memory` — add a user memory only after the Pratikramana alignment filter; optional `expires_at` controls future recall.
 - `PATCH /v1/memory` with `memory_id` and `content` — explicitly correct an owned memory after the alignment filter; memory and graph update atomically. Other users' memory IDs return 404.
@@ -76,7 +78,7 @@ The route requires an owner path with no query, path parameters or fragment; abs
 ## Project layout
 
 - `src/jace/ethics.py` — Ahimsa, Aparigraha, and safety policy checks.
-- `src/jace/syadvada.py` — deterministic sevenfold perspective evaluator.
+- `src/jace/syadvada.py` — fixed, unanswered reflection prompts with legacy sevenfold labels.
 - `src/jace/canonical.py` — read-only canonical knowledge store.
 - `src/jace/corpus.py` — provenance-aware reviewed-text ingestion.
 - `src/jace/cognitive_graph.py` — persistent activation graph and iterative GraphRAG loop.

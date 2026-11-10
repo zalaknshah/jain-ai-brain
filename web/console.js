@@ -287,7 +287,7 @@ async function ask() {
     if (typeof data.response !== 'string' || data.response.length > 40000) throw new Error('Invalid response from JACE');
     requestSubmitted = false;
     responseText = data.response; answer.textContent = responseText; element('read').disabled = false;
-    meta.textContent = `scope: ${ctx.scope} · ${data.ethical_assessment?.risk_level || 'unknown'} risk · ${data.perspectives?.length || 0} perspectives · ${data.canonical_evidence?.length || 0} source record(s)`;
+    meta.textContent = `scope: ${ctx.scope} · ${data.ethical_assessment?.risk_level || 'unknown'} risk · ${Array.isArray(data.perspectives) ? data.perspectives.length : 0} perspective metadata row(s), not validated reasoning · ${data.canonical_evidence?.length || 0} source record(s)`;
     status.textContent = 'Response ready. Voice language does not translate its text.';
     if (element('speak-replies').checked) readResponse(true);
   } catch (error) {
