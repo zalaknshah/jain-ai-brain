@@ -23,6 +23,10 @@ class ReasoningReadinessTests(unittest.TestCase):
         # The diagnostic must report actual outputs instead of claiming a pass.
         requested=[x for x in report['cases'] if x['expected_plan']]
         self.assertEqual(report['observations']['requested_template_present'],sum(x['expected_template_present'] for x in requested))
+        sources=[x for x in report['cases'] if x['source_question_fixture']]
+        self.assertEqual(len(sources),5)
+        self.assertEqual(report['observations']['source_first_responses'],sum(x['source_first_response_present'] for x in sources))
+        self.assertEqual(report['observations']['source_questions_with_practical_templates'],sum(x['practical_template_present'] for x in sources))
 
 
 if __name__=='__main__':unittest.main()

@@ -64,7 +64,8 @@ class PracticalAnswerTests(unittest.TestCase):
                 result = engine.think("alice", "Quote an Agama verse that tells me which cleaning product to buy")
                 self.assertIn("no reviewed canonical passage", result.response)
                 self.assertNotIn("Retrieved passage:", result.response)
-                self.assertIn("does not have a tailored", result.response)
+                self.assertIn("cannot give a source-grounded answer", result.response)
+                self.assertNotIn("Practical plan:", result.response)
             finally:
                 engine.close()
 

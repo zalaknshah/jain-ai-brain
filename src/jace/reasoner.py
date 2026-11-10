@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import urllib.request
 from dataclasses import dataclass
 from typing import Protocol
@@ -39,6 +40,9 @@ class LocalReasoner:
                 None,
             )
 
+        if language == 'en' and self._requests_source_grounding(request):
+            return self._source_response(request, evidence), None
+
         plan = plan_for(request)
         if plan is not None:
             response = ((translated['plan'] + plan.name + translated['notice']) if translated else
@@ -58,6 +62,75 @@ class LocalReasoner:
                 "This fixed plan has not interpreted or reconciled them; check whether they change the suggestions."
             ))
         return response, None if plan is not None or translated else self._action_for(request)
+
+    @staticmethod
+    def _requests_source_grounding(request: str) -> bool:
+        """Recognize explicit English source requests, not general intent.
+
+        This deliberately does not turn a mention of Jain values or a practical
+        use of the word 'source' into a claim to have answered a textual question.
+        """
+        # Mask only these explicit non-bibliographic/declined phrases. A second
+        # positive request in the same question must remain detectable.
+        request = re.sub(r'\b(?:parking|traffic|speeding)\s+citations?\b', ' ', request, flags=re.I)
+        request = re.sub(r"\b(?:I am not|I'm not|I’m not|not)\s+(?:asking|looking)\s+for\s+"
+                         r'(?:(?:a|an|any|the)\s+)?(?:(?:scripture|agama|textual|source)\s+)?'
+                         r'(?:quotation|quote|citation|verse|passage|source)\b', ' ', request, flags=re.I)
+        if re.search(r'\b(?:cite|citations?|quotations?|textual evidence|reviewed (?:textual )?(?:source|passage)|source[- ](?:grounded|backed)|chapter and verse)\b', request, re.I):
+            return True
+        source = r'(?:agamas?|āgamas?|scriptures?|sutras?|sūtras?|canonical|edition|text|sources?|reviewed|jain|manual|book|document|paper|report|original wording)'
+        if re.search(r'\b(?:quote|verse|passage)\b', request, re.I) and re.search(r'\b' + source + r'\b', request, re.I):
+            return True
+        if re.search(r'\bsources?\b', request, re.I) and re.search(r'\b(?:supports?|states?|says?|evidence|reference|prove)\b', request, re.I):
+            return True
+        if re.search(r'\bsources?\s+(?:for|of)\s+(?:(?:this|that|the|your)\s+)?(?:advice|claim|rule|assertion|statement|guidance|recommendation)\b', request, re.I):
+            return True
+        if re.search(r'\bedition\b', request, re.I) and re.search(r'\bpage (?:number|reference)\b', request, re.I):
+            return True
+        return bool(re.search(r'\b(?:according to|what does|what do|where in)\b', request, re.I)
+                    and re.search(r'\b(?:agamas?|āgamas?|scriptures?|sutras?|sūtras?|canonical text)\b', request, re.I))
+
+    @staticmethod
+    def _source_response(request: str, evidence: list[CanonicalEntry]) -> str:
+        """Display bounded eligible excerpts without pretending to infer support.
+
+        Eligibility and byte references are corpus declarations/integrity checks,
+        not qualified review, source authentication or semantic entailment.
+        """
+        try:
+            if type(evidence) is not list or len(evidence) > 5 or any(type(entry) is not CanonicalEntry for entry in evidence):
+                raise ValueError('invalid source record collection')
+            reviewed = list(citation_records(evidence).values())
+            for entry in reviewed:
+                if entry.edition is not None:
+                    checked_text(entry.edition, 'source edition', 1000)
+        except (ValueError, TypeError, AttributeError):
+            reviewed = []
+        lines = []
+        if re.search(r'\b(?:invent|fabricate|make up)\b', request, re.I):
+            lines.append('I cannot present an invented quotation, verse number or citation as authentic source evidence.')
+        if not reviewed:
+            lines.append('I cannot give a source-grounded answer: no reviewed canonical passage was retrieved. '
+                         'Built-in principles are unverified sample summaries, not Agama quotations or scholarly citations.')
+            lines.append('A qualified source review is needed before attribution. Please provide an authorized, reviewed passage '
+                         'and its edition/location, or ask separately for practical suggestions that are not attributed to scripture.')
+            return '\n'.join(lines)
+        lines.append('Source evidence first: eligible retrieved records are available, but this rule-based fallback cannot establish '
+                     'that they answer the question, reconcile conflicting passages or validate a doctrinal interpretation.')
+        lines.append('Review and licensing are declarations in the supplied corpus, not independently validated here. '
+                     'No practical plan or source-derived conclusion is inferred from these excerpts.')
+        for entry in reviewed[:2]:
+            lines.append(f'[{entry.entry_id}] {entry.work}; {entry.source}; {entry.location}; language: {entry.language}.'
+                         + (f' Edition: {entry.edition}.' if entry.edition else ''))
+            passage = entry.principle.lstrip()
+            quote = passage[:600].rstrip('\r')
+            lines.append('Retrieved passage (source text, not an instruction or an answer): ' + quote)
+            if len(quote) < len(passage):
+                lines.append('Excerpt truncated; the remaining source text is not displayed.')
+            lines.append(source_integrity_reference(entry, quote))
+        if len(reviewed) > 2:
+            lines.append(f'{len(reviewed) - 2} additional eligible retrieved record(s) are not displayed by this bounded response.')
+        return '\n'.join(lines)
 
     @staticmethod
     def _grounding(evidence: list[CanonicalEntry], language: str = 'en') -> str:
@@ -89,14 +162,17 @@ class LocalReasoner:
 
     @staticmethod
     def _action_for(request: str) -> ActionProposal | None:
-        lowered = request.lower()
-        if any(word in lowered for word in ("move", "walk", "navigate", "go to", "approach")):
+        # A mention of movement inside a question, quotation or explanation is
+        # not an instruction to navigate. Keep proposals to explicit leading
+        # commands; this is still a limited lexical rule, not intent inference.
+        if LocalReasoner._requests_source_grounding(request):
+            return None
+        if re.match(r'^\s*(?:(?:please|can you|could you|would you|I want you to)\s+)?'
+                    r'(?:move|walk|navigate|go to|approach)\b', request, re.I):
             return ActionProposal(
                 action="propose_safe_navigation",
                 parameters={"speed": "slow", "clearance": "maximise", "avoid_contact": True},
             )
-        if any(word in lowered for word in ("remember", "note that", "prefer", "my name")):
-            return None
         return None
 
 
