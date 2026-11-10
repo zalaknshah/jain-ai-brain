@@ -1,0 +1,944 @@
+{
+  "protocol": 1,
+  "input_sha256": "2f5069bdbe645a789b9f18bf3816e363b753569bd4a3a15c462ff17db0ac3ccd",
+  "source_raw_sha256": "ae23991180b89571826ee6e9e0897ae15102c19c8fe9dcb4c46295e479999f53",
+  "scope": "Two disjoint sixty-case model-blind label-free reviews, one independent review per case. Fixture judgments are not model performance, external expertise or a claim of authoritative gold. Original labels/text remain unchanged.",
+  "assignments": [
+    {
+      "review": "a",
+      "start_inclusive": 0,
+      "end_inclusive": 59
+    },
+    {
+      "review": "b",
+      "start_inclusive": 60,
+      "end_inclusive": 119
+    }
+  ],
+  "cases": [
+    {
+      "index": 0,
+      "case_id": "cd172be5b330440e936c8f99b8e23906",
+      "primary_label": "contradicted",
+      "rationale": "The narrator explicitly says the shutters were closed when Ves returned.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 1,
+      "case_id": "3ebd8941501a43608ab9e432134f282e",
+      "primary_label": "not_established",
+      "rationale": "The boat identity and crate movements do not establish its owner.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 2,
+      "case_id": "19f38753a3fa49b18971e3bbbc94397e",
+      "primary_label": "contradicted",
+      "rationale": "With its brake disengaged, the stated rule requires the carriage to cross at sunrise.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 3,
+      "case_id": "831907b62a0145b8935e89ec4e3cbc54",
+      "primary_label": "not_established",
+      "rationale": "Only the clay statues have a stated glazing status.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 4,
+      "case_id": "9cec964c26804fb3af471484a4856475",
+      "primary_label": "contradicted",
+      "rationale": "Archive emergence requires a wax seal, and the packet had none during processing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 5,
+      "case_id": "4925d7c00ccf4ff2bc9d8922a3cfb5a1",
+      "primary_label": "not_established",
+      "rationale": "A repaired binding is a condition for travel; neither the repairer nor Meral’s repair intention is specified.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 6,
+      "case_id": "cd8e3b26887643e180afa945c5940b70",
+      "primary_label": "contradicted",
+      "rationale": "Some gardeners keep reef clocks, and every such keeper speaks Low Reed.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 7,
+      "case_id": "b9ae0e0db96340098ee42a5346187554",
+      "primary_label": "not_established",
+      "rationale": "The bulletin reports two cedar-bridge closures, but the actual closures are not independently asserted outside that report.",
+      "ambiguity_flags": [
+        {
+          "issue": "Reported bulletin versus actual bridge condition",
+          "primary_reading": "A non-factive bulletin report does not by itself verify the current bridge conditions.",
+          "alternative_label": "supported",
+          "plausible_alternative": "If the inventory and bulletin are accepted as authoritative facts of this fictional context, three cedar bridges minus the one open bridge means exactly two are closed."
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "case_id": "48603b486d8546a2bf9b1202b67ce2ef",
+      "primary_label": "not_established",
+      "rationale": "The passage identifies the removed drums by sealing status, not dye color.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 9,
+      "case_id": "11efd2c13b044edfba209a04e44d7213",
+      "primary_label": "contradicted",
+      "rationale": "The keeper established that none of the seven bells contained iron.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 10,
+      "case_id": "e857e416bf99491593c1b19816702963",
+      "primary_label": "not_established",
+      "rationale": "The timer could also close the shutters, and their actual trigger was not observed.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 11,
+      "case_id": "2bfe10d9b8ff47419b9e56c6c25d8309",
+      "primary_label": "supported",
+      "rationale": "Five unsealed drums minus three removed leaves two, with no other relevant changes.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 12,
+      "case_id": "872a405cf0124dcdb2eb343846391a87",
+      "primary_label": "not_established",
+      "rationale": "The log says the day keeper did not light the beacon, but that reported event is not separately established as fact.",
+      "ambiguity_flags": [
+        {
+          "issue": "Reported log versus actual beacon event",
+          "primary_reading": "The passage establishes the log’s account, rather than independently verifying who lit the beacon.",
+          "alternative_label": "contradicted",
+          "plausible_alternative": "If the roster and log are treated as reliable narrative evidence, Onwi is the day keeper and explicitly did not light it."
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "case_id": "5f94fef0efb5424fad77d8f6f30416b7",
+      "primary_label": "supported",
+      "rationale": "Kez replaced the wind forecast with a calm-night forecast in the latest forecast described.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 14,
+      "case_id": "5cd7c700762a4f17951438a568fab5c4",
+      "primary_label": "supported",
+      "rationale": "In the shared valley setting, Nemi’s creature is a shellcrawler and the stated rule makes shellcrawlers wingless.",
+      "ambiguity_flags": [
+        {
+          "issue": "Local rule and implied shared setting",
+          "primary_reading": "The passages naturally share the valley setting, so its shellcrawler rule applies to Nemi’s creature.",
+          "alternative_label": "not_established",
+          "plausible_alternative": "If “in the valley” strictly limits the rule and Nemi’s location is not supplied by discourse context, the rule need not cover her creature."
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "case_id": "8f000fa713f744c49dc3108506459a61",
+      "primary_label": "supported",
+      "rationale": "Veya put the same needle back and explicitly did not install a replacement.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 16,
+      "case_id": "dfc3b1a0ceb841908eaae63fba069d6b",
+      "primary_label": "supported",
+      "rationale": "The atlas remained inside the library, which occupies part of Sable Tower.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 17,
+      "case_id": "6640cdf0e17d4bf285ee60ebe9a86d62",
+      "primary_label": "not_established",
+      "rationale": "A strip of cloth is described, but no striped pattern is stated.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 18,
+      "case_id": "2d7deee42b054bffa84b3af89657e707",
+      "primary_label": "supported",
+      "rationale": "Three crew members plus six guests occupy nine of eleven seats, leaving two unoccupied.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 19,
+      "case_id": "531263cc185948bf95329286c491df06",
+      "primary_label": "not_established",
+      "rationale": "The speakers disagree, and the account explicitly leaves the lock’s actual condition unresolved.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 20,
+      "case_id": "56092d90c2794e61980d0da6007b3d94",
+      "primary_label": "supported",
+      "rationale": "Three counters remained inside throughout the count despite the public closure.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 21,
+      "case_id": "5deafb0745aa4f76861d7c0912eb9173",
+      "primary_label": "supported",
+      "rationale": "The revised opening is Thursday and the unchanged rehearsal is Wednesday.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 22,
+      "case_id": "00fb583ef0e94239989b470ac07273c4",
+      "primary_label": "supported",
+      "rationale": "The archivist read the letter and only then unlocked the cabinet.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 23,
+      "case_id": "e623545964f74a3e9923c0ef4a39a4b7",
+      "primary_label": "not_established",
+      "rationale": "The bulletin reports that Taper is open, but the bridges’ actual current states are not separately established.",
+      "ambiguity_flags": [
+        {
+          "issue": "Reported bulletin versus actual bridge condition",
+          "primary_reading": "The bulletin’s statement about Taper is not independently verified as an actual bridge condition.",
+          "alternative_label": "contradicted",
+          "plausible_alternative": "Treating the bulletin as authoritative makes Taper open and contradicts all three being closed."
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "case_id": "f69a57a4d96a416bbf78992457ea96da",
+      "primary_label": "not_established",
+      "rationale": "The meal’s time is omitted, so its relation to rope weaving is unknown.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 25,
+      "case_id": "ceeb2aefe6894d779030fd68ee3e0bf5",
+      "primary_label": "not_established",
+      "rationale": "Thursday is specified, but no time of day is given.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 26,
+      "case_id": "633c9e9e052c45e5a561d76ae732255c",
+      "primary_label": "contradicted",
+      "rationale": "The same original needle was restored, and a replacement is explicitly denied.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 27,
+      "case_id": "8d7dac6bd58c4449bc9fb89c9b0b2d72",
+      "primary_label": "supported",
+      "rationale": "The uncut remainder is 36 minus 4 times 7, or 8 meters: enough for one 7-meter piece but not two.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 28,
+      "case_id": "f31f3390b23743ccb4dd6497710f698f",
+      "primary_label": "not_established",
+      "rationale": "Thirteen follows if the log’s reported arrival count is accurate, but that count is not independently established.",
+      "ambiguity_flags": [
+        {
+          "issue": "Reported initial count versus actual cargo",
+          "primary_reading": "The arrival count of seventeen is attributed to the log, so the actual departure count is not conclusively fixed.",
+          "alternative_label": "supported",
+          "plausible_alternative": "If the unloading log is accepted as accurate factual evidence, the alias and 17 minus 4 establish thirteen crates."
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "case_id": "8d7afb617fe14dddbd7f400ce114b0ef",
+      "primary_label": "supported",
+      "rationale": "One speaker called the lock jammed and the other called it clear.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 30,
+      "case_id": "dc31522a3d164b04b2d0b067dbb68153",
+      "primary_label": "supported",
+      "rationale": "The continuous intervals overlap from 15:00 to 16:00, a single hour.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 31,
+      "case_id": "c52ab0a1a1b642948bd7d4c97a7c0dca",
+      "primary_label": "contradicted",
+      "rationale": "Some registered guests explicitly never slept at the inn.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 32,
+      "case_id": "23a978a9cbfd4238865a1b542c909778",
+      "primary_label": "contradicted",
+      "rationale": "The cabinet explicitly remained locked from dusk through the night until dawn.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 33,
+      "case_id": "24c5dad7938e4fa4be64ebce849d1c79",
+      "primary_label": "not_established",
+      "rationale": "Examination of the other two unsealed crates is not stated or denied.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 34,
+      "case_id": "1f8bca5137b7420fb089fd658a40238e",
+      "primary_label": "contradicted",
+      "rationale": "Three counters were inside throughout the count.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 35,
+      "case_id": "8b1a2d80b2db42cda83dc5be561311ba",
+      "primary_label": "supported",
+      "rationale": "Dema expresses a misplacement explanation while attributing the theft explanation to Rul.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 36,
+      "case_id": "b80dae30a3ed48df9157103159f9c991",
+      "primary_label": "not_established",
+      "rationale": "The note reports an unsealed-crate examination, but that examination is not independently asserted outside the note.",
+      "ambiguity_flags": [
+        {
+          "issue": "Reported examination versus actual examination",
+          "primary_reading": "An unsealed-crate examination is attributed to the inspector’s note rather than independently narrated as an event.",
+          "alternative_label": "contradicted",
+          "plausible_alternative": "Taking the note as reliable evidence establishes an unsealed crate was examined, contradicting sealed crates exclusively."
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "case_id": "152b9f2f412740c6b9ee65c877b084cd",
+      "primary_label": "supported",
+      "rationale": "At least some gardeners keep reef clocks, and all reef-clock keepers speak Low Reed.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 38,
+      "case_id": "9c344a97c4e943268e259b076ef656e0",
+      "primary_label": "contradicted",
+      "rationale": "The seal was explicitly applied after the ink dried.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 39,
+      "case_id": "b800ef9a62794868bcc69c79ffe9f269",
+      "primary_label": "supported",
+      "rationale": "Pell expressly passed the rumor on without vouching for it.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 40,
+      "case_id": "ac440f26b0d2426f83356dea9ca558ee",
+      "primary_label": "supported",
+      "rationale": "The seal was applied after the charter’s ink dried.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 41,
+      "case_id": "8675d6dbbb2b433a8b4b58867049863a",
+      "primary_label": "not_established",
+      "rationale": "The atlas’s desk is placed inside the library without a position relative to its walls.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 42,
+      "case_id": "4e729102ac31430fb77e0c1e302162b7",
+      "primary_label": "contradicted",
+      "rationale": "Four of the crates were taken ashore and none were added, so they could not all remain aboard.",
+      "ambiguity_flags": [
+        {
+          "issue": "Scope of attribution across sentences",
+          "primary_reading": "The second sentence directly asserts that four crates were taken ashore and not replaced, contradicting all seventeen remaining.",
+          "alternative_label": "not_established",
+          "plausible_alternative": "If “the unloading log says” is understood to attribute the entire following account to the log, the actual cargo movements are not independently verified."
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "case_id": "bfe862ad7ef04734ab00bed35937960c",
+      "primary_label": "supported",
+      "rationale": "The procession is scheduled for the nineteenth, and its first rehearsal is the preceding day, the eighteenth.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 44,
+      "case_id": "dfcec95958284ed2a9d643b1dc9327aa",
+      "primary_label": "not_established",
+      "rationale": "No move after leaving the lantern in the cave occurred, but the claim’s entire-day scope does not exclude an earlier move that day.",
+      "ambiguity_flags": [
+        {
+          "issue": "Entire-day scope versus subsequent narrative movement",
+          "primary_reading": "The passage rules out later moves after leaving the lantern in the cave, but it does not rule out earlier moves that day.",
+          "alternative_label": "contradicted",
+          "plausible_alternative": "If the claim refers contextually to moving the lantern after the stated cave placement, the explicit absence of another move contradicts it."
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "case_id": "50aa3bd2504d4de099d19d71ea63b058",
+      "primary_label": "supported",
+      "rationale": "Fourteen statues minus six stone gives eight clay, of which two were glazed and six unglazed.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 46,
+      "case_id": "2641e342e1e04d3abb8f0c1030cf5c2e",
+      "primary_label": "contradicted",
+      "rationale": "The stated reason was a fragile binding, and the passage explicitly says no pages were missing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 47,
+      "case_id": "c428213dfc9643e39a0886133301cff6",
+      "primary_label": "not_established",
+      "rationale": "The courier’s route and timing are described, but no bag or its material is mentioned.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 48,
+      "case_id": "f2d63d2f382043b8b2448670ef7f86e8",
+      "primary_label": "contradicted",
+      "rationale": "Evin moved the jar to the top shelf and left it there until closing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 49,
+      "case_id": "a4f3db82889e4774ba5b93d3a378967b",
+      "primary_label": "not_established",
+      "rationale": "The theft and misplacement explanations are unverified beliefs, with no finding or check to resolve them.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 50,
+      "case_id": "ce078adf99c34405b33ae651a0564383",
+      "primary_label": "not_established",
+      "rationale": "The delay’s cause is not given, and clock damage is not stated.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 51,
+      "case_id": "4329c7756fa54f6c9162bd21e042b95c",
+      "primary_label": "contradicted",
+      "rationale": "The gate is north of the pond, which is north of the forge, so the forge is south of the gate.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 52,
+      "case_id": "298207ce5b284a97b831827027a4b654",
+      "primary_label": "contradicted",
+      "rationale": "Being in the final bowl requires surviving the first draw, and Oset’s name was in that bowl.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 53,
+      "case_id": "3bb31703b26e4ff9b984e52dc09b209d",
+      "primary_label": "not_established",
+      "rationale": "The passage explicitly leaves the detached lid’s location unspecified.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 54,
+      "case_id": "431f35bb7d23498a9f7819d6ec47b846",
+      "primary_label": "contradicted",
+      "rationale": "Anet crossed and no other apprentice did, so two apprentices did not cross.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 55,
+      "case_id": "05e1d19bdf1c44d8a62a85474bd11d05",
+      "primary_label": "contradicted",
+      "rationale": "There were eight clay statues total, but two were glazed, leaving only six unglazed clay statues.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 56,
+      "case_id": "495f41ed6da641db88d2771be1f22540",
+      "primary_label": "not_established",
+      "rationale": "The masters’ movements were not recorded, so none crossing is not established.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 57,
+      "case_id": "7daa3bf36cab41d6b6a6a453a22cf363",
+      "primary_label": "supported",
+      "rationale": "Some registered guests never slept at the inn, which disproves that all did.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 58,
+      "case_id": "b44b3974141045f5b5d0be6daac374ab",
+      "primary_label": "supported",
+      "rationale": "Anet was an apprentice who crossed, and no other apprentice crossed.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 59,
+      "case_id": "e45b31f29ced416893f61bfc296900ab",
+      "primary_label": "supported",
+      "rationale": "The fire title commits to a fire interpretation while Fen’s own account explicitly leaves smoke versus dust unresolved.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 60,
+      "case_id": "1272e5b83aeb4a4fa475c40ff946dc72",
+      "primary_label": "not_established",
+      "rationale": "The creature is a shellcrawler, but neither permitted sex is identified for this individual.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 61,
+      "case_id": "14c7f90c279b4fc8baa6ce7db3f2800f",
+      "primary_label": "not_established",
+      "rationale": "The notices specify dates and their relative order, not a time of day.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 62,
+      "case_id": "3ed271dd8d7b4a31b3d9fe2e6c876afd",
+      "primary_label": "contradicted",
+      "rationale": "On the natural shared-valley reading, Nemi's shellcrawler falls under the stated rule that shellcrawlers lack wings.",
+      "ambiguity_flags": [
+        {
+          "type": "geographic_scope",
+          "primary_label": "contradicted",
+          "alternative_label": "not_established",
+          "explanation": "Ordinary discourse places the linked shellcrawler account in the valley setting. Read strictly as a location-restricted rule, however, the text never expressly places Nemi's creature in that valley."
+        }
+      ]
+    },
+    {
+      "index": 63,
+      "case_id": "861b41a08dfd4c2fa138a0c8243af2d2",
+      "primary_label": "contradicted",
+      "rationale": "Pell explicitly passed along the rumor without vouching for it.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 64,
+      "case_id": "98478e9bd850487daf86037352b80a09",
+      "primary_label": "not_established",
+      "rationale": "The number of new markers is given, but their colors are not.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 65,
+      "case_id": "63e24e1a56ff46e997abc1f9e740d012",
+      "primary_label": "not_established",
+      "rationale": "The seal rule excludes one destination; it does not identify a return to the sender.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 66,
+      "case_id": "3f01bd04887f4ceb998198c4cd089699",
+      "primary_label": "not_established",
+      "rationale": "Two examinations are directly stated. The additional examination is attributed to the inspector's note, whose accuracy is not independently established.",
+      "ambiguity_flags": [
+        {
+          "type": "reported_record_vs_fact",
+          "primary_label": "not_established",
+          "alternative_label": "supported",
+          "explanation": "The note reports the third examination without a reliability guarantee. A conventional reading that treats an unqualified inspection note as factual narrative evidence yields two sealed plus one unsealed, hence at least three."
+        }
+      ]
+    },
+    {
+      "index": 67,
+      "case_id": "676548fd32a34e7eb9d295b035e4eb90",
+      "primary_label": "supported",
+      "rationale": "Her first arrival at the market was after the whistle stopped; while it sounded she was still on the bridge.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 68,
+      "case_id": "7e5e930b08944ff98d9b7253eb6cb4cc",
+      "primary_label": "supported",
+      "rationale": "The fact established that not all seven bells were bronze entails at least one non-bronze bell.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 69,
+      "case_id": "12a00b1fcc6e45a98f21b8d43493edf8",
+      "primary_label": "contradicted",
+      "rationale": "Two scheduled night sailings were cancelled.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 70,
+      "case_id": "2f13ec16c835426980d409227a7f89ef",
+      "primary_label": "not_established",
+      "rationale": "The bulletin discusses cedar bridges only and supplies no status for either stone bridge.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 71,
+      "case_id": "21c869586ea742f898a65e9725067964",
+      "primary_label": "contradicted",
+      "rationale": "The courier was on the bridge during the whistle and entered the market only afterward.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 72,
+      "case_id": "5838fe10909b48e283aae49b2e66c4a3",
+      "primary_label": "not_established",
+      "rationale": "A revised forecast of calm weather does not establish the actual weather after the chronicle ends.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 73,
+      "case_id": "a3704fbe07e149f380dcd822824cf7ba",
+      "primary_label": "supported",
+      "rationale": "The two cancelled night sailings establish some cancellations, while continuing daytime boats establish that sailing did not stop entirely.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 74,
+      "case_id": "3b3653e5f5f440eb96864d1753797ebe",
+      "primary_label": "contradicted",
+      "rationale": "The infallible float mechanism closes the spillgate when the stated noon trigger occurs.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 75,
+      "case_id": "aeb1b25e00b1489d93a80d7aa34e6a2f",
+      "primary_label": "contradicted",
+      "rationale": "The atlas remained inside the library throughout the meeting, and the council hall is a separate building.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 76,
+      "case_id": "8cbd1c547da940988862b1d623452e6c",
+      "primary_label": "supported",
+      "rationale": "The float rose above the line at noon, and that trigger invariably switches on the blue lamp.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 77,
+      "case_id": "7a2760ab47b34a3b826a5ef7a1c5f035",
+      "primary_label": "contradicted",
+      "rationale": "The uncut remainder was 36 minus four times 7, or 8 meters, not 12.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 78,
+      "case_id": "cd0b8a098a13409c84234e925de2f5e6",
+      "primary_label": "contradicted",
+      "rationale": "Flute practice began at 15:00, an hour before rope weaving ended at 16:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 79,
+      "case_id": "b8e5a56adb0e4077907335237affa9b6",
+      "primary_label": "supported",
+      "rationale": "The stated reason for declining the loan is the fragile binding, and the passage expressly says no pages were missing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 80,
+      "case_id": "98dbf4d467e447fc9994144f934ed4fb",
+      "primary_label": "not_established",
+      "rationale": "Continuing daytime service does not establish departure delays, which the notice does not discuss.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 81,
+      "case_id": "eb43854db3464bf7acf170abb6925a77",
+      "primary_label": "contradicted",
+      "rationale": "The total after the survey was 27 minus 9 plus 4, or 22 markers.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 82,
+      "case_id": "27c081c5d7f045298ce868148691e0b9",
+      "primary_label": "not_established",
+      "rationale": "The crossing rule gives no information about musicians or other cargo.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 83,
+      "case_id": "283090036f9c467286616e251384c9a2",
+      "primary_label": "contradicted",
+      "rationale": "The procession is scheduled for Marn 19, so the immediately preceding rehearsal is on Marn 18, not Marn 16.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 84,
+      "case_id": "ffd406154cf64263a7e531ce6c13b584",
+      "primary_label": "not_established",
+      "rationale": "Finding and reinstalling the needle gives no information about its earlier ownership.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 85,
+      "case_id": "644ecee72a2244bab786f3ceef6319fb",
+      "primary_label": "not_established",
+      "rationale": "Application is placed between 10:00 and 10:20 but not on either side of the 10:12 break.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 86,
+      "case_id": "6717e2e28d87419e852794eab7acfbff",
+      "primary_label": "contradicted",
+      "rationale": "Kez withdrew the strong-wind forecast and replaced it with calm before the chronicle ended.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 87,
+      "case_id": "54d3ab2c5a5b4428866b81a0ab936197",
+      "primary_label": "not_established",
+      "rationale": "Neither the roster nor the log names the fuel used for the beacon.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 88,
+      "case_id": "0fc12d17ff894751ad67b8381e7f3981",
+      "primary_label": "supported",
+      "rationale": "A wax seal is necessary to emerge at the archive end, but the packet went through without one and none was added.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 89,
+      "case_id": "be7f6ad6fe514df0b00f87b81ff431be",
+      "primary_label": "contradicted",
+      "rationale": "The quoted letter expressly leaves smoke versus dust unresolved, and Fen denies having claimed a fire; it does not assert confirmation.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 90,
+      "case_id": "ef21eda8194341a788f01ca8e41f0fb5",
+      "primary_label": "not_established",
+      "rationale": "The watchhouse is mentioned without a position, so its side of the road is unknown.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 91,
+      "case_id": "c77fc813873c40229f041c893708dada",
+      "primary_label": "contradicted",
+      "rationale": "Dema attributes the stolen-bell belief to Rul and states her own belief that the bell was merely misplaced.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 92,
+      "case_id": "cee399632fa4446094634f0570b01f2d",
+      "primary_label": "not_established",
+      "rationale": "The painter's activity has no stated ordering relative to the cart's arrival.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 93,
+      "case_id": "254df90007604541a8a99224c1d85a96",
+      "primary_label": "contradicted",
+      "rationale": "The ceremony was delayed rather than cancelled, with an after-sunset start in the revised notice.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 94,
+      "case_id": "92c5349b93464fe7b16deaa1bcf78d89",
+      "primary_label": "not_established",
+      "rationale": "The letter was delivered during the night, but its author and writing time are not specified.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 95,
+      "case_id": "784a8a3a1ba7436f8e59f843863e4d32",
+      "primary_label": "not_established",
+      "rationale": "Some registered guests stayed elsewhere, but musicians are only a subset of guests and no overlap with those lodgers is established.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 96,
+      "case_id": "fb833c1280484aa895e9d826c75ba6f7",
+      "primary_label": "not_established",
+      "rationale": "Not all bronze guarantees at least one non-bronze bell but does not fix the number at exactly one.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 97,
+      "case_id": "3037a452ad804fa3bb7bd1ac272c4c41",
+      "primary_label": "supported",
+      "rationale": "The jar was moved from the window table to the top shelf and remained there until closing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 98,
+      "case_id": "45afeb232d0445979715807a1274735b",
+      "primary_label": "supported",
+      "rationale": "The ceremony was explicitly not cancelled and retained a revised after-sunset schedule.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 99,
+      "case_id": "b48a6a1637614df3b6dbebe4e39d4ef8",
+      "primary_label": "not_established",
+      "rationale": "The passage gives the counters' presence, not their places of residence.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 100,
+      "case_id": "58961135031a4d87869e7a0dac01fb0e",
+      "primary_label": "contradicted",
+      "rationale": "The gong preceded the cart, which preceded the ribbon cutting, so the claim reverses their order.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 101,
+      "case_id": "ec955efe867f49caba34076bc898bac3",
+      "primary_label": "not_established",
+      "rationale": "Fen's uncertain sighting and the editor's title do not establish an actual fire.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 102,
+      "case_id": "f007f59e4bad4cd4947bfca6f8dfe72f",
+      "primary_label": "supported",
+      "rationale": "Of the original 27 markers, 9 were removed, leaving 18 originals; newly installed markers do not change that count.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 103,
+      "case_id": "638bfd2cb89c41e585c0da6a0c111f8f",
+      "primary_label": "not_established",
+      "rationale": "Role substitution identifies Teral and Onwi in the log's account, but the beacon event and timing are only reported by that log.",
+      "ambiguity_flags": [
+        {
+          "type": "reported_record_vs_fact",
+          "primary_label": "not_established",
+          "alternative_label": "supported",
+          "explanation": "The log is an attributed source rather than an independently verified event. If an unqualified official log is accepted as factual narrative evidence, the roster substitutions support the claim."
+        }
+      ]
+    },
+    {
+      "index": 104,
+      "case_id": "b7d8cfad4b0946aebb0e8614b2b168fb",
+      "primary_label": "not_established",
+      "rationale": "Oset's participation in the final bowl establishes eligibility, not the unreported result.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 105,
+      "case_id": "3dfdc6b88874483480330733e6829587",
+      "primary_label": "supported",
+      "rationale": "The shutters are explicitly described as closed when Ves returned.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 106,
+      "case_id": "5ffe7566ba174562a669f4d2c3a2044a",
+      "primary_label": "contradicted",
+      "rationale": "Removing three drums from eighteen with no other changes leaves fifteen, not sixteen.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 107,
+      "case_id": "0342dcb7ac76439fa87a532ea2fd6588",
+      "primary_label": "not_established",
+      "rationale": "The rule establishes Low Reed for the gardeners with reef clocks, not for every gardener.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 108,
+      "case_id": "1f6ebfff8aaf4339934cd2c92e2ef36e",
+      "primary_label": "supported",
+      "rationale": "The gong preceded the cart and the cart preceded the ribbon cutting, so the gong preceded the cutting.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 109,
+      "case_id": "fbeeae3b2a074cf6bceba4daed592a0d",
+      "primary_label": "contradicted",
+      "rationale": "Iven said jammed, whereas Soli answered clear; their stated positions disagree.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 110,
+      "case_id": "407272660352492b9b32e28ced9c1ebd",
+      "primary_label": "supported",
+      "rationale": "The carriage always crosses at sunrise when its brake is not engaged, and that exception did not apply on the fair morning.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 111,
+      "case_id": "3effdf3c080342d5b0e297905e391649",
+      "primary_label": "not_established",
+      "rationale": "The passenger and seat counts say nothing about any guest's previous crossings.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 112,
+      "case_id": "43a7ebfc365543c695ccf0a362ce9bd2",
+      "primary_label": "supported",
+      "rationale": "North-of is transitive along the specified straight road: gate north of pond north of forge.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 113,
+      "case_id": "65b63c0b096b49a3b87ef54070cfcc84",
+      "primary_label": "supported",
+      "rationale": "The ordinary narrative reading is that the lantern stayed where the surveyor left it in the inland cave; the misplaced sketch symbol does not move the lantern.",
+      "ambiguity_flags": [
+        {
+          "type": "agent_scope_of_nonmovement",
+          "primary_label": "supported",
+          "alternative_label": "not_established",
+          "explanation": "The natural narrative conveys persistence in the cave after placement. Literally, only the surveyor is said not to move it again, leaving movement by another agent unexcluded."
+        }
+      ]
+    },
+    {
+      "index": 114,
+      "case_id": "b1eef7de070e47d6bc7b58f819160ab8",
+      "primary_label": "not_established",
+      "rationale": "The float guarantees gate closure and a blue lamp, but neither that rule nor the notebook establishes a warning bell.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 115,
+      "case_id": "e1d56308a46341ac98aefd0a676fd537",
+      "primary_label": "not_established",
+      "rationale": "Leaving the lantern in the cave does not establish where the surveyor slept.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 116,
+      "case_id": "b4ed6e0d43ff4ac9a5cd2354e91b0b23",
+      "primary_label": "contradicted",
+      "rationale": "Nine people occupied nine of eleven seats, leaving exactly two empty seats, not three.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 117,
+      "case_id": "157c2ee9e33f48309f534cb8a4ecc1ee",
+      "primary_label": "supported",
+      "rationale": "Being in the final bowl requires surviving the first draw, and Oset's name was shown in that bowl.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 118,
+      "case_id": "508ec63655094f4e98bff33831060bbf",
+      "primary_label": "not_established",
+      "rationale": "A rumor and a contrary reply are recorded without verification of the sale itself.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 119,
+      "case_id": "cd53967d83e94cc9972d392d7edeead8",
+      "primary_label": "contradicted",
+      "rationale": "The revised opening is Thursday, after the unchanged Wednesday rehearsal.",
+      "ambiguity_flags": []
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 # Optional DeBERTa support comparison: pre-evaluation freeze
 
+The subsequent [first paired results](PAIRED_SUPPORT_RESULTS.md) are now recorded
+separately. This page preserves the pre-evaluation contract and its freeze checks.
+
 This document describes preparation of an isolated candidate, **not comparison
 results**. No claim of improved accuracy, reduced false support, generalization,
 calibration, doctrinal competence, source truth or runtime suitability follows

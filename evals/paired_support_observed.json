@@ -1,0 +1,980 @@
+{
+  "protocol": 1,
+  "scope": "First frozen paired predictions on the same 120 newly authored fictional-English cases. Exploratory diagnostic against original author labels, not broad semantic qualification, a statistical-superiority test, Jain doctrine, or runtime admission.",
+  "decision": "Both candidates remain outside runtime semantic admission; the larger model still makes false-support errors on unflagged reviewed cases.",
+  "artifacts": {
+    "scripts/predict_pretrained_support.py": "11217322391b15ff6dacb37947f6bafc31b30f9c0abae8d032cec9cf43532e2e",
+    "scripts/predict_deberta_support.py": "ff0597ba1abbe56c1cdbd238b05c42fd239d220f50e669656a921eab7e208078",
+    "scripts/evaluate_claim_support.py": "f24f017ad344d572e61979519730c5fc8dbd1be162fb24d648ab66deae04ae13",
+    "evals/pretrained_support_requirements.lock": "b38cf78afe06f8ccb09d7a10df3c22a0cc45f5ae954ab359d4c87a7073d4a16f",
+    "evals/paired_support_cases.json": "5efaa7095d8aa8403a2399ec4ce8818cde37f314beca833959b8ffe2d3995686",
+    "evals/paired_support_minilm_frozen.json": "2db18a68e8aeb2e2d5a80747e3d49cdc9a0a5ceffad55f5fae2e9b4c763e9860",
+    "evals/paired_support_deberta_frozen.json": "5fa17874f1ba72d511d1544cf3fb4dbe5827be473a8bfb50d136663a339436b6",
+    "evals/paired_support_label_review.json": "33b7f55ff8d43844db5b45e65650b5825d77d1be179565eeca90b49a85e77a08"
+  },
+  "dataset_sha256": "5efaa7095d8aa8403a2399ec4ce8818cde37f314beca833959b8ffe2d3995686",
+  "input_sha256": "2f5069bdbe645a789b9f18bf3816e363b753569bd4a3a15c462ff17db0ac3ccd",
+  "prediction_canonical_sha256": {
+    "minilm": "ae7b22e4f2ee0912491acfa6d6e1bd049776aaf80b25d519ff24548d1accb990",
+    "deberta": "41e5061b6fb1fb0b0ac4ed3ab82fb941b5e9e019caee2735baa8105e59c7cca9"
+  },
+  "chronology": {
+    "candidate_freeze_commit": "03ae646fd8e30a7b3a50f6a38325e141296ecf17",
+    "candidate_freeze_link": "https://github.com/zalaknshah/jain-ai-brain/commit/03ae646fd8e30a7b3a50f6a38325e141296ecf17",
+    "pre_inference_utc": "2026-11-10T16:10:13.981036+00:00",
+    "post_inference_utc": "2026-11-10T16:11:17.577827+00:00",
+    "pre_inference_record_raw_sha256": "c2131ef540c94aeebce1539d67b7388cd16d4ccdefa797a23cf00f281a7451d7",
+    "post_inference_record_raw_sha256": "fd97e395090166d8448889c185bda3a25348e4129dc15226c23a621759fda48b",
+    "first_outputs_preserved": true,
+    "inference_runs_per_model": 1,
+    "order": [
+      "minilm",
+      "deberta"
+    ],
+    "policy": "Fixed full-context raw argmax/first-index ties; no thresholds, truncation, score-driven reruns or tuning.",
+    "limits": "Local chronology and hashes bind retained content; they are not external execution attestation or proof of no related pretrained templates."
+  },
+  "authorship": {
+    "new_cases": 120,
+    "groups": 40,
+    "phenomena": 8,
+    "author_access": "Task contract and schema only; no previous fixtures, candidate implementation, model outputs or benchmark reports inspected.",
+    "blinding_limit": "The supplied output destination exposed the model-family name. The author reports not using that cue or inferring a checkpoint/expected performance; perfect model-identity blinding is not claimed.",
+    "label_review": "Reviewers saw only disjoint halves of a gold-free export at a neutral destination, without model identity, results, author notes or the other review.",
+    "archived_scope_correction": "The byte-preserved fixture scope says it was authored independently of candidate identities. That wording overstates identity blinding: the output destination exposed a model-family cue. Use the explicit blinding limitation here; preserved fixture bytes are the historical input, not an endorsement of perfect blinding."
+  },
+  "full_result": {
+    "minilm": {
+      "cases": 120,
+      "predictions": 120,
+      "abstentions": 0,
+      "correct": 73,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.6083333333333333,
+      "unsupported_cases": 80,
+      "unsupported_as_supported": 16,
+      "unsupported_as_supported_rate": 0.2,
+      "supported_cases": 40,
+      "supported_correct": 22,
+      "matched_groups": 40,
+      "complete_matched_groups_correct": 7,
+      "confusion": {
+        "supported": {
+          "supported": 22,
+          "contradicted": 11,
+          "not_established": 7,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 7,
+          "contradicted": 31,
+          "not_established": 2,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 9,
+          "contradicted": 11,
+          "not_established": 20,
+          "abstain": 0
+        }
+      }
+    },
+    "deberta": {
+      "cases": 120,
+      "predictions": 120,
+      "abstentions": 0,
+      "correct": 84,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.7,
+      "unsupported_cases": 80,
+      "unsupported_as_supported": 9,
+      "unsupported_as_supported_rate": 0.1125,
+      "supported_cases": 40,
+      "supported_correct": 22,
+      "matched_groups": 40,
+      "complete_matched_groups_correct": 17,
+      "confusion": {
+        "supported": {
+          "supported": 22,
+          "contradicted": 12,
+          "not_established": 6,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 4,
+          "contradicted": 36,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 5,
+          "contradicted": 9,
+          "not_established": 26,
+          "abstain": 0
+        }
+      }
+    }
+  },
+  "paired_full": {
+    "correctness": {
+      "both_wrong": 27,
+      "both_correct": 64,
+      "deberta_only_correct": 20,
+      "minilm_only_correct": 9
+    },
+    "unsupported_false_support": {
+      "both_false_support": 6,
+      "minilm_only_false_support": 10,
+      "neither_false_support": 61,
+      "deberta_only_false_support": 3
+    },
+    "deberta_new_false_support_case_ids": [
+      "4e729102ac31430fb77e0c1e302162b7",
+      "644ecee72a2244bab786f3ceef6319fb",
+      "9cec964c26804fb3af471484a4856475"
+    ],
+    "deberta_resolved_false_support_case_ids": [
+      "11efd2c13b044edfba209a04e44d7213",
+      "24c5dad7938e4fa4be64ebce849d1c79",
+      "3bb31703b26e4ff9b984e52dc09b209d",
+      "5ffe7566ba174562a669f4d2c3a2044a",
+      "6640cdf0e17d4bf285ee60ebe9a86d62",
+      "784a8a3a1ba7436f8e59f843863e4d32",
+      "aeb1b25e00b1489d93a80d7aa34e6a2f",
+      "cd53967d83e94cc9972d392d7edeead8",
+      "ceeb2aefe6894d779030fd68ee3e0bf5",
+      "fbeeae3b2a074cf6bceba4daed592a0d"
+    ]
+  },
+  "by_phenomenon": {
+    "minilm": {
+      "negation": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 14,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.9333333333333333,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 0,
+        "unsupported_as_supported_rate": 0.0,
+        "supported_cases": 5,
+        "supported_correct": 4,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 4,
+        "confusion": {
+          "supported": {
+            "supported": 4,
+            "contradicted": 1,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 0,
+            "not_established": 5,
+            "abstain": 0
+          }
+        }
+      },
+      "quantity": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 6,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.4,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 4,
+        "unsupported_as_supported_rate": 0.4,
+        "supported_cases": 5,
+        "supported_correct": 1,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 0,
+        "confusion": {
+          "supported": {
+            "supported": 1,
+            "contradicted": 3,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 2,
+            "contradicted": 3,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 2,
+            "contradicted": 1,
+            "not_established": 2,
+            "abstain": 0
+          }
+        }
+      },
+      "quantifiers": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 9,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.6,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 4,
+        "unsupported_as_supported_rate": 0.4,
+        "supported_cases": 5,
+        "supported_correct": 5,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 0,
+        "confusion": {
+          "supported": {
+            "supported": 5,
+            "contradicted": 0,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 3,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 3,
+            "contradicted": 1,
+            "not_established": 1,
+            "abstain": 0
+          }
+        }
+      },
+      "time": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 6,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.4,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 3,
+        "unsupported_as_supported_rate": 0.3,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 0,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 2,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 4,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 2,
+            "contradicted": 3,
+            "not_established": 0,
+            "abstain": 0
+          }
+        }
+      },
+      "location": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 10,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.6666666666666666,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 2,
+        "unsupported_as_supported_rate": 0.2,
+        "supported_cases": 5,
+        "supported_correct": 4,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 1,
+        "confusion": {
+          "supported": {
+            "supported": 4,
+            "contradicted": 1,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 4,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 1,
+            "contradicted": 2,
+            "not_established": 2,
+            "abstain": 0
+          }
+        }
+      },
+      "conditionals": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 8,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.5333333333333333,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 1,
+        "unsupported_as_supported_rate": 0.1,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 0,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 1,
+            "not_established": 2,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 1,
+            "contradicted": 3,
+            "not_established": 1,
+            "abstain": 0
+          }
+        }
+      },
+      "attribution": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 9,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.6,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 2,
+        "unsupported_as_supported_rate": 0.2,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 1,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 0,
+            "not_established": 3,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 2,
+            "contradicted": 2,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 0,
+            "not_established": 5,
+            "abstain": 0
+          }
+        }
+      },
+      "cross_source": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 11,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.7333333333333333,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 0,
+        "unsupported_as_supported_rate": 0.0,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 1,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 3,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 1,
+            "not_established": 4,
+            "abstain": 0
+          }
+        }
+      }
+    },
+    "deberta": {
+      "negation": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 13,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.8666666666666667,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 0,
+        "unsupported_as_supported_rate": 0.0,
+        "supported_cases": 5,
+        "supported_correct": 4,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 3,
+        "confusion": {
+          "supported": {
+            "supported": 4,
+            "contradicted": 0,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 1,
+            "not_established": 4,
+            "abstain": 0
+          }
+        }
+      },
+      "quantity": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 6,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.4,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 2,
+        "unsupported_as_supported_rate": 0.2,
+        "supported_cases": 5,
+        "supported_correct": 0,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 0,
+        "confusion": {
+          "supported": {
+            "supported": 0,
+            "contradicted": 4,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 4,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 1,
+            "contradicted": 2,
+            "not_established": 2,
+            "abstain": 0
+          }
+        }
+      },
+      "quantifiers": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 13,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.8666666666666667,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 1,
+        "unsupported_as_supported_rate": 0.1,
+        "supported_cases": 5,
+        "supported_correct": 5,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 3,
+        "confusion": {
+          "supported": {
+            "supported": 5,
+            "contradicted": 0,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 1,
+            "contradicted": 1,
+            "not_established": 3,
+            "abstain": 0
+          }
+        }
+      },
+      "time": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 10,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.6666666666666666,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 2,
+        "unsupported_as_supported_rate": 0.2,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 1,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 2,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 2,
+            "contradicted": 0,
+            "not_established": 3,
+            "abstain": 0
+          }
+        }
+      },
+      "location": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 12,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.8,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 0,
+        "unsupported_as_supported_rate": 0.0,
+        "supported_cases": 5,
+        "supported_correct": 3,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 3,
+        "confusion": {
+          "supported": {
+            "supported": 3,
+            "contradicted": 2,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 0,
+            "contradicted": 5,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 1,
+            "not_established": 4,
+            "abstain": 0
+          }
+        }
+      },
+      "conditionals": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 8,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.5333333333333333,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 2,
+        "unsupported_as_supported_rate": 0.2,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 1,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 2,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 4,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 1,
+            "contradicted": 2,
+            "not_established": 2,
+            "abstain": 0
+          }
+        }
+      },
+      "attribution": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 13,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.8666666666666667,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 1,
+        "unsupported_as_supported_rate": 0.1,
+        "supported_cases": 5,
+        "supported_correct": 4,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 4,
+        "confusion": {
+          "supported": {
+            "supported": 4,
+            "contradicted": 0,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 4,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 0,
+            "not_established": 5,
+            "abstain": 0
+          }
+        }
+      },
+      "cross_source": {
+        "cases": 15,
+        "predictions": 15,
+        "abstentions": 0,
+        "correct": 9,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.6,
+        "unsupported_cases": 10,
+        "unsupported_as_supported": 1,
+        "unsupported_as_supported_rate": 0.1,
+        "supported_cases": 5,
+        "supported_correct": 2,
+        "matched_groups": 5,
+        "complete_matched_groups_correct": 2,
+        "confusion": {
+          "supported": {
+            "supported": 2,
+            "contradicted": 2,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 1,
+            "contradicted": 4,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 0,
+            "contradicted": 2,
+            "not_established": 3,
+            "abstain": 0
+          }
+        }
+      }
+    }
+  },
+  "label_review": {
+    "cases": 120,
+    "primary_agreement": 112,
+    "primary_disagreements": [
+      {
+        "case_id": "b9ae0e0db96340098ee42a5346187554",
+        "original_label": "supported",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "872a405cf0124dcdb2eb343846391a87",
+        "original_label": "contradicted",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "e623545964f74a3e9923c0ef4a39a4b7",
+        "original_label": "contradicted",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "f31f3390b23743ccb4dd6497710f698f",
+        "original_label": "supported",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "b80dae30a3ed48df9157103159f9c991",
+        "original_label": "contradicted",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "dfcec95958284ed2a9d643b1dc9327aa",
+        "original_label": "contradicted",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "3f01bd04887f4ceb998198c4cd089699",
+        "original_label": "supported",
+        "review_primary_label": "not_established"
+      },
+      {
+        "case_id": "638bfd2cb89c41e585c0da6a0c111f8f",
+        "original_label": "supported",
+        "review_primary_label": "not_established"
+      }
+    ],
+    "flagged_case_ids": [
+      "3ed271dd8d7b4a31b3d9fe2e6c876afd",
+      "3f01bd04887f4ceb998198c4cd089699",
+      "4e729102ac31430fb77e0c1e302162b7",
+      "5cd7c700762a4f17951438a568fab5c4",
+      "638bfd2cb89c41e585c0da6a0c111f8f",
+      "65b63c0b096b49a3b87ef54070cfcc84",
+      "872a405cf0124dcdb2eb343846391a87",
+      "b80dae30a3ed48df9157103159f9c991",
+      "b9ae0e0db96340098ee42a5346187554",
+      "dfcec95958284ed2a9d643b1dc9327aa",
+      "e623545964f74a3e9923c0ef4a39a4b7",
+      "f31f3390b23743ccb4dd6497710f698f"
+    ],
+    "flagged_groups": [
+      "32d5f782d94249c99bb5f94830ba42f5",
+      "72fa56e5c7964553a7f96182922220a3",
+      "83f9f1e909bf47e29a51f02833de022c",
+      "c19f9b5d2bd141eebc1219b6e51b788e",
+      "fb312babad24403583febe221b829c61",
+      "fce73a6432584be4a2ec254c8621a516"
+    ],
+    "unresolved": true,
+    "one_independent_review_per_case": true,
+    "original_labels_and_text_unchanged": true
+  },
+  "ambiguity_excluded_sensitivity": {
+    "policy": "Exclude every complete matched triple containing any independent ambiguity flag or primary-label disagreement, irrespective of model outcome. Post-inference secondary analysis; not a replacement primary result.",
+    "excluded_groups": [
+      "32d5f782d94249c99bb5f94830ba42f5",
+      "72fa56e5c7964553a7f96182922220a3",
+      "83f9f1e909bf47e29a51f02833de022c",
+      "c19f9b5d2bd141eebc1219b6e51b788e",
+      "fb312babad24403583febe221b829c61",
+      "fce73a6432584be4a2ec254c8621a516"
+    ],
+    "excluded_case_ids": [
+      "1272e5b83aeb4a4fa475c40ff946dc72",
+      "24c5dad7938e4fa4be64ebce849d1c79",
+      "2f13ec16c835426980d409227a7f89ef",
+      "3ebd8941501a43608ab9e432134f282e",
+      "3ed271dd8d7b4a31b3d9fe2e6c876afd",
+      "3f01bd04887f4ceb998198c4cd089699",
+      "4e729102ac31430fb77e0c1e302162b7",
+      "54d3ab2c5a5b4428866b81a0ab936197",
+      "5cd7c700762a4f17951438a568fab5c4",
+      "638bfd2cb89c41e585c0da6a0c111f8f",
+      "65b63c0b096b49a3b87ef54070cfcc84",
+      "872a405cf0124dcdb2eb343846391a87",
+      "b80dae30a3ed48df9157103159f9c991",
+      "b9ae0e0db96340098ee42a5346187554",
+      "dfcec95958284ed2a9d643b1dc9327aa",
+      "e1d56308a46341ac98aefd0a676fd537",
+      "e623545964f74a3e9923c0ef4a39a4b7",
+      "f31f3390b23743ccb4dd6497710f698f"
+    ],
+    "remaining_cases_by_phenomenon": {
+      "negation": 15,
+      "conditionals": 15,
+      "time": 15,
+      "quantity": 15,
+      "attribution": 15,
+      "location": 12,
+      "quantifiers": 12,
+      "cross_source": 3
+    },
+    "result": {
+      "minilm": {
+        "cases": 102,
+        "predictions": 102,
+        "abstentions": 0,
+        "correct": 61,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.5980392156862745,
+        "unsupported_cases": 68,
+        "unsupported_as_supported": 15,
+        "unsupported_as_supported_rate": 0.22058823529411764,
+        "supported_cases": 34,
+        "supported_correct": 19,
+        "matched_groups": 34,
+        "complete_matched_groups_correct": 6,
+        "confusion": {
+          "supported": {
+            "supported": 19,
+            "contradicted": 8,
+            "not_established": 7,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 7,
+            "contradicted": 26,
+            "not_established": 1,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 8,
+            "contradicted": 10,
+            "not_established": 16,
+            "abstain": 0
+          }
+        }
+      },
+      "deberta": {
+        "cases": 102,
+        "predictions": 102,
+        "abstentions": 0,
+        "correct": 71,
+        "coverage": 1.0,
+        "accuracy_when_predicted": 0.696078431372549,
+        "unsupported_cases": 68,
+        "unsupported_as_supported": 8,
+        "unsupported_as_supported_rate": 0.11764705882352941,
+        "supported_cases": 34,
+        "supported_correct": 18,
+        "matched_groups": 34,
+        "complete_matched_groups_correct": 14,
+        "confusion": {
+          "supported": {
+            "supported": 18,
+            "contradicted": 11,
+            "not_established": 5,
+            "abstain": 0
+          },
+          "contradicted": {
+            "supported": 3,
+            "contradicted": 31,
+            "not_established": 0,
+            "abstain": 0
+          },
+          "not_established": {
+            "supported": 5,
+            "contradicted": 7,
+            "not_established": 22,
+            "abstain": 0
+          }
+        }
+      }
+    },
+    "paired": {
+      "correctness": {
+        "both_wrong": 24,
+        "both_correct": 54,
+        "deberta_only_correct": 17,
+        "minilm_only_correct": 7
+      },
+      "unsupported_false_support": {
+        "minilm_only_false_support": 9,
+        "neither_false_support": 51,
+        "both_false_support": 6,
+        "deberta_only_false_support": 2
+      },
+      "deberta_new_false_support_case_ids": [
+        "644ecee72a2244bab786f3ceef6319fb",
+        "9cec964c26804fb3af471484a4856475"
+      ],
+      "deberta_resolved_false_support_case_ids": [
+        "11efd2c13b044edfba209a04e44d7213",
+        "3bb31703b26e4ff9b984e52dc09b209d",
+        "5ffe7566ba174562a669f4d2c3a2044a",
+        "6640cdf0e17d4bf285ee60ebe9a86d62",
+        "784a8a3a1ba7436f8e59f843863e4d32",
+        "aeb1b25e00b1489d93a80d7aa34e6a2f",
+        "cd53967d83e94cc9972d392d7edeead8",
+        "ceeb2aefe6894d779030fd68ee3e0bf5",
+        "fbeeae3b2a074cf6bceba4daed592a0d"
+      ]
+    }
+  },
+  "runtime_health": {
+    "minilm": {
+      "trace_count": 120,
+      "reason_counts": {
+        "three_class_argmax": 120
+      },
+      "minimum_pair_tokens": 46,
+      "maximum_pair_tokens": 82,
+      "total_pair_tokens": 7386,
+      "truncation": false,
+      "resources": {
+        "timeout": false,
+        "exit_code": 0,
+        "wall_seconds": 14.212772454000515,
+        "user_cpu_seconds": 13.740758,
+        "system_cpu_seconds": 0.452711,
+        "max_rss_kib_linux": 631708,
+        "address_space_limit_bytes": 6442450944,
+        "scope": "One dedicated runner process including checks/loading; 600-second timeout and 6-GiB address-space limit. No per-case latency claim."
+      }
+    },
+    "deberta": {
+      "trace_count": 120,
+      "reason_counts": {
+        "three_class_argmax": 120
+      },
+      "minimum_pair_tokens": 43,
+      "maximum_pair_tokens": 78,
+      "total_pair_tokens": 7067,
+      "truncation": false,
+      "resources": {
+        "timeout": false,
+        "exit_code": 0,
+        "wall_seconds": 49.2864565489981,
+        "user_cpu_seconds": 48.57436,
+        "system_cpu_seconds": 0.661037,
+        "max_rss_kib_linux": 1898624,
+        "address_space_limit_bytes": 6442450944,
+        "scope": "One dedicated runner process including checks/loading; 600-second timeout and 6-GiB address-space limit. No per-case latency claim."
+      }
+    }
+  },
+  "limits": [
+    "The original 120-case scores include disputed/ambiguous labels; the sensitivity result removes all six affected groups without relabeling.",
+    "Matched triples share premises and are dependent observations; eight phenomena have only five initial groups each. No population confidence interval or statistical superiority claim.",
+    "The exclusion substantially reduces cross-source coverage. Remaining agreement is not expert or external gold validation.",
+    "This challenge is disclosed regression data now. No candidate was changed based on its first predictions. Further tuning needs new held-out evaluation.",
+    "Model source licensing does not qualify training rights, source truth, religious text, citation scope or real-world safety.",
+    "One process per model with one CPU thread, a 600-second timeout and a 6-GiB address-space limit. Different loading/verification costs and one fixed run order mean this is not a latency comparison.",
+    "Inference used clean separate HOME/cache/temp and application-level offline/local-only loading, not an OS-enforced network sandbox or inference-time network audit.",
+    "No private or religious corpus, paid service, runtime integration, main-branch merge or deployment was used."
+  ]
+}

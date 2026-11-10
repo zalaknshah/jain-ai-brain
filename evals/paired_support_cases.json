@@ -1,0 +1,2526 @@
+{
+  "protocol": 1,
+  "scope": "Original fictional English claim-support challenge authored independently of candidate identities, outputs, and existing fixtures. Labels are author judgments for a frozen offline comparison, not external or expert validation. Facts not settled by the supplied passages remain not established.",
+  "cases": [
+    {
+      "id": "4925d7c00ccf4ff2bc9d8922a3cfb5a1",
+      "group_id": "525a59cdce4444ea92acf79ad636a130",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "e5943df240db4fd8811c799b2bdf08d0",
+          "text": "Meral declined to lend the atlas because its binding had become fragile. No pages were missing: she had just checked the complete sequence. She said the atlas could travel once the binding had been repaired."
+        }
+      ],
+      "claim": "Meral intended to repair the binding herself.",
+      "citations": [
+        {
+          "passage_id": "e5943df240db4fd8811c799b2bdf08d0",
+          "quote": "Meral declined to lend the atlas because its binding had become fragile. No pages were missing: she had just checked the complete sequence. She said the atlas could travel once the binding had been repaired."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Repair is a condition for later travel, but no repairer is identified."
+    },
+    {
+      "id": "9cec964c26804fb3af471484a4856475",
+      "group_id": "75ab8536b6aa46169483d91175878f4a",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "c8af9ddac6ee483d804b0312d3be7453",
+          "text": "The sorting machine lets a packet emerge at the archive end only if the packet bears a wax seal. Luro's packet had no wax seal when it went through the machine, and the machine added no seals. The log does not name its eventual destination."
+        }
+      ],
+      "claim": "Luro's packet emerged at the archive end.",
+      "citations": [
+        {
+          "passage_id": "c8af9ddac6ee483d804b0312d3be7453",
+          "quote": "The sorting machine lets a packet emerge at the archive end only if the packet bears a wax seal. Luro's packet had no wax seal when it went through the machine, and the machine added no seals. The log does not name its eventual destination."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The machine requires a wax seal for that exit, and this packet lacked one."
+    },
+    {
+      "id": "633c9e9e052c45e5a561d76ae732255c",
+      "group_id": "6c4679d3fc184bae8b4a55de2da4df82",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "f8b12ad2c16a42d985f0943afa67252b",
+          "text": "Veya found the compass needle in the drawer for spare hinges. It was neither broken nor missing from the workshop. She put that same needle back into the compass; she did not fit a replacement."
+        }
+      ],
+      "claim": "Veya repaired the compass by fitting a different needle.",
+      "citations": [
+        {
+          "passage_id": "f8b12ad2c16a42d985f0943afa67252b",
+          "quote": "Veya found the compass needle in the drawer for spare hinges. It was neither broken nor missing from the workshop. She put that same needle back into the compass; she did not fit a replacement."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The passage expressly identifies the returned needle as the same one."
+    },
+    {
+      "id": "92c5349b93464fe7b16deaa1bcf78d89",
+      "group_id": "fdeadf63670a441582c6dd9b9b13d7ea",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "067e2343eba74fc6b06a0c22aa325628",
+          "text": "The cabinet stayed locked from dusk until the following dawn. During the night, a visitor left an envelope outside it. At dawn, the archivist read the envelope's letter and only then unlocked the cabinet."
+        }
+      ],
+      "claim": "The visitor wrote the letter before dusk.",
+      "citations": [
+        {
+          "passage_id": "067e2343eba74fc6b06a0c22aa325628",
+          "quote": "The cabinet stayed locked from dusk until the following dawn. During the night, a visitor left an envelope outside it. At dawn, the archivist read the envelope's letter and only then unlocked the cabinet."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Delivery occurred at night, but the writing time is not given."
+    },
+    {
+      "id": "3ed271dd8d7b4a31b3d9fe2e6c876afd",
+      "group_id": "83f9f1e909bf47e29a51f02833de022c",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "92c89b3076b34b45893223d83b45d4cc",
+          "text": "In the valley, every shellcrawler has paired whiskers and lacks wings. Shellcrawlers can be male or female."
+        },
+        {
+          "id": "8534e342bc7448a3978f4e679c433b43",
+          "text": "Nemi kept a shellcrawler in her glass box. Neither its keeper nor the account of its capture identifies its sex."
+        }
+      ],
+      "claim": "The creature in Nemi's glass box has wings.",
+      "citations": [
+        {
+          "passage_id": "92c89b3076b34b45893223d83b45d4cc",
+          "quote": "In the valley, every shellcrawler has paired whiskers and lacks wings. Shellcrawlers can be male or female."
+        },
+        {
+          "passage_id": "8534e342bc7448a3978f4e679c433b43",
+          "quote": "Nemi kept a shellcrawler in her glass box. Neither its keeper nor the account of its capture identifies its sex."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The identified species is expressly wingless."
+    },
+    {
+      "id": "7a2760ab47b34a3b826a5ef7a1c5f035",
+      "group_id": "babeea3a7956483bb7c570e4751c97e5",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "911334d4a9874464b30fd5fee0c5f515",
+          "text": "Orbel had a single strip of sailcloth thirty-six meters long. She cut four pieces of seven meters each, wasting no cloth. She kept the entire uncut remainder in a chest."
+        }
+      ],
+      "claim": "Orbel put twelve meters of uncut sailcloth into the chest.",
+      "citations": [
+        {
+          "passage_id": "911334d4a9874464b30fd5fee0c5f515",
+          "quote": "Orbel had a single strip of sailcloth thirty-six meters long. She cut four pieces of seven meters each, wasting no cloth. She kept the entire uncut remainder in a chest."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Thirty-six minus four times seven is eight meters."
+    },
+    {
+      "id": "b800ef9a62794868bcc69c79ffe9f269",
+      "group_id": "88277891774a4e87915ba984731bffea",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "9ac49dd7857841cfb064edb81083f92c",
+          "text": "Pell repeated the market rumor that the windmill had been sold, stressing that he was passing it on without vouching for it. Tovan replied that no sale had happened. The chronicler recorded the exchange without checking the mill's ownership."
+        }
+      ],
+      "claim": "Pell repeated the sale story without endorsing its truth.",
+      "citations": [
+        {
+          "passage_id": "9ac49dd7857841cfb064edb81083f92c",
+          "quote": "Pell repeated the market rumor that the windmill had been sold, stressing that he was passing it on without vouching for it. Tovan replied that no sale had happened. The chronicler recorded the exchange without checking the mill's ownership."
+        }
+      ],
+      "label": "supported",
+      "rationale": "His explicit disclaimer separates repetition from endorsement."
+    },
+    {
+      "id": "3ebd8941501a43608ab9e432134f282e",
+      "group_id": "fce73a6432584be4a2ec254c8621a516",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "32461c8ce5a749ed9eee562a4f23495a",
+          "text": "The port register lists the Copper Finch as the vessel locally known as Skiff Seven. The two names refer to one boat, not to sister vessels."
+        },
+        {
+          "id": "84fad5dd04af4d9b84d5505bf61be53f",
+          "text": "The unloading log says Skiff Seven arrived with seventeen tile crates. Four were taken ashore, and no other crates were added or removed before the boat left again."
+        }
+      ],
+      "claim": "The Copper Finch belonged to the tile maker.",
+      "citations": [
+        {
+          "passage_id": "32461c8ce5a749ed9eee562a4f23495a",
+          "quote": "The port register lists the Copper Finch as the vessel locally known as Skiff Seven. The two names refer to one boat, not to sister vessels."
+        },
+        {
+          "passage_id": "84fad5dd04af4d9b84d5505bf61be53f",
+          "quote": "The unloading log says Skiff Seven arrived with seventeen tile crates. Four were taken ashore, and no other crates were added or removed before the boat left again."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Identity and cargo handling do not establish ownership."
+    },
+    {
+      "id": "ac440f26b0d2426f83356dea9ca558ee",
+      "group_id": "e42c8901001c487984c81237db05c95b",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "25b961bd34a04fad9e6b80956ba90f75",
+          "text": "The charter ink dried at 10:00, and the courier departed at 10:20. The seal was applied after the ink dried but before the courier departed. The scribe took a brief break at 10:12; the record does not relate the seal to that break."
+        }
+      ],
+      "claim": "The charter had already dried when the seal was applied.",
+      "citations": [
+        {
+          "passage_id": "25b961bd34a04fad9e6b80956ba90f75",
+          "quote": "The charter ink dried at 10:00, and the courier departed at 10:20. The seal was applied after the ink dried but before the courier departed. The scribe took a brief break at 10:12; the record does not relate the seal to that break."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Drying is explicitly earlier than sealing."
+    },
+    {
+      "id": "298207ce5b284a97b831827027a4b654",
+      "group_id": "dad573a16004427da5b17c0a9d7317e3",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "2cc2b04fc4304b01bf9fb27b23f0f771",
+          "text": "In Mirrel's drawing, a name could enter the final bowl only if it had survived the first draw. The clerk showed Oset's name in the final bowl before the winner was selected. No result of the final selection appears in the record."
+        }
+      ],
+      "claim": "Oset's name failed to survive the first draw.",
+      "citations": [
+        {
+          "passage_id": "2cc2b04fc4304b01bf9fb27b23f0f771",
+          "quote": "In Mirrel's drawing, a name could enter the final bowl only if it had survived the first draw. The clerk showed Oset's name in the final bowl before the winner was selected. No result of the final selection appears in the record."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "That would exclude the name from the final bowl, where it was observed."
+    },
+    {
+      "id": "861b41a08dfd4c2fa138a0c8243af2d2",
+      "group_id": "88277891774a4e87915ba984731bffea",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "9ac49dd7857841cfb064edb81083f92c",
+          "text": "Pell repeated the market rumor that the windmill had been sold, stressing that he was passing it on without vouching for it. Tovan replied that no sale had happened. The chronicler recorded the exchange without checking the mill's ownership."
+        }
+      ],
+      "claim": "Pell vouched for the truth of the windmill sale story.",
+      "citations": [
+        {
+          "passage_id": "9ac49dd7857841cfb064edb81083f92c",
+          "quote": "Pell repeated the market rumor that the windmill had been sold, stressing that he was passing it on without vouching for it. Tovan replied that no sale had happened. The chronicler recorded the exchange without checking the mill's ownership."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "He explicitly said he was not vouching for the rumor."
+    },
+    {
+      "id": "a3704fbe07e149f380dcd822824cf7ba",
+      "group_id": "4eac860fff18492d9af7a19d400ed54e",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "97d6ba9d1cac4b39821789182c7dfef8",
+          "text": "Seln opposed stopping every sailing from Glassmere. The harbor adopted a narrower plan: it cancelled the two scheduled night sailings, while the daytime boats continued to sail. The notice said nothing about changes to daytime departure times."
+        }
+      ],
+      "claim": "Some scheduled sailings were cancelled, but sailing from Glassmere did not stop entirely.",
+      "citations": [
+        {
+          "passage_id": "97d6ba9d1cac4b39821789182c7dfef8",
+          "quote": "Seln opposed stopping every sailing from Glassmere. The harbor adopted a narrower plan: it cancelled the two scheduled night sailings, while the daytime boats continued to sail. The notice said nothing about changes to daytime departure times."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The night sailings were cancelled and daytime boats continued."
+    },
+    {
+      "id": "dfc3b1a0ceb841908eaae63fba069d6b",
+      "group_id": "339611d6ece1437f92f99ed60813a1d9",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "737c49029b534cbf842f50d77c6d4894",
+          "text": "The library occupies the lower floor of Sable Tower. The council hall is a separate building across the square. The moon atlas lay on a desk inside the library throughout the meeting."
+        }
+      ],
+      "claim": "The moon atlas was inside Sable Tower during the meeting.",
+      "citations": [
+        {
+          "passage_id": "737c49029b534cbf842f50d77c6d4894",
+          "quote": "The library occupies the lower floor of Sable Tower. The council hall is a separate building across the square. The moon atlas lay on a desk inside the library throughout the meeting."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The atlas was in the library, which is inside the tower."
+    },
+    {
+      "id": "b1eef7de070e47d6bc7b58f819160ab8",
+      "group_id": "456cf58d79f14ca78882787f2e9f7401",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "e8646702e6bd4764a87c434d4de4f43a",
+          "text": "The reservoir float operates without fail: whenever it rises above the red line, it closes the spillgate and switches on the blue lamp. At noon it rose above the red line. The keeper's notebook does not mention a warning bell."
+        }
+      ],
+      "claim": "A warning bell rang at noon.",
+      "citations": [
+        {
+          "passage_id": "e8646702e6bd4764a87c434d4de4f43a",
+          "quote": "The reservoir float operates without fail: whenever it rises above the red line, it closes the spillgate and switches on the blue lamp. At noon it rose above the red line. The keeper's notebook does not mention a warning bell."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The mechanism's stated effects do not include a bell, and its absence from the notes does not settle whether it rang."
+    },
+    {
+      "id": "7e5e930b08944ff98d9b7253eb6cb4cc",
+      "group_id": "54a80aca1b914f538bd3f11d474d7eb3",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "199a31f043f7496c9d66946d0d1bcdc7",
+          "text": "Seven bells hung in the salt tower. The keeper established that not all seven were bronze. She also established that none of the seven contained any iron. She did not record how many bells were made of each material."
+        }
+      ],
+      "claim": "At least one salt-tower bell was not bronze.",
+      "citations": [
+        {
+          "passage_id": "199a31f043f7496c9d66946d0d1bcdc7",
+          "quote": "Seven bells hung in the salt tower. The keeper established that not all seven were bronze. She also established that none of the seven contained any iron. She did not record how many bells were made of each material."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Not all of a nonempty collection being bronze entails a non-bronze member."
+    },
+    {
+      "id": "8d7dac6bd58c4449bc9fb89c9b0b2d72",
+      "group_id": "babeea3a7956483bb7c570e4751c97e5",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "911334d4a9874464b30fd5fee0c5f515",
+          "text": "Orbel had a single strip of sailcloth thirty-six meters long. She cut four pieces of seven meters each, wasting no cloth. She kept the entire uncut remainder in a chest."
+        }
+      ],
+      "claim": "The remainder could provide one more seven-meter piece, but not two.",
+      "citations": [
+        {
+          "passage_id": "911334d4a9874464b30fd5fee0c5f515",
+          "quote": "Orbel had a single strip of sailcloth thirty-six meters long. She cut four pieces of seven meters each, wasting no cloth. She kept the entire uncut remainder in a chest."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The cuts used twenty-eight meters, leaving eight; eight is enough for seven but not fourteen."
+    },
+    {
+      "id": "bfe862ad7ef04734ab00bed35937960c",
+      "group_id": "0086ccf86cc3483f81633388b8792a3c",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "c677b819c83943b580c6d913114088cf",
+          "text": "The fair calendar schedules the market opening for the seventeenth of Marn. The procession is scheduled for two days after that opening."
+        },
+        {
+          "id": "a44aa730a9924ad99021a255e9fcfb5e",
+          "text": "The rehearsal notice schedules the first procession rehearsal for the day immediately before the procession. Marn has thirty days, and these notices have not been revised."
+        }
+      ],
+      "claim": "The first procession rehearsal is scheduled for the eighteenth of Marn.",
+      "citations": [
+        {
+          "passage_id": "c677b819c83943b580c6d913114088cf",
+          "quote": "The fair calendar schedules the market opening for the seventeenth of Marn. The procession is scheduled for two days after that opening."
+        },
+        {
+          "passage_id": "a44aa730a9924ad99021a255e9fcfb5e",
+          "quote": "The rehearsal notice schedules the first procession rehearsal for the day immediately before the procession. Marn has thirty days, and these notices have not been revised."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The procession is on the nineteenth, so the preceding day is the eighteenth."
+    },
+    {
+      "id": "cee399632fa4446094634f0570b01f2d",
+      "group_id": "f8e50059225c4d44bbd1a3dc92921c45",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "ab8b24fc89174cb4909817bfee85d3c4",
+          "text": "The first festival gong sounded before the supply cart arrived at Lark Fen. The cart arrived before the ribbon was cut. A visiting painter set up an easel that same morning, but the account does not place that event among the others."
+        }
+      ],
+      "claim": "The painter set up the easel before the cart arrived.",
+      "citations": [
+        {
+          "passage_id": "ab8b24fc89174cb4909817bfee85d3c4",
+          "quote": "The first festival gong sounded before the supply cart arrived at Lark Fen. The cart arrived before the ribbon was cut. A visiting painter set up an easel that same morning, but the account does not place that event among the others."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Being on the same morning supplies no order relative to the cart."
+    },
+    {
+      "id": "1f6ebfff8aaf4339934cd2c92e2ef36e",
+      "group_id": "f8e50059225c4d44bbd1a3dc92921c45",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "ab8b24fc89174cb4909817bfee85d3c4",
+          "text": "The first festival gong sounded before the supply cart arrived at Lark Fen. The cart arrived before the ribbon was cut. A visiting painter set up an easel that same morning, but the account does not place that event among the others."
+        }
+      ],
+      "claim": "The first gong sounded earlier than the ribbon cutting.",
+      "citations": [
+        {
+          "passage_id": "ab8b24fc89174cb4909817bfee85d3c4",
+          "quote": "The first festival gong sounded before the supply cart arrived at Lark Fen. The cart arrived before the ribbon was cut. A visiting painter set up an easel that same morning, but the account does not place that event among the others."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The gong preceded the cart, which preceded the cutting."
+    },
+    {
+      "id": "ec955efe867f49caba34076bc898bac3",
+      "group_id": "bc612f7f9b7a469cb57d6426717b962d",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "c8014e5ecbc5428c9bdccd81894a5719",
+          "text": "Fen's travel letter said, \"I saw a pale plume over the quarry, but I could not tell smoke from dust.\" The editor titled it Fire at the Quarry. Fen protested that she had not claimed there was a fire. No later inspection is described."
+        }
+      ],
+      "claim": "A fire actually occurred at the quarry.",
+      "citations": [
+        {
+          "passage_id": "c8014e5ecbc5428c9bdccd81894a5719",
+          "quote": "Fen's travel letter said, \"I saw a pale plume over the quarry, but I could not tell smoke from dust.\" The editor titled it Fire at the Quarry. Fen protested that she had not claimed there was a fire. No later inspection is described."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The headline and uncertain observation do not resolve the plume's cause."
+    },
+    {
+      "id": "2641e342e1e04d3abb8f0c1030cf5c2e",
+      "group_id": "525a59cdce4444ea92acf79ad636a130",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "e5943df240db4fd8811c799b2bdf08d0",
+          "text": "Meral declined to lend the atlas because its binding had become fragile. No pages were missing: she had just checked the complete sequence. She said the atlas could travel once the binding had been repaired."
+        }
+      ],
+      "claim": "Meral refused the loan because several atlas pages were missing.",
+      "citations": [
+        {
+          "passage_id": "e5943df240db4fd8811c799b2bdf08d0",
+          "quote": "Meral declined to lend the atlas because its binding had become fragile. No pages were missing: she had just checked the complete sequence. She said the atlas could travel once the binding had been repaired."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The atlas had every page, and a different cause is explicitly given."
+    },
+    {
+      "id": "58961135031a4d87869e7a0dac01fb0e",
+      "group_id": "f8e50059225c4d44bbd1a3dc92921c45",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "ab8b24fc89174cb4909817bfee85d3c4",
+          "text": "The first festival gong sounded before the supply cart arrived at Lark Fen. The cart arrived before the ribbon was cut. A visiting painter set up an easel that same morning, but the account does not place that event among the others."
+        }
+      ],
+      "claim": "The ribbon was cut before the first festival gong sounded.",
+      "citations": [
+        {
+          "passage_id": "ab8b24fc89174cb4909817bfee85d3c4",
+          "quote": "The first festival gong sounded before the supply cart arrived at Lark Fen. The cart arrived before the ribbon was cut. A visiting painter set up an easel that same morning, but the account does not place that event among the others."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The given chain places the cutting after the first gong."
+    },
+    {
+      "id": "05e1d19bdf1c44d8a62a85474bd11d05",
+      "group_id": "eaa73a2fb2dd4207a2729171b1869e62",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "65efb82acd15407a933125d34fcd463a",
+          "text": "Fourteen small statues stood in the kiln room. Six were stone and the rest were clay. Exactly two of the clay statues were glazed; every other clay statue was unglazed. The stone statues were not described further."
+        }
+      ],
+      "claim": "Eight of the statues were unglazed clay.",
+      "citations": [
+        {
+          "passage_id": "65efb82acd15407a933125d34fcd463a",
+          "quote": "Fourteen small statues stood in the kiln room. Six were stone and the rest were clay. Exactly two of the clay statues were glazed; every other clay statue was unglazed. The stone statues were not described further."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Eight were clay in total, but two of those were glazed."
+    },
+    {
+      "id": "c77fc813873c40229f041c893708dada",
+      "group_id": "a890508ce19f40c79e6546e8595d4a4d",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "c6c1894df7c1474dac33da0ad113faf8",
+          "text": "Dema wrote in her journal, \"Rul believes the bronze bell was stolen. I think it was merely misplaced.\" The journal contains no account of finding the bell or checking either explanation."
+        }
+      ],
+      "claim": "Dema stated that she believed the bronze bell had been stolen.",
+      "citations": [
+        {
+          "passage_id": "c6c1894df7c1474dac33da0ad113faf8",
+          "quote": "Dema wrote in her journal, \"Rul believes the bronze bell was stolen. I think it was merely misplaced.\" The journal contains no account of finding the bell or checking either explanation."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "She states a different belief for herself and attributes theft to Rul."
+    },
+    {
+      "id": "cd0b8a098a13409c84234e925de2f5e6",
+      "group_id": "a217766610864d759c0986b32f35ef2a",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "b17d88ba96f9409ab88942210ac53dd3",
+          "text": "On the workshop clock, rope weaving ran continuously from 14:00 to 16:00. Flute practice ran continuously from 15:00 to 17:00 that same day. Neither activity paused. The apprentices also ate a meal, whose time was not entered."
+        }
+      ],
+      "claim": "Flute practice began only after rope weaving had finished.",
+      "citations": [
+        {
+          "passage_id": "b17d88ba96f9409ab88942210ac53dd3",
+          "quote": "On the workshop clock, rope weaving ran continuously from 14:00 to 16:00. Flute practice ran continuously from 15:00 to 17:00 that same day. Neither activity paused. The apprentices also ate a meal, whose time was not entered."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Practice began at 15:00, an hour before weaving finished."
+    },
+    {
+      "id": "784a8a3a1ba7436f8e59f843863e4d32",
+      "group_id": "2ab4dfb860154a05ad22a42cbcfc1e6a",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "28852539a68c4052a79bbe767b2e6fe1",
+          "text": "Every musician at the reed festival was a registered guest. Some registered guests stayed elsewhere for the entire festival and never slept at the inn. The lodging list does not identify which guests were musicians."
+        }
+      ],
+      "claim": "At least one of the festival musicians slept outside the inn.",
+      "citations": [
+        {
+          "passage_id": "28852539a68c4052a79bbe767b2e6fe1",
+          "quote": "Every musician at the reed festival was a registered guest. Some registered guests stayed elsewhere for the entire festival and never slept at the inn. The lodging list does not identify which guests were musicians."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The outside sleepers could be musicians or other guests; the two subsets are not linked."
+    },
+    {
+      "id": "45afeb232d0445979715807a1274735b",
+      "group_id": "bbabf6abf9544898a87009e0d9ef3f8f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "1073d608deb94cc6ba21c660283ae5b0",
+          "text": "At Brindle Quay, the bell ceremony was delayed, not cancelled. Its morning slot was released, and the revised notice said the ceremony would begin after sunset. The notice gave no reason for the change."
+        }
+      ],
+      "claim": "The ceremony remained on the schedule despite losing its morning slot.",
+      "citations": [
+        {
+          "passage_id": "1073d608deb94cc6ba21c660283ae5b0",
+          "quote": "At Brindle Quay, the bell ceremony was delayed, not cancelled. Its morning slot was released, and the revised notice said the ceremony would begin after sunset. The notice gave no reason for the change."
+        }
+      ],
+      "label": "supported",
+      "rationale": "A delay and a new evening start preserve the ceremony rather than remove it from the schedule."
+    },
+    {
+      "id": "8f000fa713f744c49dc3108506459a61",
+      "group_id": "6c4679d3fc184bae8b4a55de2da4df82",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "f8b12ad2c16a42d985f0943afa67252b",
+          "text": "Veya found the compass needle in the drawer for spare hinges. It was neither broken nor missing from the workshop. She put that same needle back into the compass; she did not fit a replacement."
+        }
+      ],
+      "claim": "Veya restored the original needle to the compass rather than replacing it.",
+      "citations": [
+        {
+          "passage_id": "f8b12ad2c16a42d985f0943afa67252b",
+          "quote": "Veya found the compass needle in the drawer for spare hinges. It was neither broken nor missing from the workshop. She put that same needle back into the compass; she did not fit a replacement."
+        }
+      ],
+      "label": "supported",
+      "rationale": "She returned the same needle and explicitly did not use a replacement."
+    },
+    {
+      "id": "b44b3974141045f5b5d0be6daac374ab",
+      "group_id": "e98c672bab2c48889e8a7b46e85c465f",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "e51f3c2fb22b485b8eb510034c5f88e8",
+          "text": "Anet, an apprentice at the amber foundry, crossed the rope bridge during the inspection. No apprentice other than Anet crossed it during that inspection. Several masters were present, but their movements were not recorded."
+        }
+      ],
+      "claim": "Exactly one apprentice crossed the bridge during the inspection.",
+      "citations": [
+        {
+          "passage_id": "e51f3c2fb22b485b8eb510034c5f88e8",
+          "quote": "Anet, an apprentice at the amber foundry, crossed the rope bridge during the inspection. No apprentice other than Anet crossed it during that inspection. Several masters were present, but their movements were not recorded."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Anet crossed, and all other apprentices are excluded."
+    },
+    {
+      "id": "254df90007604541a8a99224c1d85a96",
+      "group_id": "bbabf6abf9544898a87009e0d9ef3f8f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "1073d608deb94cc6ba21c660283ae5b0",
+          "text": "At Brindle Quay, the bell ceremony was delayed, not cancelled. Its morning slot was released, and the revised notice said the ceremony would begin after sunset. The notice gave no reason for the change."
+        }
+      ],
+      "claim": "The revised notice removed the ceremony from the schedule altogether.",
+      "citations": [
+        {
+          "passage_id": "1073d608deb94cc6ba21c660283ae5b0",
+          "quote": "At Brindle Quay, the bell ceremony was delayed, not cancelled. Its morning slot was released, and the revised notice said the ceremony would begin after sunset. The notice gave no reason for the change."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The notice retained the ceremony with a start after sunset."
+    },
+    {
+      "id": "fb833c1280484aa895e9d826c75ba6f7",
+      "group_id": "54a80aca1b914f538bd3f11d474d7eb3",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "199a31f043f7496c9d66946d0d1bcdc7",
+          "text": "Seven bells hung in the salt tower. The keeper established that not all seven were bronze. She also established that none of the seven contained any iron. She did not record how many bells were made of each material."
+        }
+      ],
+      "claim": "Exactly one of the seven bells was not bronze.",
+      "citations": [
+        {
+          "passage_id": "199a31f043f7496c9d66946d0d1bcdc7",
+          "quote": "Seven bells hung in the salt tower. The keeper established that not all seven were bronze. She also established that none of the seven contained any iron. She did not record how many bells were made of each material."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "At least one is established, but the number of non-bronze bells is unspecified."
+    },
+    {
+      "id": "dc31522a3d164b04b2d0b067dbb68153",
+      "group_id": "a217766610864d759c0986b32f35ef2a",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "b17d88ba96f9409ab88942210ac53dd3",
+          "text": "On the workshop clock, rope weaving ran continuously from 14:00 to 16:00. Flute practice ran continuously from 15:00 to 17:00 that same day. Neither activity paused. The apprentices also ate a meal, whose time was not entered."
+        }
+      ],
+      "claim": "Rope weaving and flute practice overlapped for one hour.",
+      "citations": [
+        {
+          "passage_id": "b17d88ba96f9409ab88942210ac53dd3",
+          "quote": "On the workshop clock, rope weaving ran continuously from 14:00 to 16:00. Flute practice ran continuously from 15:00 to 17:00 that same day. Neither activity paused. The apprentices also ate a meal, whose time was not entered."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Their shared interval runs from 15:00 to 16:00."
+    },
+    {
+      "id": "152b9f2f412740c6b9ee65c877b084cd",
+      "group_id": "5f1062e995a948159d0ec15ba4b17c3c",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "9d8609ba1cae4fa9ac7e36553b46fd33",
+          "text": "Everyone who keeps a reef clock in Nacre Hollow speaks Low Reed. Some of the hollow's gardeners keep reef clocks. Nothing in the town register describes the other gardeners' languages."
+        }
+      ],
+      "claim": "At least one gardener in Nacre Hollow speaks Low Reed.",
+      "citations": [
+        {
+          "passage_id": "9d8609ba1cae4fa9ac7e36553b46fd33",
+          "quote": "Everyone who keeps a reef clock in Nacre Hollow speaks Low Reed. Some of the hollow's gardeners keep reef clocks. Nothing in the town register describes the other gardeners' languages."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Some gardeners are clockkeepers, and every clockkeeper speaks the language."
+    },
+    {
+      "id": "638bfd2cb89c41e585c0da6a0c111f8f",
+      "group_id": "fb312babad24403583febe221b829c61",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "bfe6dc5375d546c9b0fa489f824c46f1",
+          "text": "For the frost watch, the tower roster names Teral as night keeper and Onwi as day keeper. No one exchanged roles that day."
+        },
+        {
+          "id": "d8e2fbd5b861429b85d5ceba6738832a",
+          "text": "The frost-watch log records that the night keeper lit the beacon after the day keeper had left. It says the day keeper did not light the beacon that day."
+        }
+      ],
+      "claim": "Teral lit the beacon after Onwi had left.",
+      "citations": [
+        {
+          "passage_id": "bfe6dc5375d546c9b0fa489f824c46f1",
+          "quote": "For the frost watch, the tower roster names Teral as night keeper and Onwi as day keeper. No one exchanged roles that day."
+        },
+        {
+          "passage_id": "d8e2fbd5b861429b85d5ceba6738832a",
+          "quote": "The frost-watch log records that the night keeper lit the beacon after the day keeper had left. It says the day keeper did not light the beacon that day."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The roster resolves the two roles used in the event log."
+    },
+    {
+      "id": "ffd406154cf64263a7e531ce6c13b584",
+      "group_id": "6c4679d3fc184bae8b4a55de2da4df82",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "f8b12ad2c16a42d985f0943afa67252b",
+          "text": "Veya found the compass needle in the drawer for spare hinges. It was neither broken nor missing from the workshop. She put that same needle back into the compass; she did not fit a replacement."
+        }
+      ],
+      "claim": "The misplaced needle had belonged to Veya before the workshop acquired it.",
+      "citations": [
+        {
+          "passage_id": "f8b12ad2c16a42d985f0943afa67252b",
+          "quote": "Veya found the compass needle in the drawer for spare hinges. It was neither broken nor missing from the workshop. She put that same needle back into the compass; she did not fit a replacement."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The account gives its location and handling but no ownership history."
+    },
+    {
+      "id": "508ec63655094f4e98bff33831060bbf",
+      "group_id": "88277891774a4e87915ba984731bffea",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "9ac49dd7857841cfb064edb81083f92c",
+          "text": "Pell repeated the market rumor that the windmill had been sold, stressing that he was passing it on without vouching for it. Tovan replied that no sale had happened. The chronicler recorded the exchange without checking the mill's ownership."
+        }
+      ],
+      "claim": "The windmill sale had actually been completed.",
+      "citations": [
+        {
+          "passage_id": "9ac49dd7857841cfb064edb81083f92c",
+          "quote": "Pell repeated the market rumor that the windmill had been sold, stressing that he was passing it on without vouching for it. Tovan replied that no sale had happened. The chronicler recorded the exchange without checking the mill's ownership."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The rumor and its denial remain unverified; neither settles ownership."
+    },
+    {
+      "id": "431f35bb7d23498a9f7819d6ec47b846",
+      "group_id": "e98c672bab2c48889e8a7b46e85c465f",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "e51f3c2fb22b485b8eb510034c5f88e8",
+          "text": "Anet, an apprentice at the amber foundry, crossed the rope bridge during the inspection. No apprentice other than Anet crossed it during that inspection. Several masters were present, but their movements were not recorded."
+        }
+      ],
+      "claim": "At least two apprentices crossed the bridge during the inspection.",
+      "citations": [
+        {
+          "passage_id": "e51f3c2fb22b485b8eb510034c5f88e8",
+          "quote": "Anet, an apprentice at the amber foundry, crossed the rope bridge during the inspection. No apprentice other than Anet crossed it during that inspection. Several masters were present, but their movements were not recorded."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Only Anet among the apprentices crossed."
+    },
+    {
+      "id": "8675d6dbbb2b433a8b4b58867049863a",
+      "group_id": "339611d6ece1437f92f99ed60813a1d9",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "737c49029b534cbf842f50d77c6d4894",
+          "text": "The library occupies the lower floor of Sable Tower. The council hall is a separate building across the square. The moon atlas lay on a desk inside the library throughout the meeting."
+        }
+      ],
+      "claim": "The desk holding the atlas stood beside the library's south wall.",
+      "citations": [
+        {
+          "passage_id": "737c49029b534cbf842f50d77c6d4894",
+          "quote": "The library occupies the lower floor of Sable Tower. The council hall is a separate building across the square. The moon atlas lay on a desk inside the library throughout the meeting."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The building and room are given, but the desk's position within the room is not."
+    },
+    {
+      "id": "f007f59e4bad4cd4947bfca6f8dfe72f",
+      "group_id": "dcb82833ba004989949dbc48f7b67135",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "17cc03e172cd40c2bfed29b0cf40756c",
+          "text": "At sunrise, twenty-seven boundary markers stood on the moor. During the survey, nine of these markers were removed and four new markers were installed. There were no other additions or removals that day."
+        }
+      ],
+      "claim": "Eighteen of the original markers remained after the survey.",
+      "citations": [
+        {
+          "passage_id": "17cc03e172cd40c2bfed29b0cf40756c",
+          "quote": "At sunrise, twenty-seven boundary markers stood on the moor. During the survey, nine of these markers were removed and four new markers were installed. There were no other additions or removals that day."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Removing nine from the original twenty-seven leaves eighteen originals."
+    },
+    {
+      "id": "3bb31703b26e4ff9b984e52dc09b209d",
+      "group_id": "3ba3ffa95273430aa83d92d2fd39c038",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "5cbb255634574e3b86f90edba13208c3",
+          "text": "At opening time, the green storage jar sat on the table beneath the window. Evin later moved it to the top shelf and left it there until the shop closed. The account does not say where the jar's detached lid was kept."
+        }
+      ],
+      "claim": "At closing time, the jar's lid was beside it on the top shelf.",
+      "citations": [
+        {
+          "passage_id": "5cbb255634574e3b86f90edba13208c3",
+          "quote": "At opening time, the green storage jar sat on the table beneath the window. Evin later moved it to the top shelf and left it there until the shop closed. The account does not say where the jar's detached lid was kept."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The jar's movement does not locate its detached lid."
+    },
+    {
+      "id": "0342dcb7ac76439fa87a532ea2fd6588",
+      "group_id": "5f1062e995a948159d0ec15ba4b17c3c",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "9d8609ba1cae4fa9ac7e36553b46fd33",
+          "text": "Everyone who keeps a reef clock in Nacre Hollow speaks Low Reed. Some of the hollow's gardeners keep reef clocks. Nothing in the town register describes the other gardeners' languages."
+        }
+      ],
+      "claim": "Every gardener in Nacre Hollow speaks Low Reed.",
+      "citations": [
+        {
+          "passage_id": "9d8609ba1cae4fa9ac7e36553b46fd33",
+          "quote": "Everyone who keeps a reef clock in Nacre Hollow speaks Low Reed. Some of the hollow's gardeners keep reef clocks. Nothing in the town register describes the other gardeners' languages."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The rule covers clockkeepers, not necessarily all gardeners."
+    },
+    {
+      "id": "ef21eda8194341a788f01ca8e41f0fb5",
+      "group_id": "e0821bf6ab9d4baa8db369a93a6e053d",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "757b67fe2e9f4977b3e6a66eba4af3b5",
+          "text": "Along one straight north-south road, the orchard gate lies north of the pond, and the pond lies north of the forge. Each occupies a different point on that road. The watchhouse is mentioned on the map without a marked position."
+        }
+      ],
+      "claim": "The watchhouse stands east of the road.",
+      "citations": [
+        {
+          "passage_id": "757b67fe2e9f4977b3e6a66eba4af3b5",
+          "quote": "Along one straight north-south road, the orchard gate lies north of the pond, and the pond lies north of the forge. Each occupies a different point on that road. The watchhouse is mentioned on the map without a marked position."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Its position is not marked or otherwise given."
+    },
+    {
+      "id": "8b1a2d80b2db42cda83dc5be561311ba",
+      "group_id": "a890508ce19f40c79e6546e8595d4a4d",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "c6c1894df7c1474dac33da0ad113faf8",
+          "text": "Dema wrote in her journal, \"Rul believes the bronze bell was stolen. I think it was merely misplaced.\" The journal contains no account of finding the bell or checking either explanation."
+        }
+      ],
+      "claim": "Dema favored misplacement over the theft explanation she attributed to Rul.",
+      "citations": [
+        {
+          "passage_id": "c6c1894df7c1474dac33da0ad113faf8",
+          "quote": "Dema wrote in her journal, \"Rul believes the bronze bell was stolen. I think it was merely misplaced.\" The journal contains no account of finding the bell or checking either explanation."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Her own stated view is misplacement, contrasting with the theft belief she assigns to Rul."
+    },
+    {
+      "id": "cd8e3b26887643e180afa945c5940b70",
+      "group_id": "5f1062e995a948159d0ec15ba4b17c3c",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "9d8609ba1cae4fa9ac7e36553b46fd33",
+          "text": "Everyone who keeps a reef clock in Nacre Hollow speaks Low Reed. Some of the hollow's gardeners keep reef clocks. Nothing in the town register describes the other gardeners' languages."
+        }
+      ],
+      "claim": "No gardener in Nacre Hollow speaks Low Reed.",
+      "citations": [
+        {
+          "passage_id": "9d8609ba1cae4fa9ac7e36553b46fd33",
+          "quote": "Everyone who keeps a reef clock in Nacre Hollow speaks Low Reed. Some of the hollow's gardeners keep reef clocks. Nothing in the town register describes the other gardeners' languages."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The gardeners who keep reef clocks provide counterexamples."
+    },
+    {
+      "id": "cd53967d83e94cc9972d392d7edeead8",
+      "group_id": "3c19e55f5d8e4dd68cb3c23ca932aea8",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "1e4d51c3ee20496ebdbae2ed22ccca11",
+          "text": "The opening of the cloud fair was moved from Tuesday to Thursday. The rehearsal stayed on Wednesday, as originally announced. Lantern hanging was completed on Monday. No time of day was given for the revised opening."
+        }
+      ],
+      "claim": "Under the revised plan, the fair opens before the Wednesday rehearsal.",
+      "citations": [
+        {
+          "passage_id": "1e4d51c3ee20496ebdbae2ed22ccca11",
+          "quote": "The opening of the cloud fair was moved from Tuesday to Thursday. The rehearsal stayed on Wednesday, as originally announced. Lantern hanging was completed on Monday. No time of day was given for the revised opening."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The opening is on Thursday, after that rehearsal."
+    },
+    {
+      "id": "f31f3390b23743ccb4dd6497710f698f",
+      "group_id": "fce73a6432584be4a2ec254c8621a516",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "32461c8ce5a749ed9eee562a4f23495a",
+          "text": "The port register lists the Copper Finch as the vessel locally known as Skiff Seven. The two names refer to one boat, not to sister vessels."
+        },
+        {
+          "id": "84fad5dd04af4d9b84d5505bf61be53f",
+          "text": "The unloading log says Skiff Seven arrived with seventeen tile crates. Four were taken ashore, and no other crates were added or removed before the boat left again."
+        }
+      ],
+      "claim": "The Copper Finch left again with thirteen tile crates.",
+      "citations": [
+        {
+          "passage_id": "32461c8ce5a749ed9eee562a4f23495a",
+          "quote": "The port register lists the Copper Finch as the vessel locally known as Skiff Seven. The two names refer to one boat, not to sister vessels."
+        },
+        {
+          "passage_id": "84fad5dd04af4d9b84d5505bf61be53f",
+          "quote": "The unloading log says Skiff Seven arrived with seventeen tile crates. Four were taken ashore, and no other crates were added or removed before the boat left again."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The register identifies the boat; its log leaves seventeen minus four crates."
+    },
+    {
+      "id": "00fb583ef0e94239989b470ac07273c4",
+      "group_id": "fdeadf63670a441582c6dd9b9b13d7ea",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "067e2343eba74fc6b06a0c22aa325628",
+          "text": "The cabinet stayed locked from dusk until the following dawn. During the night, a visitor left an envelope outside it. At dawn, the archivist read the envelope's letter and only then unlocked the cabinet."
+        }
+      ],
+      "claim": "Reading the letter preceded the dawn unlocking of the cabinet.",
+      "citations": [
+        {
+          "passage_id": "067e2343eba74fc6b06a0c22aa325628",
+          "quote": "The cabinet stayed locked from dusk until the following dawn. During the night, a visitor left an envelope outside it. At dawn, the archivist read the envelope's letter and only then unlocked the cabinet."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The archivist read first and unlocked only afterward."
+    },
+    {
+      "id": "48603b486d8546a2bf9b1202b67ce2ef",
+      "group_id": "3566e2584a784838b4a2ce2587980332",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "d1c2d240aae34e72b7e808ab2e1b075e",
+          "text": "The dye shed held eighteen drums, five of them unsealed. A wagon removed three of those unsealed drums. Nothing else entered or left, and no lids were changed before the evening count."
+        }
+      ],
+      "claim": "The drums removed by the wagon all contained blue dye.",
+      "citations": [
+        {
+          "passage_id": "d1c2d240aae34e72b7e808ab2e1b075e",
+          "quote": "The dye shed held eighteen drums, five of them unsealed. A wagon removed three of those unsealed drums. Nothing else entered or left, and no lids were changed before the evening count."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Their seal status is specified, but their contents are not."
+    },
+    {
+      "id": "3dfdc6b88874483480330733e6829587",
+      "group_id": "ebf0a1831d5947fdb47ebebc311da721",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "85d97877e75f48af88e1b3c1ac64d8ac",
+          "text": "Pulling the west cord makes the observatory shutters close. The sand timer can trigger the same closing action. The shutters were open when Ves left and closed when she returned; she did not observe what triggered the change."
+        }
+      ],
+      "claim": "The shutters were no longer open when Ves returned.",
+      "citations": [
+        {
+          "passage_id": "85d97877e75f48af88e1b3c1ac64d8ac",
+          "quote": "Pulling the west cord makes the observatory shutters close. The sand timer can trigger the same closing action. The shutters were open when Ves left and closed when she returned; she did not observe what triggered the change."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Their closed state on her return is explicitly described."
+    },
+    {
+      "id": "98dbf4d467e447fc9994144f934ed4fb",
+      "group_id": "4eac860fff18492d9af7a19d400ed54e",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "97d6ba9d1cac4b39821789182c7dfef8",
+          "text": "Seln opposed stopping every sailing from Glassmere. The harbor adopted a narrower plan: it cancelled the two scheduled night sailings, while the daytime boats continued to sail. The notice said nothing about changes to daytime departure times."
+        }
+      ],
+      "claim": "The daytime boats all departed later than originally planned.",
+      "citations": [
+        {
+          "passage_id": "97d6ba9d1cac4b39821789182c7dfef8",
+          "quote": "Seln opposed stopping every sailing from Glassmere. The harbor adopted a narrower plan: it cancelled the two scheduled night sailings, while the daytime boats continued to sail. The notice said nothing about changes to daytime departure times."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Continued daytime service establishes neither delays nor punctuality."
+    },
+    {
+      "id": "644ecee72a2244bab786f3ceef6319fb",
+      "group_id": "e42c8901001c487984c81237db05c95b",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "25b961bd34a04fad9e6b80956ba90f75",
+          "text": "The charter ink dried at 10:00, and the courier departed at 10:20. The seal was applied after the ink dried but before the courier departed. The scribe took a brief break at 10:12; the record does not relate the seal to that break."
+        }
+      ],
+      "claim": "The seal was applied before the scribe's 10:12 break.",
+      "citations": [
+        {
+          "passage_id": "25b961bd34a04fad9e6b80956ba90f75",
+          "quote": "The charter ink dried at 10:00, and the courier departed at 10:20. The seal was applied after the ink dried but before the courier departed. The scribe took a brief break at 10:12; the record does not relate the seal to that break."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Sealing could fall on either side of 10:12 within the specified interval."
+    },
+    {
+      "id": "98478e9bd850487daf86037352b80a09",
+      "group_id": "dcb82833ba004989949dbc48f7b67135",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "17cc03e172cd40c2bfed29b0cf40756c",
+          "text": "At sunrise, twenty-seven boundary markers stood on the moor. During the survey, nine of these markers were removed and four new markers were installed. There were no other additions or removals that day."
+        }
+      ],
+      "claim": "All four newly installed markers were painted red.",
+      "citations": [
+        {
+          "passage_id": "17cc03e172cd40c2bfed29b0cf40756c",
+          "quote": "At sunrise, twenty-seven boundary markers stood on the moor. During the survey, nine of these markers were removed and four new markers were installed. There were no other additions or removals that day."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The account specifies their number but not their appearance."
+    },
+    {
+      "id": "407272660352492b9b32e28ced9c1ebd",
+      "group_id": "32f005b7f58948f396ae84fbbc98c7d9",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "1ac2201da5a24b9d8a385c6fbb4aee34",
+          "text": "The dawn carriage always crosses the causeway at sunrise unless its brake is engaged. On the morning of the silver fair, its brake was disengaged throughout sunrise. Its cargo manifest was not included in the station record."
+        }
+      ],
+      "claim": "The dawn carriage crossed the causeway at sunrise on the fair morning.",
+      "citations": [
+        {
+          "passage_id": "1ac2201da5a24b9d8a385c6fbb4aee34",
+          "quote": "The dawn carriage always crosses the causeway at sunrise unless its brake is engaged. On the morning of the silver fair, its brake was disengaged throughout sunrise. Its cargo manifest was not included in the station record."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The stated exception did not apply, so the always-crossing rule applies."
+    },
+    {
+      "id": "531263cc185948bf95329286c491df06",
+      "group_id": "fcffaaa8fa344064a6b96d5336baaf18",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "ff4fb4b1f4294ba082508715196dcd68",
+          "text": "At the pump meeting, Iven said, \"The west lock is jammed.\" Soli answered, \"The west lock is clear.\" Neither speaker offered an inspection report, and the meeting notes do not resolve their disagreement."
+        }
+      ],
+      "claim": "The west lock was in fact jammed.",
+      "citations": [
+        {
+          "passage_id": "ff4fb4b1f4294ba082508715196dcd68",
+          "quote": "At the pump meeting, Iven said, \"The west lock is jammed.\" Soli answered, \"The west lock is clear.\" Neither speaker offered an inspection report, and the meeting notes do not resolve their disagreement."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The opposing statements do not establish which describes the actual lock."
+    },
+    {
+      "id": "676548fd32a34e7eb9d295b035e4eb90",
+      "group_id": "d0bca6cb434040ee9be76aa1934ae491",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "97b91b55ed33430d9bbeca803f6dfd12",
+          "text": "To reach the market for the first time that day, the courier walked from the mill across the stone bridge. The warning whistle sounded while she was on the bridge. She entered the market only after the whistle had stopped."
+        }
+      ],
+      "claim": "When the whistle sounded, the courier had not yet reached the market that day.",
+      "citations": [
+        {
+          "passage_id": "97b91b55ed33430d9bbeca803f6dfd12",
+          "quote": "To reach the market for the first time that day, the courier walked from the mill across the stone bridge. The warning whistle sounded while she was on the bridge. She entered the market only after the whistle had stopped."
+        }
+      ],
+      "label": "supported",
+      "rationale": "She was on the bridge then and entered the market afterward for the first time that day."
+    },
+    {
+      "id": "c428213dfc9643e39a0886133301cff6",
+      "group_id": "d0bca6cb434040ee9be76aa1934ae491",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "97b91b55ed33430d9bbeca803f6dfd12",
+          "text": "To reach the market for the first time that day, the courier walked from the mill across the stone bridge. The warning whistle sounded while she was on the bridge. She entered the market only after the whistle had stopped."
+        }
+      ],
+      "claim": "The courier was carrying a leather bag when the whistle sounded.",
+      "citations": [
+        {
+          "passage_id": "97b91b55ed33430d9bbeca803f6dfd12",
+          "quote": "To reach the market for the first time that day, the courier walked from the mill across the stone bridge. The warning whistle sounded while she was on the bridge. She entered the market only after the whistle had stopped."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The route and timing give no information about a bag."
+    },
+    {
+      "id": "23a978a9cbfd4238865a1b542c909778",
+      "group_id": "fdeadf63670a441582c6dd9b9b13d7ea",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "067e2343eba74fc6b06a0c22aa325628",
+          "text": "The cabinet stayed locked from dusk until the following dawn. During the night, a visitor left an envelope outside it. At dawn, the archivist read the envelope's letter and only then unlocked the cabinet."
+        }
+      ],
+      "claim": "The cabinet remained unlocked throughout the night.",
+      "citations": [
+        {
+          "passage_id": "067e2343eba74fc6b06a0c22aa325628",
+          "quote": "The cabinet stayed locked from dusk until the following dawn. During the night, a visitor left an envelope outside it. At dawn, the archivist read the envelope's letter and only then unlocked the cabinet."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "It explicitly stayed locked from dusk until dawn."
+    },
+    {
+      "id": "f2d63d2f382043b8b2448670ef7f86e8",
+      "group_id": "3ba3ffa95273430aa83d92d2fd39c038",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "5cbb255634574e3b86f90edba13208c3",
+          "text": "At opening time, the green storage jar sat on the table beneath the window. Evin later moved it to the top shelf and left it there until the shop closed. The account does not say where the jar's detached lid was kept."
+        }
+      ],
+      "claim": "At closing time, the green jar was still on the table beneath the window.",
+      "citations": [
+        {
+          "passage_id": "5cbb255634574e3b86f90edba13208c3",
+          "quote": "At opening time, the green storage jar sat on the table beneath the window. Evin later moved it to the top shelf and left it there until the shop closed. The account does not say where the jar's detached lid was kept."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The closing location was the top shelf, not the table."
+    },
+    {
+      "id": "b4ed6e0d43ff4ac9a5cd2354e91b0b23",
+      "group_id": "66f260c3fbfb4da48bfcd70028bfd124",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "963b5863aed042479fd8ddff9d5f2662",
+          "text": "The small ferry had eleven passenger seats. For this crossing, three crew members and six guests each occupied one of those seats. Nobody else was aboard, and nobody occupied more than one seat."
+        }
+      ],
+      "claim": "Exactly three passenger seats were empty during the crossing.",
+      "citations": [
+        {
+          "passage_id": "963b5863aed042479fd8ddff9d5f2662",
+          "quote": "The small ferry had eleven passenger seats. For this crossing, three crew members and six guests each occupied one of those seats. Nobody else was aboard, and nobody occupied more than one seat."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The stated occupants leave two empty seats, not three."
+    },
+    {
+      "id": "14c7f90c279b4fc8baa6ce7db3f2800f",
+      "group_id": "0086ccf86cc3483f81633388b8792a3c",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "c677b819c83943b580c6d913114088cf",
+          "text": "The fair calendar schedules the market opening for the seventeenth of Marn. The procession is scheduled for two days after that opening."
+        },
+        {
+          "id": "a44aa730a9924ad99021a255e9fcfb5e",
+          "text": "The rehearsal notice schedules the first procession rehearsal for the day immediately before the procession. Marn has thirty days, and these notices have not been revised."
+        }
+      ],
+      "claim": "The procession is scheduled to begin at noon.",
+      "citations": [
+        {
+          "passage_id": "c677b819c83943b580c6d913114088cf",
+          "quote": "The fair calendar schedules the market opening for the seventeenth of Marn. The procession is scheduled for two days after that opening."
+        },
+        {
+          "passage_id": "a44aa730a9924ad99021a255e9fcfb5e",
+          "quote": "The rehearsal notice schedules the first procession rehearsal for the day immediately before the procession. Marn has thirty days, and these notices have not been revised."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The notices determine a date but give no time of day."
+    },
+    {
+      "id": "6717e2e28d87419e852794eab7acfbff",
+      "group_id": "826c54649d2f4b59b562716a11bde873",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "a01e60ba8a39433682b9a6800423cd0b",
+          "text": "In the morning, weather reader Kez predicted strong wind that night. In the afternoon she withdrew that forecast and predicted a calm night instead. The chronicle ends before nightfall."
+        }
+      ],
+      "claim": "Kez's final forecast in the chronicle still called for strong wind.",
+      "citations": [
+        {
+          "passage_id": "a01e60ba8a39433682b9a6800423cd0b",
+          "quote": "In the morning, weather reader Kez predicted strong wind that night. In the afternoon she withdrew that forecast and predicted a calm night instead. The chronicle ends before nightfall."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "She withdrew that forecast and replaced it with a calm prediction."
+    },
+    {
+      "id": "65b63c0b096b49a3b87ef54070cfcc84",
+      "group_id": "32d5f782d94249c99bb5f94830ba42f5",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "c6ed0611b03a4f9e889e410b769616d7",
+          "text": "A hut stood on the island's eastern shore, while the dry cave lay inland. The surveyor left her lantern in the cave and did not move it again that day. Her sketch accidentally placed the lantern symbol beside the hut."
+        }
+      ],
+      "claim": "The lantern itself remained in the inland cave that day.",
+      "citations": [
+        {
+          "passage_id": "c6ed0611b03a4f9e889e410b769616d7",
+          "quote": "A hut stood on the island's eastern shore, while the dry cave lay inland. The surveyor left her lantern in the cave and did not move it again that day. Her sketch accidentally placed the lantern symbol beside the hut."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The physical placement is explicit; the sketch is described as mistaken."
+    },
+    {
+      "id": "8cbd1c547da940988862b1d623452e6c",
+      "group_id": "456cf58d79f14ca78882787f2e9f7401",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "e8646702e6bd4764a87c434d4de4f43a",
+          "text": "The reservoir float operates without fail: whenever it rises above the red line, it closes the spillgate and switches on the blue lamp. At noon it rose above the red line. The keeper's notebook does not mention a warning bell."
+        }
+      ],
+      "claim": "The blue lamp switched on at noon.",
+      "citations": [
+        {
+          "passage_id": "e8646702e6bd4764a87c434d4de4f43a",
+          "quote": "The reservoir float operates without fail: whenever it rises above the red line, it closes the spillgate and switches on the blue lamp. At noon it rose above the red line. The keeper's notebook does not mention a warning bell."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The stated trigger occurred, and the reliable mechanism activates the lamp on that trigger."
+    },
+    {
+      "id": "21c869586ea742f898a65e9725067964",
+      "group_id": "d0bca6cb434040ee9be76aa1934ae491",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "97b91b55ed33430d9bbeca803f6dfd12",
+          "text": "To reach the market for the first time that day, the courier walked from the mill across the stone bridge. The warning whistle sounded while she was on the bridge. She entered the market only after the whistle had stopped."
+        }
+      ],
+      "claim": "The courier was already inside the market when the warning whistle sounded.",
+      "citations": [
+        {
+          "passage_id": "97b91b55ed33430d9bbeca803f6dfd12",
+          "quote": "To reach the market for the first time that day, the courier walked from the mill across the stone bridge. The warning whistle sounded while she was on the bridge. She entered the market only after the whistle had stopped."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "At that time she was on the bridge, before entering the market."
+    },
+    {
+      "id": "b9ae0e0db96340098ee42a5346187554",
+      "group_id": "c19f9b5d2bd141eebc1219b6e51b788e",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "4812414391a74d718b193b9266ca6247",
+          "text": "The valley inventory lists exactly three cedar bridges: Rill, Taper, and Vole. It lists two additional bridges made of stone."
+        },
+        {
+          "id": "4e8cec11a42b4f3ead8dc47caaf40829",
+          "text": "The repair bulletin says every cedar bridge except Taper is closed today, and that Taper is open. It does not discuss the stone bridges."
+        }
+      ],
+      "claim": "Exactly two of the valley's cedar bridges are closed today.",
+      "citations": [
+        {
+          "passage_id": "4812414391a74d718b193b9266ca6247",
+          "quote": "The valley inventory lists exactly three cedar bridges: Rill, Taper, and Vole. It lists two additional bridges made of stone."
+        },
+        {
+          "passage_id": "4e8cec11a42b4f3ead8dc47caaf40829",
+          "quote": "The repair bulletin says every cedar bridge except Taper is closed today, and that Taper is open. It does not discuss the stone bridges."
+        }
+      ],
+      "label": "supported",
+      "rationale": "There are three cedar bridges, with Taper open and the other two closed."
+    },
+    {
+      "id": "b80dae30a3ed48df9157103159f9c991",
+      "group_id": "72fa56e5c7964553a7f96182922220a3",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "97ee39cabd124a77bcbfaf167a7c0c88",
+          "text": "Two sealed crates and three unsealed crates waited in the lantern depot. The inspector examined every sealed crate. Her note also records examining one of the unsealed crates, without discussing the other two."
+        }
+      ],
+      "claim": "The inspector examined sealed crates exclusively.",
+      "citations": [
+        {
+          "passage_id": "97ee39cabd124a77bcbfaf167a7c0c88",
+          "quote": "Two sealed crates and three unsealed crates waited in the lantern depot. The inspector examined every sealed crate. Her note also records examining one of the unsealed crates, without discussing the other two."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "An unsealed crate is explicitly recorded as examined."
+    },
+    {
+      "id": "e857e416bf99491593c1b19816702963",
+      "group_id": "ebf0a1831d5947fdb47ebebc311da721",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "85d97877e75f48af88e1b3c1ac64d8ac",
+          "text": "Pulling the west cord makes the observatory shutters close. The sand timer can trigger the same closing action. The shutters were open when Ves left and closed when she returned; she did not observe what triggered the change."
+        }
+      ],
+      "claim": "Someone pulled the west cord while Ves was away.",
+      "citations": [
+        {
+          "passage_id": "85d97877e75f48af88e1b3c1ac64d8ac",
+          "quote": "Pulling the west cord makes the observatory shutters close. The sand timer can trigger the same closing action. The shutters were open when Ves left and closed when she returned; she did not observe what triggered the change."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Closure is compatible with either trigger and does not establish a cord pull."
+    },
+    {
+      "id": "be7f6ad6fe514df0b00f87b81ff431be",
+      "group_id": "bc612f7f9b7a469cb57d6426717b962d",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "c8014e5ecbc5428c9bdccd81894a5719",
+          "text": "Fen's travel letter said, \"I saw a pale plume over the quarry, but I could not tell smoke from dust.\" The editor titled it Fire at the Quarry. Fen protested that she had not claimed there was a fire. No later inspection is described."
+        }
+      ],
+      "claim": "Fen's letter claimed that a quarry fire had been confirmed.",
+      "citations": [
+        {
+          "passage_id": "c8014e5ecbc5428c9bdccd81894a5719",
+          "quote": "Fen's travel letter said, \"I saw a pale plume over the quarry, but I could not tell smoke from dust.\" The editor titled it Fire at the Quarry. Fen protested that she had not claimed there was a fire. No later inspection is described."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Her letter expressly could not determine even whether the plume was smoke."
+    },
+    {
+      "id": "5cd7c700762a4f17951438a568fab5c4",
+      "group_id": "83f9f1e909bf47e29a51f02833de022c",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "92c89b3076b34b45893223d83b45d4cc",
+          "text": "In the valley, every shellcrawler has paired whiskers and lacks wings. Shellcrawlers can be male or female."
+        },
+        {
+          "id": "8534e342bc7448a3978f4e679c433b43",
+          "text": "Nemi kept a shellcrawler in her glass box. Neither its keeper nor the account of its capture identifies its sex."
+        }
+      ],
+      "claim": "The creature in Nemi's glass box has no wings.",
+      "citations": [
+        {
+          "passage_id": "92c89b3076b34b45893223d83b45d4cc",
+          "quote": "In the valley, every shellcrawler has paired whiskers and lacks wings. Shellcrawlers can be male or female."
+        },
+        {
+          "passage_id": "8534e342bc7448a3978f4e679c433b43",
+          "quote": "Nemi kept a shellcrawler in her glass box. Neither its keeper nor the account of its capture identifies its sex."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The creature is a shellcrawler, and the other passage says every shellcrawler lacks wings."
+    },
+    {
+      "id": "3effdf3c080342d5b0e297905e391649",
+      "group_id": "66f260c3fbfb4da48bfcd70028bfd124",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "963b5863aed042479fd8ddff9d5f2662",
+          "text": "The small ferry had eleven passenger seats. For this crossing, three crew members and six guests each occupied one of those seats. Nobody else was aboard, and nobody occupied more than one seat."
+        }
+      ],
+      "claim": "Every guest was making a first crossing on the ferry.",
+      "citations": [
+        {
+          "passage_id": "963b5863aed042479fd8ddff9d5f2662",
+          "quote": "The small ferry had eleven passenger seats. For this crossing, three crew members and six guests each occupied one of those seats. Nobody else was aboard, and nobody occupied more than one seat."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The passenger count supplies no travel histories."
+    },
+    {
+      "id": "ceeb2aefe6894d779030fd68ee3e0bf5",
+      "group_id": "3c19e55f5d8e4dd68cb3c23ca932aea8",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "1e4d51c3ee20496ebdbae2ed22ccca11",
+          "text": "The opening of the cloud fair was moved from Tuesday to Thursday. The rehearsal stayed on Wednesday, as originally announced. Lantern hanging was completed on Monday. No time of day was given for the revised opening."
+        }
+      ],
+      "claim": "The revised opening is scheduled for Thursday morning.",
+      "citations": [
+        {
+          "passage_id": "1e4d51c3ee20496ebdbae2ed22ccca11",
+          "quote": "The opening of the cloud fair was moved from Tuesday to Thursday. The rehearsal stayed on Wednesday, as originally announced. Lantern hanging was completed on Monday. No time of day was given for the revised opening."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Thursday is specified, but morning rather than another part of the day is not."
+    },
+    {
+      "id": "283090036f9c467286616e251384c9a2",
+      "group_id": "0086ccf86cc3483f81633388b8792a3c",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "c677b819c83943b580c6d913114088cf",
+          "text": "The fair calendar schedules the market opening for the seventeenth of Marn. The procession is scheduled for two days after that opening."
+        },
+        {
+          "id": "a44aa730a9924ad99021a255e9fcfb5e",
+          "text": "The rehearsal notice schedules the first procession rehearsal for the day immediately before the procession. Marn has thirty days, and these notices have not been revised."
+        }
+      ],
+      "claim": "The first procession rehearsal is scheduled for the sixteenth of Marn.",
+      "citations": [
+        {
+          "passage_id": "c677b819c83943b580c6d913114088cf",
+          "quote": "The fair calendar schedules the market opening for the seventeenth of Marn. The procession is scheduled for two days after that opening."
+        },
+        {
+          "passage_id": "a44aa730a9924ad99021a255e9fcfb5e",
+          "quote": "The rehearsal notice schedules the first procession rehearsal for the day immediately before the procession. Marn has thirty days, and these notices have not been revised."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Combining the two relative dates puts it on the eighteenth, not the sixteenth."
+    },
+    {
+      "id": "495f41ed6da641db88d2771be1f22540",
+      "group_id": "e98c672bab2c48889e8a7b46e85c465f",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "e51f3c2fb22b485b8eb510034c5f88e8",
+          "text": "Anet, an apprentice at the amber foundry, crossed the rope bridge during the inspection. No apprentice other than Anet crossed it during that inspection. Several masters were present, but their movements were not recorded."
+        }
+      ],
+      "claim": "None of the masters crossed the bridge during the inspection.",
+      "citations": [
+        {
+          "passage_id": "e51f3c2fb22b485b8eb510034c5f88e8",
+          "quote": "Anet, an apprentice at the amber foundry, crossed the rope bridge during the inspection. No apprentice other than Anet crossed it during that inspection. Several masters were present, but their movements were not recorded."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The restriction applies to apprentices, and the masters' movements are unknown."
+    },
+    {
+      "id": "43a7ebfc365543c695ccf0a362ce9bd2",
+      "group_id": "e0821bf6ab9d4baa8db369a93a6e053d",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "757b67fe2e9f4977b3e6a66eba4af3b5",
+          "text": "Along one straight north-south road, the orchard gate lies north of the pond, and the pond lies north of the forge. Each occupies a different point on that road. The watchhouse is mentioned on the map without a marked position."
+        }
+      ],
+      "claim": "The orchard gate lies north of the forge.",
+      "citations": [
+        {
+          "passage_id": "757b67fe2e9f4977b3e6a66eba4af3b5",
+          "quote": "Along one straight north-south road, the orchard gate lies north of the pond, and the pond lies north of the forge. Each occupies a different point on that road. The watchhouse is mentioned on the map without a marked position."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The north-south ordering is gate, pond, then forge."
+    },
+    {
+      "id": "7daa3bf36cab41d6b6a6a453a22cf363",
+      "group_id": "2ab4dfb860154a05ad22a42cbcfc1e6a",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "28852539a68c4052a79bbe767b2e6fe1",
+          "text": "Every musician at the reed festival was a registered guest. Some registered guests stayed elsewhere for the entire festival and never slept at the inn. The lodging list does not identify which guests were musicians."
+        }
+      ],
+      "claim": "Not every registered guest slept at the inn.",
+      "citations": [
+        {
+          "passage_id": "28852539a68c4052a79bbe767b2e6fe1",
+          "quote": "Every musician at the reed festival was a registered guest. Some registered guests stayed elsewhere for the entire festival and never slept at the inn. The lodging list does not identify which guests were musicians."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Some registered guests slept outside it."
+    },
+    {
+      "id": "50aa3bd2504d4de099d19d71ea63b058",
+      "group_id": "eaa73a2fb2dd4207a2729171b1869e62",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "65efb82acd15407a933125d34fcd463a",
+          "text": "Fourteen small statues stood in the kiln room. Six were stone and the rest were clay. Exactly two of the clay statues were glazed; every other clay statue was unglazed. The stone statues were not described further."
+        }
+      ],
+      "claim": "Six of the statues were unglazed clay.",
+      "citations": [
+        {
+          "passage_id": "65efb82acd15407a933125d34fcd463a",
+          "quote": "Fourteen small statues stood in the kiln room. Six were stone and the rest were clay. Exactly two of the clay statues were glazed; every other clay statue was unglazed. The stone statues were not described further."
+        }
+      ],
+      "label": "supported",
+      "rationale": "There were eight clay statues, of which two were glazed and six unglazed."
+    },
+    {
+      "id": "157c2ee9e33f48309f534cb8a4ecc1ee",
+      "group_id": "dad573a16004427da5b17c0a9d7317e3",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "2cc2b04fc4304b01bf9fb27b23f0f771",
+          "text": "In Mirrel's drawing, a name could enter the final bowl only if it had survived the first draw. The clerk showed Oset's name in the final bowl before the winner was selected. No result of the final selection appears in the record."
+        }
+      ],
+      "claim": "Oset's name survived the first draw.",
+      "citations": [
+        {
+          "passage_id": "2cc2b04fc4304b01bf9fb27b23f0f771",
+          "quote": "In Mirrel's drawing, a name could enter the final bowl only if it had survived the first draw. The clerk showed Oset's name in the final bowl before the winner was selected. No result of the final selection appears in the record."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Surviving the first draw is a necessary condition for its observed presence in the final bowl."
+    },
+    {
+      "id": "5deafb0745aa4f76861d7c0912eb9173",
+      "group_id": "3c19e55f5d8e4dd68cb3c23ca932aea8",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "1e4d51c3ee20496ebdbae2ed22ccca11",
+          "text": "The opening of the cloud fair was moved from Tuesday to Thursday. The rehearsal stayed on Wednesday, as originally announced. Lantern hanging was completed on Monday. No time of day was given for the revised opening."
+        }
+      ],
+      "claim": "Under the revised plan, the rehearsal comes before the fair opens.",
+      "citations": [
+        {
+          "passage_id": "1e4d51c3ee20496ebdbae2ed22ccca11",
+          "quote": "The opening of the cloud fair was moved from Tuesday to Thursday. The rehearsal stayed on Wednesday, as originally announced. Lantern hanging was completed on Monday. No time of day was given for the revised opening."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Wednesday precedes the revised Thursday opening."
+    },
+    {
+      "id": "2d7deee42b054bffa84b3af89657e707",
+      "group_id": "66f260c3fbfb4da48bfcd70028bfd124",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "963b5863aed042479fd8ddff9d5f2662",
+          "text": "The small ferry had eleven passenger seats. For this crossing, three crew members and six guests each occupied one of those seats. Nobody else was aboard, and nobody occupied more than one seat."
+        }
+      ],
+      "claim": "Two passenger seats were unoccupied during the crossing.",
+      "citations": [
+        {
+          "passage_id": "963b5863aed042479fd8ddff9d5f2662",
+          "quote": "The small ferry had eleven passenger seats. For this crossing, three crew members and six guests each occupied one of those seats. Nobody else was aboard, and nobody occupied more than one seat."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Nine distinct occupants used nine of eleven seats, leaving two."
+    },
+    {
+      "id": "e45b31f29ced416893f61bfc296900ab",
+      "group_id": "bc612f7f9b7a469cb57d6426717b962d",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "c8014e5ecbc5428c9bdccd81894a5719",
+          "text": "Fen's travel letter said, \"I saw a pale plume over the quarry, but I could not tell smoke from dust.\" The editor titled it Fire at the Quarry. Fen protested that she had not claimed there was a fire. No later inspection is described."
+        }
+      ],
+      "claim": "The editor presented the plume as a fire, although Fen had left its nature unresolved.",
+      "citations": [
+        {
+          "passage_id": "c8014e5ecbc5428c9bdccd81894a5719",
+          "quote": "Fen's travel letter said, \"I saw a pale plume over the quarry, but I could not tell smoke from dust.\" The editor titled it Fire at the Quarry. Fen protested that she had not claimed there was a fire. No later inspection is described."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The headline asserts fire while Fen's letter explicitly distinguishes uncertainty from confirmation."
+    },
+    {
+      "id": "ce078adf99c34405b33ae651a0564383",
+      "group_id": "bbabf6abf9544898a87009e0d9ef3f8f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "1073d608deb94cc6ba21c660283ae5b0",
+          "text": "At Brindle Quay, the bell ceremony was delayed, not cancelled. Its morning slot was released, and the revised notice said the ceremony would begin after sunset. The notice gave no reason for the change."
+        }
+      ],
+      "claim": "Damage to the quay clock caused the ceremony to be delayed.",
+      "citations": [
+        {
+          "passage_id": "1073d608deb94cc6ba21c660283ae5b0",
+          "quote": "At Brindle Quay, the bell ceremony was delayed, not cancelled. Its morning slot was released, and the revised notice said the ceremony would begin after sunset. The notice gave no reason for the change."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No cause is supplied; the clock is not described."
+    },
+    {
+      "id": "2f13ec16c835426980d409227a7f89ef",
+      "group_id": "c19f9b5d2bd141eebc1219b6e51b788e",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "4812414391a74d718b193b9266ca6247",
+          "text": "The valley inventory lists exactly three cedar bridges: Rill, Taper, and Vole. It lists two additional bridges made of stone."
+        },
+        {
+          "id": "4e8cec11a42b4f3ead8dc47caaf40829",
+          "text": "The repair bulletin says every cedar bridge except Taper is closed today, and that Taper is open. It does not discuss the stone bridges."
+        }
+      ],
+      "claim": "Both of the valley's stone bridges are open today.",
+      "citations": [
+        {
+          "passage_id": "4812414391a74d718b193b9266ca6247",
+          "quote": "The valley inventory lists exactly three cedar bridges: Rill, Taper, and Vole. It lists two additional bridges made of stone."
+        },
+        {
+          "passage_id": "4e8cec11a42b4f3ead8dc47caaf40829",
+          "quote": "The repair bulletin says every cedar bridge except Taper is closed today, and that Taper is open. It does not discuss the stone bridges."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither their material nor their omission from the cedar closure establishes their status."
+    },
+    {
+      "id": "5ffe7566ba174562a669f4d2c3a2044a",
+      "group_id": "3566e2584a784838b4a2ce2587980332",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "d1c2d240aae34e72b7e808ab2e1b075e",
+          "text": "The dye shed held eighteen drums, five of them unsealed. A wagon removed three of those unsealed drums. Nothing else entered or left, and no lids were changed before the evening count."
+        }
+      ],
+      "claim": "Sixteen drums remained in the shed at the evening count.",
+      "citations": [
+        {
+          "passage_id": "d1c2d240aae34e72b7e808ab2e1b075e",
+          "quote": "The dye shed held eighteen drums, five of them unsealed. A wagon removed three of those unsealed drums. Nothing else entered or left, and no lids were changed before the evening count."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Removing three from eighteen leaves fifteen, not sixteen."
+    },
+    {
+      "id": "1f8bca5137b7420fb089fd658a40238e",
+      "group_id": "21a14a2f1d2f4cee80c1a635a5ac8516",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "d6eed032aa544569bb892929096de619",
+          "text": "The courtyard was closed to the public during the moth count, but the closure did not apply to staff. Three counters were inside throughout the count. The gardener watched from outside the wall."
+        }
+      ],
+      "claim": "Nobody was inside the courtyard while the moths were counted.",
+      "citations": [
+        {
+          "passage_id": "d6eed032aa544569bb892929096de619",
+          "quote": "The courtyard was closed to the public during the moth count, but the closure did not apply to staff. Three counters were inside throughout the count. The gardener watched from outside the wall."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The three counters were inside throughout that period."
+    },
+    {
+      "id": "0fc12d17ff894751ad67b8381e7f3981",
+      "group_id": "75ab8536b6aa46169483d91175878f4a",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "c8af9ddac6ee483d804b0312d3be7453",
+          "text": "The sorting machine lets a packet emerge at the archive end only if the packet bears a wax seal. Luro's packet had no wax seal when it went through the machine, and the machine added no seals. The log does not name its eventual destination."
+        }
+      ],
+      "claim": "Luro's packet did not emerge at the archive end.",
+      "citations": [
+        {
+          "passage_id": "c8af9ddac6ee483d804b0312d3be7453",
+          "quote": "The sorting machine lets a packet emerge at the archive end only if the packet bears a wax seal. Luro's packet had no wax seal when it went through the machine, and the machine added no seals. The log does not name its eventual destination."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The necessary wax seal was absent throughout sorting."
+    },
+    {
+      "id": "4329c7756fa54f6c9162bd21e042b95c",
+      "group_id": "e0821bf6ab9d4baa8db369a93a6e053d",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "757b67fe2e9f4977b3e6a66eba4af3b5",
+          "text": "Along one straight north-south road, the orchard gate lies north of the pond, and the pond lies north of the forge. Each occupies a different point on that road. The watchhouse is mentioned on the map without a marked position."
+        }
+      ],
+      "claim": "The forge lies north of the orchard gate.",
+      "citations": [
+        {
+          "passage_id": "757b67fe2e9f4977b3e6a66eba4af3b5",
+          "quote": "Along one straight north-south road, the orchard gate lies north of the pond, and the pond lies north of the forge. Each occupies a different point on that road. The watchhouse is mentioned on the map without a marked position."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The forge is south of the pond, which is south of the gate."
+    },
+    {
+      "id": "3b3653e5f5f440eb96864d1753797ebe",
+      "group_id": "456cf58d79f14ca78882787f2e9f7401",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "e8646702e6bd4764a87c434d4de4f43a",
+          "text": "The reservoir float operates without fail: whenever it rises above the red line, it closes the spillgate and switches on the blue lamp. At noon it rose above the red line. The keeper's notebook does not mention a warning bell."
+        }
+      ],
+      "claim": "The spillgate stayed open when the float rose above the red line at noon.",
+      "citations": [
+        {
+          "passage_id": "e8646702e6bd4764a87c434d4de4f43a",
+          "quote": "The reservoir float operates without fail: whenever it rises above the red line, it closes the spillgate and switches on the blue lamp. At noon it rose above the red line. The keeper's notebook does not mention a warning bell."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The mechanism closes the gate whenever that rise occurs."
+    },
+    {
+      "id": "f69a57a4d96a416bbf78992457ea96da",
+      "group_id": "a217766610864d759c0986b32f35ef2a",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "b17d88ba96f9409ab88942210ac53dd3",
+          "text": "On the workshop clock, rope weaving ran continuously from 14:00 to 16:00. Flute practice ran continuously from 15:00 to 17:00 that same day. Neither activity paused. The apprentices also ate a meal, whose time was not entered."
+        }
+      ],
+      "claim": "The apprentices ate their meal before rope weaving began.",
+      "citations": [
+        {
+          "passage_id": "b17d88ba96f9409ab88942210ac53dd3",
+          "quote": "On the workshop clock, rope weaving ran continuously from 14:00 to 16:00. Flute practice ran continuously from 15:00 to 17:00 that same day. Neither activity paused. The apprentices also ate a meal, whose time was not entered."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The meal time is unspecified."
+    },
+    {
+      "id": "56092d90c2794e61980d0da6007b3d94",
+      "group_id": "21a14a2f1d2f4cee80c1a635a5ac8516",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "d6eed032aa544569bb892929096de619",
+          "text": "The courtyard was closed to the public during the moth count, but the closure did not apply to staff. Three counters were inside throughout the count. The gardener watched from outside the wall."
+        }
+      ],
+      "claim": "Closing the courtyard to visitors did not leave it empty.",
+      "citations": [
+        {
+          "passage_id": "d6eed032aa544569bb892929096de619",
+          "quote": "The courtyard was closed to the public during the moth count, but the closure did not apply to staff. Three counters were inside throughout the count. The gardener watched from outside the wall."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Three counters remained inside during the public closure."
+    },
+    {
+      "id": "24c5dad7938e4fa4be64ebce849d1c79",
+      "group_id": "72fa56e5c7964553a7f96182922220a3",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "97ee39cabd124a77bcbfaf167a7c0c88",
+          "text": "Two sealed crates and three unsealed crates waited in the lantern depot. The inspector examined every sealed crate. Her note also records examining one of the unsealed crates, without discussing the other two."
+        }
+      ],
+      "claim": "The inspector examined all five crates.",
+      "citations": [
+        {
+          "passage_id": "97ee39cabd124a77bcbfaf167a7c0c88",
+          "quote": "Two sealed crates and three unsealed crates waited in the lantern depot. The inspector examined every sealed crate. Her note also records examining one of the unsealed crates, without discussing the other two."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The other two unsealed crates may or may not have been examined."
+    },
+    {
+      "id": "2bfe10d9b8ff47419b9e56c6c25d8309",
+      "group_id": "3566e2584a784838b4a2ce2587980332",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "d1c2d240aae34e72b7e808ab2e1b075e",
+          "text": "The dye shed held eighteen drums, five of them unsealed. A wagon removed three of those unsealed drums. Nothing else entered or left, and no lids were changed before the evening count."
+        }
+      ],
+      "claim": "Two unsealed drums were still in the shed at the evening count.",
+      "citations": [
+        {
+          "passage_id": "d1c2d240aae34e72b7e808ab2e1b075e",
+          "quote": "The dye shed held eighteen drums, five of them unsealed. A wagon removed three of those unsealed drums. Nothing else entered or left, and no lids were changed before the evening count."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Five unsealed drums minus the three removed leaves two."
+    },
+    {
+      "id": "5f94fef0efb5424fad77d8f6f30416b7",
+      "group_id": "826c54649d2f4b59b562716a11bde873",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "a01e60ba8a39433682b9a6800423cd0b",
+          "text": "In the morning, weather reader Kez predicted strong wind that night. In the afternoon she withdrew that forecast and predicted a calm night instead. The chronicle ends before nightfall."
+        }
+      ],
+      "claim": "Kez's last forecast in the chronicle was for a calm night.",
+      "citations": [
+        {
+          "passage_id": "a01e60ba8a39433682b9a6800423cd0b",
+          "quote": "In the morning, weather reader Kez predicted strong wind that night. In the afternoon she withdrew that forecast and predicted a calm night instead. The chronicle ends before nightfall."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Her afternoon replacement forecast was calm and is the latest one recorded."
+    },
+    {
+      "id": "b48a6a1637614df3b6dbebe4e39d4ef8",
+      "group_id": "21a14a2f1d2f4cee80c1a635a5ac8516",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "d6eed032aa544569bb892929096de619",
+          "text": "The courtyard was closed to the public during the moth count, but the closure did not apply to staff. Three counters were inside throughout the count. The gardener watched from outside the wall."
+        }
+      ],
+      "claim": "At least one of the counters lived in the village beside the courtyard.",
+      "citations": [
+        {
+          "passage_id": "d6eed032aa544569bb892929096de619",
+          "quote": "The courtyard was closed to the public during the moth count, but the closure did not apply to staff. Three counters were inside throughout the count. The gardener watched from outside the wall."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The counters are located during the count, but their homes are not specified."
+    },
+    {
+      "id": "e623545964f74a3e9923c0ef4a39a4b7",
+      "group_id": "c19f9b5d2bd141eebc1219b6e51b788e",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "4812414391a74d718b193b9266ca6247",
+          "text": "The valley inventory lists exactly three cedar bridges: Rill, Taper, and Vole. It lists two additional bridges made of stone."
+        },
+        {
+          "id": "4e8cec11a42b4f3ead8dc47caaf40829",
+          "text": "The repair bulletin says every cedar bridge except Taper is closed today, and that Taper is open. It does not discuss the stone bridges."
+        }
+      ],
+      "claim": "All three of the valley's cedar bridges are closed today.",
+      "citations": [
+        {
+          "passage_id": "4812414391a74d718b193b9266ca6247",
+          "quote": "The valley inventory lists exactly three cedar bridges: Rill, Taper, and Vole. It lists two additional bridges made of stone."
+        },
+        {
+          "passage_id": "4e8cec11a42b4f3ead8dc47caaf40829",
+          "quote": "The repair bulletin says every cedar bridge except Taper is closed today, and that Taper is open. It does not discuss the stone bridges."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The bulletin explicitly leaves Taper open."
+    },
+    {
+      "id": "fbeeae3b2a074cf6bceba4daed592a0d",
+      "group_id": "fcffaaa8fa344064a6b96d5336baaf18",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "ff4fb4b1f4294ba082508715196dcd68",
+          "text": "At the pump meeting, Iven said, \"The west lock is jammed.\" Soli answered, \"The west lock is clear.\" Neither speaker offered an inspection report, and the meeting notes do not resolve their disagreement."
+        }
+      ],
+      "claim": "Both Iven and Soli said that the west lock was jammed.",
+      "citations": [
+        {
+          "passage_id": "ff4fb4b1f4294ba082508715196dcd68",
+          "quote": "At the pump meeting, Iven said, \"The west lock is jammed.\" Soli answered, \"The west lock is clear.\" Neither speaker offered an inspection report, and the meeting notes do not resolve their disagreement."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Soli instead said it was clear."
+    },
+    {
+      "id": "b8e5a56adb0e4077907335237affa9b6",
+      "group_id": "525a59cdce4444ea92acf79ad636a130",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "e5943df240db4fd8811c799b2bdf08d0",
+          "text": "Meral declined to lend the atlas because its binding had become fragile. No pages were missing: she had just checked the complete sequence. She said the atlas could travel once the binding had been repaired."
+        }
+      ],
+      "claim": "The loan was refused because of the binding, rather than an incomplete set of pages.",
+      "citations": [
+        {
+          "passage_id": "e5943df240db4fd8811c799b2bdf08d0",
+          "quote": "Meral declined to lend the atlas because its binding had become fragile. No pages were missing: she had just checked the complete sequence. She said the atlas could travel once the binding had been repaired."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Fragile binding is the stated cause, and missing pages are expressly ruled out."
+    },
+    {
+      "id": "9c344a97c4e943268e259b076ef656e0",
+      "group_id": "e42c8901001c487984c81237db05c95b",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "25b961bd34a04fad9e6b80956ba90f75",
+          "text": "The charter ink dried at 10:00, and the courier departed at 10:20. The seal was applied after the ink dried but before the courier departed. The scribe took a brief break at 10:12; the record does not relate the seal to that break."
+        }
+      ],
+      "claim": "The seal was applied before the charter ink dried.",
+      "citations": [
+        {
+          "passage_id": "25b961bd34a04fad9e6b80956ba90f75",
+          "quote": "The charter ink dried at 10:00, and the courier departed at 10:20. The seal was applied after the ink dried but before the courier departed. The scribe took a brief break at 10:12; the record does not relate the seal to that break."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The passage puts sealing after drying."
+    },
+    {
+      "id": "cd172be5b330440e936c8f99b8e23906",
+      "group_id": "ebf0a1831d5947fdb47ebebc311da721",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "85d97877e75f48af88e1b3c1ac64d8ac",
+          "text": "Pulling the west cord makes the observatory shutters close. The sand timer can trigger the same closing action. The shutters were open when Ves left and closed when she returned; she did not observe what triggered the change."
+        }
+      ],
+      "claim": "The shutters were still open when Ves returned.",
+      "citations": [
+        {
+          "passage_id": "85d97877e75f48af88e1b3c1ac64d8ac",
+          "quote": "Pulling the west cord makes the observatory shutters close. The sand timer can trigger the same closing action. The shutters were open when Ves left and closed when she returned; she did not observe what triggered the change."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "They were closed at that time."
+    },
+    {
+      "id": "19f38753a3fa49b18971e3bbbc94397e",
+      "group_id": "32f005b7f58948f396ae84fbbc98c7d9",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "1ac2201da5a24b9d8a385c6fbb4aee34",
+          "text": "The dawn carriage always crosses the causeway at sunrise unless its brake is engaged. On the morning of the silver fair, its brake was disengaged throughout sunrise. Its cargo manifest was not included in the station record."
+        }
+      ],
+      "claim": "The dawn carriage stayed on its starting bank throughout sunrise on the fair morning.",
+      "citations": [
+        {
+          "passage_id": "1ac2201da5a24b9d8a385c6fbb4aee34",
+          "quote": "The dawn carriage always crosses the causeway at sunrise unless its brake is engaged. On the morning of the silver fair, its brake was disengaged throughout sunrise. Its cargo manifest was not included in the station record."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The rule and disengaged brake establish that it crossed at sunrise."
+    },
+    {
+      "id": "3f01bd04887f4ceb998198c4cd089699",
+      "group_id": "72fa56e5c7964553a7f96182922220a3",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "97ee39cabd124a77bcbfaf167a7c0c88",
+          "text": "Two sealed crates and three unsealed crates waited in the lantern depot. The inspector examined every sealed crate. Her note also records examining one of the unsealed crates, without discussing the other two."
+        }
+      ],
+      "claim": "The inspector examined at least three crates.",
+      "citations": [
+        {
+          "passage_id": "97ee39cabd124a77bcbfaf167a7c0c88",
+          "quote": "Two sealed crates and three unsealed crates waited in the lantern depot. The inspector examined every sealed crate. Her note also records examining one of the unsealed crates, without discussing the other two."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Both sealed crates and one distinct unsealed crate were examined."
+    },
+    {
+      "id": "27c081c5d7f045298ce868148691e0b9",
+      "group_id": "32f005b7f58948f396ae84fbbc98c7d9",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "1ac2201da5a24b9d8a385c6fbb4aee34",
+          "text": "The dawn carriage always crosses the causeway at sunrise unless its brake is engaged. On the morning of the silver fair, its brake was disengaged throughout sunrise. Its cargo manifest was not included in the station record."
+        }
+      ],
+      "claim": "The dawn carriage carried musicians across on the fair morning.",
+      "citations": [
+        {
+          "passage_id": "1ac2201da5a24b9d8a385c6fbb4aee34",
+          "quote": "The dawn carriage always crosses the causeway at sunrise unless its brake is engaged. On the morning of the silver fair, its brake was disengaged throughout sunrise. Its cargo manifest was not included in the station record."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The crossing rule and brake state say nothing about its cargo or passengers."
+    },
+    {
+      "id": "831907b62a0145b8935e89ec4e3cbc54",
+      "group_id": "eaa73a2fb2dd4207a2729171b1869e62",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "65efb82acd15407a933125d34fcd463a",
+          "text": "Fourteen small statues stood in the kiln room. Six were stone and the rest were clay. Exactly two of the clay statues were glazed; every other clay statue was unglazed. The stone statues were not described further."
+        }
+      ],
+      "claim": "At least one stone statue was glazed.",
+      "citations": [
+        {
+          "passage_id": "65efb82acd15407a933125d34fcd463a",
+          "quote": "Fourteen small statues stood in the kiln room. Six were stone and the rest were clay. Exactly two of the clay statues were glazed; every other clay statue was unglazed. The stone statues were not described further."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The glazing information concerns clay statues only."
+    },
+    {
+      "id": "a4f3db82889e4774ba5b93d3a378967b",
+      "group_id": "a890508ce19f40c79e6546e8595d4a4d",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "c6c1894df7c1474dac33da0ad113faf8",
+          "text": "Dema wrote in her journal, \"Rul believes the bronze bell was stolen. I think it was merely misplaced.\" The journal contains no account of finding the bell or checking either explanation."
+        }
+      ],
+      "claim": "The bronze bell had actually been stolen.",
+      "citations": [
+        {
+          "passage_id": "c6c1894df7c1474dac33da0ad113faf8",
+          "quote": "Dema wrote in her journal, \"Rul believes the bronze bell was stolen. I think it was merely misplaced.\" The journal contains no account of finding the bell or checking either explanation."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither recorded belief is verified, so the event itself is unresolved."
+    },
+    {
+      "id": "aeb1b25e00b1489d93a80d7aa34e6a2f",
+      "group_id": "339611d6ece1437f92f99ed60813a1d9",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "737c49029b534cbf842f50d77c6d4894",
+          "text": "The library occupies the lower floor of Sable Tower. The council hall is a separate building across the square. The moon atlas lay on a desk inside the library throughout the meeting."
+        }
+      ],
+      "claim": "The moon atlas was inside the council hall during the meeting.",
+      "citations": [
+        {
+          "passage_id": "737c49029b534cbf842f50d77c6d4894",
+          "quote": "The library occupies the lower floor of Sable Tower. The council hall is a separate building across the square. The moon atlas lay on a desk inside the library throughout the meeting."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "It remained in the library in a different building."
+    },
+    {
+      "id": "11efd2c13b044edfba209a04e44d7213",
+      "group_id": "54a80aca1b914f538bd3f11d474d7eb3",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "199a31f043f7496c9d66946d0d1bcdc7",
+          "text": "Seven bells hung in the salt tower. The keeper established that not all seven were bronze. She also established that none of the seven contained any iron. She did not record how many bells were made of each material."
+        }
+      ],
+      "claim": "At least one of the seven bells contained iron.",
+      "citations": [
+        {
+          "passage_id": "199a31f043f7496c9d66946d0d1bcdc7",
+          "quote": "Seven bells hung in the salt tower. The keeper established that not all seven were bronze. She also established that none of the seven contained any iron. She did not record how many bells were made of each material."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The account explicitly excludes iron from every bell."
+    },
+    {
+      "id": "b7d8cfad4b0946aebb0e8614b2b168fb",
+      "group_id": "dad573a16004427da5b17c0a9d7317e3",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "2cc2b04fc4304b01bf9fb27b23f0f771",
+          "text": "In Mirrel's drawing, a name could enter the final bowl only if it had survived the first draw. The clerk showed Oset's name in the final bowl before the winner was selected. No result of the final selection appears in the record."
+        }
+      ],
+      "claim": "Oset won the final selection.",
+      "citations": [
+        {
+          "passage_id": "2cc2b04fc4304b01bf9fb27b23f0f771",
+          "quote": "In Mirrel's drawing, a name could enter the final bowl only if it had survived the first draw. The clerk showed Oset's name in the final bowl before the winner was selected. No result of the final selection appears in the record."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Reaching the final bowl does not establish winning."
+    },
+    {
+      "id": "8d7afb617fe14dddbd7f400ce114b0ef",
+      "group_id": "fcffaaa8fa344064a6b96d5336baaf18",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "ff4fb4b1f4294ba082508715196dcd68",
+          "text": "At the pump meeting, Iven said, \"The west lock is jammed.\" Soli answered, \"The west lock is clear.\" Neither speaker offered an inspection report, and the meeting notes do not resolve their disagreement."
+        }
+      ],
+      "claim": "Iven and Soli gave opposing accounts of the west lock's condition.",
+      "citations": [
+        {
+          "passage_id": "ff4fb4b1f4294ba082508715196dcd68",
+          "quote": "At the pump meeting, Iven said, \"The west lock is jammed.\" Soli answered, \"The west lock is clear.\" Neither speaker offered an inspection report, and the meeting notes do not resolve their disagreement."
+        }
+      ],
+      "label": "supported",
+      "rationale": "One reported a jam and the other reported a clear lock."
+    },
+    {
+      "id": "dfcec95958284ed2a9d643b1dc9327aa",
+      "group_id": "32d5f782d94249c99bb5f94830ba42f5",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "c6ed0611b03a4f9e889e410b769616d7",
+          "text": "A hut stood on the island's eastern shore, while the dry cave lay inland. The surveyor left her lantern in the cave and did not move it again that day. Her sketch accidentally placed the lantern symbol beside the hut."
+        }
+      ],
+      "claim": "The surveyor moved the lantern from the cave to the shore hut that day.",
+      "citations": [
+        {
+          "passage_id": "c6ed0611b03a4f9e889e410b769616d7",
+          "quote": "A hut stood on the island's eastern shore, while the dry cave lay inland. The surveyor left her lantern in the cave and did not move it again that day. Her sketch accidentally placed the lantern symbol beside the hut."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "She did not move it again after leaving it in the cave."
+    },
+    {
+      "id": "e1d56308a46341ac98aefd0a676fd537",
+      "group_id": "32d5f782d94249c99bb5f94830ba42f5",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "c6ed0611b03a4f9e889e410b769616d7",
+          "text": "A hut stood on the island's eastern shore, while the dry cave lay inland. The surveyor left her lantern in the cave and did not move it again that day. Her sketch accidentally placed the lantern symbol beside the hut."
+        }
+      ],
+      "claim": "The surveyor slept in the cave that night.",
+      "citations": [
+        {
+          "passage_id": "c6ed0611b03a4f9e889e410b769616d7",
+          "quote": "A hut stood on the island's eastern shore, while the dry cave lay inland. The surveyor left her lantern in the cave and did not move it again that day. Her sketch accidentally placed the lantern symbol beside the hut."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The lantern's location does not establish where the surveyor slept."
+    },
+    {
+      "id": "12a00b1fcc6e45a98f21b8d43493edf8",
+      "group_id": "4eac860fff18492d9af7a19d400ed54e",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "97d6ba9d1cac4b39821789182c7dfef8",
+          "text": "Seln opposed stopping every sailing from Glassmere. The harbor adopted a narrower plan: it cancelled the two scheduled night sailings, while the daytime boats continued to sail. The notice said nothing about changes to daytime departure times."
+        }
+      ],
+      "claim": "All the scheduled sailings continued without any cancellations.",
+      "citations": [
+        {
+          "passage_id": "97d6ba9d1cac4b39821789182c7dfef8",
+          "quote": "Seln opposed stopping every sailing from Glassmere. The harbor adopted a narrower plan: it cancelled the two scheduled night sailings, while the daytime boats continued to sail. The notice said nothing about changes to daytime departure times."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Two scheduled night sailings were cancelled."
+    },
+    {
+      "id": "1272e5b83aeb4a4fa475c40ff946dc72",
+      "group_id": "83f9f1e909bf47e29a51f02833de022c",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "92c89b3076b34b45893223d83b45d4cc",
+          "text": "In the valley, every shellcrawler has paired whiskers and lacks wings. Shellcrawlers can be male or female."
+        },
+        {
+          "id": "8534e342bc7448a3978f4e679c433b43",
+          "text": "Nemi kept a shellcrawler in her glass box. Neither its keeper nor the account of its capture identifies its sex."
+        }
+      ],
+      "claim": "The creature in Nemi's glass box is female.",
+      "citations": [
+        {
+          "passage_id": "92c89b3076b34b45893223d83b45d4cc",
+          "quote": "In the valley, every shellcrawler has paired whiskers and lacks wings. Shellcrawlers can be male or female."
+        },
+        {
+          "passage_id": "8534e342bc7448a3978f4e679c433b43",
+          "quote": "Nemi kept a shellcrawler in her glass box. Neither its keeper nor the account of its capture identifies its sex."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Both sexes are possible, and the particular creature's sex is unspecified."
+    },
+    {
+      "id": "54d3ab2c5a5b4428866b81a0ab936197",
+      "group_id": "fb312babad24403583febe221b829c61",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "bfe6dc5375d546c9b0fa489f824c46f1",
+          "text": "For the frost watch, the tower roster names Teral as night keeper and Onwi as day keeper. No one exchanged roles that day."
+        },
+        {
+          "id": "d8e2fbd5b861429b85d5ceba6738832a",
+          "text": "The frost-watch log records that the night keeper lit the beacon after the day keeper had left. It says the day keeper did not light the beacon that day."
+        }
+      ],
+      "claim": "Teral used pine oil to light the beacon.",
+      "citations": [
+        {
+          "passage_id": "bfe6dc5375d546c9b0fa489f824c46f1",
+          "quote": "For the frost watch, the tower roster names Teral as night keeper and Onwi as day keeper. No one exchanged roles that day."
+        },
+        {
+          "passage_id": "d8e2fbd5b861429b85d5ceba6738832a",
+          "quote": "The frost-watch log records that the night keeper lit the beacon after the day keeper had left. It says the day keeper did not light the beacon that day."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The linked accounts identify the keeper and order, but not the fuel."
+    },
+    {
+      "id": "6640cdf0e17d4bf285ee60ebe9a86d62",
+      "group_id": "babeea3a7956483bb7c570e4751c97e5",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "911334d4a9874464b30fd5fee0c5f515",
+          "text": "Orbel had a single strip of sailcloth thirty-six meters long. She cut four pieces of seven meters each, wasting no cloth. She kept the entire uncut remainder in a chest."
+        }
+      ],
+      "claim": "The sailcloth in the chest was striped.",
+      "citations": [
+        {
+          "passage_id": "911334d4a9874464b30fd5fee0c5f515",
+          "quote": "Orbel had a single strip of sailcloth thirty-six meters long. She cut four pieces of seven meters each, wasting no cloth. She kept the entire uncut remainder in a chest."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No color or pattern is described."
+    },
+    {
+      "id": "4e729102ac31430fb77e0c1e302162b7",
+      "group_id": "fce73a6432584be4a2ec254c8621a516",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "32461c8ce5a749ed9eee562a4f23495a",
+          "text": "The port register lists the Copper Finch as the vessel locally known as Skiff Seven. The two names refer to one boat, not to sister vessels."
+        },
+        {
+          "id": "84fad5dd04af4d9b84d5505bf61be53f",
+          "text": "The unloading log says Skiff Seven arrived with seventeen tile crates. Four were taken ashore, and no other crates were added or removed before the boat left again."
+        }
+      ],
+      "claim": "The Copper Finch left again with all seventeen tile crates still aboard.",
+      "citations": [
+        {
+          "passage_id": "32461c8ce5a749ed9eee562a4f23495a",
+          "quote": "The port register lists the Copper Finch as the vessel locally known as Skiff Seven. The two names refer to one boat, not to sister vessels."
+        },
+        {
+          "passage_id": "84fad5dd04af4d9b84d5505bf61be53f",
+          "quote": "The unloading log says Skiff Seven arrived with seventeen tile crates. Four were taken ashore, and no other crates were added or removed before the boat left again."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Its alias links it to the unloading of four, leaving thirteen."
+    },
+    {
+      "id": "3037a452ad804fa3bb7bd1ac272c4c41",
+      "group_id": "3ba3ffa95273430aa83d92d2fd39c038",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "5cbb255634574e3b86f90edba13208c3",
+          "text": "At opening time, the green storage jar sat on the table beneath the window. Evin later moved it to the top shelf and left it there until the shop closed. The account does not say where the jar's detached lid was kept."
+        }
+      ],
+      "claim": "The green jar was no longer on the window table when the shop closed.",
+      "citations": [
+        {
+          "passage_id": "5cbb255634574e3b86f90edba13208c3",
+          "quote": "At opening time, the green storage jar sat on the table beneath the window. Evin later moved it to the top shelf and left it there until the shop closed. The account does not say where the jar's detached lid was kept."
+        }
+      ],
+      "label": "supported",
+      "rationale": "It had been moved to the top shelf and remained there through closing."
+    },
+    {
+      "id": "63e24e1a56ff46e997abc1f9e740d012",
+      "group_id": "75ab8536b6aa46169483d91175878f4a",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "c8af9ddac6ee483d804b0312d3be7453",
+          "text": "The sorting machine lets a packet emerge at the archive end only if the packet bears a wax seal. Luro's packet had no wax seal when it went through the machine, and the machine added no seals. The log does not name its eventual destination."
+        }
+      ],
+      "claim": "Luro's packet was returned to its sender.",
+      "citations": [
+        {
+          "passage_id": "c8af9ddac6ee483d804b0312d3be7453",
+          "quote": "The sorting machine lets a packet emerge at the archive end only if the packet bears a wax seal. Luro's packet had no wax seal when it went through the machine, and the machine added no seals. The log does not name its eventual destination."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Excluding the archive exit does not identify a destination or return."
+    },
+    {
+      "id": "c52ab0a1a1b642948bd7d4c97a7c0dca",
+      "group_id": "2ab4dfb860154a05ad22a42cbcfc1e6a",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "28852539a68c4052a79bbe767b2e6fe1",
+          "text": "Every musician at the reed festival was a registered guest. Some registered guests stayed elsewhere for the entire festival and never slept at the inn. The lodging list does not identify which guests were musicians."
+        }
+      ],
+      "claim": "Every registered guest slept at the inn.",
+      "citations": [
+        {
+          "passage_id": "28852539a68c4052a79bbe767b2e6fe1",
+          "quote": "Every musician at the reed festival was a registered guest. Some registered guests stayed elsewhere for the entire festival and never slept at the inn. The lodging list does not identify which guests were musicians."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The guests sleeping outside are counterexamples."
+    },
+    {
+      "id": "5838fe10909b48e283aae49b2e66c4a3",
+      "group_id": "826c54649d2f4b59b562716a11bde873",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "a01e60ba8a39433682b9a6800423cd0b",
+          "text": "In the morning, weather reader Kez predicted strong wind that night. In the afternoon she withdrew that forecast and predicted a calm night instead. The chronicle ends before nightfall."
+        }
+      ],
+      "claim": "The night was actually calm.",
+      "citations": [
+        {
+          "passage_id": "a01e60ba8a39433682b9a6800423cd0b",
+          "quote": "In the morning, weather reader Kez predicted strong wind that night. In the afternoon she withdrew that forecast and predicted a calm night instead. The chronicle ends before nightfall."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "A forecast is recorded, but the chronicle stops before the weather occurs."
+    },
+    {
+      "id": "872a405cf0124dcdb2eb343846391a87",
+      "group_id": "fb312babad24403583febe221b829c61",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "bfe6dc5375d546c9b0fa489f824c46f1",
+          "text": "For the frost watch, the tower roster names Teral as night keeper and Onwi as day keeper. No one exchanged roles that day."
+        },
+        {
+          "id": "d8e2fbd5b861429b85d5ceba6738832a",
+          "text": "The frost-watch log records that the night keeper lit the beacon after the day keeper had left. It says the day keeper did not light the beacon that day."
+        }
+      ],
+      "claim": "Onwi was the keeper who lit the beacon during the frost watch.",
+      "citations": [
+        {
+          "passage_id": "bfe6dc5375d546c9b0fa489f824c46f1",
+          "quote": "For the frost watch, the tower roster names Teral as night keeper and Onwi as day keeper. No one exchanged roles that day."
+        },
+        {
+          "passage_id": "d8e2fbd5b861429b85d5ceba6738832a",
+          "quote": "The frost-watch log records that the night keeper lit the beacon after the day keeper had left. It says the day keeper did not light the beacon that day."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Onwi was the day keeper, explicitly not the one who lit it."
+    },
+    {
+      "id": "eb43854db3464bf7acf170abb6925a77",
+      "group_id": "dcb82833ba004989949dbc48f7b67135",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "17cc03e172cd40c2bfed29b0cf40756c",
+          "text": "At sunrise, twenty-seven boundary markers stood on the moor. During the survey, nine of these markers were removed and four new markers were installed. There were no other additions or removals that day."
+        }
+      ],
+      "claim": "Only eighteen markers in total stood on the moor after the survey.",
+      "citations": [
+        {
+          "passage_id": "17cc03e172cd40c2bfed29b0cf40756c",
+          "quote": "At sunrise, twenty-seven boundary markers stood on the moor. During the survey, nine of these markers were removed and four new markers were installed. There were no other additions or removals that day."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Eighteen originals plus four new markers makes twenty-two in total."
+    }
+  ]
+}
