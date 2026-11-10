@@ -1,0 +1,36 @@
+{
+  "candidate_execution_before_freeze": false,
+  "case_count": 151,
+  "contract_sha256": "0facb37c40a72b34dd93420453acc60def3292ee8a27fd6cef9f080a6a655e46",
+  "files": {
+    "README.md": "5199110cc53127bf5f6db593af7a807f367096573faaceaaa041fa897da61197",
+    "batch_01.json": "95af4ad4e2ea29599d37bba4b25bd0d25da09c1a48b9f7df90ec3d5cf92f16ee",
+    "batch_02.json": "55e98b36e38f8600f50ea2416fb6bdbbbea62edea491c78958f6fb757fb080bf",
+    "batch_03.json": "682c980e33367af6bf032f5051e98d209f1d486d4b4739f902a380848ac8ae5d",
+    "batch_04.json": "dc2353fa7b2a14f14330bf606d83778b9e9cccade2444eea6f163db379ddf0f8",
+    "batch_05.json": "e4e33078680e1b681e0e6d6be64e10f0e733cc0906896f95e36ef2cc3569a0c4",
+    "batch_06.json": "cf029aadc3b352bf4358dd58dd11e8e54ad0c9d765ed30cd2c20337757424dd9",
+    "batch_07.json": "f514e20edc4ae34956d722fb183af5ef9bd68e3123d471dce6163c8c5e1a4fef",
+    "batch_08.json": "50ba6be5fb2a651d57c60791b7261a284f7b84da563c47cfc0ff70a2be1df812",
+    "batch_09.json": "af8d8f05e35d417298f244e974f15ce2890e4271aac00db50ee391fd1a671a12",
+    "batch_10.json": "cd45d14dd828d9a6b27e847fae03ff5adebbe9d6758aa1cd38acc0a3bb401450",
+    "build_challenge.py": "0aa026955bf1e7788fcbff2927232f440d955c2a79708fba4f89f84c7b7ed792",
+    "challenge.json": "50e494891717c78756d48ae43948abfd3c70d48277f8611195d583ae6c47b72a",
+    "check_challenge.py": "790122e1fea9c66dbf981e34daf0edebf7e8ee3fa3373d02fdc7d7c12cf98711"
+  },
+  "freeze_version": 2,
+  "frozen_at_utc": "2026-11-10T20:05:19.803734+00:00",
+  "public_packaging": {
+    "author_manifest_sha256": "e92d1b2f19a96f199a384c794658c9fe361ccd0f21df754bb1ea10f8f9998df4",
+    "changed_fields": [
+      "freeze_version",
+      "read_basis",
+      "public_packaging"
+    ],
+    "prepared_at_utc": "2026-11-10T20:07:07.171898+00:00",
+    "reason": "Replace executor-specific contract location with repository-relative location; challenge and listed artifact bytes unchanged."
+  },
+  "read_basis": [
+    "docs/SCOPED_SUPPORT_CONTRACT.md"
+  ]
+}

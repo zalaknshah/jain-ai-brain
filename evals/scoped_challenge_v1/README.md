@@ -1,0 +1,13 @@
+# Independent contract-only challenge
+
+151 distinct synthetic cases, authored from the public scoped-unary contract only. No candidate, prior tests, outputs, existing datasets, or campaign artifacts were read or executed. No evaluator source was needed. Expected answers are explicit authored assertions, not results from an implementation of the candidate's algorithm.
+
+The corpus schema uses input, expected label/reason/checks, rationale, and family. Check paths are relative to a trace case; values require exact typed equality. Every case checks details; every semantically admitted case checks complete diagnostic scanning; rejected cases check every required null field. Selected cases additionally check exact witnesses, flags, components, admissions, identity ordinals, counts, and diagnostic inventory.
+
+Coverage: 48 direct-membership cases; 34 sign-paired logical cases; 24 sign-paired source/bridge cases; reference aliases/conflicts/resolution; strict parsing and precedence; inclusive and exceeded bounds; and focused exact diagnostic tests. Includes complete vs open accounts, direct vs derived statements, source/version/extent/frame isolation, fact/rule truth bridges, contraposition/vacuity/no converse, self-rules, other-entity/disconnected conflicts, graph-connecting redundant rules, closed empty accounts, query-only entities/predicates, and uncited invalid text.
+
+Ten prebound batches contain at most 16 cases. dataset_sha256 binds exact challenge.json bytes. input_sha256 binds canonical protocol/dataset_sha256/cases. Batch outputs are not present and no candidate execution is part of authoring. The generator rebuilds deterministic artifacts. check_challenge.py accepts saved traces and checks explicit expectations without invoking any candidate.
+
+Limits: This is not a full independent semantic oracle. It does not exhaust all input strings, all admitted constraints/provenance fields, all graphs, all maximum-resource combinations, or all diagnostic scopes. No transport rejection, file type, Unicode database compatibility, request-level trace overflow, wall-clock/resource, or implementation binding tests are claimed. Template-expanded cases are correlated, not population-representative or statistically independent trials. The labels and selected checks require review; a pass supports only these finite assertions, not general reasoning, source truth, natural language, production readiness, or a broader qualification claim.
+
+manifest.json freezes contract, generator, checker, corpus, README, and batch byte hashes before any candidate execution. The manifest excludes itself to avoid self-reference. Modification after freezing must be disclosed and re-frozen as a new revision before execution.
