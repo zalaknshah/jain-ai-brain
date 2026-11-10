@@ -150,3 +150,33 @@ no failed case was revised or used to tune the candidate. The now-public fixture
 are regression data for later changes. These results support a narrow logical
 calculation capability only. They do not qualify ordinary user-facing reasoning,
 Jain doctrine, source truth, multilingual interpretation or production deployment.
+
+
+## Larger-bound cross-check
+
+A second independently implemented oracle grounds the complete theory as a
+single global 2-SAT problem and uses strongly connected components to test
+satisfiability with and without the query. Before comparison with the candidate,
+it matched the independent full-joint truth-table reference on 5,964 queries
+over 497 small theories. It does not reuse the candidate parser or solver.
+
+With fixed seed 2026111017, it then matched all 1,260 candidate queries over
+140 generated theory trials. Every query included eight objects, ten properties
+and 48 raw statements, the declared symbol/statement limits. The set includes
+multi-step entailment, negative claims, open-world unknowns, nine-edge chains,
+query-only symbols and contradictions elsewhere in the context. No discrepancy
+was observed; the candidate code and its first fresh predictions did not change.
+
+These are not 1,260 independent theories. Removing duplicate statements and
+ignoring order yields 123 distinct statement sets and 1,210 distinct set/query
+pairs: 290 supported, 290 contradicted, 430 unknown and 200 intentionally
+inconsistent. These are syntactic identities, not logically inequivalent or
+statistically independent trials. Some theories include duplicate padding or
+tautologies. At 48 distinct statements, the distinct query outcomes are 240
+supported, 240 contradicted, 322 unknown and 200 inconsistent. Across raw queries,
+266 supported and 266 contradicted outcomes have no direct fact about the queried
+property. Statement multiplicity and tautology-adjusted clause counts are recorded
+separately in the [cross-check report](../evals/controlled_support_large_observed.json).
+
+This is targeted finite validation near the limits, not exhaustive coverage of
+all possible larger theories or evidence of broader natural-language competence.

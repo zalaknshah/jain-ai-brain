@@ -1,0 +1,140 @@
+{
+  "success": true,
+  "tests_run": 2,
+  "calibration": {
+    "theories": 497,
+    "query_comparisons": 5964,
+    "labels": {
+      "supported": 649,
+      "contradicted": 649,
+      "not_established": 4390,
+      "abstain": 276
+    },
+    "discrepancies": 0
+  },
+  "large": {
+    "seed": 2026111017,
+    "theory_trials": 140,
+    "distinct_theories": 131,
+    "query_comparisons": 1260,
+    "labels": {
+      "contradicted": 306,
+      "supported": 306,
+      "not_established": 448,
+      "abstain": 200
+    },
+    "by_family": {
+      "planted_chain": {
+        "contradicted": 240,
+        "supported": 240,
+        "not_established": 320
+      },
+      "planted_random": {
+        "contradicted": 46,
+        "supported": 46,
+        "not_established": 108
+      },
+      "contradiction": {
+        "abstain": 200
+      },
+      "query_only_symbols": {
+        "not_established": 20
+      },
+      "long_chain": {
+        "contradicted": 20,
+        "supported": 20
+      }
+    },
+    "boundaries": {
+      "(8, 10, 48)": 1260
+    },
+    "minimum_unique_statements": 27,
+    "distinct_statement_multisets": 131,
+    "distinct_statement_sets": 123,
+    "distinct_statement_set_query_pairs": 1210,
+    "distinct_query_labels": {
+      "contradicted": 290,
+      "supported": 290,
+      "not_established": 430,
+      "abstain": 200
+    },
+    "distinct_query_labels_at_48_distinct_statements": {
+      "contradicted": 240,
+      "supported": 240,
+      "not_established": 322,
+      "abstain": 200
+    },
+    "distinct_statement_sets_by_family": {
+      "planted_chain": 80,
+      "planted_random": 20,
+      "contradiction": 20,
+      "query_only_symbols": 1,
+      "long_chain": 2
+    },
+    "distinct_statement_count_histogram": {
+      "27": 10,
+      "43": 2,
+      "44": 7,
+      "45": 7,
+      "46": 3,
+      "47": 1,
+      "48": 110
+    },
+    "global_clause_count_histogram_including_and_excluding_tautologies": {
+      "(90, 42)": 20,
+      "(120, 40)": 20,
+      "(128, 48)": 70,
+      "(136, 56)": 70,
+      "(144, 64)": 30,
+      "(144, 120)": 10,
+      "(144, 136)": 10,
+      "(151, 119)": 10,
+      "(151, 127)": 20,
+      "(151, 135)": 50,
+      "(151, 143)": 30,
+      "(152, 72)": 10,
+      "(152, 136)": 30,
+      "(152, 144)": 10,
+      "(159, 127)": 20,
+      "(159, 135)": 70,
+      "(159, 143)": 100,
+      "(159, 151)": 60,
+      "(160, 80)": 40,
+      "(160, 128)": 20,
+      "(160, 136)": 50,
+      "(160, 144)": 60,
+      "(160, 152)": 10,
+      "(167, 127)": 30,
+      "(167, 135)": 110,
+      "(167, 143)": 120,
+      "(167, 151)": 130,
+      "(167, 159)": 50
+    },
+    "labels_at_48_distinct_statements": {
+      "contradicted": 240,
+      "supported": 240,
+      "not_established": 340,
+      "abstain": 200
+    },
+    "nontrivial_outcomes": {
+      "contradicted_without_direct_query_fact": 266,
+      "supported_without_direct_query_fact": 266,
+      "unknown_with_property_in_context": 428,
+      "unknown_query_only_property": 20
+    },
+    "discrepancies": 0
+  },
+  "hashes": {
+    "scripts/predict_controlled_support.py": "2ad4fd5c50d681f62dcc94fc3ba2f994e23fbd0bd7ebf31409703bdf18fb0262",
+    "tests/test_controlled_support_large_oracle.py": "c61e7761c2fe87f5f2fcf395e7dac084cb16b756754271f50d6bd2d18469ba2f",
+    "tests/test_controlled_support_oracle.py": "6652126a9b1b29d1f94c6cd11c7898da850f29c8b4770c7ea706c8cfc3780cea"
+  },
+  "limits": [
+    "Seeded larger theories are targeted finite validation, not exhaustive maximum-bound coverage.",
+    "Distinct statement sets and queries are syntactic identities, not counts of logically inequivalent models or independent trials.",
+    "Some theories deliberately repeat premises or include tautologies; raw statement, distinct statement, and grounded clause counts are reported separately.",
+    "All large case queries include 8 objects, 10 predicates and 48 raw statements.",
+    "New oracle uses independent global SCC satisfiability, calibrated against the previous independently implemented full joint truth-table oracle before comparison with candidate."
+  ],
+  "scope": "Recorded deterministic global-oracle cross-check; candidate unchanged. Counts are targeted finite validation, not independent or exhaustive general-language trials."
+}
