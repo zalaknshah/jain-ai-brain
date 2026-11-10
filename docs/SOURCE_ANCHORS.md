@@ -52,3 +52,8 @@ nonadjacent conflicts, input limits, unchanged original inputs and non-admission
 Additional original synthetic cases preserve the repeated-phrase/OCR-variation
 failure mode and demonstrate that uniqueness never certifies scan-page identity.
 They do not establish real-corpus or semantic accuracy.
+
+For separately prepared manual layer annotations, the
+[source layer coverage audit](SOURCE_LAYERS.md) checks exact byte/hash bindings,
+overlap and omitted coverage without changing these candidates or granting any
+review approval. Complete mechanical coverage is not proof of a correct label.
