@@ -24,7 +24,7 @@ An inventory has exactly `items` and `minimum_ready`.
 
 Each of 1–30 item rows has exactly:
 
-- `label`: 1–60 trimmed characters, without Unicode control/format characters. Labels must be distinct ignoring NFC composition and casefold. Original label text is retained. Use ordinary labels, not secrets or another person's private details.
+- `label`: 1–60 trimmed characters, without Unicode category-C characters (controls, format characters, surrogates, private-use or unassigned code points). Labels must be distinct ignoring NFC composition and casefold. Original label text is retained. Use ordinary labels, not secrets or another person's private details.
 - `category`: `tops`, `bottoms`, `outerwear`, `footwear`, or `other`.
 - `quantity`: integer 1–100, not a boolean/fraction; all quantities total at most 300 units.
 - `condition`: `ready`, `repair`, or `uncertain`.
@@ -66,11 +66,75 @@ These categories overlap and must not be summed. For example, a protected repair
 
 - `POST /v1/wardrobe-inventories`: `inventory`, literal `confirm_save: true`, optional `memory_scope`/`expires_at`. Optional `user_id` must match the bearer subject. Returns `{memory, notes}`.
 - `PATCH /v1/wardrobe-inventories`: `memory_id`, complete replacement `inventory`, required `expected_revision`, literal `confirm_save: true`. The owner/revision/type checks and memory/graph/audit update are one transaction. A stale revision returns 409; another owner's ID returns 404.
-- `POST /v1/plans/wardrobe`: optional `memory_scope`, `inventory_memory_id`, `expected_inventory_revision`. The revision requires an explicit ID. The browser always sends both. Planning rechecks owner, scope, type, expiry and the same fetched record's state fingerprint. It returns counts, category shortfalls, item review steps, applied inventory, source qualifications and `actions_executed: false`.
+- `POST /v1/plans/wardrobe`: optional `memory_scope`, `inventory_memory_id`, `expected_inventory_revision`, and literal-boolean `include_derivation` (default false). The revision requires an explicit ID. The browser always sends both. Planning rechecks owner, scope, type, expiry and the same fetched record's state fingerprint. It returns counts, category shortfalls, item review steps, applied inventory, source qualifications and `actions_executed: false`.
 
 Without an explicit ID, no active typed inventory produces `needs_inventory`; several produce `choose_inventory` without steps. Malformed active candidates fail closed. Discovery retains existing scan budgets and a 25-active-record cap; an explicit ID avoids broad discovery. Plain memories containing inventory-looking JSON are not promoted. Source tags are app conventions, not cryptographic provenance against a trusted database operator.
 
 Fingerprints are not secrets, permissions or monotonic versions. Exactly restored identical state has the same fingerprint. The plan uses one fetched snapshot; later edits, expiry or deletion do not retract it. Legacy callers may omit the optional planning fingerprint and receive the latest eligible row. Summary calculations do not automatically update a displayed plan.
+
+## Optional declared-rule derivation
+
+For an inspectable calculation trace, call the pure builder with
+`build_wardrobe_plan(inventory, include_derivation=True)`, the engine with
+`plan_wardrobe(..., include_derivation=True)`, or include
+`"include_derivation": true` in the existing authenticated planning request.
+`/health` advertises `wardrobe_derivation_protocol: 1`. Non-boolean values are
+rejected. The existing browser does not request or display this optional trace;
+its behavior and the default response remain unchanged. No new save, model call
+or action is introduced.
+
+A successful single-inventory plan adds a `derivation` object:
+
+- `protocol: 1`, `basis: "declared_inventory_rules"`, and `inventory_sha256`.
+  The digest covers the normalized applied inventory as UTF-8 JSON with sorted
+  keys, no ASCII escaping and compact separators. Labels retain their original
+  text; NFC/casefold is used only to reject duplicate labels. The digest binds
+  this snapshot, not authorship, consent, permissions or real-world truth.
+- `summary_contributors` maps each existing summary metric to ordered
+  `{row_ordinal, units}` contributors. Ordinals are one-based input positions;
+  units are the declared row quantity. Contributor groups can overlap.
+- `categories` records each category's ready contributors, declared minimum,
+  ready total, shortfall, initial possible-surplus budget, allocated review units
+  and remaining budget. These are counts under the declared rules, not assessed
+  clothing needs or verified physical objects.
+- `item_rules` records each row's ownership, preservation, condition, fit and use
+  declarations; whether it counts as ready; the selected rule and its priority;
+  the category budget before the row; its allocation; and the budget afterward.
+  Priorities 1–7 correspond to ownership review, preservation, repair review,
+  fit/condition/use review, possible-surplus review, keep for declared needs and
+  reuse. The first applicable rule wins, with the budget carried across earlier
+  rows of the same category. Only rule 5 spends that budget.
+- `limits` keeps the declaration, order, overlap and non-authorization boundaries
+  explicit. Trace fields do not establish natural-language entailment or Jain
+  doctrinal reasoning.
+
+For example, two unused, owned, ready and fitting rows of three and four units
+with a category minimum of five yield seven ready units and a budget of two.
+The first row can receive two possible-surplus review units; the second receives
+zero. Reordering can change which row receives the two units. It does not change
+the category totals and does not authorize removing anything. A protected or
+uncertain-use ready row can contribute to the ready count while receiving no
+surplus allocation itself.
+
+The explained pure plan and the complete explained engine/API response are each
+limited to 64 KiB of serialized UTF-8 JSON. The full API result also contains the
+saved inventory snapshot and ordinary source metadata, so it can exceed the
+limit even if the pure trace fits. An exceeded budget fails without partial
+output, truncation or an automatic untraced retry. This explicit limit does not
+change ordinary untraced requests. Missing or ambiguous inventory selection
+still returns the existing selection-required status with no invented trace.
+Owner, scope, revision and expiration checks remain unchanged.
+
+`tests/wardrobe_derivation_oracle.py` is an independently authored test oracle,
+not a production endpoint or a source of permission. It recomputes the typed
+input's contributor membership, arithmetic, decision precedence and ordered
+budget without importing the production planner or its calculation helpers.
+Tests check original multi-row examples, metamorphic relations and rejection of
+invented contributors, altered quantities, precedence violations, boolean/integer
+substitution and coordinated double spending. The checker does not interpret
+instruction prose or verify actual garments, adequate minimums, semantic meaning,
+source truth or a religious interpretation. API delivery tests separately verify
+snapshot/authorization binding and no additional memory writes or provider calls.
 
 ## Privacy and verification boundaries
 

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import unicodedata
 
 from .model_output import strict_json
@@ -10,6 +11,7 @@ from .models import Memory
 INVENTORY_SOURCE = 'wardrobe_inventory_v1'
 CATEGORIES = ('tops', 'bottoms', 'outerwear', 'footwear', 'other')
 ITEM_FIELDS = {'label', 'category', 'quantity', 'condition', 'fit', 'use', 'preserve', 'ownership'}
+MAX_EXPLAINED_PLAN_BYTES = 64 * 1024
 
 
 def validate_inventory(value: dict) -> dict:
@@ -68,15 +70,20 @@ def decode_inventory(memory: Memory) -> dict:
     return validate_inventory(value['inventory'])
 
 
-def build_wardrobe_plan(value: dict) -> dict:
+def build_wardrobe_plan(value: dict, *, include_derivation: bool = False) -> dict:
+    if type(include_derivation) is not bool:
+        raise ValueError('include_derivation must be an explicit boolean')
     inventory = validate_inventory(value)
     items, needs = inventory['items'], inventory['minimum_ready']
     ready = lambda item: item['ownership'] == 'mine' and item['condition'] == 'ready' and item['fit'] == 'fits'
     counts = {category: sum(item['quantity'] for item in items if item['category'] == category and ready(item)) for category in CATEGORIES}
     surplus = {category: max(0, counts[category] - needs[category]) for category in CATEGORIES}
+    initial_surplus = dict(surplus)
+    item_rules = []
     steps = []
-    for item in items:
+    for ordinal, item in enumerate(items, 1):
         quantity, category, label = item['quantity'], item['category'], item['label']
+        before = surplus[category]
         review_quantity = 0
         if item['ownership'] != 'mine':
             decision = 'ownership_review'
@@ -105,7 +112,15 @@ def build_wardrobe_plan(value: dict) -> dict:
             instruction = 'Consider re-wearing and combining these suitable already-owned units. Try storage you already own, follow care instructions, and preserve necessary clothing. No new organizer or clothing purchase is proposed.'
         steps.append({'label': label, 'quantity': quantity, 'category': category, 'decision': decision,
                       'possible_surplus_review_units': review_quantity, 'instruction': instruction})
-    return {'task': 'wardrobe_review', 'inventory_applied': inventory, 'action': None, 'actions_executed': False,
+        if include_derivation:
+            priorities = ('ownership_review', 'preserve', 'repair_review', 'check_fit_or_condition',
+                          'review_possible_surplus', 'keep_for_declared_needs', 'reuse')
+            item_rules.append({'row_ordinal': ordinal, 'rule_priority': priorities.index(decision) + 1,
+                'rule': decision, 'declared_fields': {key: item[key] for key in
+                    ('ownership', 'preserve', 'condition', 'fit', 'use')},
+                'ready_counted': ready(item), 'category_surplus_before': before,
+                'allocated_units': review_quantity, 'category_surplus_after': surplus[category]})
+    plan = {'task': 'wardrobe_review', 'inventory_applied': inventory, 'action': None, 'actions_executed': False,
             'summary': {
                 'declared_total_units': sum(item['quantity'] for item in items),
                 'owned_ready_units': sum(counts.values()),
@@ -124,3 +139,39 @@ def build_wardrobe_plan(value: dict) -> dict:
                 'No donation, disposal, ownership transfer, contact, purchase, repair or robot action is executed or authorized by this checklist.',
                 'No learned reasoning, religious ruling, fiber/material classification, scholarly interpretation or verified environmental/health claim is supplied.',
             ]}
+    if include_derivation:
+        def contributors(predicate):
+            return [{'row_ordinal': number, 'units': item['quantity']}
+                    for number, item in enumerate(items, 1) if predicate(item)]
+
+        categories = []
+        for category in CATEGORIES:
+            categories.append({'category': category,
+                'ready_contributors': contributors(lambda item: item['category'] == category and ready(item)),
+                'minimum_ready': needs[category], 'owned_ready_units': counts[category],
+                'shortfall_units': max(0, needs[category] - counts[category]),
+                'initial_surplus_budget': initial_surplus[category],
+                'allocated_surplus_review_units': initial_surplus[category] - surplus[category],
+                'remaining_surplus_budget': surplus[category]})
+        encoded = json.dumps(inventory, ensure_ascii=False, sort_keys=True,
+                             separators=(',', ':'), allow_nan=False).encode('utf-8')
+        plan['derivation'] = {'protocol': 1, 'inventory_sha256': hashlib.sha256(encoded).hexdigest(),
+            'basis': 'declared_inventory_rules',
+            'summary_contributors': {
+                'declared_total_units': contributors(lambda item: True),
+                'owned_ready_units': contributors(ready),
+                'repair_review_units': contributors(lambda item: item['ownership'] == 'mine' and item['condition'] == 'repair'),
+                'uncertain_review_units': contributors(lambda item: item['ownership'] == 'mine' and
+                    (item['condition'] == 'uncertain' or item['fit'] != 'fits' or item['use'] == 'uncertain')),
+                'protected_units': contributors(lambda item: item['preserve']),
+            }, 'categories': categories, 'item_rules': item_rules,
+            'limits': [
+                'A derivation from explicit inventory declarations and fixed rules, not verified garments, adequate needs, natural-language entailment or religious interpretation.',
+                'One-based row ordinals refer to this exact inventory order. Reordering rows may change surplus allocation, not category totals.',
+                'Summary contributor groups overlap; their totals must not be added together.',
+                'The inventory digest binds data, not authorship, consent, authorization or real-world truth.',
+                'No action, purchase, contact, transfer, repair or additional memory write is performed by this derivation.',
+            ]}
+        if len(json.dumps(plan, ensure_ascii=False, allow_nan=False).encode('utf-8')) > MAX_EXPLAINED_PLAN_BYTES:
+            raise ValueError('explained wardrobe plan exceeds the 64 KiB output limit')
+    return plan

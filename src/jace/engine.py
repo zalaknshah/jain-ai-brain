@@ -402,7 +402,10 @@ class CognitiveEngine:
 
     @synchronized
     def plan_wardrobe(self, user_id: str, *, memory_scope: str = DEFAULT_SCOPE,
-                      inventory_memory_id: int | None = None, expected_inventory_revision: str | None = None) -> dict:
+                      inventory_memory_id: int | None = None, expected_inventory_revision: str | None = None,
+                      include_derivation: bool = False) -> dict:
+        if type(include_derivation) is not bool:
+            raise ValueError('include_derivation must be an explicit boolean')
         if not isinstance(user_id, str) or not user_id.strip():
             raise ValueError('user_id is required')
         memory_scope = validate_memory_scope(memory_scope)
@@ -431,10 +434,13 @@ class CognitiveEngine:
             return {**common, 'status': 'choose_inventory', 'item_steps': [],
                     'message': 'Several active inventories exist. Explicitly select inventory_memory_id; no newest-wins assumption is made.',
                     'inventories': [{'memory_id': memory.memory_id, 'revision': memory.revision} for memory in memories]}
-        plan = build_wardrobe_plan(inventories[0])
+        plan = build_wardrobe_plan(inventories[0], include_derivation=include_derivation)
         evidence = self.canonical.search('aparigraha restraint resources reversible wardrobe', limit=5)
-        return {**common, **plan, 'status': 'planned', 'inventory_memory': memories[0].to_dict(),
+        result = {**common, **plan, 'status': 'planned', 'inventory_memory': memories[0].to_dict(),
                 'canonical_evidence': [item.to_dict() for item in evidence], 'grounding': LocalReasoner._grounding(evidence)}
+        if include_derivation:
+            bounded_payload(result, 64 * 1024, 'explained wardrobe plan')
+        return result
 
     @synchronized
     def learn_from_conversation(self, user_id: str, content: str, *, memory_scope: str = DEFAULT_SCOPE):
