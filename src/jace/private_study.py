@@ -330,6 +330,50 @@ class StudySession:
         response.update(status='found' if record else 'not_found', results=[self._present(record)] if record else [])
         return response
 
+    def inventory(self):
+        """Summarize recorded coverage and review flags without returning passages.
+
+        Counts describe this preparation only, not a complete canon, validated
+        language, a reviewed edition, or permission for a new downstream use.
+        Fixed buckets avoid echoing arbitrary source metadata as output keys.
+        """
+        self._require_active()
+        def bucket():
+            return {'records': 0, 'search_eligible': 0, 'search_excluded': 0}
+
+        categories = {name: bucket() for name in (*STUDY_CATEGORIES, 'unrecognized')}
+        chapters = {name: bucket() for name in (*(str(n) for n in range(1, 11)),
+                                               'unassigned', 'unrecognized')}
+        total = bucket()
+        review_flags = {'incomplete_source_identifier': 0,
+                        'quotation_context_review_required': 0,
+                        'editorial_note': 0}
+        for record in self._records.values():
+            category = record.get('category')
+            category = category if isinstance(category, str) and category in STUDY_CATEGORIES else 'unrecognized'
+            chapter = record.get('chapter')
+            if chapter is None:
+                chapter = 'unassigned'
+            elif not isinstance(chapter, str) or chapter not in tuple(str(n) for n in range(1, 11)):
+                chapter = 'unrecognized'
+            eligibility = 'search_eligible' if eligible(record) else 'search_excluded'
+            for counts in (total, categories[category], chapters[chapter]):
+                counts['records'] += 1
+                counts[eligibility] += 1
+            review_flags['incomplete_source_identifier'] += record.get('citation_status') == 'source_identifier_incomplete'
+            review_flags['quotation_context_review_required'] += record['quotation_context_review_required']
+            review_flags['editorial_note'] += category == 'editorial_note'
+        response = self._envelope()
+        response.update(status='inventory', totals=total, by_category=categories,
+                        by_chapter=chapters, review_flags=review_flags,
+                        review_flag_counts_may_overlap=True,
+                        record_content_included=False,
+                        admission_counts={flag: 0 for flag in ADMISSION_FLAGS},
+                        reason='Metadata counts from the pinned preparation only. Search eligibility is a mechanical filter, '
+                               'not scholarly review or runtime/training admission. Review flags may overlap and do not '
+                               'enumerate every reason a record is excluded. No passage, identifier or source path is returned.')
+        return response
+
     def browse(self, *, offset=0, limit=5, chapter=None, category=None):
         """Inspect exact records in pinned preparation order, without relevance ranking.
 
@@ -413,7 +457,10 @@ def parse_request(raw):
     if not isinstance(request, dict):
         raise StudyError('Source-study input must be a JSON object')
     operation = request.get('operation')
-    if operation == 'lookup':
+    if operation == 'inventory':
+        if set(request) != {'operation'}:
+            raise StudyError('Inventory accepts only operation; no filters, paths or actions')
+    elif operation == 'lookup':
         if set(request) != {'operation', 'id'} or not isinstance(request['id'], str) or not 1 <= len(request['id']) <= 512:
             raise StudyError('Lookup requires only operation and a bounded nonempty id')
     elif operation == 'browse':
@@ -436,14 +483,16 @@ def parse_request(raw):
         if request.get('ranking', 'fixed_blend') not in ('lexical', 'fixed_blend'):
             raise StudyError('Only untrained lexical or fixed-blend ranking is supported')
     else:
-        raise StudyError('Only lookup, browse and search are supported; no training or action operation')
+        raise StudyError('Only inventory, lookup, browse and search are supported; no training or action operation')
     return request
 
 
 def run_request(raw, *, consent, source_path, prepared_path):
     request = parse_request(raw)
     with StudySession(consent, source_path=source_path, prepared_path=prepared_path) as session:
-        if request['operation'] == 'lookup':
+        if request['operation'] == 'inventory':
+            result = session.inventory()
+        elif request['operation'] == 'lookup':
             result = session.lookup(request['id'])
         elif request['operation'] == 'browse':
             result = session.browse(offset=request.get('offset', 0), limit=request.get('limit', 5),

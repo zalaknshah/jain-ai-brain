@@ -65,6 +65,23 @@ jace source-study --stdin \
 ```
 
 Lookup JSON: `{ "operation": "lookup", "id": "TAS_1.1" }`.
+
+Inventory JSON: `{ "operation": "inventory" }`. This has no optional fields.
+It reports record totals, mechanically search-eligible/excluded counts, and
+fixed category/chapter buckets without returning record passages, identifiers
+or XML paths. Attribution, preparation notices and pinned fingerprints remain
+included. Missing chapters use `unassigned`; unexpected category/chapter values
+use `unrecognized` rather than being echoed. The chapter and category breakdowns
+each sum to the total; review-flag counts may overlap and are not a partition or
+an exhaustive list of exclusion reasons. Zero-filled buckets are retained.
+
+Inventory still requires the same per-invocation consent, no-follow reads and
+integrity checks of the full pinned preparation. It does not discover files or
+skip source verification. Counts describe this preparation, not completeness
+of the canon, validated languages or rights, scholarly quality, or readiness for
+training/runtime use. All admission counts remain zero. It changes no records,
+search eligibility, model, licence or permissions and writes no report file.
+
 Browse JSON: `{ "operation": "browse", "limit": 5 }`. Browsing returns records
 in the pinned preparation's order, without ranking. Optional `chapter` is an exact
 string from `"1"` through `"10"`; optional `category` is `root_text`, `commentary`,
@@ -116,7 +133,8 @@ collaboration is not runtime authorization. These web controls are not implement
 
 Synthetic tests cover consent, source integrity, no-follow IO, revocation, copied
 outputs, flags/notes, complete ordered pagination, exact metadata filters,
-exclusion/abstention, bounded JSON stdin, fixed-only ranking
+inventory totals/bucket reconciliation, overlapping review flags, no record
+content in inventories, exclusion/abstention, bounded JSON stdin, fixed-only ranking
 and no-engine dispatch. Separate private smoke evidence checks approved local
 source files without adding text to the repository or wheel. Browser/audio,
 Windows, hosted access, multi-user service and doctrinal/business competence
