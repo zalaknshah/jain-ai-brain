@@ -38,6 +38,19 @@ words. Inspect these scans rather than dropping them from a review queue or
 lowering anchor requirements to make an incomplete extraction appear aligned.
 Preserve any missing reference matter for separate layout-aware review.
 
+Do not restrict visual review to unresolved pages. A rotated table can produce
+enough shared OCR noise to receive a valid navigation candidate while losing its
+row labels, glyphs and cell relationships. Even every supplied OCR word matching
+is not a measure of cell recovery or accuracy against print. Review neighboring
+pages to establish the full table extent, row-number continuity and carried
+column headers, rather than treating a problematic page as an isolated gap.
+Inspect PDF hidden text and separately stored OCR as distinct outputs: one can
+contain far more noisy material without being a trustworthy transcription.
+Keep untranscribed or uncertain cells explicit. Do not infer historical glyphs,
+normalize them to modern equivalents or interpret dotted placeholders as missing
+data without a separate script-aware review. None of this changes the helper's
+navigation result or grants source admission.
+
 Uniqueness is relative to the supplied OCR words, not the printed edition. A
 repeated printed phrase can look unique elsewhere when one OCR copy contains a
 spelling error. If such a match jumps against surrounding anchors, the page
@@ -60,6 +73,9 @@ nonadjacent conflicts, input limits, unchanged original inputs and non-admission
 Additional original synthetic cases preserve the repeated-phrase/OCR-variation
 failure mode and demonstrate that uniqueness never certifies scan-page identity.
 They do not establish real-corpus or semantic accuracy.
+An original fictional-table regression also demonstrates that complete agreement
+between two corrupt OCR strings leaves every scan/cell-review and admission flag
+false. It tests the stated boundary, not automatic detection of corrupt tables.
 
 For separately prepared manual layer annotations, the
 [source layer coverage audit](SOURCE_LAYERS.md) checks exact byte/hash bindings,

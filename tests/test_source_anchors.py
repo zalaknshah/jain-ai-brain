@@ -103,6 +103,27 @@ class SourceAnchorTests(unittest.TestCase):
         self.assertFalse(row['runtime_admitted'])
         self.assertFalse(row['training_admitted'])
 
+    def test_complete_agreement_of_corrupt_table_ocr_is_not_scan_or_cell_review(self):
+        # This original fictional table exists only as a test expectation. The
+        # helper never receives its layout or cells, only two agreeing OCR
+        # strings that lost every cell. Even complete OCR agreement cannot
+        # establish that a table was recovered or its associations preserved.
+        intended_cells = {'row-one': {'left': 'amber', 'right': 'violet'},
+                          'row-two': {'left': 'copper', 'right': 'silver'}}
+        corrupt_ocr = passage('synthetic-glyph-noise-', 32)
+        raw = corrupt_ocr.encode()
+        result = anchors.find_source_anchors(raw, [corrupt_ocr])
+        row = result['pages'][0]
+        self.assertEqual(row['status'], 'interior_span_candidate')
+        self.assertEqual(row['exact_matched_page_ocr_words'], row['page_ocr_words'])
+        self.assertEqual(raw[row['source_byte_start']:row['source_byte_end']], raw)
+        for cells in intended_cells.values():
+            self.assertTrue(all(value not in corrupt_ocr for value in cells.values()))
+        for flag in ('scan_accuracy_reviewed', 'source_layers_separated',
+                     'runtime_admitted', 'training_admitted'):
+            self.assertIs(row[flag], False)
+        self.assertEqual(raw, corrupt_ocr.encode())
+
     def test_wide_source_gap_does_not_join_distant_passages(self):
         a, b = passage('a', 8), passage('b', 8)
         raw = (a + ' ' + passage('gap', 100) + ' ' + b).encode()
