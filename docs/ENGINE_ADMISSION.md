@@ -19,14 +19,18 @@ Here `request_started: false` means no **engine operation** began for that reque
 
 The server does not queue or retry that rejected operation. Its data is not written to memory, its reasoner is not called, and its deletion or update is not performed. Review the operation and current state before explicitly submitting a new request; a separate attempt is not idempotency protection. Never infer "not started" from a timeout, broken connection or arbitrary 503 response. Only the specific received `engine_busy` response has this pre-admission meaning.
 
-One admission spans the entire HTTP handler, including ordinary thinking and any explicitly requested learning from the same request. Nested engine calls reuse the reentrant lock. The admission is released in guaranteed handler cleanup on success, validation failure, unexpected failure or a disconnected client. Existing API authentication, per-message learning consent, state-revision checks, source boundaries, deletion confirmation and selected-context controls remain in force.
+One admission spans all engine work, including ordinary thinking and any explicitly requested learning from the same request, and serialization of the complete JSON response into immutable UTF-8 bytes. Nested engine calls reuse the reentrant lock. Admission is then released **before any response status, headers or body are transmitted**. Guaranteed handler cleanup remains a fallback for failures before response finalization. Existing API authentication, per-message learning consent, state-revision checks, source boundaries, deletion confirmation and selected-context controls remain in force.
+
+This ordering fixes a race where a client could fully receive a response while its handler still held admission, then get an unexpected busy rejection on its next sequential request. A finalized response is terminal: the handler's engine accessor refuses further work and a second `_send` refuses duplicate output, including after a socket-write failure. These guards govern the supported handler lifecycle, not arbitrary server extensions holding raw engine references.
+
+Response bytes are a snapshot of the completed operation. A later request can change or delete state while those earlier bytes are still in transit; it cannot rewrite or revoke the captured response. The server does not promise that a delivered snapshot is still the newest state. Revision and confirmation checks remain necessary for subsequent mutations.
 
 All current engine-backed routes use the same boundary, including canonical search, context review, memory reads/changes, cleaning and wardrobe workflows. Public `/health`, OPTIONS, unknown routes standalone motion decisions and stateless dispute preparation do not acquire the engine lock. These routes remain subject to existing connection, rate and request-read limits; health is not an unconditional availability guarantee.
 
 ## Remaining limits
 
 - An admitted operation may finish, write or transmit provider context after its client disconnects. This change supplies no rollback, cancellation or safe automatic retry of an uncertain outcome.
-- The admission remains held through response writing. A slow reader can retain it until normal socket timeout/error. It does not provide a hard real-time latency guarantee or release all capacity at a precise time.
+- A slow reader can retain a connection slot/handler until normal socket timeout/error, but response transmission no longer retains engine admission. Serialization still runs under admission. This does not provide a hard real-time latency guarantee or release all server capacity at a precise time.
 - Direct in-process engine calls retain their previous blocking semantics. The same lock ensures an HTTP request also rejects contention from those callers. The gate is per engine instance, not distributed across processes or different engines sharing SQLite.
 - There is no fair queue, per-owner scheduling or reserved capacity. A long operation can prevent other owners' engine-backed requests from being admitted; they now receive a prompt rejection rather than wait to execute later.
 - Custom reasoners and other admitted work are not made cancellable or time-bounded by this gate. The optional standard HTTP model worker has its [separate local communication timeout](MODEL_TRANSPORT.md), which cannot cancel already accepted provider work or charges.
@@ -36,3 +40,10 @@ All current engine-backed routes use the same boundary, including canonical sear
 `tests/test_engine_admission.py` uses synthetic event-gated reasoners, temporary memory databases and real local HTTP requests. It checks every current engine-backed route under contention, no rejected writes/reasoner calls after release, thinking-plus-learning as one admission, public health, auth/ownership/JSON errors, incomplete authenticated bodies without premature admission, direct engine contention, nested calls, cleanup after errors and client disconnects. A disconnected admitted request is explicitly tested to finish its requested learning, documenting the uncertain-outcome limit rather than claiming cancellation.
 
 These are local functional regressions, not production capacity measurements or real browser/provider qualification. No credentials, external provider calls, new corpus data or paid compute are required.
+
+`tests/test_http_response_admission.py` adds deterministic event-gated response
+ordering checks: sequential stale mutations while the first handler has not
+finished cleanup, frozen response bytes during a later mutation, stalled socket
+writing, admission retained during serialization, serialization failure, terminal
+engine access and duplicate-output rejection. No sleeps or automatic mutation
+retries are used to conceal the ordering race.

@@ -75,6 +75,7 @@ class JaceHandler(BaseHTTPRequestHandler):
     def handle_one_request(self) -> None:
         self._engine_stack = ExitStack()
         self._engine_admitted = False
+        self._response_finalized = False
         self._read_lock = Lock()
         self._read_complete = False
         self._read_expired = False
@@ -162,15 +163,29 @@ class JaceHandler(BaseHTTPRequestHandler):
     @property
     def engine(self) -> CognitiveEngine:
         # Every engine-backed route reaches this only after authorization and
-        # request reads. Hold one admission through all calls in this handler,
-        # including think + optional learning; never enqueue a later write.
+        # request reads. Hold one admission through all engine calls and response
+        # serialization, including think + optional learning; never queue a write.
+        if self._response_finalized:
+            raise RuntimeError('engine access is not allowed after response finalization')
         if not self._engine_admitted:
             self._engine_stack.enter_context(self.server.engine.request_admission())
             self._engine_admitted = True
         return self.server.engine
 
     def _send(self, status: int, payload: object, *, retry_after: int | None = None) -> None:
+        if self._response_finalized:
+            raise ConnectionError('a response has already been finalized')
+        # Freeze the complete response under admission. No live engine data may
+        # be serialized after another operation starts. Release before any wire
+        # output so a completed client response cannot precede lock release, and
+        # a slow/disconnected reader does not reserve the engine. Connection
+        # limits still apply; this does not cancel or retry accepted mutations.
         data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+        self._response_finalized = True
+        try:
+            self._engine_stack.close()
+        finally:
+            self._engine_admitted = False
         self.send_response(status)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.send_header('Content-Length', str(len(data)))
