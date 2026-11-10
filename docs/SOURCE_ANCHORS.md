@@ -30,6 +30,14 @@ correct scan, establish page identity and content layers, retain correction
 provenance and complete separate scholarly/rights review before further use.
 All scan-review, layer-separation, runtime and training flags remain false.
 
+An `empty_page_text` result means only that the supplied OCR string contains no
+words. Sparse or empty OCR does not establish a blank scan or unimportant page.
+Rotated tables, other scripts, handwriting and image-only material may be absent
+from the extracted text. Conversely, texture on a cover can produce spurious
+words. Inspect these scans rather than dropping them from a review queue or
+lowering anchor requirements to make an incomplete extraction appear aligned.
+Preserve any missing reference matter for separate layout-aware review.
+
 Uniqueness is relative to the supplied OCR words, not the printed edition. A
 repeated printed phrase can look unique elsewhere when one OCR copy contains a
 spelling error. If such a match jumps against surrounding anchors, the page
