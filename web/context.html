@@ -39,8 +39,8 @@
     <h3>Ethical assessment</h3><pre id="assessment"></pre>
     <h3>Limits</h3><ul id="limits"></ul>
     <fieldset>
-      <legend>Choose how to answer</legend>
-      <label>Reasoner <select id="mode"><option value="local">Local only, no model provider</option><option value="configured" id="configured-option">Configured reasoner</option></select></label>
+      <legend>Choose an answer or source passages</legend>
+      <label>Reasoner <select id="mode"><option value="local">Local only, no model provider</option><option value="evidence_only">Passages only, not an answer</option><option value="configured" id="configured-option">Configured reasoner</option></select></label>
       <pre id="target"></pre>
       <p><label><input id="confirm" type="checkbox"> <span id="consent-text"></span></label></p>
       <button id="answer" disabled>Answer once with this selected context</button>
@@ -51,7 +51,7 @@
     <pre id="response"></pre><pre id="receipt"></pre>
     <h3>Sources used</h3><ul id="used-sources"></ul>
     <h3>Private memories used</h3><ul id="used-memories"></ul>
-    <p><small>The receipt checks selected records and revisions, not factual accuracy or whether sources support the generated answer. Generated content remains unverified. This is a snapshot. Later expiry or deletion cannot retract an answer or context already sent. No memory was learned or updated, and no action was executed. A new answer needs a fresh preview and confirmation.</small></p>
+    <p id="result-note"><small>The receipt checks selected records and revisions, not factual accuracy or whether sources support the generated answer. Generated content remains unverified. This is a snapshot. Later expiry or deletion cannot retract an answer or context already sent. No memory was learned or updated, and no action was executed. A new answer needs a fresh preview and confirmation.</small></p>
   </section>
   <p><small>Changing the question, scope, account or API invalidates the review. Cancellation stops this browser waiting; a submitted request may already have reached the reasoner. No request is automatically retried. API confirmation is a caller assertion, not proof of human review.</small></p>
   <script src="context-review.js"></script>

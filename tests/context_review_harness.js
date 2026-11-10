@@ -28,15 +28,27 @@ const response = (data, status = 200, declared = null) => {
   const bytes = new TextEncoder().encode(JSON.stringify(data)); let sent = false;
   return {ok:status >= 200 && status < 300,status,headers:{get:() => declared === null ? String(bytes.length) : declared},body:{getReader:() => ({read:async () => sent ? {done:true} : (sent=true,{done:false,value:bytes}),cancel:async () => {cancelCount += 1;},releaseLock:() => {}})}};
 };
+function eligibleEvidenceFixture() {
+  for (const item of currentPreview.canonical_evidence) Object.assign(item.entry, {work:'Original test work',edition:'Original test edition',location:'Original test section',license:'Original synthetic fixture',verified:true});
+}
+function mockWholePassages(entries) {
+  const output=['Selected source passages, not an answer. Their relevance, truth and support for any conclusion have not been established. These are complete admitted passages, not necessarily complete documents. Review, edition and licensing remain operator declarations.'];
+  if(!entries.length)output.push('No source passages selected.');
+  for(const e of entries){
+    output.push(`[${e.entry_id}] ${e.work}; ${e.source}; ${e.location}; language: ${e.language}; edition: ${e.edition}; license: ${e.license}.`, 'Full selected passage:',e.principle);
+    output.push(e.source_sha256 === undefined ? 'Source integrity: record-only excerpt matching; no backing source-file bytes were checked.' : `Source bytes checked at admission: SHA-256 ${e.source_sha256}; UTF-8 byte range [${e.source_byte_start}, ${e.source_byte_end}). This checks local byte identity, not authorship, edition authenticity, rights, scholarship or support for the answer.`);
+  }
+  return output.join('\n');
+}
 function answerData(body) {
-  return {request_id:'fixture',user_id:body.user_id,input:body.input,memory_scope:body.memory_scope,response:'A selected-context answer.',ethical_assessment:clone(assessment),perspectives:[],action:null,created_at:now,
+  return {request_id:'fixture',user_id:body.user_id,input:body.input,memory_scope:body.memory_scope,response:body.reasoner_mode === 'evidence_only' ? mockWholePassages(body.sources.map(ref => currentPreview.canonical_evidence.find(s => s.entry.entry_id === ref.entry_id).entry)) : 'A selected-context answer.',ethical_assessment:clone(assessment),perspectives:[],action:null,created_at:now,
     canonical_evidence:body.sources.map(ref => clone(currentPreview.canonical_evidence.find(s => s.entry.entry_id === ref.entry_id).entry)),
     memories_used:body.memories.map(ref => clone(currentPreview.memories.find(m => m.memory_id === ref.memory_id))),
-    context_review:{protocol:1,reasoner_mode:body.reasoner_mode,request_revision:body.expected_request_revision,corpus_revision:body.expected_corpus_revision,sources:clone(body.sources),memories:clone(body.memories),selected_at:now,configured_reasoner:body.reasoner_mode === 'configured' ? clone(currentPreview.configured_reasoner) : null}};
+    context_review:{...(body.reasoner_mode === 'evidence_only' ? {output_contract:'whole_passages_v1'} : {}),protocol:1,reasoner_mode:body.reasoner_mode,request_revision:body.expected_request_revision,corpus_revision:body.expected_corpus_revision,sources:clone(body.sources),memories:clone(body.memories),selected_at:now,configured_reasoner:body.reasoner_mode === 'configured' ? clone(currentPreview.configured_reasoner) : null}};
 }
 async function normal(url, options) {
   const route = new URL(url).pathname;
-  if (route === '/health') return response({context_review_protocol:1});
+  if (route === '/health') return response({context_review_protocol:1,context_evidence_protocol:1});
   assert.equal(options.method, 'POST'); assert.equal(options.headers.Authorization, 'Bearer ' + token);
   const body = JSON.parse(options.body);
   if (route === '/v1/context/preview') {
@@ -98,7 +110,7 @@ async function actualChange(route, method, body) {const r=await fetch(elements.a
     }
   } else if (scenario === 'silent_mode_during_health_rejected') {
     await open(); select('memory'); confirm(); const hold=deferred(); responder=()=>hold.promise;
-    const pending=click('answer'); await tick(); elements.mode.value='configured'; hold.resolve(response({context_review_protocol:1})); await pending;
+    const pending=click('answer'); await tick(); elements.mode.value='configured'; hold.resolve(response({context_review_protocol:1,context_evidence_protocol:1})); await pending;
     assert.equal(answerCalls().length,0); assert.equal(elements.review.hidden,true); assert.equal(elements.confirm.checked,false);
   } else if (scenario === 'stream_stops_at_first_stale_chunk') {
     for (const route of ['/health','/v1/context/preview','/v1/context/answer']) {
@@ -114,6 +126,50 @@ async function actualChange(route, method, body) {const r=await fetch(elements.a
     assert.ok(getChoices().every(c=>!c.checkbox.checked)); assert.equal(elements.mode.value,'local'); assert.equal(elements.confirm.checked,false);
     assert.match(listText('sources'),/Full principle/); assert.match(listText('memories'),/Private second line/); assert.match(listText('memories'),/Recall expiry: 2027/);
     await click('answer'); assert.equal(answerCalls().length,0);
+  } else if (scenario === 'evidence_success_and_inert_text') {
+    eligibleEvidenceFixture();
+    assert.ok(html.includes('value="evidence_only"')); assert.ok(html.includes('Passages only, not an answer'));
+    const payload='<img src=x onerror=alert(1)>\n<script>inert</script>\n'+'complete '.repeat(1500);
+    currentPreview.canonical_evidence[0].entry.principle=payload;
+    await open();select('source');confirm();elements.mode.value='evidence_only';elements.mode.onchange();
+    assert.equal(elements.confirm.checked,false);assert.match(elements['consent-text'].textContent,/not a generated answer/);
+    await click('answer');assert.equal(answerCalls().length,0);confirm();const pending=click('answer');await click('answer');await pending;
+    assert.equal(answerCalls().length,1);const body=JSON.parse(answerCalls()[0].options.body);
+    assert.equal(body.reasoner_mode,'evidence_only');assert.deepEqual(body.memories,[]);assert.ok(!('expected_reasoner_revision' in body));
+    assert.equal(elements.result.hidden,false,elements.status.textContent);assert.ok(elements.response.textContent.includes(payload));assert.equal(elements.response.children.length,0);
+    assert.match(elements['result-title'].textContent,/not an answer/);assert.match(elements.status.textContent,/Not an answer/);
+    await open();elements.mode.value='evidence_only';elements.mode.onchange();confirm();await click('answer');
+    assert.equal(elements.result.hidden,false,elements.status.textContent);assert.match(elements.response.textContent,/No source passages selected/);
+  } else if (scenario === 'evidence_utf8_byte_binding_and_invalid_sources') {
+    eligibleEvidenceFixture();const entry=currentPreview.canonical_evidence[0].entry;
+    entry.principle='  हिन्दी નોંધ\r\n😀 Repeated. Repeated.\r\n  ';entry.source_sha256='a'.repeat(64);entry.source_byte_start=7;entry.source_byte_end=7+new TextEncoder().encode(entry.principle).length;
+    await open();select('source');elements.mode.value='evidence_only';elements.mode.onchange();confirm();await click('answer');
+    assert.equal(elements.result.hidden,false,elements.status.textContent);assert.ok(elements.response.textContent.includes(entry.principle));assert.ok(elements.response.textContent.includes(`[7, ${entry.source_byte_end})`));
+    const invalid=[e=>e.verified=false,e=>e.edition=null,e=>e.principle+='\u0000',e=>e.principle+='\ud800',e=>e.entry_id='bad[id]',e=>Object.assign(e,{source_sha256:'b'.repeat(64),source_byte_start:0,source_byte_end:1})];
+    for(const change of invalid){resetFixture();eligibleEvidenceFixture();change(currentPreview.canonical_evidence[0].entry);await open();
+      if(elements.review.hidden)continue;select('source');elements.mode.value='evidence_only';elements.mode.onchange();confirm();await click('answer');
+      assert.equal(elements.result.hidden,true,change.toString());assert.equal(elements.response.textContent,'');}
+  } else if (scenario === 'evidence_memory_selection_rejected') {
+    await open();select('memory');elements.mode.value='evidence_only';elements.mode.onchange();confirm();const before=calls.length;
+    await click('answer');assert.equal(calls.length,before);assert.equal(answerCalls().length,0);assert.match(elements.status.textContent,/cannot use private memories/);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'evidence_receipt_and_contract_tampering') {
+    const mutations=[d=>delete d.context_review.output_contract,d=>d.context_review.output_contract='other',d=>d.context_review.reasoner_mode='local',
+      d=>d.context_review.configured_reasoner=clone(descriptor),d=>d.context_review.sources[0].revision='0'.repeat(64),
+      d=>d.context_review.memories=[{memory_id:7,revision:memory.revision}],d=>d.memories_used=[clone(memory)],
+      d=>d.perspectives=['generated'],d=>delete d.perspectives,d=>d.perspectives=null,d=>d.action={},d=>d.canonical_evidence[0].principle='truncated',d=>d.response=d.response.slice(0,100),d=>d.response+='\nA generated claim.',d=>d.response=d.response.replace('Full selected passage:','Summary:')];
+    for(const mutate of mutations){resetFixture();eligibleEvidenceFixture();await open();select('source');elements.mode.value='evidence_only';elements.mode.onchange();confirm();
+      responder=(u,o)=>{if(!u.endsWith('/v1/context/answer'))return normal(u,o);const d=answerData(JSON.parse(o.body));mutate(d);return response(d);};
+      await click('answer');assert.equal(elements.result.hidden,true,mutate.toString());assert.equal(elements.response.textContent,'');}
+  } else if (scenario === 'evidence_mode_boundaries') {
+    for(const silent of [false,true]){resetFixture();await open();elements.mode.value='evidence_only';elements.mode.onchange();confirm();elements.mode.value='local';if(!silent)elements.mode.onchange();
+      await click('answer');assert.equal(answerCalls().length,0);assert.equal(elements.confirm.checked,false);}
+    resetFixture();await open();elements.mode.value='evidence_only';elements.mode.onchange();confirm();const hold=deferred();responder=()=>hold.promise;
+    const pending=click('answer');await tick();elements.mode.value='evidence_only';hold.resolve(response({context_review_protocol:1,context_evidence_protocol:1}));await pending;
+    assert.equal(answerCalls().length,0);assert.equal(elements.result.hidden,true);
+  } else if (scenario === 'evidence_health_and_failure_no_fallback') {
+    for(const failure of ['old_api','rejected']){resetFixture();await open();elements.mode.value='evidence_only';elements.mode.onchange();confirm();const before=answerCalls().length;
+      responder=(u,o)=>u.endsWith('/health')&&failure==='old_api'?response({context_review_protocol:1}):u.endsWith('/v1/context/answer')?response({},400):normal(u,o);
+      await click('answer');assert.equal(answerCalls().length,before+(failure==='old_api'?0:1));assert.equal(elements.result.hidden,true);await click('answer');assert.equal(answerCalls().length,before+(failure==='old_api'?0:1));}
   } else if (scenario === 'selected_only_local_and_consumed') {
     await open(); select('source'); select('memory'); confirm(); const pending=click('answer');
     assert.equal(elements.confirm.checked,false); await click('answer'); await pending;
@@ -147,7 +203,7 @@ async function actualChange(route, method, body) {const r=await fetch(elements.a
     for (const kind of ['preview','answer']) {
       resetFixture();if(kind==='answer'){await open();confirm();}
       const before=answerCalls().length+previewCalls().length,hold=deferred();responder=()=>hold.promise;const pending=click(kind);await tick();
-      elements.api.value='https://other.example';elements.api.oninput();hold.resolve(response({context_review_protocol:1}));await pending;
+      elements.api.value='https://other.example';elements.api.oninput();hold.resolve(response({context_review_protocol:1,context_evidence_protocol:1}));await pending;
       assert.equal(answerCalls().length+previewCalls().length,before);assert.equal(elements.token.value,'');assert.equal(elements.question.value,'');assert.equal(elements.review.hidden,true);
     }
   } else if (scenario === 'stale_preview_response') {
@@ -234,6 +290,17 @@ async function actualChange(route, method, body) {const r=await fetch(elements.a
     resetFixture();responder=()=>response({});await click('preview');assert.equal(previewCalls().length,0);assert.match(elements.status.textContent,/protocol/);
     for(const declared of ['1','70000']) {resetFixture();responder=(u,o)=>u.endsWith('/v1/context/preview')?response({data:'x'.repeat(65537)},200,declared):normal(u,o);await click('preview');assert.equal(elements.review.hidden,true);assert.match(elements.status.textContent,/limit/);}
     assert.equal(cancelCount,1);
+  } else if (scenario === 'real_evidence_selected_or_empty') {
+    await open();select('source');const passage=getChoices().find(c=>c.kind==='source').value.entry.principle;
+    elements.mode.value='evidence_only';elements.mode.onchange();confirm();await click('answer');
+    assert.equal(elements.result.hidden,false,elements.status.textContent);assert.ok(elements.response.textContent.includes(passage));assert.match(elements.response.textContent,/Selected source passages, not an answer/);
+    assert.deepEqual(JSON.parse(answerCalls()[0].options.body).memories,[]);assert.equal(elements['used-memories'].children.length,1);
+    await open();elements.mode.value='evidence_only';elements.mode.onchange();confirm();await click('answer');
+    assert.equal(elements.result.hidden,false,elements.status.textContent);assert.match(elements.response.textContent,/No source passages selected/);assert.equal(answerCalls().length,2);
+  } else if (scenario === 'real_evidence_ineligible') {
+    await open();select('source');elements.mode.value='evidence_only';elements.mode.onchange();confirm();await click('answer');
+    assert.equal(elements.result.hidden,true);assert.match(elements.status.textContent,/400/);assert.equal(answerCalls().length,1);
+    await click('answer');assert.equal(answerCalls().length,1);
   } else if (scenario === 'real_selected_local') {
     await open();assert.ok(getChoices().some(c=>c.kind==='memory'));assert.equal(answerCalls().length,0);assert.ok(getChoices().every(c=>!c.checkbox.checked));
     select('memory');if(getChoices().some(c=>c.kind==='source'))select('source');confirm();await click('answer');assert.equal(elements.result.hidden,false,elements.status.textContent);assert.equal(answerCalls().length,1);assert.match(elements.receipt.textContent,/provider was not used/);

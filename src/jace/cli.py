@@ -50,7 +50,7 @@ def main() -> None:
             review.add_argument('--expected-corpus-revision', required=True)
             review.add_argument('--source', nargs=2, action='append', default=[], metavar=('ID', 'REVISION'))
             review.add_argument('--memory', nargs=2, action='append', default=[], metavar=('ID', 'REVISION'))
-            review.add_argument('--reasoner-mode', choices=('local', 'configured'), default='local')
+            review.add_argument('--reasoner-mode', choices=('local', 'configured', 'evidence_only'), default='local')
             review.add_argument('--expected-reasoner-revision')
             review.add_argument('--confirm-context', action='store_true', help='approve this question and exact selected records; configured mode may transmit them to the configured provider')
     remember = sub.add_parser("remember")

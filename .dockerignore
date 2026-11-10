@@ -22,6 +22,7 @@
 !src/jace/dispute.py
 !src/jace/engine.py
 !src/jace/ethics.py
+!src/jace/evidence_output.py
 !src/jace/evidence_router.py
 !src/jace/freebase.py
 !src/jace/freebase_balance.py

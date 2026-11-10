@@ -241,9 +241,13 @@ function updateConsent() {
   if (!reviewed) return;
   const descriptor = reviewed.data.configured_reasoner;
   const configured = element('mode').value === 'configured';
+  const evidence = element('mode').value === 'evidence_only';
+  element('answer').textContent = evidence ? 'Show selected whole passages once' : 'Answer once with this selected context';
   element('target').textContent = 'Configured reasoner: ' + descriptor.kind + '\nTarget: ' + descriptor.display_target + '\nTarget revision: ' + descriptor.revision +
-    '\nChosen mode: ' + (configured ? 'configured' : 'local only (configured provider is not used)');
-  element('consent-text').textContent = configured
+    '\nChosen mode: ' + (configured ? 'configured' : evidence ? 'passages only, not an answer (no model provider)' : 'local only (configured provider is not used)');
+  element('consent-text').textContent = evidence
+    ? 'I reviewed this question and the checked sources. Show only their complete eligible principle passages, not a generated answer, interpretation or guidance. Private memories must be unchecked. Do not call a model provider, learn memories or execute actions.'
+    : configured
     ? 'I reviewed this question and the checked context. I consent to send the question and only these selected sources and private memories to the configured reasoner shown above for one answer. If it is an HTTP provider, that provider receives this material. Nothing is learned or acted on.'
     : 'I reviewed this question and the checked context. Use the question and only these selected sources and private memories for one local answer. Do not call the configured provider, learn memories or execute actions.';
 }
@@ -261,12 +265,13 @@ function showPreview(data, ctx) {
   element('status').textContent = data.blocked ? 'This question is blocked by the ethical assessment. No context or answer can be selected.'
     : 'Preview ready. Nothing is selected. Review full context, choose a reasoner, and explicitly confirm one answer.';
 }
-async function run(ctx, work) {
+async function run(ctx, work, evidenceOnly = false) {
   const version = ++generation;
   pending = new AbortController(); busy = true; answerSubmitted = false; activeSelection = selectionSnapshot(); syncControls();
   try {
     const health = await request(ctx, version, '/health');
     if (health.context_review_protocol !== 1) throw new Error('This API does not support the required context review protocol.');
+    if (evidenceOnly && health.context_evidence_protocol !== 1) throw new Error('This API does not support the required whole-passages protocol.');
     if (!current(version, ctx)) return;
     await work(version);
   } catch (error) {
@@ -290,6 +295,37 @@ async function preview() {
     showPreview(checkedPreview(data, ctx), ctx);
   });
 }
+function wholePassageDisplay(entries) {
+  // Independent display binding, not proof of remote execution, provenance or
+  // semantic support. Keep this versioned format identical to the local server.
+  const safe = (value, maximum, crlf = false) => {
+    if (typeof value !== 'string' || !value.trim() || [...value].length > maximum ||
+        /[\x00-\x08\x0b-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]/.test(crlf ? value.replace(/\r\n/g, '\n') : value) ||
+        [...value].some(c => c.codePointAt(0) >= 0xd800 && c.codePointAt(0) <= 0xdfff)) throw new Error('Ineligible whole-passage source text.');
+    return value;
+  };
+  const lines = ['Selected source passages, not an answer. Their relevance, truth and support for any conclusion have not been established. These are complete admitted passages, not necessarily complete documents. Review, edition and licensing remain operator declarations.'];
+  if (!entries.length) lines.push('No source passages selected.');
+  const seen = new Set();
+  for (const entry of entries) {
+    if (entry.verified !== true || seen.has(entry.entry_id)) throw new Error('Ineligible whole-passage source declaration.');
+    safe(entry.entry_id,128);
+    if (/[\[\]\n\t]/.test(entry.entry_id)) throw new Error('Ineligible whole-passage source ID.');
+    seen.add(entry.entry_id);
+    for (const key of ['work','source','language','location','license','edition']) safe(entry[key],1000);
+    safe(entry.principle,20000,true);
+    let integrity = 'Source integrity: record-only excerpt matching; no backing source-file bytes were checked.';
+    if (['source_sha256','source_byte_start','source_byte_end'].some(k => k in entry)) {
+      if (!revision(entry.source_sha256) || !Number.isSafeInteger(entry.source_byte_start) || !Number.isSafeInteger(entry.source_byte_end) ||
+          entry.source_byte_start < 0 || entry.source_byte_end <= entry.source_byte_start || entry.source_byte_end > 1024 * 1024 ||
+          new TextEncoder().encode(entry.principle).length !== entry.source_byte_end - entry.source_byte_start) throw new Error('Invalid whole-passage byte reference.');
+      integrity = 'Source bytes checked at admission: SHA-256 ' + entry.source_sha256 + '; UTF-8 byte range [' + entry.source_byte_start + ', ' + entry.source_byte_end + '). This checks local byte identity, not authorship, edition authenticity, rights, scholarship or support for the answer.';
+    }
+    lines.push('[' + entry.entry_id + '] ' + entry.work + '; ' + entry.source + '; ' + entry.location + '; language: ' + entry.language + '; edition: ' + entry.edition + '; license: ' + entry.license + '.',
+               'Full selected passage:', entry.principle, integrity);
+  }
+  return safe(lines.join('\n'),32768,true);
+}
 function checkedAnswer(data, chosen, body, ctx) {
   if (!object(data) || data.user_id !== ctx.user || data.input !== ctx.input || data.memory_scope !== ctx.scope || data.action !== null ||
       !text(data.response, 40000) || !Array.isArray(data.canonical_evidence) || !Array.isArray(data.memories_used)) throw new Error('Answer identity, content or action status did not match the review.');
@@ -297,8 +333,12 @@ function checkedAnswer(data, chosen, body, ctx) {
   if (!object(receipt) || receipt.protocol !== 1 || receipt.reasoner_mode !== body.reasoner_mode || receipt.request_revision !== body.expected_request_revision ||
       receipt.corpus_revision !== body.expected_corpus_revision || !timestamp(receipt.selected_at) || !equal(receipt.sources, body.sources) || !equal(receipt.memories, body.memories) ||
       !equal(receipt.configured_reasoner, body.reasoner_mode === 'configured' ? chosen.data.configured_reasoner : null)) throw new Error('Answer receipt does not match the selected revisions or configured target.');
+  if (body.reasoner_mode === 'evidence_only' &&
+      (receipt.output_contract !== 'whole_passages_v1' || !Array.isArray(data.perspectives) || data.perspectives.length ||
+       body.memories.length || data.memories_used.length)) throw new Error('Passages-only output contract did not match the review.');
   const expectedSources = chosen.sources.map(s => s.entry), expectedMemories = chosen.memories;
   if (!equal(data.canonical_evidence, expectedSources) || !equal(data.memories_used, expectedMemories)) throw new Error('Answer contained missing, extra or changed context. Refresh the preview.');
+  if (body.reasoner_mode === 'evidence_only' && data.response !== wholePassageDisplay(expectedSources)) throw new Error('Displayed passages did not exactly match the selected whole-passage contract.');
   validAssessment(data.ethical_assessment);
   if (!data.ethical_assessment.allowed) throw new Error('Answer assessment no longer permits this question. Refresh the preview.');
   return data;
@@ -323,7 +363,8 @@ async function answer() {
       reset(identityChanged, identityChanged);
       throw new Error('The account, scope or question changed. Refresh the preview.');
     }
-    if (!['local','configured'].includes(mode) || (mode === 'configured' && chosen.data.configured_reasoner.kind === 'unavailable')) throw new Error('Review changed or configured reasoner is unavailable. Refresh the preview.');
+    if (!['local','configured','evidence_only'].includes(mode) || (mode === 'configured' && chosen.data.configured_reasoner.kind === 'unavailable')) throw new Error('Review changed or configured reasoner is unavailable. Refresh the preview.');
+    if (mode === 'evidence_only' && chosen.memories.length) throw new Error('Passages-only mode cannot use private memories. Preview again and leave all private memories unchecked.');
   } catch (error) { clearReview(); clearResult(); syncControls(); element('status').textContent = error.message; return; }
   const body = {user_id:ctx.user, input:ctx.input, memory_scope:ctx.scope, confirm_context:true, reasoner_mode:mode,
     expected_request_revision:chosen.data.request_revision, expected_corpus_revision:chosen.data.corpus_revision,
@@ -335,6 +376,10 @@ async function answer() {
     answerSubmitted = true;
     const data = checkedAnswer(await request(ctx, version, '/v1/context/answer', body), chosen, body, ctx);
     answerSubmitted = false;
+    element('result-title').textContent = mode === 'evidence_only' ? 'Selected source passages, not an answer' : 'Answer from the reviewed selection';
+    element('result-note').textContent = mode === 'evidence_only'
+      ? 'Whole source passages are shown with a matching selection receipt. This is not a generated answer, interpretation or verification of the sources. No private memories, model provider, learning or actions were used. This is a snapshot; later changes cannot revoke captured or delivered passages.'
+      : 'The receipt checks selected records and revisions, not factual accuracy or whether sources support the generated answer. Generated content remains unverified. This is a snapshot. Later expiry or deletion cannot retract an answer or context already sent. No memory was learned or updated, and no action was executed. A new answer needs a fresh preview and confirmation.';
     element('response').textContent = data.response;
     element('receipt').textContent = 'Returned context matches the selected records and revisions; semantic support is not verified.\nUser: ' + ctx.user + '\nScope: ' + ctx.scope + '\nQuestion: ' + ctx.input +
       '\nReasoner mode: ' + mode + '\nSelected at: ' + data.context_review.selected_at +
@@ -345,8 +390,10 @@ async function answer() {
     if (!chosen.sources.length) appendText('used-sources', 'No sources selected or used.');
     if (!chosen.memories.length) appendText('used-memories', 'No private memories selected or used.');
     element('result').hidden = false;
-    element('status').textContent = 'Answer received with matching selected-context receipt. Generated content remains unverified. No learning or actions. Preview again for another answer.';
-  });
+    element('status').textContent = mode === 'evidence_only'
+      ? 'Whole source passages received with matching selection receipt. Not an answer. No model provider, private memories, learning or actions. Preview again for another selection.'
+      : 'Answer received with matching selected-context receipt. Generated content remains unverified. No learning or actions. Preview again for another answer.';
+  }, mode === 'evidence_only');
 }
 for (const id of ['user','api']) { element(id).oninput = () => reset(true,true); element(id).onchange = () => reset(true,true); }
 element('token').oninput = () => reset(false,true); element('token').onchange = () => reset(false,true);

@@ -8,7 +8,7 @@ The existing voice/conversation console and `/v1/think` keep their previous beha
 
 1. Enter the trusted API, assigned account/token, explicit memory scope and question. Preview sends these to the JACE API for local retrieval, not to a model provider. It does not save a memory or execute an action.
 2. Review the full candidate passages, source declarations and optional byte-integrity references, plus the complete owned memory records and their expiration times. Every selection checkbox starts unchecked. Empty source and memory selections are valid.
-3. Choose **local only** (the default), or separately choose the configured reasoner and review its displayed origin/model. Local mode always uses the local rule-based fallback, even if an HTTP provider is configured. A configured HTTP answer transmits the question and selected context to that provider and may incur that provider's charges; permission, retention and payment setup must already be appropriate. This development work made no real provider call.
+3. Choose **local only** (the default), **Passages only, not an answer**, or separately choose the configured reasoner and review its displayed origin/model. Local mode always uses the local rule-based fallback, even if an HTTP provider is configured. A configured HTTP answer transmits the question and selected context to that provider and may incur that provider's charges; permission, retention and payment setup must already be appropriate. This development work made no real provider call.
 4. Confirm this question and selection. The checkbox is consumed before any request. The browser requires a fresh preview and confirmation for another answer, including after failure, cancellation or a stale-state conflict. It never silently retries a submitted request.
 5. The screen displays an answer only when its owner, scope, question, selected record contents, source/memory revision receipts, corpus and requested reasoner descriptor match the captured review. Those mechanical comparisons do not validate the answer's meaning or prove a remote server behaved honestly.
 
@@ -48,11 +48,58 @@ Retrieval uses the existing bounded lexical/direct-first and graph-supplement lo
 }
 ```
 
-Those strings are explanatory placeholders, not valid example fingerprints. For `reasoner_mode: "configured"`, also include `expected_reasoner_revision` from the preview. In local mode omit that field entirely. `confirm_context` must be literal true. Source and memory arrays must be supplied, may be empty, are limited to five each, and reject duplicate IDs, unknown fields and malformed revisions. The API accepts identifiers/fingerprints only, never client-supplied passage or memory text.
+Those strings are explanatory placeholders, not valid example fingerprints. For `reasoner_mode: "configured"`, also include `expected_reasoner_revision` from the preview. In local and `evidence_only` modes omit that field entirely. Evidence-only mode also requires an empty memory array. `confirm_context` must be literal true. Source and memory arrays must be supplied, may be empty, are limited to five each, and reject duplicate IDs, unknown fields and malformed revisions. The API accepts identifiers/fingerprints only, never client-supplied passage or memory text.
 
 Before dispatch the server checks the question/owner/scope, current admitted corpus, each exact source record, and authoritative memory ownership, scope, revision and expiration at a common selection time. Memory reads use one database read snapshot. Missing owned records fail without revealing another owner's existence; changed source/memory/configuration state returns a conflict. The server does not rerun retrieval or add graph candidates after selection. Returned source/memory order follows the supplied order.
 
-The response is the ordinary thought result plus a `context_review` receipt containing mode, exact selected identifiers/fingerprints, question/corpus revisions, selected time and configured descriptor (or null for local mode). No learning is performed. The route discards action proposals and never executes actions. The existing input/output pattern gate and mechanical model-citation checks still apply; neither is a complete semantic safety boundary. Fallback after model failure uses only the captured selection.
+For local/configured modes, the response is the ordinary thought result plus a `context_review` receipt containing mode, exact selected identifiers/fingerprints, question/corpus revisions, selected time and configured descriptor (or null for local mode). No learning is performed. The route discards action proposals and never executes actions. The existing input/output pattern gate and mechanical model-citation checks still apply; neither is a complete semantic safety boundary. Fallback after model failure uses only the captured selection.
+
+## Whole-passage evidence mode
+
+`reasoner_mode: "evidence_only"` is an explicit provider-free display mode for any
+question, not a semantic question-answering system. The browser labels it
+**Passages only, not an answer**. It requires `/health` capability
+`context_evidence_protocol: 1`, and the returned context receipt includes
+`output_contract: "whole_passages_v1"`. Existing local/configured defaults and
+ordinary `/v1/think` behavior are unchanged.
+
+- Only the exact selected, current source records are displayed, in selection
+  order, with no retrieval supplements. All selected records must pass the
+  existing citation-eligibility checks, declare literal `verified: true`, and
+  supply valid edition metadata. These declarations are not independent review.
+- The complete admitted `principle` is copied unchanged. It is not clipped at
+  600 characters, silently omitted, paraphrased, translated or reconciled with
+  another source. Full-span byte references are included when admitted, and
+  record-only limitations remain explicit otherwise. No model-authored answer
+  or practical plan is produced. A complete admitted passage is not necessarily
+  a complete page or document; omitted surrounding context remains a limitation.
+- Private-memory selections and configured-reasoner revisions are rejected,
+  rather than silently ignored. The configured reasoner, local reasoner fallback
+  and perspective generator are never invoked. Perspectives and used memories
+  are empty, action is null, and no learning occurs.
+- Empty selection says only "No source passages selected." It makes no claim
+  that supporting sources do not exist. Unknown, stale or ineligible selections,
+  invalid metadata, safety-gate rejection and exceeded output budgets fail
+  without partial display or a generated fallback. The pattern-based safety
+  gates remain limited; they are not semantic review.
+- The browser checks the entire displayed response against the fixed contract
+  reconstructed from the selected preview records, in addition to all existing
+  identity, source-content and revision bindings. Receipt labels alone are not
+  accepted as proof of whole-passage display. This does not authenticate the
+  sources, prove what a remote server did, or establish the passages' relevance,
+  truth or support for any conclusion.
+
+Response limits remain 32768 characters and 64 KiB for the complete serialized
+result, including the repeated canonical evidence records. A source selection
+can fit the preview budget but fail the answer budget; choose fewer records
+rather than expect truncation. Already captured bytes remain a snapshot and
+cannot be revoked by later source or memory changes.
+
+Tests use original fictional text, including 14 disclosed diagnostic cases as
+whole-passage display regressions, not 14 semantic successes. The separate
+[semantic-support diagnostic](SEMANTIC_SUPPORT_DIAGNOSTIC.md) still exposes the
+ordinary model output check's unsupported-answer gap. No religious corpus was
+admitted and no live provider or real-browser qualification was performed.
 
 ## Configured model boundary
 
@@ -72,7 +119,7 @@ Memory can change, expire or be deleted by another engine after the answer's rea
 
 ## Local CLI and evidence
 
-The trusted local CLI supports `jace preview-context USER QUESTION --memory-scope SCOPE` and `jace answer-context USER QUESTION`. The latter requires `--expected-request-revision`, `--expected-corpus-revision` and `--confirm-context`; repeat `--source ID REVISION` and `--memory ID REVISION` only for reviewed selections. Its default mode is local. Configured HTTP descriptors are process-local, so a preview from a separate CLI process cannot authorize a new HTTP adapter process: use the long-running API flow for configured answers. CLI users are trusted local operators, not bearer-isolated clients.
+The trusted local CLI supports `jace preview-context USER QUESTION --memory-scope SCOPE` and `jace answer-context USER QUESTION`. The latter requires `--expected-request-revision`, `--expected-corpus-revision` and `--confirm-context`; repeat `--source ID REVISION` and `--memory ID REVISION` only for reviewed selections. Its default mode is local; use `--reasoner-mode evidence_only` for complete selected source passages without a generated answer. Configured HTTP descriptors are process-local, so a preview from a separate CLI process cannot authorize a new HTTP adapter process: use the long-running API flow for configured answers. CLI users are trusted local operators, not bearer-isolated clients.
 
 ```sh
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_context_review*.py' -v

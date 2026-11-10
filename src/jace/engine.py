@@ -18,6 +18,7 @@ from .memory import MemoryStore, MemoryConflictError, validate_memory_revision
 from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .models import ActionProposal, ThoughtResult, utc_now
 from .model_output import checked_text
+from .evidence_output import OUTPUT_CONTRACT, render_selected_passages
 from .practical import plan_for
 from .reasoner import HttpJsonReasoner, LocalReasoner, Reasoner, configured_reasoner
 from .syadvada import evaluate
@@ -186,9 +187,11 @@ class CognitiveEngine:
         request, memory_scope, request_revision = question(user_id, request, memory_scope)
         for value in (expected_request_revision, expected_corpus_revision):
             validate_memory_revision(value)
-        if reasoner_mode not in ('local', 'configured'):
-            raise ValueError('reasoner_mode must be local or configured')
+        if reasoner_mode not in ('local', 'configured', 'evidence_only'):
+            raise ValueError('reasoner_mode must be local, configured or evidence_only')
         selected_sources, selected_memories = selections(sources, 'source'), selections(memories, 'memory')
+        if reasoner_mode == 'evidence_only' and selected_memories:
+            raise ValueError('evidence-only mode requires an empty memory selection')
         corpus = self.canonical.all()
         corpus_revision = fingerprint([item.to_dict() for item in corpus])
         if request_revision != expected_request_revision or corpus_revision != expected_corpus_revision:
@@ -202,7 +205,7 @@ class CognitiveEngine:
             if descriptor['revision'] != expected_reasoner_revision:
                 raise MemoryConflictError('Configured reasoner destination changed after review; preview again.')
         elif expected_reasoner_revision is not None:
-            raise ValueError('local mode must not include a configured-reasoner revision')
+            raise ValueError('local and evidence-only modes must not include a configured-reasoner revision')
         assessment = assess(request)
         if not assessment.allowed:
             raise ValueError('This request cannot be answered through context review because the input harm gate rejected it.')
@@ -229,16 +232,31 @@ class CognitiveEngine:
         # Freeze the reviewed HTTP destination/model/credential into an isolated
         # standard adapter. Later mutations to the configured instance cannot
         # redirect this already captured request or substitute its transport.
-        selected_reasoner = LocalReasoner()
-        if reasoner_mode == 'configured' and descriptor['kind'] == 'http_json':
-            url, api_key, model = configuration
-            selected_reasoner = HttpJsonReasoner(url, api_key=api_key, model=model)
-        result = self._answer_context(user_id, request, memory_scope, assessment, evidence, captured,
-                                      selected_reasoner).to_dict()
+        if reasoner_mode == 'evidence_only':
+            # Never enter the generative path, including its local fallback and
+            # perspective construction. Failed display checks produce no output.
+            response = render_selected_passages(evidence)
+            if not assess(response).allowed:
+                raise ValueError('Selected passages cannot be displayed because the output safety check rejected them.')
+            result = ThoughtResult(
+                request_id=str(uuid.uuid4()), user_id=user_id, input=request,
+                response=response, ethical_assessment=assessment, perspectives=[],
+                canonical_evidence=evidence, memories_used=[], action=None,
+                created_at=utc_now(), memory_scope=memory_scope,
+            ).to_dict()
+        else:
+            selected_reasoner = LocalReasoner()
+            if reasoner_mode == 'configured' and descriptor['kind'] == 'http_json':
+                url, api_key, model = configuration
+                selected_reasoner = HttpJsonReasoner(url, api_key=api_key, model=model)
+            result = self._answer_context(user_id, request, memory_scope, assessment, evidence, captured,
+                                          selected_reasoner).to_dict()
         result['action'] = None
         result['context_review'] = {'protocol':1,'reasoner_mode':reasoner_mode,'request_revision':request_revision,
             'corpus_revision':corpus_revision,'sources':selected_sources,'memories':selected_memories,
             'selected_at':at,'configured_reasoner':descriptor}
+        if reasoner_mode == 'evidence_only':
+            result['context_review']['output_contract'] = OUTPUT_CONTRACT
         bounded_payload(result, MAX_PREVIEW_BYTES, 'selected-context answer')
         return result
 

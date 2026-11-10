@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 import test_api_authorization as api_fixture
 from jace.reasoner import HttpJsonReasoner
+from jace.models import CanonicalEntry
 
 
 @unittest.skipUnless(shutil.which('node'), 'Node.js required for script fixtures')
@@ -18,6 +19,13 @@ class ContextReviewUITests(unittest.TestCase):
             capture_output=True, text=True, timeout=10,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_evidence_success_and_inert_text(self): self.scenario('evidence_success_and_inert_text')
+    def test_evidence_utf8_byte_binding_and_invalid_sources(self): self.scenario('evidence_utf8_byte_binding_and_invalid_sources')
+    def test_evidence_memory_selection_rejected(self): self.scenario('evidence_memory_selection_rejected')
+    def test_evidence_receipt_and_contract_tampering(self): self.scenario('evidence_receipt_and_contract_tampering')
+    def test_evidence_mode_boundaries(self): self.scenario('evidence_mode_boundaries')
+    def test_evidence_health_and_failure_no_fallback(self): self.scenario('evidence_health_and_failure_no_fallback')
 
     def test_provider_free_preview_starts_unchecked(self): self.scenario('preview_only_unchecked')
     def test_selected_only_local_answer_and_consumed_consent(self): self.scenario('selected_only_local_and_consumed')
@@ -77,6 +85,24 @@ class ContextReviewLoopbackTests(unittest.TestCase):
         self.provider.assert_not_called()
         self.assertEqual(self.engine.list_memories('alice', memory_scope='work'), [self.work])
         self.assertEqual(self.engine.list_memories('bob', memory_scope='home'), [self.bob])
+
+    def test_real_evidence_whole_passage_and_empty_selection_without_provider_or_learning(self):
+        entry = CanonicalEntry(
+            entry_id='synthetic-evidence', title='Synthetic gentle care',
+            principle='Clean gently.\nThis is the entire synthetic passage, not a generated answer.',
+            guidance='Do not render this guidance as the passage.', source='Synthetic local fixture',
+            work='Synthetic fixture', language='en', edition='Test edition', location='Fixture paragraph 1',
+            license='Test-only fixture', verified=True, tags=['clean', 'gently'],
+        )
+        with patch.object(self.engine.canonical, 'all', return_value=[entry]), patch.object(
+            self.engine.canonical, 'search', return_value=[entry]
+        ):
+            self.run_client('real_evidence_selected_or_empty')
+        self.assertEqual(self.engine.list_memories('alice', memory_scope='home'), [self.saved])
+
+    def test_real_evidence_ineligible_sources_fail_without_fallback(self):
+        self.run_client('real_evidence_ineligible')
+        self.assertEqual(self.engine.list_memories('alice', memory_scope='home'), [self.saved])
 
     def test_real_selected_local_answer_never_calls_configured_provider_or_learns(self):
         self.run_client('real_selected_local')
