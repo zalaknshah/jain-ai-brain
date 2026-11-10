@@ -1,0 +1,884 @@
+{
+  "protocol": 1,
+  "input_sha256": "8b60dc875b9501ecc31226f0317745ab744fd15baf135734b528ae0f6e64b5ae",
+  "source_raw_sha256": "48c07841779777f215790e8881a1d7447f430ce14e5996141badb2799faaec5d",
+  "scope": "Two disjoint label-free reviews of 60 original fictional cases each, without candidate outputs or gold. Primary-label agreement is fixture review, not model performance. Four ambiguity flags remain unresolved; original labels and wording are preserved.",
+  "assignments": [
+    {
+      "review": "a",
+      "start_inclusive": 0,
+      "end_inclusive": 59
+    },
+    {
+      "review": "b",
+      "start_inclusive": 60,
+      "end_inclusive": 119
+    }
+  ],
+  "cases": [
+    {
+      "index": 0,
+      "case_id": "x7bd8263ff8e4e3e7",
+      "primary_label": "supported",
+      "rationale": "The striped-handle basket belongs to the five; each has a peach and none has plums.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 1,
+      "case_id": "xc3cebfed0d3ab354",
+      "primary_label": "contradicted",
+      "rationale": "Stone Lantern immediately followed the opener, and Uvressa explicitly did not perform in it.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 2,
+      "case_id": "x34c17d85c88eee4d",
+      "primary_label": "not_established",
+      "rationale": "The banner location gives no information about portraits.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 3,
+      "case_id": "x9ba41d15318e3eaf",
+      "primary_label": "supported",
+      "rationale": "08:30 is half an hour after the stated 08:00 opening.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 4,
+      "case_id": "x4de99df5618bcc4b",
+      "primary_label": "not_established",
+      "rationale": "Signing and inspection are stated, but their temporal order is not.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 5,
+      "case_id": "x38b390f0343cc039",
+      "primary_label": "supported",
+      "rationale": "Forecasting next-day flooding paraphrases the explicitly attributed prediction.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 6,
+      "case_id": "x46a75469258037d7",
+      "primary_label": "not_established",
+      "rationale": "Delivery destination is given, but mode of travel is not.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 7,
+      "case_id": "xa181b00876dea976",
+      "primary_label": "not_established",
+      "rationale": "The rules establish latch release, not door movement.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 8,
+      "case_id": "xb1313347ef52aaff",
+      "primary_label": "not_established",
+      "rationale": "A closed drawer need not be locked; no lock status is supplied.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 9,
+      "case_id": "x9d82048082426758",
+      "primary_label": "contradicted",
+      "rationale": "The actual 19:30 start differs from the unchanged advertised 19:00 time.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 10,
+      "case_id": "x0913aa3e02ccc7ce",
+      "primary_label": "supported",
+      "rationale": "The closed stock accounting gives nine plus five minus six, leaving eight finished lanterns.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 11,
+      "case_id": "xa2b85ed6cee3627d",
+      "primary_label": "supported",
+      "rationale": "The advertised 19:00 time precedes the confirmed 19:30 start by thirty minutes.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 12,
+      "case_id": "x7fe582783f2aa066",
+      "primary_label": "not_established",
+      "rationale": "The two observations do not establish the flame status at 14:30.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 13,
+      "case_id": "x71e43f27a4c34f05",
+      "primary_label": "supported",
+      "rationale": "The eight sacks in R and seven in S all went onto the wagon, with no other sacks: fifteen total.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 14,
+      "case_id": "x6df779259c81af9c",
+      "primary_label": "supported",
+      "rationale": "Jesvra is the unique assigned courier, and that courier delivered K47 to the observatory on Tuesday.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 15,
+      "case_id": "x4e7031b4bc4f60ac",
+      "primary_label": "contradicted",
+      "rationale": "K47 was delivered to the hill observatory and nowhere else that day, excluding the harbor warehouse.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 16,
+      "case_id": "xb9280eb772f16a61",
+      "primary_label": "contradicted",
+      "rationale": "A broken seal would have required setting Tavren aside; compliance and its not being set aside exclude a broken seal.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 17,
+      "case_id": "xb6661861eceeadb8",
+      "primary_label": "not_established",
+      "rationale": "Corvinel made the statement, but the passage explicitly does not verify the well contents.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 18,
+      "case_id": "xe970593740f8e2ae",
+      "primary_label": "contradicted",
+      "rationale": "The passage explicitly says no east-gallery painting depicted a boat.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 19,
+      "case_id": "x5974bc5251991ec0",
+      "primary_label": "supported",
+      "rationale": "Painting on day 4 precedes hanging on day 6 of the same fair.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 20,
+      "case_id": "x1512eb39d0c0a74d",
+      "primary_label": "contradicted",
+      "rationale": "Neither of the two Monday crossings was late.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 21,
+      "case_id": "x52153e957f8e2544",
+      "primary_label": "not_established",
+      "rationale": "The fruitless trees are counted but not assigned to rows.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 22,
+      "case_id": "xd52fbc2e0c95761d",
+      "primary_label": "supported",
+      "rationale": "The banner explicitly remained on the north wall throughout the ceremony.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 23,
+      "case_id": "xc82ec7e0a970866b",
+      "primary_label": "contradicted",
+      "rationale": "The flame was explicitly burning at the 14:00 check.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 24,
+      "case_id": "xc7202dc1e3517acf",
+      "primary_label": "contradicted",
+      "rationale": "Three rows of seven and no other pear trees give twenty-one, not twenty-four.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 25,
+      "case_id": "x840efea85dbea082",
+      "primary_label": "not_established",
+      "rationale": "No audience reaction is stated.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 26,
+      "case_id": "x82cdc873be4dc290",
+      "primary_label": "not_established",
+      "rationale": "The sold lanterns are not identified as original versus newly completed stock.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 27,
+      "case_id": "xb093d4fa6b72d6aa",
+      "primary_label": "contradicted",
+      "rationale": "At sunrise the chest was explicitly in the cellar and not the upstairs room.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 28,
+      "case_id": "xb8808b5801fcee60",
+      "primary_label": "supported",
+      "rationale": "Flight of Reeds was the opener, and Uvressa played its solo that evening.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 29,
+      "case_id": "xfd640924ab617673",
+      "primary_label": "contradicted",
+      "rationale": "The log confirms every crew member wore a life belt on that voyage, excluding a crew member going without one.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 30,
+      "case_id": "x15a0fadd44037707",
+      "primary_label": "contradicted",
+      "rationale": "The guaranteed lever-to-bell rule and the actual lever pull establish a ring, contradicting silence throughout.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 31,
+      "case_id": "x8d7d3d6b30f2022b",
+      "primary_label": "contradicted",
+      "rationale": "Noon falls within the stated continuous open period from 11:00 until 18:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 32,
+      "case_id": "xb9e79952a9f81a2a",
+      "primary_label": "not_established",
+      "rationale": "Nothing specifies the contents of Tavren.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 33,
+      "case_id": "x304ef3c63e5bb653",
+      "primary_label": "contradicted",
+      "rationale": "The repair explicitly did not replace the hands.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 34,
+      "case_id": "x7ad7c28629ca6c8a",
+      "primary_label": "not_established",
+      "rationale": "The prohibition is inside the pavilion; no rule addresses instruments in the garden outside.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 35,
+      "case_id": "x52f3ccac5a992d9b",
+      "primary_label": "contradicted",
+      "rationale": "Speaking the correct word guarantees a green lamp, which guarantees latch release during the visit.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 36,
+      "case_id": "x4499901f17a915b4",
+      "primary_label": "supported",
+      "rationale": "Each person occupied a specified separate building during the roll call.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 37,
+      "case_id": "xe0db22f64b6dea1f",
+      "primary_label": "contradicted",
+      "rationale": "Eight plus seven sacks, all and only those loaded, gives fifteen rather than fourteen.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 38,
+      "case_id": "xb9c9fad182698a9c",
+      "primary_label": "supported",
+      "rationale": "Nollis was in the courtyard, which lies entirely within the outer wall.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 39,
+      "case_id": "x133aa861c7de455a",
+      "primary_label": "contradicted",
+      "rationale": "Keressa explicitly made no flooding prediction at the session.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 40,
+      "case_id": "xf5c1eb56d333888a",
+      "primary_label": "contradicted",
+      "rationale": "Corvinel explicitly stated that the northern well was empty at the gathering.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 41,
+      "case_id": "x99dd17244f0d32d2",
+      "primary_label": "supported",
+      "rationale": "10:15 falls inside the uninterrupted closure interval from 09:00 to before 11:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 42,
+      "case_id": "xb61627692e088a07",
+      "primary_label": "supported",
+      "rationale": "The quoted statement describes the well as empty without requiring its contents to be verified.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 43,
+      "case_id": "x18c6e705e9458eb9",
+      "primary_label": "contradicted",
+      "rationale": "Four of the six couriers explicitly carried no whistles.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 44,
+      "case_id": "xed89c89b4e22cf48",
+      "primary_label": "not_established",
+      "rationale": "No weather information is supplied.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 45,
+      "case_id": "x2fac32f73f6bbf0e",
+      "primary_label": "contradicted",
+      "rationale": "The narrator verifies she did not hide the amber key, so she did not hide both keys.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 46,
+      "case_id": "x1761058199a144d0",
+      "primary_label": "not_established",
+      "rationale": "Arrival and archive locking times do not establish the visitor departure time.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 47,
+      "case_id": "x85b3006bb13a508e",
+      "primary_label": "contradicted",
+      "rationale": "Ilset explicitly did not inspect the furnace; Rozen alone performed the afternoon inspection.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 48,
+      "case_id": "x0c870584a5cf5788",
+      "primary_label": "not_established",
+      "rationale": "The clerk heard the report, but the clerk belief is unstated.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 49,
+      "case_id": "xc8f4790f7040a33f",
+      "primary_label": "supported",
+      "rationale": "Selnara reported red; the narrator verifies blue and explicitly identifies her color mistake.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 50,
+      "case_id": "x88e763abb3e478d2",
+      "primary_label": "supported",
+      "rationale": "The records identify Evening Reed as made by Theslin and located in the west cabinet throughout opening day.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 51,
+      "case_id": "x183a5f47a6ea56e5",
+      "primary_label": "supported",
+      "rationale": "The universally obeyed broken-seal rule and Tavren not being set aside entail that its seal was not broken.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 52,
+      "case_id": "xbf124315c7b125f4",
+      "primary_label": "not_established",
+      "rationale": "Cup damage and counts are stated, but colors are not.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 53,
+      "case_id": "xaf3584db81a8967d",
+      "primary_label": "supported",
+      "rationale": "Repair without replacement of the hands means the clock retained its existing hands.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 54,
+      "case_id": "x753707ad64eca07c",
+      "primary_label": "contradicted",
+      "rationale": "Dreska remained in the smithy, whose interior is disjoint from the bakery.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 55,
+      "case_id": "x17690db5240ea7be",
+      "primary_label": "contradicted",
+      "rationale": "Navren explicitly did not prohibit flutes inside the pavilion.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 56,
+      "case_id": "x26ce751b0bf0375d",
+      "primary_label": "contradicted",
+      "rationale": "The only banner was on the north wall, a different opposite wall from the south wall.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 57,
+      "case_id": "xc7ecfb4eafe45e89",
+      "primary_label": "contradicted",
+      "rationale": "The narrator explicitly confirms the mill was still open at sunset and identifies the diary claim as erroneous.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 58,
+      "case_id": "xbde72be3c791cb57",
+      "primary_label": "contradicted",
+      "rationale": "Hanging on day 6 follows, rather than precedes, completion of carving on day 3.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 59,
+      "case_id": "x8b2bb6d7f0a5fd39",
+      "primary_label": "not_established",
+      "rationale": "The content of the diary entry does not establish when it was written.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 60,
+      "case_id": "x0f21f7c752652e48",
+      "primary_label": "supported",
+      "rationale": "The second recorded check was at 15:00, when the flame was out.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 61,
+      "case_id": "x05d1eb70ee900516",
+      "primary_label": "supported",
+      "rationale": "There were eight undamaged and four chipped cups in the crate; eight is twice four.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 62,
+      "case_id": "xf1112eeaa693ae15",
+      "primary_label": "supported",
+      "rationale": "Pulling the copper lever guarantees ringing, and Fesrik pulled it during the trial.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 63,
+      "case_id": "x3323ef2a00c3553c",
+      "primary_label": "supported",
+      "rationale": "The narrator confirms both that she hid the silver key and that she did not hide the amber key.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 64,
+      "case_id": "x2cc202b1a6aa6655",
+      "primary_label": "not_established",
+      "rationale": "Contents and counts do not establish relative envelope sizes.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 65,
+      "case_id": "x69b3d66b769aee4f",
+      "primary_label": "supported",
+      "rationale": "Navren explicitly did not prohibit flutes inside the pavilion.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 66,
+      "case_id": "xd3ad7d1b85af50ef",
+      "primary_label": "contradicted",
+      "rationale": "The disjoint map and ticket categories contain three plus two, or five envelopes, not seven.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 67,
+      "case_id": "xcf0bb06baeeab031",
+      "primary_label": "not_established",
+      "rationale": "No varnishing event or activity on day 5 is stated.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 68,
+      "case_id": "x14a985f8e0408476",
+      "primary_label": "contradicted",
+      "rationale": "The closed stock accounting gives nine plus five minus six, or eight lanterns, not fourteen.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 69,
+      "case_id": "x42cb2c5a63215668",
+      "primary_label": "supported",
+      "rationale": "The compass is inside a drawer in a room inside the western tower.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 70,
+      "case_id": "xea6c69a8ca13d5b7",
+      "primary_label": "supported",
+      "rationale": "Ilset did not inspect the furnace, and Rozen alone performed the inspection; this supports the ordinary nonparticipation reading of leaving it to someone else.",
+      "ambiguity_flags": [
+        {
+          "kind": "agency_in_paraphrase",
+          "alternative_label": "not_established",
+          "detail": "Left the inspection to someone else can imply a deliberate choice or delegation. Nonparticipation plus another person inspecting does not explicitly establish that agency; primary label uses the ordinary weaker nonparticipation reading."
+        }
+      ]
+    },
+    {
+      "index": 71,
+      "case_id": "xe8484e1ccd1fd5ef",
+      "primary_label": "not_established",
+      "rationale": "The maker is recorded but no creation date is supplied.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 72,
+      "case_id": "x0c942ff68d0cfe96",
+      "primary_label": "not_established",
+      "rationale": "Neither the title nor the exclusion of boats establishes a person among trees.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 73,
+      "case_id": "x6a3589d90cf61f4a",
+      "primary_label": "not_established",
+      "rationale": "Pralith predicted flooding; the account does not verify that the prediction came true.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 74,
+      "case_id": "x6a165c2786392e12",
+      "primary_label": "contradicted",
+      "rationale": "Printing on day 1 precedes the exhibition ending on day 9, rather than following it.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 75,
+      "case_id": "xa553c364e173c556",
+      "primary_label": "supported",
+      "rationale": "The diary gives sunset, and the narrator explicitly calls that claim erroneous and confirms later opening.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 76,
+      "case_id": "xe1318d21464e7b60",
+      "primary_label": "not_established",
+      "rationale": "Arrival punctuality supplies no passenger counts.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 77,
+      "case_id": "xa2b735cade8fbd9e",
+      "primary_label": "not_established",
+      "rationale": "The glove rule covers north-kiln apprentices only; south-kiln clothing is unspecified.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 78,
+      "case_id": "x96edfb5e1827d890",
+      "primary_label": "not_established",
+      "rationale": "Pulling the copper lever does not establish pulling a wooden lever.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 79,
+      "case_id": "x27b7bddb7004bda6",
+      "primary_label": "not_established",
+      "rationale": "Earning a ribbon does not establish the antecedent of a sufficient-only reading rule.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 80,
+      "case_id": "x2ebc6a9842bde22c",
+      "primary_label": "not_established",
+      "rationale": "At least one peach does not determine exactly two peaches.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 81,
+      "case_id": "x0969748098f4c85d",
+      "primary_label": "supported",
+      "rationale": "Winter Orchard belongs to the east-gallery paintings, none of which depicted a boat.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 82,
+      "case_id": "xb722dfcac5022799",
+      "primary_label": "not_established",
+      "rationale": "Hiding the key does not establish later retrieval.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 83,
+      "case_id": "xca971f615e3d2b9c",
+      "primary_label": "not_established",
+      "rationale": "Both can swim, but no distances or relative ability are stated.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 84,
+      "case_id": "x8957da41b9f6fb21",
+      "primary_label": "not_established",
+      "rationale": "The purchase cost is known, but her initial funds and remaining coins are not.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 85,
+      "case_id": "xa43f22d5ba824464",
+      "primary_label": "not_established",
+      "rationale": "Separate locations establish neither visibility nor its absence.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 86,
+      "case_id": "xb2d82c3f87fb87c4",
+      "primary_label": "supported",
+      "rationale": "Six lengths at four coins each, with exact payment and no adjustment, gives twenty-four coins.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 87,
+      "case_id": "x8eccf0b58bb5ffff",
+      "primary_label": "supported",
+      "rationale": "Speaking the correct word triggers green, which in turn guarantees latch release.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 88,
+      "case_id": "x8595e90a2531a904",
+      "primary_label": "contradicted",
+      "rationale": "The narrator explicitly confirms the observed sail was blue, not red.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 89,
+      "case_id": "xf9a85727c2280841",
+      "primary_label": "contradicted",
+      "rationale": "The first visitor entered at 08:30, after opening at 08:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 90,
+      "case_id": "x84d330b2d97e705d",
+      "primary_label": "supported",
+      "rationale": "The chest was still in her upstairs room at 13:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 91,
+      "case_id": "x9421f4cd16b2e1ce",
+      "primary_label": "contradicted",
+      "rationale": "The single compass was in the western tower, whose space is disjoint from the eastern tower.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 92,
+      "case_id": "xe4a5cd0b635283ba",
+      "primary_label": "supported",
+      "rationale": "The morning crossing was early and the evening crossing on time, so neither was late.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 93,
+      "case_id": "xc9fa77469ab64ba5",
+      "primary_label": "supported",
+      "rationale": "All six couriers carried satchels, and four explicitly carried no whistles.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 94,
+      "case_id": "xe89a5e74988d250a",
+      "primary_label": "supported",
+      "rationale": "The passage directly states the vent was closed and the sensor dry at 10:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 95,
+      "case_id": "x0fb24e58d58a3855",
+      "primary_label": "contradicted",
+      "rationale": "Nollis sat in the courtyard, which has no overlap with the riverbank.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 96,
+      "case_id": "xf53ad7a513770885",
+      "primary_label": "contradicted",
+      "rationale": "Luvira earned a ribbon, ordinarily meaning she won or was awarded one, contrary to receiving no ribbon.",
+      "ambiguity_flags": [
+        {
+          "kind": "earned_versus_received",
+          "alternative_label": "not_established",
+          "detail": "Earned a ribbon normally means won or was awarded it, but can mean became entitled to a ribbon not yet received. Literal receipt is not separately stated."
+        }
+      ]
+    },
+    {
+      "index": 97,
+      "case_id": "xa888a3a083a3a804",
+      "primary_label": "contradicted",
+      "rationale": "Four of twelve cups were chipped, one third rather than one half.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 98,
+      "case_id": "x39611975364854ac",
+      "primary_label": "not_established",
+      "rationale": "Printing date does not establish a distribution date.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 99,
+      "case_id": "x76e59a95c651e563",
+      "primary_label": "supported",
+      "rationale": "Senva was among the north-kiln apprentices, all of whom wore gloves during firing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 100,
+      "case_id": "x29e7ab12109a5987",
+      "primary_label": "supported",
+      "rationale": "The statement that Luvira earned a ribbon ordinarily establishes that she won or was awarded one.",
+      "ambiguity_flags": [
+        {
+          "kind": "earned_versus_received",
+          "alternative_label": "not_established",
+          "detail": "Earned a ribbon normally means won or was awarded it, but can mean became entitled to a ribbon not yet received. Literal receipt is not separately stated."
+        }
+      ]
+    },
+    {
+      "index": 101,
+      "case_id": "xa324fdba0a0ac449",
+      "primary_label": "not_established",
+      "rationale": "The inventory and loading records give sack counts, not weights or weight equality.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 102,
+      "case_id": "xfb55c801b180afba",
+      "primary_label": "not_established",
+      "rationale": "The account explicitly supplies no information about work on the bell.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 103,
+      "case_id": "xb1cb270a5e67dcf8",
+      "primary_label": "contradicted",
+      "rationale": "The striped-handle basket was on the quay, and no basket there contained a plum.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 104,
+      "case_id": "x7aabd6bd4f40163b",
+      "primary_label": "contradicted",
+      "rationale": "The exhibition record locates the single bowl in the west cabinet throughout opening day; east and west interiors are disjoint.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 105,
+      "case_id": "xf09c1241002138a6",
+      "primary_label": "contradicted",
+      "rationale": "Senva was in the group explicitly wearing gloves during the firing.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 106,
+      "case_id": "xa5a5567c6f9452e3",
+      "primary_label": "not_established",
+      "rationale": "Carrying a satchel does not establish that it contained a letter.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 107,
+      "case_id": "x3321d46c5789ebde",
+      "primary_label": "supported",
+      "rationale": "Exactly five of the ten envelopes were empty, which is half.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 108,
+      "case_id": "x4dffaf67b0d025ab",
+      "primary_label": "supported",
+      "rationale": "The catalog was printed on day 1, before the exhibition began on day 2.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 109,
+      "case_id": "xc947d9821e02475c",
+      "primary_label": "not_established",
+      "rationale": "Location alone gives no evidence of river audibility.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 110,
+      "case_id": "xdbcfac8486b99d6d",
+      "primary_label": "contradicted",
+      "rationale": "Exact payment was six times four, or twenty-four coins, rather than twenty.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 111,
+      "case_id": "xa88345627ef51ba0",
+      "primary_label": "contradicted",
+      "rationale": "Esvyn was a team member and explicitly could not swim.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 112,
+      "case_id": "xf416d52d9ad5983f",
+      "primary_label": "supported",
+      "rationale": "Exactly four members minus the one nonswimmer gives three swimmers.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 113,
+      "case_id": "x14b8814c0fc86679",
+      "primary_label": "not_established",
+      "rationale": "Uvressa is identified as the performer, not the composer.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 114,
+      "case_id": "x5851432d9671ddfb",
+      "primary_label": "contradicted",
+      "rationale": "The sensor was explicitly dry at 10:00, despite the closed vent; the conditional does not reverse.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 115,
+      "case_id": "x6cd09f8180b4c1ba",
+      "primary_label": "supported",
+      "rationale": "The roster places Malessa among the Monday crew, and the voyage log confirms every such crew member wore a life belt.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 116,
+      "case_id": "x971d0d19ee20ce54",
+      "primary_label": "not_established",
+      "rationale": "The account specifies the bridge state from 09:00 onward, not at 08:00.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 117,
+      "case_id": "x3760b48a812c215c",
+      "primary_label": "not_established",
+      "rationale": "The location of Ervessa's chest does not establish Ervessa's own location.",
+      "ambiguity_flags": []
+    },
+    {
+      "index": 118,
+      "case_id": "x10503330bc7b8ce9",
+      "primary_label": "supported",
+      "rationale": "On the ordinary exact-count reading of two fruitless trees out of twenty-one, the other nineteen bore fruit.",
+      "ambiguity_flags": [
+        {
+          "kind": "numeral_exhaustivity",
+          "alternative_label": "not_established",
+          "detail": "Two of the twenty-one trees bore no fruit naturally reports the complete count, but unlike other numerical clauses it does not say exactly two or explicitly that the others bore fruit. A lower-bound reading leaves the claim unestablished."
+        }
+      ]
+    },
+    {
+      "index": 119,
+      "case_id": "xe04d9e435720d267",
+      "primary_label": "not_established",
+      "rationale": "The dry sensor and closed vent do not identify who closed the vent or how.",
+      "ambiguity_flags": []
+    }
+  ]
+}

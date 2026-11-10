@@ -131,3 +131,10 @@ now exercises this prediction contract through bounded model checking. It is an
 offline experiment over an exact grammar, not a change to JACE's runtime citation
 matcher or a trained natural-language model. Broader-language coverage and fresh
 in-fragment evaluation must be reported separately.
+
+A separate [free pretrained NLI trial](PRETRAINED_SUPPORT_EXPERIMENT.md)
+records the first frozen model run on 120 newly authored fictional English
+cases. It found 73 correct predictions and 11 false supports among 80 unsupported
+claims. The disclosed ambiguity review and sensitivity view do not qualify that
+model for runtime admission. This is actual model evidence, distinct from the
+mechanical checker and the exact-grammar candidate above.

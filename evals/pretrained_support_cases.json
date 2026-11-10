@@ -1,0 +1,2526 @@
+{
+  "protocol": 1,
+  "scope": "Independent original-fiction English entailment challenge: forty matched premise groups, each with one supported, one contradicted, and one open-world not-established claim. All passages are jointly available evidence; attributed statements establish their occurrence, not their truth unless separately confirmed. No real people or documentary sources are represented. Each group belongs to one of eight phenomena. The set is sealed before frozen argmax predictions and becomes a disclosed regression set after publication, not a future unseen benchmark.",
+  "cases": [
+    {
+      "id": "xe8484e1ccd1fd5ef",
+      "group_id": "ge659618d5e0bbd32",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "pafe4e675b6496a96",
+          "text": "The craft register records Theslin as the sole maker of the bowl called Evening Reed. The register lists no date for its creation."
+        },
+        {
+          "id": "p1874edec443c7250",
+          "text": "The exhibition record places Evening Reed in the west cabinet throughout opening day. That cabinet and the east cabinet have disjoint interiors, and the bowl is a single physical object."
+        }
+      ],
+      "claim": "Theslin made Evening Reed during the year of the exhibition.",
+      "citations": [
+        {
+          "passage_id": "pafe4e675b6496a96",
+          "quote": "The craft register records Theslin as the sole maker of the bowl called Evening Reed. The register lists no date for its creation."
+        },
+        {
+          "passage_id": "p1874edec443c7250",
+          "quote": "The exhibition record places Evening Reed in the west cabinet throughout opening day. That cabinet and the east cabinet have disjoint interiors, and the bowl is a single physical object."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither record supplies a creation year."
+    },
+    {
+      "id": "xa2b85ed6cee3627d",
+      "group_id": "g26de2261b7690b9e",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "pe784c0006fd03aef",
+          "text": "The posted notice announced that the play would begin at 19:00. In fact, the play began at 19:30 that same evening, as the narrator explicitly confirms. The notice was not changed before the performance."
+        }
+      ],
+      "claim": "The notice advertised a start time half an hour earlier than the actual start.",
+      "citations": [
+        {
+          "passage_id": "pe784c0006fd03aef",
+          "quote": "The posted notice announced that the play would begin at 19:00. In fact, the play began at 19:30 that same evening, as the narrator explicitly confirms. The notice was not changed before the performance."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The advertised 19:00 precedes the actual 19:30 by thirty minutes."
+    },
+    {
+      "id": "x304ef3c63e5bb653",
+      "group_id": "g08f80dea6fb23217",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p8e8876591374cbf8",
+          "text": "Mavrik repaired the tower clock without replacing its hands. He replaced the cracked face instead. The account says nothing about work on the clock’s bell."
+        }
+      ],
+      "claim": "Mavrik fitted replacement hands to the tower clock.",
+      "citations": [
+        {
+          "passage_id": "p8e8876591374cbf8",
+          "quote": "Mavrik repaired the tower clock without replacing its hands. He replaced the cracked face instead. The account says nothing about work on the clock’s bell."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The premise explicitly states that the hands were not replaced."
+    },
+    {
+      "id": "xb1313347ef52aaff",
+      "group_id": "gf5be92dfcaf41a57",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p5e5948cf44fdfd89",
+          "text": "At noon, the single brass compass was inside a closed drawer in the map room. The map room was inside the western tower. The eastern tower was a separate building with no space in common with the western tower."
+        }
+      ],
+      "claim": "At noon, the drawer holding the compass was locked.",
+      "citations": [
+        {
+          "passage_id": "p5e5948cf44fdfd89",
+          "quote": "At noon, the single brass compass was inside a closed drawer in the map room. The map room was inside the western tower. The eastern tower was a separate building with no space in common with the western tower."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Closed does not establish locked or unlocked."
+    },
+    {
+      "id": "xcf0bb06baeeab031",
+      "group_id": "gb7ce29a4ed1d15ec",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p26578dbee80722ae",
+          "text": "Olsira finished carving the sign on day 3 of the village fair. She painted it on day 4 and hung it above the gate on day 6. The numbered days belong to the same fair."
+        }
+      ],
+      "claim": "Olsira varnished the sign on day 5 of the fair.",
+      "citations": [
+        {
+          "passage_id": "p26578dbee80722ae",
+          "quote": "Olsira finished carving the sign on day 3 of the village fair. She painted it on day 4 and hung it above the gate on day 6. The numbered days belong to the same fair."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No varnishing event is given."
+    },
+    {
+      "id": "xc9fa77469ab64ba5",
+      "group_id": "g5a8189e197890e7a",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1b09a109c6844633",
+          "text": "Exactly six couriers served the island of Velsho. All six carried satchels. Only two of them, Denvik and Alrisa, carried whistles; the other four carried no whistles."
+        }
+      ],
+      "claim": "Some satchel-carrying couriers on Velsho carried no whistle.",
+      "citations": [
+        {
+          "passage_id": "p1b09a109c6844633",
+          "quote": "Exactly six couriers served the island of Velsho. All six carried satchels. Only two of them, Denvik and Alrisa, carried whistles; the other four carried no whistles."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The four without whistles are among the six with satchels."
+    },
+    {
+      "id": "xf09c1241002138a6",
+      "group_id": "g2b61eb18bf5c356b",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p00da37fd78e9327b",
+          "text": "Every apprentice assigned to the north kiln wore gloves during the firing. Senva was one of those apprentices. The passage records no clothing worn by apprentices at the south kiln."
+        }
+      ],
+      "claim": "Senva worked through the firing without gloves.",
+      "citations": [
+        {
+          "passage_id": "p00da37fd78e9327b",
+          "quote": "Every apprentice assigned to the north kiln wore gloves during the firing. Senva was one of those apprentices. The passage records no clothing worn by apprentices at the south kiln."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Senva belongs to the group all of whom wore gloves."
+    },
+    {
+      "id": "x9421f4cd16b2e1ce",
+      "group_id": "gf5be92dfcaf41a57",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p5e5948cf44fdfd89",
+          "text": "At noon, the single brass compass was inside a closed drawer in the map room. The map room was inside the western tower. The eastern tower was a separate building with no space in common with the western tower."
+        }
+      ],
+      "claim": "At noon, the brass compass was inside the eastern tower.",
+      "citations": [
+        {
+          "passage_id": "p5e5948cf44fdfd89",
+          "quote": "At noon, the single brass compass was inside a closed drawer in the map room. The map room was inside the western tower. The eastern tower was a separate building with no space in common with the western tower."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The compass is in the western tower, and the towers share no space."
+    },
+    {
+      "id": "xb9e79952a9f81a2a",
+      "group_id": "gedda690f8101b109",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "pdcc4d33394c95589",
+          "text": "In this inspection, every crate with a broken seal must be set aside, and that rule was followed without exception. Crate Tavren was not set aside. No other inspection rules or crate properties are stated."
+        }
+      ],
+      "claim": "Crate Tavren contained glassware.",
+      "citations": [
+        {
+          "passage_id": "pdcc4d33394c95589",
+          "quote": "In this inspection, every crate with a broken seal must be set aside, and that rule was followed without exception. Crate Tavren was not set aside. No other inspection rules or crate properties are stated."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The rule and outcome reveal nothing about contents."
+    },
+    {
+      "id": "xb093d4fa6b72d6aa",
+      "group_id": "g87e2612f462394f5",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p588a920b45a172a4",
+          "text": "At sunrise, Ervessa’s unique travel chest was in the cellar beneath the inn, not in her upstairs room. A porter moved it directly from the cellar to that room at noon. At 13:00 it was still in her room."
+        }
+      ],
+      "claim": "At sunrise, Ervessa’s travel chest was in her upstairs room.",
+      "citations": [
+        {
+          "passage_id": "p588a920b45a172a4",
+          "quote": "At sunrise, Ervessa’s unique travel chest was in the cellar beneath the inn, not in her upstairs room. A porter moved it directly from the cellar to that room at noon. At 13:00 it was still in her room."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The passage explicitly excludes that location at sunrise."
+    },
+    {
+      "id": "x7bd8263ff8e4e3e7",
+      "group_id": "gb3e94b96ed75ae2f",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p7e384fb2e9d17ce9",
+          "text": "Each of the five baskets on the quay contained at least one peach. No basket on the quay contained a plum. The basket with a striped handle was one of those five."
+        }
+      ],
+      "claim": "The striped-handle basket contained a peach and no plums.",
+      "citations": [
+        {
+          "passage_id": "p7e384fb2e9d17ce9",
+          "quote": "Each of the five baskets on the quay contained at least one peach. No basket on the quay contained a plum. The basket with a striped handle was one of those five."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Both the peach requirement and plum exclusion apply to that basket."
+    },
+    {
+      "id": "x2fac32f73f6bbf0e",
+      "group_id": "g2d43d9f32a300944",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "pda2a96f945b0c9be",
+          "text": "Elnira denied that she had hidden the amber key. The narrator confirms that she had not hidden it, although she had hidden the silver key beneath a bench."
+        }
+      ],
+      "claim": "Elnira concealed both keys.",
+      "citations": [
+        {
+          "passage_id": "pda2a96f945b0c9be",
+          "quote": "Elnira denied that she had hidden the amber key. The narrator confirms that she had not hidden it, although she had hidden the silver key beneath a bench."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The amber-key concealment is expressly negated."
+    },
+    {
+      "id": "xc7ecfb4eafe45e89",
+      "group_id": "g9022858ae5aaf14c",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p654666b9ce33748d",
+          "text": "Vordel’s diary says that the mill shut at sunset. The narrator separately confirms that the mill stayed open until midnight that evening and was still open at sunset. The diary’s claim is presented as erroneous."
+        }
+      ],
+      "claim": "The mill was shut at sunset that evening.",
+      "citations": [
+        {
+          "passage_id": "p654666b9ce33748d",
+          "quote": "Vordel’s diary says that the mill shut at sunset. The narrator separately confirms that the mill stayed open until midnight that evening and was still open at sunset. The diary’s claim is presented as erroneous."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The narrator explicitly confirms that the mill was open at sunset."
+    },
+    {
+      "id": "xf5c1eb56d333888a",
+      "group_id": "gacbe4aabbec61e3f",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p487b7bd20c1be861",
+          "text": "At a gathering in Rethvale, Corvinel said, “The northern well is empty.” This passage establishes only that Corvinel made that statement; it provides no observation or narrator confirmation of the well’s contents."
+        }
+      ],
+      "claim": "Corvinel made no statement about the northern well’s contents at the gathering.",
+      "citations": [
+        {
+          "passage_id": "p487b7bd20c1be861",
+          "quote": "At a gathering in Rethvale, Corvinel said, “The northern well is empty.” This passage establishes only that Corvinel made that statement; it provides no observation or narrator confirmation of the well’s contents."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The premise records the statement denied by the claim."
+    },
+    {
+      "id": "x8eccf0b58bb5ffff",
+      "group_id": "g50d9c1df5b003a50",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p472f8627562dbc02",
+          "text": "The password gate followed two guaranteed rules during Orlissa’s visit: if the correct word was spoken, its lamp turned green; if its lamp turned green, its latch released. Orlissa spoke the correct word. No rule connected the latch to the door’s movement."
+        }
+      ],
+      "claim": "The gate’s latch released during Orlissa’s visit.",
+      "citations": [
+        {
+          "passage_id": "p472f8627562dbc02",
+          "quote": "The password gate followed two guaranteed rules during Orlissa’s visit: if the correct word was spoken, its lamp turned green; if its lamp turned green, its latch released. Orlissa spoke the correct word. No rule connected the latch to the door’s movement."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The correct word triggers green, and green triggers latch release."
+    },
+    {
+      "id": "xe4a5cd0b635283ba",
+      "group_id": "g8349903fe0983288",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p5dbacc21d337dec1",
+          "text": "At Brindle Reach, the ferry was not late on either of its two Monday crossings. The morning crossing arrived early, and the evening crossing arrived exactly on schedule."
+        }
+      ],
+      "claim": "Neither Monday crossing arrived behind schedule.",
+      "citations": [
+        {
+          "passage_id": "p5dbacc21d337dec1",
+          "quote": "At Brindle Reach, the ferry was not late on either of its two Monday crossings. The morning crossing arrived early, and the evening crossing arrived exactly on schedule."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Both arrivals are explicitly not late."
+    },
+    {
+      "id": "xf416d52d9ad5983f",
+      "group_id": "g45ac9241389f345e",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p637b9c1b4b24f7fe",
+          "text": "There were exactly four members of the Bellhaven survey team: Jorrel, Esvyn, Naliax, and Tovrin. Every member except Esvyn could swim. Esvyn could not swim."
+        }
+      ],
+      "claim": "Three members of the survey team could swim.",
+      "citations": [
+        {
+          "passage_id": "p637b9c1b4b24f7fe",
+          "quote": "There were exactly four members of the Bellhaven survey team: Jorrel, Esvyn, Naliax, and Tovrin. Every member except Esvyn could swim. Esvyn could not swim."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The explicit four-person domain has precisely one nonswimmer."
+    },
+    {
+      "id": "xa5a5567c6f9452e3",
+      "group_id": "g5a8189e197890e7a",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1b09a109c6844633",
+          "text": "Exactly six couriers served the island of Velsho. All six carried satchels. Only two of them, Denvik and Alrisa, carried whistles; the other four carried no whistles."
+        }
+      ],
+      "claim": "Denvik’s satchel contained a letter.",
+      "citations": [
+        {
+          "passage_id": "p1b09a109c6844633",
+          "quote": "Exactly six couriers served the island of Velsho. All six carried satchels. Only two of them, Denvik and Alrisa, carried whistles; the other four carried no whistles."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The contents of Denvik’s satchel are not stated."
+    },
+    {
+      "id": "x14b8814c0fc86679",
+      "group_id": "g9d6945026e0f82b5",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p998a333f81f74c0c",
+          "text": "The festival program identifies the piece titled Flight of Reeds as the opening performance, followed immediately by Stone Lantern. There was only one performance of each piece that evening."
+        },
+        {
+          "id": "p64394723bbc29630",
+          "text": "The stage log records that Uvressa played the solo in Flight of Reeds that evening. Dalmek played the solo in Stone Lantern, and Uvressa did not perform in Stone Lantern."
+        }
+      ],
+      "claim": "Uvressa composed the piece performed at the opening.",
+      "citations": [
+        {
+          "passage_id": "p998a333f81f74c0c",
+          "quote": "The festival program identifies the piece titled Flight of Reeds as the opening performance, followed immediately by Stone Lantern. There was only one performance of each piece that evening."
+        },
+        {
+          "passage_id": "p64394723bbc29630",
+          "quote": "The stage log records that Uvressa played the solo in Flight of Reeds that evening. Dalmek played the solo in Stone Lantern, and Uvressa did not perform in Stone Lantern."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Performance does not establish composition, and no composer is named."
+    },
+    {
+      "id": "x52f3ccac5a992d9b",
+      "group_id": "g50d9c1df5b003a50",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p472f8627562dbc02",
+          "text": "The password gate followed two guaranteed rules during Orlissa’s visit: if the correct word was spoken, its lamp turned green; if its lamp turned green, its latch released. Orlissa spoke the correct word. No rule connected the latch to the door’s movement."
+        }
+      ],
+      "claim": "The gate’s latch never released during Orlissa’s visit.",
+      "citations": [
+        {
+          "passage_id": "p472f8627562dbc02",
+          "quote": "The password gate followed two guaranteed rules during Orlissa’s visit: if the correct word was spoken, its lamp turned green; if its lamp turned green, its latch released. Orlissa spoke the correct word. No rule connected the latch to the door’s movement."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The two guaranteed implications establish at least one release."
+    },
+    {
+      "id": "x14a985f8e0408476",
+      "group_id": "gef5ef0f866906269",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p95ac55a0228af192",
+          "text": "The Lethra workshop began Tuesday with nine finished lanterns. During Tuesday, workers completed five more and sold six. No other lanterns entered or left the finished stock that day."
+        }
+      ],
+      "claim": "The workshop ended Tuesday with fourteen finished lanterns.",
+      "citations": [
+        {
+          "passage_id": "p95ac55a0228af192",
+          "quote": "The Lethra workshop began Tuesday with nine finished lanterns. During Tuesday, workers completed five more and sold six. No other lanterns entered or left the finished stock that day."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The six sales reduce the total from fourteen to eight."
+    },
+    {
+      "id": "x2ebc6a9842bde22c",
+      "group_id": "gb3e94b96ed75ae2f",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p7e384fb2e9d17ce9",
+          "text": "Each of the five baskets on the quay contained at least one peach. No basket on the quay contained a plum. The basket with a striped handle was one of those five."
+        }
+      ],
+      "claim": "The striped-handle basket contained exactly two peaches.",
+      "citations": [
+        {
+          "passage_id": "p7e384fb2e9d17ce9",
+          "quote": "Each of the five baskets on the quay contained at least one peach. No basket on the quay contained a plum. The basket with a striped handle was one of those five."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "At least one peach does not fix an exact count of two."
+    },
+    {
+      "id": "x0fb24e58d58a3855",
+      "group_id": "g4856283b0a22e9b0",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p6d6fe2074ee33171",
+          "text": "The courtyard of Seravin House lay entirely within the estate’s outer wall. At 10:00, Nollis sat in that courtyard. The riverbank lay entirely outside the outer wall, with no overlap with the courtyard."
+        }
+      ],
+      "claim": "At 10:00, Nollis was sitting on the riverbank.",
+      "citations": [
+        {
+          "passage_id": "p6d6fe2074ee33171",
+          "quote": "The courtyard of Seravin House lay entirely within the estate’s outer wall. At 10:00, Nollis sat in that courtyard. The riverbank lay entirely outside the outer wall, with no overlap with the courtyard."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The riverbank and courtyard are explicitly nonoverlapping locations."
+    },
+    {
+      "id": "x99dd17244f0d32d2",
+      "group_id": "gdf8959a368db51ff",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p4ef0a96e2c3090ff",
+          "text": "In Merrowick, the footbridge was closed continuously from 09:00 up to but not including 11:00 on Friday. It reopened at 11:00 and remained open until 18:00 that day."
+        }
+      ],
+      "claim": "At 10:15 on that Friday, the footbridge was closed.",
+      "citations": [
+        {
+          "passage_id": "p4ef0a96e2c3090ff",
+          "quote": "In Merrowick, the footbridge was closed continuously from 09:00 up to but not including 11:00 on Friday. It reopened at 11:00 and remained open until 18:00 that day."
+        }
+      ],
+      "label": "supported",
+      "rationale": "10:15 falls inside the continuous closure."
+    },
+    {
+      "id": "xa553c364e173c556",
+      "group_id": "g9022858ae5aaf14c",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p654666b9ce33748d",
+          "text": "Vordel’s diary says that the mill shut at sunset. The narrator separately confirms that the mill stayed open until midnight that evening and was still open at sunset. The diary’s claim is presented as erroneous."
+        }
+      ],
+      "claim": "The diary gave an incorrect closing time for the mill.",
+      "citations": [
+        {
+          "passage_id": "p654666b9ce33748d",
+          "quote": "Vordel’s diary says that the mill shut at sunset. The narrator separately confirms that the mill stayed open until midnight that evening and was still open at sunset. The diary’s claim is presented as erroneous."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The diary’s sunset closing claim conflicts with the narrator’s confirmed account."
+    },
+    {
+      "id": "x4e7031b4bc4f60ac",
+      "group_id": "g65413f37c5315be6",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p66581c11bd66a75e",
+          "text": "The courier register identifies Jesvra as the person assigned the parcel marked K47. Each parcel has exactly one assigned courier."
+        },
+        {
+          "id": "p98f20c74819ae411",
+          "text": "The dispatch record states that the assigned courier for parcel K47 delivered it to the hill observatory on Tuesday. The parcel was not delivered anywhere else that day."
+        }
+      ],
+      "claim": "On Tuesday, Jesvra delivered parcel K47 to the harbor warehouse.",
+      "citations": [
+        {
+          "passage_id": "p66581c11bd66a75e",
+          "quote": "The courier register identifies Jesvra as the person assigned the parcel marked K47. Each parcel has exactly one assigned courier."
+        },
+        {
+          "passage_id": "p98f20c74819ae411",
+          "quote": "The dispatch record states that the assigned courier for parcel K47 delivered it to the hill observatory on Tuesday. The parcel was not delivered anywhere else that day."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "K47 was delivered only to the hill observatory that day."
+    },
+    {
+      "id": "xea6c69a8ca13d5b7",
+      "group_id": "g5a9099a478a2b34f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p667e0a7dd9fe55ec",
+          "text": "At the glassworks in Vennor, Ilset signed the delivery slip but did not inspect the furnace. The afternoon inspection was performed by Rozen alone."
+        }
+      ],
+      "claim": "Ilset left the furnace inspection to someone else.",
+      "citations": [
+        {
+          "passage_id": "p667e0a7dd9fe55ec",
+          "quote": "At the glassworks in Vennor, Ilset signed the delivery slip but did not inspect the furnace. The afternoon inspection was performed by Rozen alone."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Rozen alone performed the inspection and Ilset did not inspect."
+    },
+    {
+      "id": "x46a75469258037d7",
+      "group_id": "g65413f37c5315be6",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p66581c11bd66a75e",
+          "text": "The courier register identifies Jesvra as the person assigned the parcel marked K47. Each parcel has exactly one assigned courier."
+        },
+        {
+          "id": "p98f20c74819ae411",
+          "text": "The dispatch record states that the assigned courier for parcel K47 delivered it to the hill observatory on Tuesday. The parcel was not delivered anywhere else that day."
+        }
+      ],
+      "claim": "Jesvra traveled to the hill observatory on horseback on Tuesday.",
+      "citations": [
+        {
+          "passage_id": "p66581c11bd66a75e",
+          "quote": "The courier register identifies Jesvra as the person assigned the parcel marked K47. Each parcel has exactly one assigned courier."
+        },
+        {
+          "passage_id": "p98f20c74819ae411",
+          "quote": "The dispatch record states that the assigned courier for parcel K47 delivered it to the hill observatory on Tuesday. The parcel was not delivered anywhere else that day."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither record identifies the mode of travel."
+    },
+    {
+      "id": "xbf124315c7b125f4",
+      "group_id": "g38bfad91f6d1691b",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p9134172321b1cd0b",
+          "text": "Vesrin packed exactly twelve ceramic cups for the mountain inn. Four were chipped, and the other eight were undamaged. All twelve were sent in the same crate."
+        }
+      ],
+      "claim": "The four chipped cups were all blue.",
+      "citations": [
+        {
+          "passage_id": "p9134172321b1cd0b",
+          "quote": "Vesrin packed exactly twelve ceramic cups for the mountain inn. Four were chipped, and the other eight were undamaged. All twelve were sent in the same crate."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No colors are specified."
+    },
+    {
+      "id": "x8595e90a2531a904",
+      "group_id": "ga34d42a9f52f1a80",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p0b553cd0c8db4b92",
+          "text": "Selnara told the harbor clerk that she had seen a red sail. The narrator confirms that the sail she saw was blue, not red, and says Selnara was mistaken about its color. No other sightings are described."
+        }
+      ],
+      "claim": "The sail Selnara saw was red.",
+      "citations": [
+        {
+          "passage_id": "p0b553cd0c8db4b92",
+          "quote": "Selnara told the harbor clerk that she had seen a red sail. The narrator confirms that the sail she saw was blue, not red, and says Selnara was mistaken about its color. No other sightings are described."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The narrator establishes that this sail was not red."
+    },
+    {
+      "id": "x8b2bb6d7f0a5fd39",
+      "group_id": "g9022858ae5aaf14c",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p654666b9ce33748d",
+          "text": "Vordel’s diary says that the mill shut at sunset. The narrator separately confirms that the mill stayed open until midnight that evening and was still open at sunset. The diary’s claim is presented as erroneous."
+        }
+      ],
+      "claim": "Vordel wrote the diary entry before midnight that evening.",
+      "citations": [
+        {
+          "passage_id": "p654666b9ce33748d",
+          "quote": "Vordel’s diary says that the mill shut at sunset. The narrator separately confirms that the mill stayed open until midnight that evening and was still open at sunset. The diary’s claim is presented as erroneous."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The time of writing the entry is not supplied."
+    },
+    {
+      "id": "xc3cebfed0d3ab354",
+      "group_id": "g9d6945026e0f82b5",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p998a333f81f74c0c",
+          "text": "The festival program identifies the piece titled Flight of Reeds as the opening performance, followed immediately by Stone Lantern. There was only one performance of each piece that evening."
+        },
+        {
+          "id": "p64394723bbc29630",
+          "text": "The stage log records that Uvressa played the solo in Flight of Reeds that evening. Dalmek played the solo in Stone Lantern, and Uvressa did not perform in Stone Lantern."
+        }
+      ],
+      "claim": "Uvressa played the solo in the performance immediately after the opener.",
+      "citations": [
+        {
+          "passage_id": "p998a333f81f74c0c",
+          "quote": "The festival program identifies the piece titled Flight of Reeds as the opening performance, followed immediately by Stone Lantern. There was only one performance of each piece that evening."
+        },
+        {
+          "passage_id": "p64394723bbc29630",
+          "quote": "The stage log records that Uvressa played the solo in Flight of Reeds that evening. Dalmek played the solo in Stone Lantern, and Uvressa did not perform in Stone Lantern."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The following piece was Stone Lantern, in which Uvressa explicitly did not perform."
+    },
+    {
+      "id": "x05d1eb70ee900516",
+      "group_id": "g38bfad91f6d1691b",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p9134172321b1cd0b",
+          "text": "Vesrin packed exactly twelve ceramic cups for the mountain inn. Four were chipped, and the other eight were undamaged. All twelve were sent in the same crate."
+        }
+      ],
+      "claim": "The crate contained twice as many undamaged cups as chipped cups.",
+      "citations": [
+        {
+          "passage_id": "p9134172321b1cd0b",
+          "quote": "Vesrin packed exactly twelve ceramic cups for the mountain inn. Four were chipped, and the other eight were undamaged. All twelve were sent in the same crate."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Eight undamaged cups are twice four chipped cups."
+    },
+    {
+      "id": "x82cdc873be4dc290",
+      "group_id": "gef5ef0f866906269",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p95ac55a0228af192",
+          "text": "The Lethra workshop began Tuesday with nine finished lanterns. During Tuesday, workers completed five more and sold six. No other lanterns entered or left the finished stock that day."
+        }
+      ],
+      "claim": "The six sold lanterns all came from the original nine.",
+      "citations": [
+        {
+          "passage_id": "p95ac55a0228af192",
+          "quote": "The Lethra workshop began Tuesday with nine finished lanterns. During Tuesday, workers completed five more and sold six. No other lanterns entered or left the finished stock that day."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The sold lanterns are not identified by production time."
+    },
+    {
+      "id": "xe0db22f64b6dea1f",
+      "group_id": "g2a70f98d5a4d4952",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "pdc8b91f74304c96d",
+          "text": "The warehouse inventory lists exactly eight flour sacks in bin R and exactly seven flour sacks in bin S at 06:00 on Thursday. There were no other flour sacks in those two bins then."
+        },
+        {
+          "id": "p0d49a5209cbd47f6",
+          "text": "The loading sheet states that every flour sack in bins R and S at 06:00 on Thursday was loaded onto wagon Nelven, and no other sacks were loaded onto that wagon."
+        }
+      ],
+      "claim": "Wagon Nelven was loaded with exactly fourteen flour sacks.",
+      "citations": [
+        {
+          "passage_id": "pdc8b91f74304c96d",
+          "quote": "The warehouse inventory lists exactly eight flour sacks in bin R and exactly seven flour sacks in bin S at 06:00 on Thursday. There were no other flour sacks in those two bins then."
+        },
+        {
+          "passage_id": "p0d49a5209cbd47f6",
+          "quote": "The loading sheet states that every flour sack in bins R and S at 06:00 on Thursday was loaded onto wagon Nelven, and no other sacks were loaded onto that wagon."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The two exhaustive counts sum to fifteen rather than fourteen."
+    },
+    {
+      "id": "x3323ef2a00c3553c",
+      "group_id": "g2d43d9f32a300944",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "pda2a96f945b0c9be",
+          "text": "Elnira denied that she had hidden the amber key. The narrator confirms that she had not hidden it, although she had hidden the silver key beneath a bench."
+        }
+      ],
+      "claim": "Elnira concealed the silver key but not the amber one.",
+      "citations": [
+        {
+          "passage_id": "pda2a96f945b0c9be",
+          "quote": "Elnira denied that she had hidden the amber key. The narrator confirms that she had not hidden it, although she had hidden the silver key beneath a bench."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The narrator establishes both the silver-key concealment and the amber-key nonconcealment."
+    },
+    {
+      "id": "xd52fbc2e0c95761d",
+      "group_id": "gb91fac98c8249473",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p2e0a1bde46ca39e9",
+          "text": "At the start of the ceremony, the only ceremonial banner hung on the inside face of the hall’s north wall. It remained there throughout the ceremony. The south wall was a different, opposite wall."
+        }
+      ],
+      "claim": "The ceremonial banner stayed on the north wall for the whole ceremony.",
+      "citations": [
+        {
+          "passage_id": "p2e0a1bde46ca39e9",
+          "quote": "At the start of the ceremony, the only ceremonial banner hung on the inside face of the hall’s north wall. It remained there throughout the ceremony. The south wall was a different, opposite wall."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The banner is expressly said to remain at that location throughout."
+    },
+    {
+      "id": "x183a5f47a6ea56e5",
+      "group_id": "gedda690f8101b109",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "pdcc4d33394c95589",
+          "text": "In this inspection, every crate with a broken seal must be set aside, and that rule was followed without exception. Crate Tavren was not set aside. No other inspection rules or crate properties are stated."
+        }
+      ],
+      "claim": "Crate Tavren did not have a broken seal during the inspection.",
+      "citations": [
+        {
+          "passage_id": "pdcc4d33394c95589",
+          "quote": "In this inspection, every crate with a broken seal must be set aside, and that rule was followed without exception. Crate Tavren was not set aside. No other inspection rules or crate properties are stated."
+        }
+      ],
+      "label": "supported",
+      "rationale": "A broken seal would require setting it aside; its not being set aside excludes a broken seal."
+    },
+    {
+      "id": "x5974bc5251991ec0",
+      "group_id": "gb7ce29a4ed1d15ec",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p26578dbee80722ae",
+          "text": "Olsira finished carving the sign on day 3 of the village fair. She painted it on day 4 and hung it above the gate on day 6. The numbered days belong to the same fair."
+        }
+      ],
+      "claim": "Olsira painted the sign before hanging it above the gate.",
+      "citations": [
+        {
+          "passage_id": "p26578dbee80722ae",
+          "quote": "Olsira finished carving the sign on day 3 of the village fair. She painted it on day 4 and hung it above the gate on day 6. The numbered days belong to the same fair."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Day 4 precedes day 6."
+    },
+    {
+      "id": "xb6661861eceeadb8",
+      "group_id": "gacbe4aabbec61e3f",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p487b7bd20c1be861",
+          "text": "At a gathering in Rethvale, Corvinel said, “The northern well is empty.” This passage establishes only that Corvinel made that statement; it provides no observation or narrator confirmation of the well’s contents."
+        }
+      ],
+      "claim": "The northern well was empty when Corvinel spoke.",
+      "citations": [
+        {
+          "passage_id": "p487b7bd20c1be861",
+          "quote": "At a gathering in Rethvale, Corvinel said, “The northern well is empty.” This passage establishes only that Corvinel made that statement; it provides no observation or narrator confirmation of the well’s contents."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The report is explicitly not confirmation of the well’s actual contents."
+    },
+    {
+      "id": "xe1318d21464e7b60",
+      "group_id": "g8349903fe0983288",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p5dbacc21d337dec1",
+          "text": "At Brindle Reach, the ferry was not late on either of its two Monday crossings. The morning crossing arrived early, and the evening crossing arrived exactly on schedule."
+        }
+      ],
+      "claim": "The ferry carried more passengers in the evening than in the morning.",
+      "citations": [
+        {
+          "passage_id": "p5dbacc21d337dec1",
+          "quote": "At Brindle Reach, the ferry was not late on either of its two Monday crossings. The morning crossing arrived early, and the evening crossing arrived exactly on schedule."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Passenger counts are not provided."
+    },
+    {
+      "id": "xdbcfac8486b99d6d",
+      "group_id": "g5a19e2ebf16921ce",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p71dfd9dd78f4cf2c",
+          "text": "On her sole visit to the dye stall, Mireth bought six lengths of silk at four silver coins per length. She paid only for the silk, with no fee or discount, and handed over exactly the amount owed."
+        }
+      ],
+      "claim": "Mireth paid twenty silver coins for her purchase.",
+      "citations": [
+        {
+          "passage_id": "p71dfd9dd78f4cf2c",
+          "quote": "On her sole visit to the dye stall, Mireth bought six lengths of silk at four silver coins per length. She paid only for the silk, with no fee or discount, and handed over exactly the amount owed."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The stipulated price and exact payment require twenty-four, not twenty."
+    },
+    {
+      "id": "x6a3589d90cf61f4a",
+      "group_id": "g6e17f3f1df5e0fd6",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p166be44e9541a512",
+          "text": "During the council session, Pralith predicted that the orchard would flood the next day. Keressa made no prediction about flooding at that session. The account ends with the session and supplies no information about the next day’s weather or flooding."
+        }
+      ],
+      "claim": "The orchard flooded on the day after the council session.",
+      "citations": [
+        {
+          "passage_id": "p166be44e9541a512",
+          "quote": "During the council session, Pralith predicted that the orchard would flood the next day. Keressa made no prediction about flooding at that session. The account ends with the session and supplies no information about the next day’s weather or flooding."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "A prediction alone does not establish the predicted event."
+    },
+    {
+      "id": "x7fe582783f2aa066",
+      "group_id": "g85e7b5d69ab2f67d",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "pfa4f8f7009644d65",
+          "text": "The recorder checked one particular lamp twice on Monday. At 14:00 its flame was burning. At 15:00 its flame was out. No observations between those two checks were recorded."
+        }
+      ],
+      "claim": "The lamp was burning at 14:30 on Monday.",
+      "citations": [
+        {
+          "passage_id": "pfa4f8f7009644d65",
+          "quote": "The recorder checked one particular lamp twice on Monday. At 14:00 its flame was burning. At 15:00 its flame was out. No observations between those two checks were recorded."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither check establishes the state at 14:30."
+    },
+    {
+      "id": "xc7202dc1e3517acf",
+      "group_id": "g9a47e81ae4730fa9",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p40294f241239b231",
+          "text": "Orven’s orchard had three rows of pear trees, with exactly seven trees in each row. There were no pear trees anywhere else in the orchard. Two of the twenty-one trees bore no fruit."
+        }
+      ],
+      "claim": "The orchard contained twenty-four pear trees.",
+      "citations": [
+        {
+          "passage_id": "p40294f241239b231",
+          "quote": "Orven’s orchard had three rows of pear trees, with exactly seven trees in each row. There were no pear trees anywhere else in the orchard. Two of the twenty-one trees bore no fruit."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Three rows of seven and no others gives twenty-one, not twenty-four."
+    },
+    {
+      "id": "x38b390f0343cc039",
+      "group_id": "g6e17f3f1df5e0fd6",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p166be44e9541a512",
+          "text": "During the council session, Pralith predicted that the orchard would flood the next day. Keressa made no prediction about flooding at that session. The account ends with the session and supplies no information about the next day’s weather or flooding."
+        }
+      ],
+      "claim": "Pralith forecast flooding of the orchard for the following day.",
+      "citations": [
+        {
+          "passage_id": "p166be44e9541a512",
+          "quote": "During the council session, Pralith predicted that the orchard would flood the next day. Keressa made no prediction about flooding at that session. The account ends with the session and supplies no information about the next day’s weather or flooding."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Forecasting restates Pralith’s recorded prediction."
+    },
+    {
+      "id": "xa43f22d5ba824464",
+      "group_id": "g7c02d35c7faac1d9",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p0363256b5140425f",
+          "text": "During the 16:00 roll call, Talveth stood inside the bakery and Dreska stood inside the smithy. The bakery and smithy were separate buildings with disjoint interiors. Neither person moved during that roll call."
+        }
+      ],
+      "claim": "Talveth could see Dreska from the bakery during the roll call.",
+      "citations": [
+        {
+          "passage_id": "p0363256b5140425f",
+          "quote": "During the 16:00 roll call, Talveth stood inside the bakery and Dreska stood inside the smithy. The bakery and smithy were separate buildings with disjoint interiors. Neither person moved during that roll call."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No windows or sightlines are described."
+    },
+    {
+      "id": "x71e43f27a4c34f05",
+      "group_id": "g2a70f98d5a4d4952",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "pdc8b91f74304c96d",
+          "text": "The warehouse inventory lists exactly eight flour sacks in bin R and exactly seven flour sacks in bin S at 06:00 on Thursday. There were no other flour sacks in those two bins then."
+        },
+        {
+          "id": "p0d49a5209cbd47f6",
+          "text": "The loading sheet states that every flour sack in bins R and S at 06:00 on Thursday was loaded onto wagon Nelven, and no other sacks were loaded onto that wagon."
+        }
+      ],
+      "claim": "Exactly fifteen flour sacks were loaded onto wagon Nelven.",
+      "citations": [
+        {
+          "passage_id": "pdc8b91f74304c96d",
+          "quote": "The warehouse inventory lists exactly eight flour sacks in bin R and exactly seven flour sacks in bin S at 06:00 on Thursday. There were no other flour sacks in those two bins then."
+        },
+        {
+          "passage_id": "p0d49a5209cbd47f6",
+          "quote": "The loading sheet states that every flour sack in bins R and S at 06:00 on Thursday was loaded onto wagon Nelven, and no other sacks were loaded onto that wagon."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The loading sheet takes all and only the eight plus seven inventoried sacks."
+    },
+    {
+      "id": "x1761058199a144d0",
+      "group_id": "g49f0e83d32c4f0d1",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p7e0ec305c926f93d",
+          "text": "On the same Wednesday, Felven opened the archive at 08:00, admitted the first visitor at 08:30, and locked the archive at 17:00. These times use the town’s single local clock."
+        }
+      ],
+      "claim": "The first visitor stayed until the archive was locked.",
+      "citations": [
+        {
+          "passage_id": "p7e0ec305c926f93d",
+          "quote": "On the same Wednesday, Felven opened the archive at 08:00, admitted the first visitor at 08:30, and locked the archive at 17:00. These times use the town’s single local clock."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No departure time is given for the first visitor."
+    },
+    {
+      "id": "xc82ec7e0a970866b",
+      "group_id": "g85e7b5d69ab2f67d",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "pfa4f8f7009644d65",
+          "text": "The recorder checked one particular lamp twice on Monday. At 14:00 its flame was burning. At 15:00 its flame was out. No observations between those two checks were recorded."
+        }
+      ],
+      "claim": "The lamp was unlit at the 14:00 check.",
+      "citations": [
+        {
+          "passage_id": "pfa4f8f7009644d65",
+          "quote": "The recorder checked one particular lamp twice on Monday. At 14:00 its flame was burning. At 15:00 its flame was out. No observations between those two checks were recorded."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "At 14:00 the flame was explicitly burning."
+    },
+    {
+      "id": "x133aa861c7de455a",
+      "group_id": "g6e17f3f1df5e0fd6",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p166be44e9541a512",
+          "text": "During the council session, Pralith predicted that the orchard would flood the next day. Keressa made no prediction about flooding at that session. The account ends with the session and supplies no information about the next day’s weather or flooding."
+        }
+      ],
+      "claim": "Keressa predicted orchard flooding during that council session.",
+      "citations": [
+        {
+          "passage_id": "p166be44e9541a512",
+          "quote": "During the council session, Pralith predicted that the orchard would flood the next day. Keressa made no prediction about flooding at that session. The account ends with the session and supplies no information about the next day’s weather or flooding."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Keressa is explicitly said to have made no such prediction."
+    },
+    {
+      "id": "x0969748098f4c85d",
+      "group_id": "g6ff6fb54abc217b6",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p9908f441114bc05c",
+          "text": "None of the paintings in the east gallery depicted a boat. The painting called Winter Orchard hung in that gallery. Some paintings in the west gallery depicted boats."
+        }
+      ],
+      "claim": "Winter Orchard did not depict a boat.",
+      "citations": [
+        {
+          "passage_id": "p9908f441114bc05c",
+          "quote": "None of the paintings in the east gallery depicted a boat. The painting called Winter Orchard hung in that gallery. Some paintings in the west gallery depicted boats."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Winter Orchard is covered by the east gallery’s no-boat statement."
+    },
+    {
+      "id": "x17690db5240ea7be",
+      "group_id": "g4416eee33bb19f00",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p63db5a78658557cf",
+          "text": "The festival steward, Navren, prohibited drums inside the reed pavilion. She did not prohibit flutes there. No rule in this notice addressed instruments outside the pavilion."
+        }
+      ],
+      "claim": "Navren banned flutes as well as drums inside the pavilion.",
+      "citations": [
+        {
+          "passage_id": "p63db5a78658557cf",
+          "quote": "The festival steward, Navren, prohibited drums inside the reed pavilion. She did not prohibit flutes there. No rule in this notice addressed instruments outside the pavilion."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The notice explicitly says she did not prohibit flutes there."
+    },
+    {
+      "id": "xa2b735cade8fbd9e",
+      "group_id": "g2b61eb18bf5c356b",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p00da37fd78e9327b",
+          "text": "Every apprentice assigned to the north kiln wore gloves during the firing. Senva was one of those apprentices. The passage records no clothing worn by apprentices at the south kiln."
+        }
+      ],
+      "claim": "Every apprentice at the south kiln wore gloves during the firing.",
+      "citations": [
+        {
+          "passage_id": "p00da37fd78e9327b",
+          "quote": "Every apprentice assigned to the north kiln wore gloves during the firing. Senva was one of those apprentices. The passage records no clothing worn by apprentices at the south kiln."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The universal claim does not cover the south-kiln group."
+    },
+    {
+      "id": "xf53ad7a513770885",
+      "group_id": "g87e45b437ebf9b7f",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p9ad461f680a51cd3",
+          "text": "Under the rules of the Velsan reading contest, any entrant who reads all six chapters earns a ribbon. This is a guarantee, not a statement that ribbons have no other route. Luvira earned a ribbon in that contest."
+        }
+      ],
+      "claim": "Luvira received no ribbon in the Velsan contest.",
+      "citations": [
+        {
+          "passage_id": "p9ad461f680a51cd3",
+          "quote": "Under the rules of the Velsan reading contest, any entrant who reads all six chapters earns a ribbon. This is a guarantee, not a statement that ribbons have no other route. Luvira earned a ribbon in that contest."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The no-ribbon claim conflicts with the explicit award."
+    },
+    {
+      "id": "x4dffaf67b0d025ab",
+      "group_id": "ge5a1389dc91bd36e",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "pa592ecdd4039cb3a",
+          "text": "The winter exhibition in Ruvella began on 2 Frostmonth and ended on 9 Frostmonth of the same year. A catalog was printed on 1 Frostmonth. All dates refer to this one exhibition and its catalog."
+        }
+      ],
+      "claim": "The catalog was printed before the exhibition began.",
+      "citations": [
+        {
+          "passage_id": "pa592ecdd4039cb3a",
+          "quote": "The winter exhibition in Ruvella began on 2 Frostmonth and ended on 9 Frostmonth of the same year. A catalog was printed on 1 Frostmonth. All dates refer to this one exhibition and its catalog."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The first day of that month precedes the second."
+    },
+    {
+      "id": "xf1112eeaa693ae15",
+      "group_id": "gb71e1b2be57302bd",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p38204f645adbed2a",
+          "text": "For this evening’s lantern trial, the mechanism guarantees that if the copper lever is pulled, the bell rings. Pulling the lever is not described as the only way to ring the bell. During the trial, Fesrik pulled the copper lever."
+        }
+      ],
+      "claim": "The bell rang during the trial.",
+      "citations": [
+        {
+          "passage_id": "p38204f645adbed2a",
+          "quote": "For this evening’s lantern trial, the mechanism guarantees that if the copper lever is pulled, the bell rings. Pulling the lever is not described as the only way to ring the bell. During the trial, Fesrik pulled the copper lever."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The guaranteed implication and its antecedent establish ringing."
+    },
+    {
+      "id": "xfb55c801b180afba",
+      "group_id": "g08f80dea6fb23217",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p8e8876591374cbf8",
+          "text": "Mavrik repaired the tower clock without replacing its hands. He replaced the cracked face instead. The account says nothing about work on the clock’s bell."
+        }
+      ],
+      "claim": "Mavrik also repaired the clock’s bell.",
+      "citations": [
+        {
+          "passage_id": "p8e8876591374cbf8",
+          "quote": "Mavrik repaired the tower clock without replacing its hands. He replaced the cracked face instead. The account says nothing about work on the clock’s bell."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No bell work or absence of bell work is established."
+    },
+    {
+      "id": "x15a0fadd44037707",
+      "group_id": "gb71e1b2be57302bd",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p38204f645adbed2a",
+          "text": "For this evening’s lantern trial, the mechanism guarantees that if the copper lever is pulled, the bell rings. Pulling the lever is not described as the only way to ring the bell. During the trial, Fesrik pulled the copper lever."
+        }
+      ],
+      "claim": "The bell remained silent throughout the trial.",
+      "citations": [
+        {
+          "passage_id": "p38204f645adbed2a",
+          "quote": "For this evening’s lantern trial, the mechanism guarantees that if the copper lever is pulled, the bell rings. Pulling the lever is not described as the only way to ring the bell. During the trial, Fesrik pulled the copper lever."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The guaranteed ring is incompatible with remaining silent throughout."
+    },
+    {
+      "id": "x29e7ab12109a5987",
+      "group_id": "g87e45b437ebf9b7f",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p9ad461f680a51cd3",
+          "text": "Under the rules of the Velsan reading contest, any entrant who reads all six chapters earns a ribbon. This is a guarantee, not a statement that ribbons have no other route. Luvira earned a ribbon in that contest."
+        }
+      ],
+      "claim": "Luvira received a ribbon in the Velsan contest.",
+      "citations": [
+        {
+          "passage_id": "p9ad461f680a51cd3",
+          "quote": "Under the rules of the Velsan reading contest, any entrant who reads all six chapters earns a ribbon. This is a guarantee, not a statement that ribbons have no other route. Luvira earned a ribbon in that contest."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Receiving a ribbon restates the explicit award fact."
+    },
+    {
+      "id": "x753707ad64eca07c",
+      "group_id": "g7c02d35c7faac1d9",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p0363256b5140425f",
+          "text": "During the 16:00 roll call, Talveth stood inside the bakery and Dreska stood inside the smithy. The bakery and smithy were separate buildings with disjoint interiors. Neither person moved during that roll call."
+        }
+      ],
+      "claim": "Dreska stood inside the bakery during that roll call.",
+      "citations": [
+        {
+          "passage_id": "p0363256b5140425f",
+          "quote": "During the 16:00 roll call, Talveth stood inside the bakery and Dreska stood inside the smithy. The bakery and smithy were separate buildings with disjoint interiors. Neither person moved during that roll call."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Dreska was in the smithy rather than the disjoint bakery."
+    },
+    {
+      "id": "x27b7bddb7004bda6",
+      "group_id": "g87e45b437ebf9b7f",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p9ad461f680a51cd3",
+          "text": "Under the rules of the Velsan reading contest, any entrant who reads all six chapters earns a ribbon. This is a guarantee, not a statement that ribbons have no other route. Luvira earned a ribbon in that contest."
+        }
+      ],
+      "claim": "Luvira read all six chapters in the Velsan contest.",
+      "citations": [
+        {
+          "passage_id": "p9ad461f680a51cd3",
+          "quote": "Under the rules of the Velsan reading contest, any entrant who reads all six chapters earns a ribbon. This is a guarantee, not a statement that ribbons have no other route. Luvira earned a ribbon in that contest."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Earning the consequence does not establish the reading antecedent."
+    },
+    {
+      "id": "x39611975364854ac",
+      "group_id": "ge5a1389dc91bd36e",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "pa592ecdd4039cb3a",
+          "text": "The winter exhibition in Ruvella began on 2 Frostmonth and ended on 9 Frostmonth of the same year. A catalog was printed on 1 Frostmonth. All dates refer to this one exhibition and its catalog."
+        }
+      ],
+      "claim": "The catalog was distributed on the exhibition’s opening day.",
+      "citations": [
+        {
+          "passage_id": "pa592ecdd4039cb3a",
+          "quote": "The winter exhibition in Ruvella began on 2 Frostmonth and ended on 9 Frostmonth of the same year. A catalog was printed on 1 Frostmonth. All dates refer to this one exhibition and its catalog."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Printing time does not establish distribution time."
+    },
+    {
+      "id": "x4de99df5618bcc4b",
+      "group_id": "g5a9099a478a2b34f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p667e0a7dd9fe55ec",
+          "text": "At the glassworks in Vennor, Ilset signed the delivery slip but did not inspect the furnace. The afternoon inspection was performed by Rozen alone."
+        }
+      ],
+      "claim": "Ilset signed the slip before Rozen inspected the furnace.",
+      "citations": [
+        {
+          "passage_id": "p667e0a7dd9fe55ec",
+          "quote": "At the glassworks in Vennor, Ilset signed the delivery slip but did not inspect the furnace. The afternoon inspection was performed by Rozen alone."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The relative timing of signing and inspection is not specified."
+    },
+    {
+      "id": "x971d0d19ee20ce54",
+      "group_id": "gdf8959a368db51ff",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p4ef0a96e2c3090ff",
+          "text": "In Merrowick, the footbridge was closed continuously from 09:00 up to but not including 11:00 on Friday. It reopened at 11:00 and remained open until 18:00 that day."
+        }
+      ],
+      "claim": "The footbridge was open at 08:00 on that Friday.",
+      "citations": [
+        {
+          "passage_id": "p4ef0a96e2c3090ff",
+          "quote": "In Merrowick, the footbridge was closed continuously from 09:00 up to but not including 11:00 on Friday. It reopened at 11:00 and remained open until 18:00 that day."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The period before 09:00 is not described."
+    },
+    {
+      "id": "x0c942ff68d0cfe96",
+      "group_id": "g6ff6fb54abc217b6",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p9908f441114bc05c",
+          "text": "None of the paintings in the east gallery depicted a boat. The painting called Winter Orchard hung in that gallery. Some paintings in the west gallery depicted boats."
+        }
+      ],
+      "claim": "Winter Orchard depicted a person standing among trees.",
+      "citations": [
+        {
+          "passage_id": "p9908f441114bc05c",
+          "quote": "None of the paintings in the east gallery depicted a boat. The painting called Winter Orchard hung in that gallery. Some paintings in the west gallery depicted boats."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The title does not establish the painting’s actual depicted figures."
+    },
+    {
+      "id": "xe89a5e74988d250a",
+      "group_id": "g8a4b8fcacb25325b",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1a61be36289bc7b3",
+          "text": "The garden’s automatic system obeyed this rule all morning: whenever the rain sensor was wet, the roof vent closed. At 10:00 the sensor was dry and the roof vent was closed. The rule does not specify what happens when the sensor is dry."
+        }
+      ],
+      "claim": "At 10:00, the roof vent was closed even though the sensor was dry.",
+      "citations": [
+        {
+          "passage_id": "p1a61be36289bc7b3",
+          "quote": "The garden’s automatic system obeyed this rule all morning: whenever the rain sensor was wet, the roof vent closed. At 10:00 the sensor was dry and the roof vent was closed. The rule does not specify what happens when the sensor is dry."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Both the dry sensor and closed vent are explicitly observed."
+    },
+    {
+      "id": "xe04d9e435720d267",
+      "group_id": "g8a4b8fcacb25325b",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1a61be36289bc7b3",
+          "text": "The garden’s automatic system obeyed this rule all morning: whenever the rain sensor was wet, the roof vent closed. At 10:00 the sensor was dry and the roof vent was closed. The rule does not specify what happens when the sensor is dry."
+        }
+      ],
+      "claim": "At 10:00, a caretaker had closed the roof vent by hand.",
+      "citations": [
+        {
+          "passage_id": "p1a61be36289bc7b3",
+          "quote": "The garden’s automatic system obeyed this rule all morning: whenever the rain sensor was wet, the roof vent closed. At 10:00 the sensor was dry and the roof vent was closed. The rule does not specify what happens when the sensor is dry."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No cause for the closure under dry conditions is supplied."
+    },
+    {
+      "id": "x34c17d85c88eee4d",
+      "group_id": "gb91fac98c8249473",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p2e0a1bde46ca39e9",
+          "text": "At the start of the ceremony, the only ceremonial banner hung on the inside face of the hall’s north wall. It remained there throughout the ceremony. The south wall was a different, opposite wall."
+        }
+      ],
+      "claim": "The north wall also held a portrait during the ceremony.",
+      "citations": [
+        {
+          "passage_id": "p2e0a1bde46ca39e9",
+          "quote": "At the start of the ceremony, the only ceremonial banner hung on the inside face of the hall’s north wall. It remained there throughout the ceremony. The south wall was a different, opposite wall."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Other objects on the north wall are not discussed."
+    },
+    {
+      "id": "xf9a85727c2280841",
+      "group_id": "g49f0e83d32c4f0d1",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p7e0ec305c926f93d",
+          "text": "On the same Wednesday, Felven opened the archive at 08:00, admitted the first visitor at 08:30, and locked the archive at 17:00. These times use the town’s single local clock."
+        }
+      ],
+      "claim": "The first visitor entered before the archive opened.",
+      "citations": [
+        {
+          "passage_id": "p7e0ec305c926f93d",
+          "quote": "On the same Wednesday, Felven opened the archive at 08:00, admitted the first visitor at 08:30, and locked the archive at 17:00. These times use the town’s single local clock."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Admission at 08:30 followed opening at 08:00."
+    },
+    {
+      "id": "x88e763abb3e478d2",
+      "group_id": "ge659618d5e0bbd32",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "pafe4e675b6496a96",
+          "text": "The craft register records Theslin as the sole maker of the bowl called Evening Reed. The register lists no date for its creation."
+        },
+        {
+          "id": "p1874edec443c7250",
+          "text": "The exhibition record places Evening Reed in the west cabinet throughout opening day. That cabinet and the east cabinet have disjoint interiors, and the bowl is a single physical object."
+        }
+      ],
+      "claim": "A bowl made by Theslin was in the west cabinet throughout opening day.",
+      "citations": [
+        {
+          "passage_id": "pafe4e675b6496a96",
+          "quote": "The craft register records Theslin as the sole maker of the bowl called Evening Reed. The register lists no date for its creation."
+        },
+        {
+          "passage_id": "p1874edec443c7250",
+          "quote": "The exhibition record places Evening Reed in the west cabinet throughout opening day. That cabinet and the east cabinet have disjoint interiors, and the bowl is a single physical object."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The maker and exhibition records refer to the same uniquely named bowl."
+    },
+    {
+      "id": "xb9280eb772f16a61",
+      "group_id": "gedda690f8101b109",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "pdcc4d33394c95589",
+          "text": "In this inspection, every crate with a broken seal must be set aside, and that rule was followed without exception. Crate Tavren was not set aside. No other inspection rules or crate properties are stated."
+        }
+      ],
+      "claim": "Crate Tavren had a broken seal during the inspection.",
+      "citations": [
+        {
+          "passage_id": "pdcc4d33394c95589",
+          "quote": "In this inspection, every crate with a broken seal must be set aside, and that rule was followed without exception. Crate Tavren was not set aside. No other inspection rules or crate properties are stated."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "A broken seal conflicts with the followed rule and the stated outcome."
+    },
+    {
+      "id": "xd3ad7d1b85af50ef",
+      "group_id": "g77955cfbb4e0623e",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "pb19f5a61c6a8665d",
+          "text": "During the single inventory at Darsel Hall, Brel found ten sealed envelopes. Exactly three contained maps, exactly two contained tickets, and the remaining five were empty. No envelope contained both a map and a ticket."
+        }
+      ],
+      "claim": "Seven inventoried envelopes contained either a map or a ticket.",
+      "citations": [
+        {
+          "passage_id": "pb19f5a61c6a8665d",
+          "quote": "During the single inventory at Darsel Hall, Brel found ten sealed envelopes. Exactly three contained maps, exactly two contained tickets, and the remaining five were empty. No envelope contained both a map and a ticket."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Only three plus two, or five, contained either item."
+    },
+    {
+      "id": "x9ba41d15318e3eaf",
+      "group_id": "g49f0e83d32c4f0d1",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p7e0ec305c926f93d",
+          "text": "On the same Wednesday, Felven opened the archive at 08:00, admitted the first visitor at 08:30, and locked the archive at 17:00. These times use the town’s single local clock."
+        }
+      ],
+      "claim": "The first visitor entered half an hour after the archive opened.",
+      "citations": [
+        {
+          "passage_id": "p7e0ec305c926f93d",
+          "quote": "On the same Wednesday, Felven opened the archive at 08:00, admitted the first visitor at 08:30, and locked the archive at 17:00. These times use the town’s single local clock."
+        }
+      ],
+      "label": "supported",
+      "rationale": "08:30 is thirty minutes after 08:00 on that Wednesday."
+    },
+    {
+      "id": "x6df779259c81af9c",
+      "group_id": "g65413f37c5315be6",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p66581c11bd66a75e",
+          "text": "The courier register identifies Jesvra as the person assigned the parcel marked K47. Each parcel has exactly one assigned courier."
+        },
+        {
+          "id": "p98f20c74819ae411",
+          "text": "The dispatch record states that the assigned courier for parcel K47 delivered it to the hill observatory on Tuesday. The parcel was not delivered anywhere else that day."
+        }
+      ],
+      "claim": "Jesvra delivered parcel K47 to the hill observatory on Tuesday.",
+      "citations": [
+        {
+          "passage_id": "p66581c11bd66a75e",
+          "quote": "The courier register identifies Jesvra as the person assigned the parcel marked K47. Each parcel has exactly one assigned courier."
+        },
+        {
+          "passage_id": "p98f20c74819ae411",
+          "quote": "The dispatch record states that the assigned courier for parcel K47 delivered it to the hill observatory on Tuesday. The parcel was not delivered anywhere else that day."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The register’s courier identity fills the role in the dispatch record."
+    },
+    {
+      "id": "xc947d9821e02475c",
+      "group_id": "g4856283b0a22e9b0",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p6d6fe2074ee33171",
+          "text": "The courtyard of Seravin House lay entirely within the estate’s outer wall. At 10:00, Nollis sat in that courtyard. The riverbank lay entirely outside the outer wall, with no overlap with the courtyard."
+        }
+      ],
+      "claim": "At 10:00, Nollis could hear the river from the courtyard.",
+      "citations": [
+        {
+          "passage_id": "p6d6fe2074ee33171",
+          "quote": "The courtyard of Seravin House lay entirely within the estate’s outer wall. At 10:00, Nollis sat in that courtyard. The riverbank lay entirely outside the outer wall, with no overlap with the courtyard."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No information establishes what Nollis could hear."
+    },
+    {
+      "id": "x69b3d66b769aee4f",
+      "group_id": "g4416eee33bb19f00",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p63db5a78658557cf",
+          "text": "The festival steward, Navren, prohibited drums inside the reed pavilion. She did not prohibit flutes there. No rule in this notice addressed instruments outside the pavilion."
+        }
+      ],
+      "claim": "Flutes were not covered by Navren’s ban inside the pavilion.",
+      "citations": [
+        {
+          "passage_id": "p63db5a78658557cf",
+          "quote": "The festival steward, Navren, prohibited drums inside the reed pavilion. She did not prohibit flutes there. No rule in this notice addressed instruments outside the pavilion."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The notice explicitly excludes a prohibition on flutes there."
+    },
+    {
+      "id": "x9d82048082426758",
+      "group_id": "g26de2261b7690b9e",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "pe784c0006fd03aef",
+          "text": "The posted notice announced that the play would begin at 19:00. In fact, the play began at 19:30 that same evening, as the narrator explicitly confirms. The notice was not changed before the performance."
+        }
+      ],
+      "claim": "The play began at the time advertised on the unchanged notice.",
+      "citations": [
+        {
+          "passage_id": "pe784c0006fd03aef",
+          "quote": "The posted notice announced that the play would begin at 19:00. In fact, the play began at 19:30 that same evening, as the narrator explicitly confirms. The notice was not changed before the performance."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The two explicitly stated start times differ."
+    },
+    {
+      "id": "xb722dfcac5022799",
+      "group_id": "g2d43d9f32a300944",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "pda2a96f945b0c9be",
+          "text": "Elnira denied that she had hidden the amber key. The narrator confirms that she had not hidden it, although she had hidden the silver key beneath a bench."
+        }
+      ],
+      "claim": "Elnira later retrieved the silver key from beneath the bench.",
+      "citations": [
+        {
+          "passage_id": "pda2a96f945b0c9be",
+          "quote": "Elnira denied that she had hidden the amber key. The narrator confirms that she had not hidden it, although she had hidden the silver key beneath a bench."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The passage supplies no later retrieval event."
+    },
+    {
+      "id": "x10503330bc7b8ce9",
+      "group_id": "g9a47e81ae4730fa9",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p40294f241239b231",
+          "text": "Orven’s orchard had three rows of pear trees, with exactly seven trees in each row. There were no pear trees anywhere else in the orchard. Two of the twenty-one trees bore no fruit."
+        }
+      ],
+      "claim": "Nineteen pear trees in the orchard bore fruit.",
+      "citations": [
+        {
+          "passage_id": "p40294f241239b231",
+          "quote": "Orven’s orchard had three rows of pear trees, with exactly seven trees in each row. There were no pear trees anywhere else in the orchard. Two of the twenty-one trees bore no fruit."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Exactly two of twenty-one did not bear fruit, leaving nineteen that did."
+    },
+    {
+      "id": "xa88345627ef51ba0",
+      "group_id": "g45ac9241389f345e",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p637b9c1b4b24f7fe",
+          "text": "There were exactly four members of the Bellhaven survey team: Jorrel, Esvyn, Naliax, and Tovrin. Every member except Esvyn could swim. Esvyn could not swim."
+        }
+      ],
+      "claim": "No member of the survey team lacked the ability to swim.",
+      "citations": [
+        {
+          "passage_id": "p637b9c1b4b24f7fe",
+          "quote": "There were exactly four members of the Bellhaven survey team: Jorrel, Esvyn, Naliax, and Tovrin. Every member except Esvyn could swim. Esvyn could not swim."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Esvyn is explicitly unable to swim."
+    },
+    {
+      "id": "xca971f615e3d2b9c",
+      "group_id": "g45ac9241389f345e",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p637b9c1b4b24f7fe",
+          "text": "There were exactly four members of the Bellhaven survey team: Jorrel, Esvyn, Naliax, and Tovrin. Every member except Esvyn could swim. Esvyn could not swim."
+        }
+      ],
+      "claim": "Tovrin could swim farther than Jorrel.",
+      "citations": [
+        {
+          "passage_id": "p637b9c1b4b24f7fe",
+          "quote": "There were exactly four members of the Bellhaven survey team: Jorrel, Esvyn, Naliax, and Tovrin. Every member except Esvyn could swim. Esvyn could not swim."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The swimming abilities are not ranked by distance."
+    },
+    {
+      "id": "x0f21f7c752652e48",
+      "group_id": "g85e7b5d69ab2f67d",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "pfa4f8f7009644d65",
+          "text": "The recorder checked one particular lamp twice on Monday. At 14:00 its flame was burning. At 15:00 its flame was out. No observations between those two checks were recorded."
+        }
+      ],
+      "claim": "The lamp was unlit at the second recorded check.",
+      "citations": [
+        {
+          "passage_id": "pfa4f8f7009644d65",
+          "quote": "The recorder checked one particular lamp twice on Monday. At 14:00 its flame was burning. At 15:00 its flame was out. No observations between those two checks were recorded."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The second check is 15:00, when the flame was out."
+    },
+    {
+      "id": "xc8f4790f7040a33f",
+      "group_id": "ga34d42a9f52f1a80",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p0b553cd0c8db4b92",
+          "text": "Selnara told the harbor clerk that she had seen a red sail. The narrator confirms that the sail she saw was blue, not red, and says Selnara was mistaken about its color. No other sightings are described."
+        }
+      ],
+      "claim": "Selnara’s report misidentified the color of the sail she saw.",
+      "citations": [
+        {
+          "passage_id": "p0b553cd0c8db4b92",
+          "quote": "Selnara told the harbor clerk that she had seen a red sail. The narrator confirms that the sail she saw was blue, not red, and says Selnara was mistaken about its color. No other sightings are described."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The narrator expressly says the reported red color was mistaken."
+    },
+    {
+      "id": "xb2d82c3f87fb87c4",
+      "group_id": "g5a19e2ebf16921ce",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p71dfd9dd78f4cf2c",
+          "text": "On her sole visit to the dye stall, Mireth bought six lengths of silk at four silver coins per length. She paid only for the silk, with no fee or discount, and handed over exactly the amount owed."
+        }
+      ],
+      "claim": "Mireth handed the seller twenty-four silver coins.",
+      "citations": [
+        {
+          "passage_id": "p71dfd9dd78f4cf2c",
+          "quote": "On her sole visit to the dye stall, Mireth bought six lengths of silk at four silver coins per length. She paid only for the silk, with no fee or discount, and handed over exactly the amount owed."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Six lengths at four coins each total twenty-four."
+    },
+    {
+      "id": "xe970593740f8e2ae",
+      "group_id": "g6ff6fb54abc217b6",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p9908f441114bc05c",
+          "text": "None of the paintings in the east gallery depicted a boat. The painting called Winter Orchard hung in that gallery. Some paintings in the west gallery depicted boats."
+        }
+      ],
+      "claim": "At least one east-gallery painting depicted a boat.",
+      "citations": [
+        {
+          "passage_id": "p9908f441114bc05c",
+          "quote": "None of the paintings in the east gallery depicted a boat. The painting called Winter Orchard hung in that gallery. Some paintings in the west gallery depicted boats."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The premise excludes every boat depiction in that gallery."
+    },
+    {
+      "id": "xfd640924ab617673",
+      "group_id": "g713269fcafd007c5",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p5717d8e53f27f376",
+          "text": "The crew roster says that Zervin and Malessa were the only crew members aboard the vessel Mosswake on its Monday voyage."
+        },
+        {
+          "id": "pb695d23204ce5cae",
+          "text": "The voyage log confirms that every crew member aboard Mosswake during its Monday voyage wore a life belt. The log says nothing about passengers or weather."
+        }
+      ],
+      "claim": "At least one of Mosswake’s two crew members went without a life belt during that voyage.",
+      "citations": [
+        {
+          "passage_id": "p5717d8e53f27f376",
+          "quote": "The crew roster says that Zervin and Malessa were the only crew members aboard the vessel Mosswake on its Monday voyage."
+        },
+        {
+          "passage_id": "pb695d23204ce5cae",
+          "quote": "The voyage log confirms that every crew member aboard Mosswake during its Monday voyage wore a life belt. The log says nothing about passengers or weather."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Both crew members are covered by the confirmed life-belt statement."
+    },
+    {
+      "id": "xa324fdba0a0ac449",
+      "group_id": "g2a70f98d5a4d4952",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "pdc8b91f74304c96d",
+          "text": "The warehouse inventory lists exactly eight flour sacks in bin R and exactly seven flour sacks in bin S at 06:00 on Thursday. There were no other flour sacks in those two bins then."
+        },
+        {
+          "id": "p0d49a5209cbd47f6",
+          "text": "The loading sheet states that every flour sack in bins R and S at 06:00 on Thursday was loaded onto wagon Nelven, and no other sacks were loaded onto that wagon."
+        }
+      ],
+      "claim": "All fifteen flour sacks loaded onto wagon Nelven weighed the same.",
+      "citations": [
+        {
+          "passage_id": "pdc8b91f74304c96d",
+          "quote": "The warehouse inventory lists exactly eight flour sacks in bin R and exactly seven flour sacks in bin S at 06:00 on Thursday. There were no other flour sacks in those two bins then."
+        },
+        {
+          "passage_id": "p0d49a5209cbd47f6",
+          "quote": "The loading sheet states that every flour sack in bins R and S at 06:00 on Thursday was loaded onto wagon Nelven, and no other sacks were loaded onto that wagon."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Neither source gives sack weights."
+    },
+    {
+      "id": "x8957da41b9f6fb21",
+      "group_id": "g5a19e2ebf16921ce",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p71dfd9dd78f4cf2c",
+          "text": "On her sole visit to the dye stall, Mireth bought six lengths of silk at four silver coins per length. She paid only for the silk, with no fee or discount, and handed over exactly the amount owed."
+        }
+      ],
+      "claim": "Mireth had six silver coins left after paying.",
+      "citations": [
+        {
+          "passage_id": "p71dfd9dd78f4cf2c",
+          "quote": "On her sole visit to the dye stall, Mireth bought six lengths of silk at four silver coins per length. She paid only for the silk, with no fee or discount, and handed over exactly the amount owed."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Her starting balance and remaining money are unspecified."
+    },
+    {
+      "id": "xb61627692e088a07",
+      "group_id": "gacbe4aabbec61e3f",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p487b7bd20c1be861",
+          "text": "At a gathering in Rethvale, Corvinel said, “The northern well is empty.” This passage establishes only that Corvinel made that statement; it provides no observation or narrator confirmation of the well’s contents."
+        }
+      ],
+      "claim": "Corvinel described the northern well as empty.",
+      "citations": [
+        {
+          "passage_id": "p487b7bd20c1be861",
+          "quote": "At a gathering in Rethvale, Corvinel said, “The northern well is empty.” This passage establishes only that Corvinel made that statement; it provides no observation or narrator confirmation of the well’s contents."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The quoted statement explicitly describes an empty northern well."
+    },
+    {
+      "id": "x4499901f17a915b4",
+      "group_id": "g7c02d35c7faac1d9",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p0363256b5140425f",
+          "text": "During the 16:00 roll call, Talveth stood inside the bakery and Dreska stood inside the smithy. The bakery and smithy were separate buildings with disjoint interiors. Neither person moved during that roll call."
+        }
+      ],
+      "claim": "Talveth and Dreska were in different buildings during the roll call.",
+      "citations": [
+        {
+          "passage_id": "p0363256b5140425f",
+          "quote": "During the 16:00 roll call, Talveth stood inside the bakery and Dreska stood inside the smithy. The bakery and smithy were separate buildings with disjoint interiors. Neither person moved during that roll call."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Their explicitly different buildings have disjoint interiors."
+    },
+    {
+      "id": "xb8808b5801fcee60",
+      "group_id": "g9d6945026e0f82b5",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p998a333f81f74c0c",
+          "text": "The festival program identifies the piece titled Flight of Reeds as the opening performance, followed immediately by Stone Lantern. There was only one performance of each piece that evening."
+        },
+        {
+          "id": "p64394723bbc29630",
+          "text": "The stage log records that Uvressa played the solo in Flight of Reeds that evening. Dalmek played the solo in Stone Lantern, and Uvressa did not perform in Stone Lantern."
+        }
+      ],
+      "claim": "Uvressa played a solo in the opening performance that evening.",
+      "citations": [
+        {
+          "passage_id": "p998a333f81f74c0c",
+          "quote": "The festival program identifies the piece titled Flight of Reeds as the opening performance, followed immediately by Stone Lantern. There was only one performance of each piece that evening."
+        },
+        {
+          "passage_id": "p64394723bbc29630",
+          "quote": "The stage log records that Uvressa played the solo in Flight of Reeds that evening. Dalmek played the solo in Stone Lantern, and Uvressa did not perform in Stone Lantern."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The program identifies the opener and the log assigns its solo to Uvressa."
+    },
+    {
+      "id": "x26ce751b0bf0375d",
+      "group_id": "gb91fac98c8249473",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p2e0a1bde46ca39e9",
+          "text": "At the start of the ceremony, the only ceremonial banner hung on the inside face of the hall’s north wall. It remained there throughout the ceremony. The south wall was a different, opposite wall."
+        }
+      ],
+      "claim": "The ceremonial banner hung on the south wall at the start of the ceremony.",
+      "citations": [
+        {
+          "passage_id": "p2e0a1bde46ca39e9",
+          "quote": "At the start of the ceremony, the only ceremonial banner hung on the inside face of the hall’s north wall. It remained there throughout the ceremony. The south wall was a different, opposite wall."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Its specified unique position was on the distinct north wall."
+    },
+    {
+      "id": "x0913aa3e02ccc7ce",
+      "group_id": "gef5ef0f866906269",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p95ac55a0228af192",
+          "text": "The Lethra workshop began Tuesday with nine finished lanterns. During Tuesday, workers completed five more and sold six. No other lanterns entered or left the finished stock that day."
+        }
+      ],
+      "claim": "Eight finished lanterns remained at the end of Tuesday.",
+      "citations": [
+        {
+          "passage_id": "p95ac55a0228af192",
+          "quote": "The Lethra workshop began Tuesday with nine finished lanterns. During Tuesday, workers completed five more and sold six. No other lanterns entered or left the finished stock that day."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Nine plus five minus six leaves eight."
+    },
+    {
+      "id": "x6cd09f8180b4c1ba",
+      "group_id": "g713269fcafd007c5",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p5717d8e53f27f376",
+          "text": "The crew roster says that Zervin and Malessa were the only crew members aboard the vessel Mosswake on its Monday voyage."
+        },
+        {
+          "id": "pb695d23204ce5cae",
+          "text": "The voyage log confirms that every crew member aboard Mosswake during its Monday voyage wore a life belt. The log says nothing about passengers or weather."
+        }
+      ],
+      "claim": "Malessa wore a life belt during Mosswake’s Monday voyage.",
+      "citations": [
+        {
+          "passage_id": "p5717d8e53f27f376",
+          "quote": "The crew roster says that Zervin and Malessa were the only crew members aboard the vessel Mosswake on its Monday voyage."
+        },
+        {
+          "passage_id": "pb695d23204ce5cae",
+          "quote": "The voyage log confirms that every crew member aboard Mosswake during its Monday voyage wore a life belt. The log says nothing about passengers or weather."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The roster includes Malessa in the crew covered by the log’s universal statement."
+    },
+    {
+      "id": "x6a165c2786392e12",
+      "group_id": "ge5a1389dc91bd36e",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "pa592ecdd4039cb3a",
+          "text": "The winter exhibition in Ruvella began on 2 Frostmonth and ended on 9 Frostmonth of the same year. A catalog was printed on 1 Frostmonth. All dates refer to this one exhibition and its catalog."
+        }
+      ],
+      "claim": "The catalog was printed after the exhibition ended.",
+      "citations": [
+        {
+          "passage_id": "pa592ecdd4039cb3a",
+          "quote": "The winter exhibition in Ruvella began on 2 Frostmonth and ended on 9 Frostmonth of the same year. A catalog was printed on 1 Frostmonth. All dates refer to this one exhibition and its catalog."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Printing on the first precedes, rather than follows, the ninth."
+    },
+    {
+      "id": "x7aabd6bd4f40163b",
+      "group_id": "ge659618d5e0bbd32",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "pafe4e675b6496a96",
+          "text": "The craft register records Theslin as the sole maker of the bowl called Evening Reed. The register lists no date for its creation."
+        },
+        {
+          "id": "p1874edec443c7250",
+          "text": "The exhibition record places Evening Reed in the west cabinet throughout opening day. That cabinet and the east cabinet have disjoint interiors, and the bowl is a single physical object."
+        }
+      ],
+      "claim": "Evening Reed, made by Theslin, was in the east cabinet during opening day.",
+      "citations": [
+        {
+          "passage_id": "pafe4e675b6496a96",
+          "quote": "The craft register records Theslin as the sole maker of the bowl called Evening Reed. The register lists no date for its creation."
+        },
+        {
+          "passage_id": "p1874edec443c7250",
+          "quote": "The exhibition record places Evening Reed in the west cabinet throughout opening day. That cabinet and the east cabinet have disjoint interiors, and the bowl is a single physical object."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The single bowl occupied the west cabinet throughout, excluding the disjoint east cabinet."
+    },
+    {
+      "id": "xb1cb270a5e67dcf8",
+      "group_id": "gb3e94b96ed75ae2f",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p7e384fb2e9d17ce9",
+          "text": "Each of the five baskets on the quay contained at least one peach. No basket on the quay contained a plum. The basket with a striped handle was one of those five."
+        }
+      ],
+      "claim": "The striped-handle basket contained at least one plum.",
+      "citations": [
+        {
+          "passage_id": "p7e384fb2e9d17ce9",
+          "quote": "Each of the five baskets on the quay contained at least one peach. No basket on the quay contained a plum. The basket with a striped handle was one of those five."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The no-plum statement applies to every basket on the quay."
+    },
+    {
+      "id": "x8d7d3d6b30f2022b",
+      "group_id": "gdf8959a368db51ff",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p4ef0a96e2c3090ff",
+          "text": "In Merrowick, the footbridge was closed continuously from 09:00 up to but not including 11:00 on Friday. It reopened at 11:00 and remained open until 18:00 that day."
+        }
+      ],
+      "claim": "At 12:00 on that Friday, the footbridge was closed.",
+      "citations": [
+        {
+          "passage_id": "p4ef0a96e2c3090ff",
+          "quote": "In Merrowick, the footbridge was closed continuously from 09:00 up to but not including 11:00 on Friday. It reopened at 11:00 and remained open until 18:00 that day."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "12:00 falls inside the explicitly open period."
+    },
+    {
+      "id": "xb9c9fad182698a9c",
+      "group_id": "g4856283b0a22e9b0",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p6d6fe2074ee33171",
+          "text": "The courtyard of Seravin House lay entirely within the estate’s outer wall. At 10:00, Nollis sat in that courtyard. The riverbank lay entirely outside the outer wall, with no overlap with the courtyard."
+        }
+      ],
+      "claim": "At 10:00, Nollis was within the estate’s outer wall.",
+      "citations": [
+        {
+          "passage_id": "p6d6fe2074ee33171",
+          "quote": "The courtyard of Seravin House lay entirely within the estate’s outer wall. At 10:00, Nollis sat in that courtyard. The riverbank lay entirely outside the outer wall, with no overlap with the courtyard."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Nollis is in a courtyard entirely enclosed by that wall."
+    },
+    {
+      "id": "xed89c89b4e22cf48",
+      "group_id": "g713269fcafd007c5",
+      "phenomenon": "cross_source",
+      "passages": [
+        {
+          "id": "p5717d8e53f27f376",
+          "text": "The crew roster says that Zervin and Malessa were the only crew members aboard the vessel Mosswake on its Monday voyage."
+        },
+        {
+          "id": "pb695d23204ce5cae",
+          "text": "The voyage log confirms that every crew member aboard Mosswake during its Monday voyage wore a life belt. The log says nothing about passengers or weather."
+        }
+      ],
+      "claim": "Mosswake encountered rain during its Monday voyage.",
+      "citations": [
+        {
+          "passage_id": "p5717d8e53f27f376",
+          "quote": "The crew roster says that Zervin and Malessa were the only crew members aboard the vessel Mosswake on its Monday voyage."
+        },
+        {
+          "passage_id": "pb695d23204ce5cae",
+          "quote": "The voyage log confirms that every crew member aboard Mosswake during its Monday voyage wore a life belt. The log says nothing about passengers or weather."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "No weather conditions are supplied."
+    },
+    {
+      "id": "xbde72be3c791cb57",
+      "group_id": "gb7ce29a4ed1d15ec",
+      "phenomenon": "time",
+      "passages": [
+        {
+          "id": "p26578dbee80722ae",
+          "text": "Olsira finished carving the sign on day 3 of the village fair. She painted it on day 4 and hung it above the gate on day 6. The numbered days belong to the same fair."
+        }
+      ],
+      "claim": "Olsira hung the sign before she finished carving it.",
+      "citations": [
+        {
+          "passage_id": "p26578dbee80722ae",
+          "quote": "Olsira finished carving the sign on day 3 of the village fair. She painted it on day 4 and hung it above the gate on day 6. The numbered days belong to the same fair."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Hanging on day 6 followed completion of carving on day 3."
+    },
+    {
+      "id": "x85b3006bb13a508e",
+      "group_id": "g5a9099a478a2b34f",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p667e0a7dd9fe55ec",
+          "text": "At the glassworks in Vennor, Ilset signed the delivery slip but did not inspect the furnace. The afternoon inspection was performed by Rozen alone."
+        }
+      ],
+      "claim": "Ilset personally examined the furnace that afternoon.",
+      "citations": [
+        {
+          "passage_id": "p667e0a7dd9fe55ec",
+          "quote": "At the glassworks in Vennor, Ilset signed the delivery slip but did not inspect the furnace. The afternoon inspection was performed by Rozen alone."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The premise expressly denies an inspection by Ilset."
+    },
+    {
+      "id": "x5851432d9671ddfb",
+      "group_id": "g8a4b8fcacb25325b",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p1a61be36289bc7b3",
+          "text": "The garden’s automatic system obeyed this rule all morning: whenever the rain sensor was wet, the roof vent closed. At 10:00 the sensor was dry and the roof vent was closed. The rule does not specify what happens when the sensor is dry."
+        }
+      ],
+      "claim": "At 10:00, the closed roof vent meant the rain sensor was wet.",
+      "citations": [
+        {
+          "passage_id": "p1a61be36289bc7b3",
+          "quote": "The garden’s automatic system obeyed this rule all morning: whenever the rain sensor was wet, the roof vent closed. At 10:00 the sensor was dry and the roof vent was closed. The rule does not specify what happens when the sensor is dry."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The sensor is explicitly dry, so the claimed converse fails here."
+    },
+    {
+      "id": "x96edfb5e1827d890",
+      "group_id": "gb71e1b2be57302bd",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p38204f645adbed2a",
+          "text": "For this evening’s lantern trial, the mechanism guarantees that if the copper lever is pulled, the bell rings. Pulling the lever is not described as the only way to ring the bell. During the trial, Fesrik pulled the copper lever."
+        }
+      ],
+      "claim": "Fesrik also pulled the wooden lever during the trial.",
+      "citations": [
+        {
+          "passage_id": "p38204f645adbed2a",
+          "quote": "For this evening’s lantern trial, the mechanism guarantees that if the copper lever is pulled, the bell rings. Pulling the lever is not described as the only way to ring the bell. During the trial, Fesrik pulled the copper lever."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Nothing establishes whether the wooden lever was pulled."
+    },
+    {
+      "id": "x76e59a95c651e563",
+      "group_id": "g2b61eb18bf5c356b",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p00da37fd78e9327b",
+          "text": "Every apprentice assigned to the north kiln wore gloves during the firing. Senva was one of those apprentices. The passage records no clothing worn by apprentices at the south kiln."
+        }
+      ],
+      "claim": "Senva wore gloves during the firing.",
+      "citations": [
+        {
+          "passage_id": "p00da37fd78e9327b",
+          "quote": "Every apprentice assigned to the north kiln wore gloves during the firing. Senva was one of those apprentices. The passage records no clothing worn by apprentices at the south kiln."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The universal north-kiln rule applies to Senva."
+    },
+    {
+      "id": "x84d330b2d97e705d",
+      "group_id": "g87e2612f462394f5",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p588a920b45a172a4",
+          "text": "At sunrise, Ervessa’s unique travel chest was in the cellar beneath the inn, not in her upstairs room. A porter moved it directly from the cellar to that room at noon. At 13:00 it was still in her room."
+        }
+      ],
+      "claim": "At 13:00, Ervessa’s travel chest was upstairs in her room.",
+      "citations": [
+        {
+          "passage_id": "p588a920b45a172a4",
+          "quote": "At sunrise, Ervessa’s unique travel chest was in the cellar beneath the inn, not in her upstairs room. A porter moved it directly from the cellar to that room at noon. At 13:00 it was still in her room."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The chest is explicitly still in the upstairs room at 13:00."
+    },
+    {
+      "id": "x1512eb39d0c0a74d",
+      "group_id": "g8349903fe0983288",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p5dbacc21d337dec1",
+          "text": "At Brindle Reach, the ferry was not late on either of its two Monday crossings. The morning crossing arrived early, and the evening crossing arrived exactly on schedule."
+        }
+      ],
+      "claim": "At least one Monday crossing arrived late.",
+      "citations": [
+        {
+          "passage_id": "p5dbacc21d337dec1",
+          "quote": "At Brindle Reach, the ferry was not late on either of its two Monday crossings. The morning crossing arrived early, and the evening crossing arrived exactly on schedule."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "The premise denies lateness for each of the two crossings."
+    },
+    {
+      "id": "xaf3584db81a8967d",
+      "group_id": "g08f80dea6fb23217",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p8e8876591374cbf8",
+          "text": "Mavrik repaired the tower clock without replacing its hands. He replaced the cracked face instead. The account says nothing about work on the clock’s bell."
+        }
+      ],
+      "claim": "The clock kept its old hands during Mavrik’s repair.",
+      "citations": [
+        {
+          "passage_id": "p8e8876591374cbf8",
+          "quote": "Mavrik repaired the tower clock without replacing its hands. He replaced the cracked face instead. The account says nothing about work on the clock’s bell."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Repair without replacing the hands establishes their retention during that repair."
+    },
+    {
+      "id": "x18c6e705e9458eb9",
+      "group_id": "g5a8189e197890e7a",
+      "phenomenon": "quantifiers",
+      "passages": [
+        {
+          "id": "p1b09a109c6844633",
+          "text": "Exactly six couriers served the island of Velsho. All six carried satchels. Only two of them, Denvik and Alrisa, carried whistles; the other four carried no whistles."
+        }
+      ],
+      "claim": "Every courier on Velsho carried a whistle.",
+      "citations": [
+        {
+          "passage_id": "p1b09a109c6844633",
+          "quote": "Exactly six couriers served the island of Velsho. All six carried satchels. Only two of them, Denvik and Alrisa, carried whistles; the other four carried no whistles."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Four of the six explicitly had no whistles."
+    },
+    {
+      "id": "x7ad7c28629ca6c8a",
+      "group_id": "g4416eee33bb19f00",
+      "phenomenon": "negation",
+      "passages": [
+        {
+          "id": "p63db5a78658557cf",
+          "text": "The festival steward, Navren, prohibited drums inside the reed pavilion. She did not prohibit flutes there. No rule in this notice addressed instruments outside the pavilion."
+        }
+      ],
+      "claim": "Drums were forbidden in the garden beside the pavilion.",
+      "citations": [
+        {
+          "passage_id": "p63db5a78658557cf",
+          "quote": "The festival steward, Navren, prohibited drums inside the reed pavilion. She did not prohibit flutes there. No rule in this notice addressed instruments outside the pavilion."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The garden is outside the stated scope and no garden rule is given."
+    },
+    {
+      "id": "xa888a3a083a3a804",
+      "group_id": "g38bfad91f6d1691b",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p9134172321b1cd0b",
+          "text": "Vesrin packed exactly twelve ceramic cups for the mountain inn. Four were chipped, and the other eight were undamaged. All twelve were sent in the same crate."
+        }
+      ],
+      "claim": "Half of the cups sent to the inn were chipped.",
+      "citations": [
+        {
+          "passage_id": "p9134172321b1cd0b",
+          "quote": "Vesrin packed exactly twelve ceramic cups for the mountain inn. Four were chipped, and the other eight were undamaged. All twelve were sent in the same crate."
+        }
+      ],
+      "label": "contradicted",
+      "rationale": "Four of twelve is not half of twelve."
+    },
+    {
+      "id": "x3321d46c5789ebde",
+      "group_id": "g77955cfbb4e0623e",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "pb19f5a61c6a8665d",
+          "text": "During the single inventory at Darsel Hall, Brel found ten sealed envelopes. Exactly three contained maps, exactly two contained tickets, and the remaining five were empty. No envelope contained both a map and a ticket."
+        }
+      ],
+      "claim": "Half of the inventoried envelopes had nothing inside.",
+      "citations": [
+        {
+          "passage_id": "pb19f5a61c6a8665d",
+          "quote": "During the single inventory at Darsel Hall, Brel found ten sealed envelopes. Exactly three contained maps, exactly two contained tickets, and the remaining five were empty. No envelope contained both a map and a ticket."
+        }
+      ],
+      "label": "supported",
+      "rationale": "Five of the ten envelopes were empty."
+    },
+    {
+      "id": "x42cb2c5a63215668",
+      "group_id": "gf5be92dfcaf41a57",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p5e5948cf44fdfd89",
+          "text": "At noon, the single brass compass was inside a closed drawer in the map room. The map room was inside the western tower. The eastern tower was a separate building with no space in common with the western tower."
+        }
+      ],
+      "claim": "At noon, the brass compass was inside the western tower.",
+      "citations": [
+        {
+          "passage_id": "p5e5948cf44fdfd89",
+          "quote": "At noon, the single brass compass was inside a closed drawer in the map room. The map room was inside the western tower. The eastern tower was a separate building with no space in common with the western tower."
+        }
+      ],
+      "label": "supported",
+      "rationale": "The drawer is in the map room, which is inside the western tower."
+    },
+    {
+      "id": "xa181b00876dea976",
+      "group_id": "g50d9c1df5b003a50",
+      "phenomenon": "conditionals",
+      "passages": [
+        {
+          "id": "p472f8627562dbc02",
+          "text": "The password gate followed two guaranteed rules during Orlissa’s visit: if the correct word was spoken, its lamp turned green; if its lamp turned green, its latch released. Orlissa spoke the correct word. No rule connected the latch to the door’s movement."
+        }
+      ],
+      "claim": "The gate’s door swung open during Orlissa’s visit.",
+      "citations": [
+        {
+          "passage_id": "p472f8627562dbc02",
+          "quote": "The password gate followed two guaranteed rules during Orlissa’s visit: if the correct word was spoken, its lamp turned green; if its lamp turned green, its latch released. Orlissa spoke the correct word. No rule connected the latch to the door’s movement."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "A released latch does not establish movement of the door."
+    },
+    {
+      "id": "x52153e957f8e2544",
+      "group_id": "g9a47e81ae4730fa9",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "p40294f241239b231",
+          "text": "Orven’s orchard had three rows of pear trees, with exactly seven trees in each row. There were no pear trees anywhere else in the orchard. Two of the twenty-one trees bore no fruit."
+        }
+      ],
+      "claim": "Both fruitless pear trees stood in the same row.",
+      "citations": [
+        {
+          "passage_id": "p40294f241239b231",
+          "quote": "Orven’s orchard had three rows of pear trees, with exactly seven trees in each row. There were no pear trees anywhere else in the orchard. Two of the twenty-one trees bore no fruit."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The two fruitless trees could be together or in different rows."
+    },
+    {
+      "id": "x2cc202b1a6aa6655",
+      "group_id": "g77955cfbb4e0623e",
+      "phenomenon": "quantity",
+      "passages": [
+        {
+          "id": "pb19f5a61c6a8665d",
+          "text": "During the single inventory at Darsel Hall, Brel found ten sealed envelopes. Exactly three contained maps, exactly two contained tickets, and the remaining five were empty. No envelope contained both a map and a ticket."
+        }
+      ],
+      "claim": "The map envelopes were larger than the ticket envelopes.",
+      "citations": [
+        {
+          "passage_id": "pb19f5a61c6a8665d",
+          "quote": "During the single inventory at Darsel Hall, Brel found ten sealed envelopes. Exactly three contained maps, exactly two contained tickets, and the remaining five were empty. No envelope contained both a map and a ticket."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Envelope sizes are not given."
+    },
+    {
+      "id": "x3760b48a812c215c",
+      "group_id": "g87e2612f462394f5",
+      "phenomenon": "location",
+      "passages": [
+        {
+          "id": "p588a920b45a172a4",
+          "text": "At sunrise, Ervessa’s unique travel chest was in the cellar beneath the inn, not in her upstairs room. A porter moved it directly from the cellar to that room at noon. At 13:00 it was still in her room."
+        }
+      ],
+      "claim": "Ervessa herself was in the cellar at sunrise.",
+      "citations": [
+        {
+          "passage_id": "p588a920b45a172a4",
+          "quote": "At sunrise, Ervessa’s unique travel chest was in the cellar beneath the inn, not in her upstairs room. A porter moved it directly from the cellar to that room at noon. At 13:00 it was still in her room."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The location of the owner is not established by the location of her chest."
+    },
+    {
+      "id": "x840efea85dbea082",
+      "group_id": "g26de2261b7690b9e",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "pe784c0006fd03aef",
+          "text": "The posted notice announced that the play would begin at 19:00. In fact, the play began at 19:30 that same evening, as the narrator explicitly confirms. The notice was not changed before the performance."
+        }
+      ],
+      "claim": "The audience was angry about the delayed start.",
+      "citations": [
+        {
+          "passage_id": "pe784c0006fd03aef",
+          "quote": "The posted notice announced that the play would begin at 19:00. In fact, the play began at 19:30 that same evening, as the narrator explicitly confirms. The notice was not changed before the performance."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "Audience reactions are not described."
+    },
+    {
+      "id": "x0c870584a5cf5788",
+      "group_id": "ga34d42a9f52f1a80",
+      "phenomenon": "attribution",
+      "passages": [
+        {
+          "id": "p0b553cd0c8db4b92",
+          "text": "Selnara told the harbor clerk that she had seen a red sail. The narrator confirms that the sail she saw was blue, not red, and says Selnara was mistaken about its color. No other sightings are described."
+        }
+      ],
+      "claim": "The harbor clerk believed Selnara’s account of the sail’s color.",
+      "citations": [
+        {
+          "passage_id": "p0b553cd0c8db4b92",
+          "quote": "Selnara told the harbor clerk that she had seen a red sail. The narrator confirms that the sail she saw was blue, not red, and says Selnara was mistaken about its color. No other sightings are described."
+        }
+      ],
+      "label": "not_established",
+      "rationale": "The clerk’s belief or disbelief is not specified."
+    }
+  ]
+}

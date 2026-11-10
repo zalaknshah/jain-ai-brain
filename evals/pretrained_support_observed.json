@@ -1,0 +1,469 @@
+{
+  "protocol": 1,
+  "scope": "First frozen pretrained candidate trial on 120 newly authored fictional English cases. An exploratory diagnostic, not deployment acceptance, an independent statistical benchmark, general semantic qualification, or Jain doctrinal validation. Published cases are now disclosed regression data.",
+  "decision": "Do not use this candidate as a runtime semantic-admission gate. No runtime integration or corpus admission.",
+  "artifacts": {
+    "scripts/predict_pretrained_support.py": "11217322391b15ff6dacb37947f6bafc31b30f9c0abae8d032cec9cf43532e2e",
+    "scripts/evaluate_claim_support.py": "f24f017ad344d572e61979519730c5fc8dbd1be162fb24d648ab66deae04ae13",
+    "evals/pretrained_support_cases.json": "beb7d4c46bd2f72143030044348094ddd382549ee95bc3d90f663d014ee06334",
+    "evals/pretrained_support_frozen.json": "75b55e42d59532f14341a09358a3b73c01e25a891956ce814403f3a0cf84d3d0",
+    "evals/pretrained_support_label_review.json": "ba8bf90e46e1448a8debfe47f9abdda3f9f4c3bba24a8a02f63a031177933907",
+    "evals/pretrained_support_requirements.lock": "b38cf78afe06f8ccb09d7a10df3c22a0cc45f5ae954ab359d4c87a7073d4a16f",
+    "evals/pretrained_support_wheels.json": "dbdf9bc2ef9b389611a1443acd78228a294cd40f188e5106943e0ac39acaf52b",
+    "evals/pretrained_support_model_manifest.json": "984c1c0662991eeb529d98645d41989a6e8e635182b48dad984f7e87cd9e9c74"
+  },
+  "input_sha256": "8b60dc875b9501ecc31226f0317745ab744fd15baf135734b528ae0f6e64b5ae",
+  "prediction_canonical_sha256": "b30d41e8fd03a99099f683fb8e396a464826b81fe846d16a604344a81ccbac74",
+  "freeze": {
+    "pre_inference": {
+      "time_utc": "2026-11-10T15:31:25.743985+00:00",
+      "hashes": {
+        "runner": "11217322391b15ff6dacb37947f6bafc31b30f9c0abae8d032cec9cf43532e2e",
+        "schema": "f24f017ad344d572e61979519730c5fc8dbd1be162fb24d648ab66deae04ae13",
+        "fresh_fixture": "beb7d4c46bd2f72143030044348094ddd382549ee95bc3d90f663d014ee06334",
+        "label_free_input": "48c07841779777f215790e8881a1d7447f430ce14e5996141badb2799faaec5d",
+        "requirements_lock": "b38cf78afe06f8ccb09d7a10df3c22a0cc45f5ae954ab359d4c87a7073d4a16f"
+      },
+      "policy": "Three-class argmax, first index on exact tie, no confidence threshold, no truncation, full supplied passages; fixed before gold or predictions inspected.",
+      "scope": "Fresh challenge author had schema/task contract only; neither previous fixtures, runner, model outputs nor existing predictions were inspected. Model is pretrained; this is not a newly trained model."
+    },
+    "post_inference": {
+      "frozen_utc": "2026-11-10T15:33:08.939069+00:00",
+      "files": {
+        "fresh-inputs.json": "48c07841779777f215790e8881a1d7447f430ce14e5996141badb2799faaec5d",
+        "fresh-inspect-frozen.json": "75b55e42d59532f14341a09358a3b73c01e25a891956ce814403f3a0cf84d3d0",
+        "fresh-predictions-frozen.json": "63f94f044b051c3332681f2a1f72faeebbd4f206a8b894c965eeb4e9eba30397",
+        "fresh-resources.json": "ba2fb1df2d04a55765394d19d808ade1d8f298b76114ee634ebb7161362196a4"
+      },
+      "pre_inference_freeze_sha256": "55abb1f0ba55059566dd306aaff4cb9934335ce3a9973414fedca476f3789dc3",
+      "candidate_results_not_viewed_before_freeze": true,
+      "gold_not_read_or_scored_before_freeze": true,
+      "count": 120
+    },
+    "limits": "These are recorded local chronology and content hashes, not third-party attestation, proof of authorship, or proof that training data had no related templates."
+  },
+  "full_result": {
+    "cases": 120,
+    "predictions": 120,
+    "abstentions": 0,
+    "correct": 73,
+    "coverage": 1.0,
+    "accuracy_when_predicted": 0.6083333333333333,
+    "unsupported_cases": 80,
+    "unsupported_as_supported": 11,
+    "unsupported_as_supported_rate": 0.1375,
+    "supported_cases": 40,
+    "supported_correct": 22,
+    "matched_groups": 40,
+    "complete_matched_groups_correct": 9,
+    "confusion": {
+      "supported": {
+        "supported": 22,
+        "contradicted": 12,
+        "not_established": 6,
+        "abstain": 0
+      },
+      "contradicted": {
+        "supported": 6,
+        "contradicted": 30,
+        "not_established": 4,
+        "abstain": 0
+      },
+      "not_established": {
+        "supported": 5,
+        "contradicted": 14,
+        "not_established": 21,
+        "abstain": 0
+      }
+    }
+  },
+  "by_phenomenon": {
+    "negation": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 10,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.6666666666666666,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 1,
+      "unsupported_as_supported_rate": 0.1,
+      "supported_cases": 5,
+      "supported_correct": 3,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 1,
+      "confusion": {
+        "supported": {
+          "supported": 3,
+          "contradicted": 1,
+          "not_established": 1,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 1,
+          "contradicted": 3,
+          "not_established": 1,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 0,
+          "contradicted": 1,
+          "not_established": 4,
+          "abstain": 0
+        }
+      }
+    },
+    "quantity": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 8,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.5333333333333333,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 2,
+      "unsupported_as_supported_rate": 0.2,
+      "supported_cases": 5,
+      "supported_correct": 1,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 1,
+      "confusion": {
+        "supported": {
+          "supported": 1,
+          "contradicted": 2,
+          "not_established": 2,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 1,
+          "contradicted": 4,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 1,
+          "contradicted": 1,
+          "not_established": 3,
+          "abstain": 0
+        }
+      }
+    },
+    "quantifiers": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 11,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.7333333333333333,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 1,
+      "unsupported_as_supported_rate": 0.1,
+      "supported_cases": 5,
+      "supported_correct": 4,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 1,
+      "confusion": {
+        "supported": {
+          "supported": 4,
+          "contradicted": 1,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 1,
+          "contradicted": 4,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 0,
+          "contradicted": 2,
+          "not_established": 3,
+          "abstain": 0
+        }
+      }
+    },
+    "time": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 6,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.4,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 1,
+      "unsupported_as_supported_rate": 0.1,
+      "supported_cases": 5,
+      "supported_correct": 2,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 0,
+      "confusion": {
+        "supported": {
+          "supported": 2,
+          "contradicted": 2,
+          "not_established": 1,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 1,
+          "contradicted": 4,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 0,
+          "contradicted": 5,
+          "not_established": 0,
+          "abstain": 0
+        }
+      }
+    },
+    "location": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 10,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.6666666666666666,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 2,
+      "unsupported_as_supported_rate": 0.2,
+      "supported_cases": 5,
+      "supported_correct": 3,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 1,
+      "confusion": {
+        "supported": {
+          "supported": 3,
+          "contradicted": 2,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 0,
+          "contradicted": 5,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 2,
+          "contradicted": 1,
+          "not_established": 2,
+          "abstain": 0
+        }
+      }
+    },
+    "conditionals": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 9,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.6,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 1,
+      "unsupported_as_supported_rate": 0.1,
+      "supported_cases": 5,
+      "supported_correct": 2,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 1,
+      "confusion": {
+        "supported": {
+          "supported": 2,
+          "contradicted": 3,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 0,
+          "contradicted": 5,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 1,
+          "contradicted": 2,
+          "not_established": 2,
+          "abstain": 0
+        }
+      }
+    },
+    "attribution": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 8,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.5333333333333333,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 3,
+      "unsupported_as_supported_rate": 0.3,
+      "supported_cases": 5,
+      "supported_correct": 3,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 2,
+      "confusion": {
+        "supported": {
+          "supported": 3,
+          "contradicted": 0,
+          "not_established": 2,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 2,
+          "contradicted": 2,
+          "not_established": 1,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 1,
+          "contradicted": 1,
+          "not_established": 3,
+          "abstain": 0
+        }
+      }
+    },
+    "cross_source": {
+      "cases": 15,
+      "predictions": 15,
+      "abstentions": 0,
+      "correct": 11,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.7333333333333333,
+      "unsupported_cases": 10,
+      "unsupported_as_supported": 0,
+      "unsupported_as_supported_rate": 0.0,
+      "supported_cases": 5,
+      "supported_correct": 4,
+      "matched_groups": 5,
+      "complete_matched_groups_correct": 2,
+      "confusion": {
+        "supported": {
+          "supported": 4,
+          "contradicted": 1,
+          "not_established": 0,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 0,
+          "contradicted": 3,
+          "not_established": 2,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 0,
+          "contradicted": 1,
+          "not_established": 4,
+          "abstain": 0
+        }
+      }
+    }
+  },
+  "label_review": {
+    "cases": 120,
+    "primary_agreement": 120,
+    "flagged_case_ids": [
+      "x10503330bc7b8ce9",
+      "x29e7ab12109a5987",
+      "xea6c69a8ca13d5b7",
+      "xf53ad7a513770885"
+    ],
+    "flagged_groups": [
+      "g5a9099a478a2b34f",
+      "g87e45b437ebf9b7f",
+      "g9a47e81ae4730fa9"
+    ],
+    "unresolved": true,
+    "policy": "Preserve original labels, text and first score. Sensitivity analysis excludes every complete matched triple containing any flagged case, irrespective of model outcome."
+  },
+  "ambiguity_excluded_sensitivity": {
+    "excluded_groups": [
+      "g5a9099a478a2b34f",
+      "g87e45b437ebf9b7f",
+      "g9a47e81ae4730fa9"
+    ],
+    "excluded_case_ids": [
+      "x10503330bc7b8ce9",
+      "x27b7bddb7004bda6",
+      "x29e7ab12109a5987",
+      "x4de99df5618bcc4b",
+      "x52153e957f8e2544",
+      "x85b3006bb13a508e",
+      "xc7202dc1e3517acf",
+      "xea6c69a8ca13d5b7",
+      "xf53ad7a513770885"
+    ],
+    "result": {
+      "cases": 111,
+      "predictions": 111,
+      "abstentions": 0,
+      "correct": 69,
+      "coverage": 1.0,
+      "accuracy_when_predicted": 0.6216216216216216,
+      "unsupported_cases": 74,
+      "unsupported_as_supported": 10,
+      "unsupported_as_supported_rate": 0.13513513513513514,
+      "supported_cases": 37,
+      "supported_correct": 21,
+      "matched_groups": 37,
+      "complete_matched_groups_correct": 9,
+      "confusion": {
+        "supported": {
+          "supported": 21,
+          "contradicted": 11,
+          "not_established": 5,
+          "abstain": 0
+        },
+        "contradicted": {
+          "supported": 6,
+          "contradicted": 27,
+          "not_established": 4,
+          "abstain": 0
+        },
+        "not_established": {
+          "supported": 4,
+          "contradicted": 12,
+          "not_established": 21,
+          "abstain": 0
+        }
+      }
+    },
+    "scope": "Secondary sensitivity view only, chosen from independent label ambiguity flags after inference; not a replacement headline result."
+  },
+  "runtime_health": {
+    "trace_count": 120,
+    "reason_counts": {
+      "three_class_argmax": 120
+    },
+    "minimum_pair_tokens": 44,
+    "maximum_pair_tokens": 96,
+    "truncation": false,
+    "pair_limit": 512,
+    "resources": {
+      "exit_code": 0,
+      "wall_seconds": 13.55585824100126,
+      "user_cpu_seconds": 13.152551,
+      "system_cpu_seconds": 0.355132,
+      "max_rss_kib_linux": 623464,
+      "scope": "One complete 120-case CPU process, including artifact checks and model loading. External 600-second timeout; not per-case latency. An initial missing timing utility did not start model inference."
+    }
+  },
+  "real_tokenizer_overflow_control": {
+    "pair_tokens": 1211,
+    "label": "abstain",
+    "reason": "pair_token_limit_exceeded",
+    "model_forward_calls": 0,
+    "truncation": false,
+    "scope": "Separate original synthetic boundary control, not a performance case."
+  },
+  "limits": [
+    "One pretrained model and one fixed argmax policy, no threshold or candidate tuning after seeing results.",
+    "40 matched triples are dependent observations, with five groups per phenomenon; no population confidence interval or broad generalization claim.",
+    "Primary-label agreement is not expert or external validation; four ambiguities remain.",
+    "Single CPU batch timing includes loading; this is not throughput or deployment benchmarking.",
+    "Offline inference flags and local-only loading were used, not an OS network firewall. No paid service or private/religious corpus was sent to a provider.",
+    "Publisher declares Apache-2.0 in its model card; no standalone LICENSE at the pinned revision, and no independent audit of training rights.",
+    "Dependencies installed in an isolated environment from verified official wheels. Initial acquisition may have populated the default pip cache; final installation and runtime caches were isolated.",
+    "Runtime source files, existing model-output admission, source rights, corpus holds and release status are unchanged."
+  ]
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "file": "README.md",
+    "url": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768/resolve/b95119ce93d3e065de6214e38cd4a97b0f2f2c6d/README.md",
+    "size": 2695,
+    "sha256": "1a6e3f880df3584acc1b209c7c667eb22cb7ddd98ab56a5905dda5cfc446ddd1",
+    "git_blob_id": "c424f2537691c27718354d28794160ba0c6175ec"
+  },
+  {
+    "file": "config.json",
+    "url": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768/resolve/b95119ce93d3e065de6214e38cd4a97b0f2f2c6d/config.json",
+    "size": 875,
+    "sha256": "8b0e41caff7567c0f53e6983f35591c3dec59507c9173ab125c5823394fb57f3",
+    "git_blob_id": "f3d2c8b047a34c20737866987ba16ea6114c7b53"
+  },
+  {
+    "file": "tokenizer.json",
+    "url": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768/resolve/b95119ce93d3e065de6214e38cd4a97b0f2f2c6d/tokenizer.json",
+    "size": 1356048,
+    "sha256": "82139106e603ee4e1d5bc99d056ccbed5a92bc24848b1b5a7137c26e00d0dbf6",
+    "git_blob_id": "8df0092a08e1d459f60ec541e08cd35a16362bfe"
+  },
+  {
+    "file": "tokenizer_config.json",
+    "url": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768/resolve/b95119ce93d3e065de6214e38cd4a97b0f2f2c6d/tokenizer_config.json",
+    "size": 330,
+    "sha256": "e06f5c3c435fc0255b08b5574cd574eec685390f60c85b27f83d785eb8ecaaa1",
+    "git_blob_id": "6c26b0317aae78dbce2c8f06dbf846c6e9dd4145"
+  },
+  {
+    "file": "special_tokens_map.json",
+    "url": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768/resolve/b95119ce93d3e065de6214e38cd4a97b0f2f2c6d/special_tokens_map.json",
+    "size": 239,
+    "sha256": "378eb3bf733eb16e65792d7e3fda5b8a4631387ca04d2015199c4d4f22ae554d",
+    "git_blob_id": "2ea7ad0e45a9d1d1591782ba7e29a703d0758831"
+  },
+  {
+    "file": "model.safetensors",
+    "url": "https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768/resolve/b95119ce93d3e065de6214e38cd4a97b0f2f2c6d/model.safetensors",
+    "size": 328499560,
+    "sha256": "ec9c5b6a08b60d7a01b465c7ed44b496244dfd1bed3274c95875a74cea89ab35",
+    "git_blob_id": "7ff14b8aea389e56a934ce709dba35627f7678bb"
+  }
+]
