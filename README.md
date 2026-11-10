@@ -119,7 +119,7 @@ python scripts/ingest_corpus.py texts/tattvartha.txt \
   --tag ahimsa --tag anekantavada --verified
 ```
 
-Runtime ingestion requires `--verified` and a recorded `--license`; these are human declarations, not an automated legal or scholarly validation. Use `--draft` for review-only output, which cannot be loaded as an external runtime corpus until its required metadata and review are complete. External records must include work, source, location, language, license and `verified: true`. The built-in six-record fallback remains clearly labeled sample principles.
+Runtime ingestion requires `--verified` and a recorded `--license`; these are human declarations, not an automated legal or scholarly validation. Use `--draft` for review-only output with `verified: false`, which cannot be loaded as an external runtime corpus. `--draft` and `--verified` are mutually exclusive, including in the library API; conflicting or non-boolean mode declarations are rejected before reading inputs or changing output. Complete the separate rights and content review before making a new runtime-mode export. External records must include work, source, location, language, license and `verified: true`. The built-in six-record fallback remains clearly labeled sample principles.
 
 Every generated chunk contains a hash stable across checkout paths, work, edition/source, location, language, licence, and review flag. A generated paraphrase is labelled as interpretation and is not presented as a quotation.
 

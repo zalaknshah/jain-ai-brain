@@ -49,6 +49,16 @@ Publication is atomic visibility of a fully validated directory, not a promise o
 
 Existing JSON-list corpora are still supported but explicitly labeled **record-only excerpt matching**: no backing source-file bytes were checked. The older `scripts/ingest_corpus.py` normalizes whitespace into records and does not create byte provenance. It remains useful for review-only drafts, but its output is not equivalent to an exact-source bundle.
 
+Legacy draft ingestion always writes `verified: false`. Draft and verified-runtime
+declarations are mutually exclusive at both the CLI and library boundary, and
+both library mode values must be literal booleans. A conflicting declaration is
+rejected before any input read or output change, rather than emitting a draft
+that can be runtime-admitted. Adding licence/location metadata alone cannot
+promote a draft. Existing files are not rewritten or reclassified by this fix;
+review any previously generated output separately. These controls prevent an
+accidental mode conflict, not deliberate manual editing, false review statements
+or an operator changing code. Rights and scholarly review remain required.
+
 Runtime admission of legacy lists is now bounded too: the safe manifest reader, 2 MiB/nesting limits, 1–256 records, field/text/tag limits, unique IDs and strict known fields apply. A legacy list cannot assert any of the three source-integrity keys, even with null values. Existing reviewed records still need nonempty work/source/language/location/license and literal `verified: true`; built-in unreviewed samples remain sample-only. Oversized, malformed, extra-field, symlinked or hard-linked corpora that previously loaded can now be rejected, not truncated or silently upgraded. Rebuild or review such data explicitly.
 
 Legacy serialization omits absent integrity fields, preserving existing admitted corpus hashes. Historical canonical graph records remain on disk under the existing non-destructive retention behavior, while active retrieval excludes another corpus's nodes. Private memories are neither copied into bundles nor erased by changing the corpus.

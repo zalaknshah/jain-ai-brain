@@ -44,7 +44,15 @@ def ingest_files(
     The output is JSON, compatible with ``CanonicalStore``. It intentionally
     preserves source and location metadata so generated paraphrases cannot be
     mistaken for canonical quotations.
+
+    Draft and reviewed-runtime modes are mutually exclusive. Reject conflicting
+    or non-boolean declarations before reading inputs or touching the output.
+    A draft never carries the literal verified=True required by runtime admission.
     """
+    if type(verified) is not bool or type(draft) is not bool:
+        raise ValueError("verified and draft must be literal booleans")
+    if draft and verified:
+        raise ValueError("draft and verified are mutually exclusive; draft output is review-only")
     if any(not isinstance(value, str) or not value.strip() for value in (work, source, language)):
         raise ValueError("work, source and language are required")
     if not draft and (verified is not True or not isinstance(license_name, str) or not license_name.strip()):
