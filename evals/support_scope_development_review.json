@@ -1,0 +1,358 @@
+{
+  "protocol": 1,
+  "artifact_kind": "exposed_development_annotation_review",
+  "status": "development_review_only",
+  "created_date": "2026-11-10",
+  "artifact_sha256": {
+    "docs/CLAIM_SUPPORT_SCOPE.md": "cde5f385a5ea48c1846fb50d340d628eab5d30e11b42b814f028f63ef7fa6045",
+    "evals/support_scope_development.json": "065ec59b82c7eb3596eadbb3beac719b420ae57e380b1f91d8dca7d19de2b1be",
+    "evals/support_scope_review_cases.json": "b7a0857e96b7b6e78b651b79c72be0b9ba45320950629ff94dcec99af28fa361"
+  },
+  "counts": {
+    "development_rows": 30,
+    "unique_development_inputs": 29,
+    "pedagogical_pairs": 15,
+    "current_adjudicable_rows": 30,
+    "current_label_counts": {
+      "contradicted": 3,
+      "not_established": 15,
+      "supported": 12
+    },
+    "unresolved_review_examples": 4
+  },
+  "limits": [
+    "One independent reviewer performed the initial review and both targeted rechecks, not three independent reviewers.",
+    "The initial 30-row review omitted author labels, rationales, pair descriptions, and target annotations. Targeted rechecks omitted current proposed labels but were informed by earlier findings.",
+    "Four unresolved review examples exposed issue and repair hints, including conditional labels in revisions; their review was not blinded.",
+    "These exposed teaching examples were authored after observing previous model failures. They are not fresh held-out data, independent observations, expert gold, or evidence of model performance.",
+    "P01B and P02A deliberately repeat one context-claim input.",
+    "review_needed is a separate annotation disposition with semantic_label null, not a fourth semantic class or model abstention.",
+    "Hashes and structural tests bind retained inputs and arithmetic; they do not prove semantic correctness or independent execution.",
+    "No model inference, scorer change, runtime integration, source admission, or historical relabeling occurred."
+  ],
+  "revision_history": [
+    {
+      "stage": "initial_review",
+      "rows_reviewed": 30,
+      "adjudicable_rows": 29,
+      "held_case_ids": [
+        "P06A"
+      ],
+      "finding": "The 08:00 truth guarantee could refer to one conjunct or the whole compound statement."
+    },
+    {
+      "stage": "revision_1_targeted_recheck",
+      "changed_context_ids": [
+        "P06A",
+        "P06B",
+        "P07A",
+        "P07B",
+        "P08A",
+        "P08B",
+        "P14A",
+        "P14B"
+      ],
+      "adjudicable_changed_rows": 5,
+      "held_case_ids": [
+        "P07B",
+        "P08B",
+        "P14B"
+      ],
+      "finding": "P06 was repaired. Inventory endpoint coverage and same-object readdition remained materially ambiguous. This precision check identified an issue latent in wording accepted in the initial review."
+    },
+    {
+      "stage": "revision_2_targeted_recheck",
+      "changed_context_ids": [
+        "P07A",
+        "P07B",
+        "P08A",
+        "P08B",
+        "P14A",
+        "P14B"
+      ],
+      "adjudicable_changed_rows": 6,
+      "held_case_ids": [],
+      "finding": "Final-count-inclusive intervals, no additions or returns, and no further removals resolved the identified issues; P14 retains source scope. No changed judgment on the other 24 rows."
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "P01A",
+      "context_claim_sha256": "d7c2cf4af71b06f6dfa57bed96a16b1cecda0608665862c2b9883eb294590e73",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "Direct fictional narration asserts the exact noon lamp state."
+    },
+    {
+      "case_id": "P01B",
+      "context_claim_sha256": "79c57956da23ec83664e5831f5cee859b629f00c816c653538c7537d149a5c39",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Only the notice content is established; there is no proposition-truth bridge."
+    },
+    {
+      "case_id": "P02A",
+      "context_claim_sha256": "79c57956da23ec83664e5831f5cee859b629f00c816c653538c7537d149a5c39",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Only the notice content is established; there is no proposition-truth bridge."
+    },
+    {
+      "case_id": "P02B",
+      "context_claim_sha256": "562eef76839d47ee8d7b64fa239d2b2f5da87bd269800893d812193fde06bc42",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "The claim faithfully restates the directly supplied reporting event."
+    },
+    {
+      "case_id": "P03A",
+      "context_claim_sha256": "087e68b18459bd98f6d202ba5c142f6934cb354d2542412f759fbb70bf9fc0bc",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Exact transcription establishes fidelity to the speaker, not the gate state."
+    },
+    {
+      "case_id": "P03B",
+      "context_claim_sha256": "98b7ad4964d27b2afd4b501d96566c1d64d8e2344b09cee7e95b7095c4c56d28",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "An explicit narrator-level guarantee promotes the identified gate statement to a world premise."
+    },
+    {
+      "case_id": "P04A",
+      "context_claim_sha256": "aa29b1fde4e8f690dae3aaba0b93953b3c1bfdc373eec0af10dd037b5c1ad674",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Official status and authorization do not establish the reported lever state."
+    },
+    {
+      "case_id": "P04B",
+      "context_claim_sha256": "b29f78a036cbca2b34d6b0160b27c24e076ae2fe817cbfb6dfad04e6f9f26244",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "The narrator guarantees the precise notice assertion at 11:00."
+    },
+    {
+      "case_id": "P05A",
+      "context_claim_sha256": "7db12e647e1e77bdf30062bdafa934d87e3a42ab61d33f7f276d6697663172cf",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "A reported negative proposition does not establish the same-scope world negation."
+    },
+    {
+      "case_id": "P05B",
+      "context_claim_sha256": "2c33f61371fc8a1d46abacc478eee047a58301b62ddda315a611b6a464c6f765",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "contradicted",
+      "review_round": "initial_label_free_review",
+      "reason": "Direct narration supplies the exact negation of receipt on Tuesday."
+    },
+    {
+      "case_id": "P06A",
+      "context_claim_sha256": "5f0a1d024e330b83e56040a8856818df2c294a09e32e4db635b970021e59ecbb",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "revision_1_targeted_recheck",
+      "reason": "The exact 08:00 proposition is guaranteed; the text expressly leaves the 10:00 assertion outside that stipulation. Actual 10:00 volume may be nine or another value."
+    },
+    {
+      "case_id": "P06B",
+      "context_claim_sha256": "0c612fb3b03b9cfac6e8594a1f0ab77be2747a5958b40c5a5f00a2bb620ed09c",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "revision_1_targeted_recheck",
+      "reason": "The narrator guarantees the exact 10:00 proposition. The excluded 08:00 scope cannot weaken or broaden this support."
+    },
+    {
+      "case_id": "P07A",
+      "context_claim_sha256": "65eee8261e425d013e90ea7b335cf015751191561c8b5d66ab9bd978474fda7a",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "revision_2_targeted_recheck",
+      "reason": "The direct initial count is nine, no additions or returns are permitted, and at most two one-pen removals occur. The two-removal assertion remains an unendorsed report. Zero, one, or two actual removals remain possible, yielding nine, eight, or seven pens."
+    },
+    {
+      "case_id": "P07B",
+      "context_claim_sha256": "457982fad08e834904eabde13d5f6069264853a0f61e3878daea55dabdbdc7ad",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "revision_2_targeted_recheck",
+      "reason": "The narrator makes the note exact assertion true: two distinct pens are removed once each. The narrator also restricts the whole accounting interval to at most two one-pen removal events and no additions or returns. Stable counted identity/category and count-change closure give nine minus two equals seven at the expressly defined final count."
+    },
+    {
+      "case_id": "P08A",
+      "context_claim_sha256": "06493b37ab8f0bb5d316083e15b242d59c8d9ac331f8ac735dda36f33404f2e9",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "revision_2_targeted_recheck",
+      "reason": "The direct event and transition rules establish exactly three removals and no additions, returns, or further removals through the defined final count. They still do not establish the actual initial count. The label statement of eight has no truth guarantee."
+    },
+    {
+      "case_id": "P08B",
+      "context_claim_sha256": "8ca174fddfd38fdd3059291b602c6b1907c8917fa29f5c32a39cc12145ff9a7a",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "revision_2_targeted_recheck",
+      "reason": "The narrator establishes eight initially, exactly three single-bead removal events over the whole accounting interval, no further removals, and no additions or returns. The final count includes endpoint changes, with stable counted identity/category and exhaustive count-change mechanisms. Eight minus three is five."
+    },
+    {
+      "case_id": "P09A",
+      "context_claim_sha256": "9da9183ac30f594c68a69ead990a6dc1bb7dd4277a4711595dab5c92a86e3c9c",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Marker existence does not place K in the rule domain at noon."
+    },
+    {
+      "case_id": "P09B",
+      "context_claim_sha256": "41cc97fc9261413acec87ae0e4c4f8800d7648775ecc46bb066b1e79d23d7264",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "The supplied noon membership premise satisfies the universal rule antecedent."
+    },
+    {
+      "case_id": "P10A",
+      "context_claim_sha256": "5c299af21b51f8c85cf52988d67d795e8d728e8bf7dc35d73e9014f9c5684190",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Being outside the courtyard makes the rule inapplicable; it does not imply the opposite color."
+    },
+    {
+      "case_id": "P10B",
+      "context_claim_sha256": "2e98724e86b2e7b26875642675c88d32e4f1dd3168f2bae8dbe49c0ff149c2a2",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "contradicted",
+      "review_round": "initial_label_free_review",
+      "reason": "The local rule and explicit membership entail blue, the negation of the claim that K is not blue."
+    },
+    {
+      "case_id": "P11A",
+      "context_claim_sha256": "acdebdae3efc997eea5fc95d4ede640703324ead1b44670f6c523b7e3b44012f",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "The prohibition covers Dena only after 14:00, while the claim ranges over all Wednesday."
+    },
+    {
+      "case_id": "P11B",
+      "context_claim_sha256": "24d1ebe7fec21c1eb7202ce4e8c961cd2948bf0dda31f7188dc47debc7c62f98",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "contradicted",
+      "review_round": "initial_label_free_review",
+      "reason": "The entire claimed after-14:00 Wednesday interval is inside the explicitly forbidden interval for Dena."
+    },
+    {
+      "case_id": "P12A",
+      "context_claim_sha256": "5c213d0c5cde2bd48eba6f75fbafca634f8121ae3679c9643fd32eccc136baba",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Mara-specific inactivity supplies no persistence guarantee for the location."
+    },
+    {
+      "case_id": "P12B",
+      "context_claim_sha256": "3a9d1a02fda175a78e4a29f2c74bc18570c22bc9204037468f411da546828dd6",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "The initial cupboard state and unchanged-location interval directly cover 18:00."
+    },
+    {
+      "case_id": "P13A",
+      "context_claim_sha256": "6e828db705eae79a4258bec94aa6c80b95e2b1c62f94d2139ec740aa5db28221",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "The sole role holder at 09:00 need not remain the holder at 15:00."
+    },
+    {
+      "case_id": "P13B",
+      "context_claim_sha256": "88edc9b9d0464a3c906fb26388d83da82b3004863c1edf6c50f87d8af48c276b",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "Continuous identity of the sole role holder connects Reni at 09:00 to the actor at 15:00."
+    },
+    {
+      "case_id": "P14A",
+      "context_claim_sha256": "e659a3fdb7b990ee10e98627b622c9a0b406da970bd9be64a9a561921849bbb8",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "revision_2_targeted_recheck",
+      "reason": "Only the alignment of bowl and day is a narrator fact. Both the initial count and every interval, event, no-return, and persistence condition remain reported content. The closed source-account arithmetic does not establish the actual-world count."
+    },
+    {
+      "case_id": "P14B",
+      "context_claim_sha256": "b9de39d7e73ff7a137cf2693a04246a9befe86ee7552841f964aacb9d85be48f",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "revision_2_targeted_recheck",
+      "reason": "The target is explicitly what follows from the two accounts together. Same-bowl/day alignment permits joining Sheet A initial count of twelve with Sheet B exact four one-button removals, no further removals, no additions or returns, fixed identity/category, and exhaustive transitions over its final-count-inclusive interval. Within those accounts twelve minus four is eight."
+    },
+    {
+      "case_id": "P15A",
+      "context_claim_sha256": "f2a4bcd3f65011ae5ef6f153ba004b34937b7b41c9d9d535b0109022cc214961",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "not_established",
+      "review_round": "initial_label_free_review",
+      "reason": "Only A asserts that B says this; no narrator premise establishes the inner reporting event."
+    },
+    {
+      "case_id": "P15B",
+      "context_claim_sha256": "157ba2eaaadda71bffc92d9a56e353844c8e913feaf9f287d5b0db272fd23f65",
+      "annotation_disposition": "adjudicable",
+      "semantic_label": "supported",
+      "review_round": "initial_label_free_review",
+      "reason": "The claim preserves both attribution layers exactly."
+    }
+  ],
+  "review_cases": [
+    {
+      "case_id": "R01",
+      "context_claim_sha256": "5d00d4af97f8ff27c8c6886b7003d87a9ce11c34ca4631c88e288a14ff0777f7",
+      "annotation_disposition": "review_needed",
+      "semantic_label": null,
+      "reason": "The second sentence can remain inside the shift sheet account or return to direct narration. Those readings change the world label.",
+      "conditional_repair_outcomes_reviewed": true,
+      "review_hints_visible": true
+    },
+    {
+      "case_id": "R02",
+      "context_claim_sha256": "ce3a17c50559122fae3a14a68e0ac9251282f44f529d00b3adbdcb468e72387b",
+      "annotation_disposition": "review_needed",
+      "semantic_label": null,
+      "reason": "Direct same-object, same-time narrator premises establish both the claim and its negation.",
+      "conditional_repair_outcomes_reviewed": true,
+      "review_hints_visible": true
+    },
+    {
+      "case_id": "R03",
+      "context_claim_sha256": "19982fbeccdcbeee941b642aadcbc5491d1946135c8d183c135a0c0c08fd3375",
+      "annotation_disposition": "review_needed",
+      "semantic_label": null,
+      "reason": "The adjective verified does not identify what was checked. Verification of authenticity or copying does not entail the reported state; narrator-level verification of that proposition may entail it.",
+      "conditional_repair_outcomes_reviewed": true,
+      "review_hints_visible": true
+    },
+    {
+      "case_id": "R04",
+      "context_claim_sha256": "c00b9d6513f079bd7569abbd93df83d41c37eb3529f237dd090d9853360f78db",
+      "annotation_disposition": "review_needed",
+      "semantic_label": null,
+      "reason": "The unqualified name Lira has two explicitly available referents. Resolving the agent changes the support status.",
+      "conditional_repair_outcomes_reviewed": true,
+      "review_hints_visible": true
+    }
+  ]
+}

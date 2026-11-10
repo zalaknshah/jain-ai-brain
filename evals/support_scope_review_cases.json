@@ -1,0 +1,106 @@
+{
+  "artifact_kind": "unlabeled_annotation_review_examples",
+  "status": "review_needed",
+  "contract": "docs/CLAIM_SUPPORT_SCOPE.md",
+  "purpose": "Four unresolved annotation defects with no gold labels and no scoring use. Conditional labels apply only to explicitly described repairs, not to the unresolved original contexts.",
+  "cases": [
+    {
+      "case_id": "R01",
+      "context": "Fictional scenario. The shift sheet says the orange switch was on at 09:00. It stayed on until noon.",
+      "claim": "The orange switch was on at 11:00.",
+      "review_issue": "The second sentence could continue the sheet's report or state a direct narrator fact.",
+      "repair_options": [
+        "Mark both sentences as the shift sheet's quoted account.",
+        "Replace the second sentence with: \"Narrator fact: The orange switch stayed on continuously from 09:00 through noon.\""
+      ],
+      "review_disposition": "review_needed",
+      "conditional_repair_outcomes": [
+        {
+          "repair": "Both sentences remain attributed to the sheet, with no truth guarantee.",
+          "semantic_label": "not_established",
+          "reason": "The claimed 11:00 state is only reported."
+        },
+        {
+          "repair": "The narrator directly stipulates that the switch stayed on continuously from 09:00 through noon.",
+          "semantic_label": "supported",
+          "reason": "The explicit world-state interval contains 11:00."
+        }
+      ],
+      "semantic_label": null
+    },
+    {
+      "case_id": "R02",
+      "context": "Fictional scenario. Narrator fact: The orange switch is on at noon. Narrator fact: The orange switch is not on at noon.",
+      "claim": "The orange switch is on at noon.",
+      "review_issue": "The same-scope world premises entail both the claim and its negation.",
+      "repair_options": [
+        "Correct the intended state through author review.",
+        "If the intended task concerns disagreement, place the incompatible claims in distinct explicitly identified source scopes."
+      ],
+      "review_disposition": "review_needed",
+      "conditional_repair_outcomes": [
+        {
+          "repair": "Both conflicting assertions are instead placed in explicitly identified unendorsed report scopes, with no independent world-state assertion.",
+          "semantic_label": "not_established",
+          "reason": "Conflicting reports alone establish neither the world claim nor its negation."
+        }
+      ],
+      "semantic_label": null
+    },
+    {
+      "case_id": "R03",
+      "context": "Fictional scenario. The verified status note says the blue screen was blank at 10:00.",
+      "claim": "The blue screen was blank at 10:00.",
+      "review_issue": "Verified may refer to authenticity, transcription, or the proposition's truth. The guarantee is not specified.",
+      "repair_options": [
+        "State that only the copy was authenticated, without stipulating its truth.",
+        "State that this reported screen state is true in the scenario."
+      ],
+      "review_disposition": "review_needed",
+      "conditional_repair_outcomes": [
+        {
+          "repair": "The narrator stipulates only that the copy faithfully reproduces the note, without a truth guarantee.",
+          "semantic_label": "not_established",
+          "reason": "Transcription fidelity does not establish screen state."
+        },
+        {
+          "repair": "The narrator stipulates that the exact reported proposition about the blank screen at 10:00 is true.",
+          "semantic_label": "supported",
+          "reason": "The proposition-level guarantee covers the claim."
+        }
+      ],
+      "semantic_label": null
+    },
+    {
+      "case_id": "R04",
+      "context": "Fictional scenario. Lira the courier and Lira the mechanic are different people. Lira placed the seal in the tray at 08:00.",
+      "claim": "Lira the courier placed the seal in the tray at 08:00.",
+      "review_issue": "The event's named agent is unresolved between two explicitly distinct people.",
+      "repair_options": [
+        "Identify the narrated event's agent as Lira the courier.",
+        "Identify the narrated event's agent as Lira the mechanic; this does not exclude another placement by the courier.",
+        "If contradiction is intended, explicitly state that Lira the courier did not place the seal in the tray at 08:00, or supply a suitable exhaustive unique-event premise."
+      ],
+      "review_disposition": "review_needed",
+      "conditional_repair_outcomes": [
+        {
+          "repair": "Resolve the narrated agent to Lira the courier.",
+          "semantic_label": "supported",
+          "reason": "The repaired narrator assertion states the claimed courier action."
+        },
+        {
+          "repair": "Resolve the narrated agent to Lira the mechanic, with no other restriction.",
+          "semantic_label": "not_established",
+          "reason": "A mechanic placement does not exclude a separate courier placement. The claim's negation is not established."
+        },
+        {
+          "repair": "Resolve the narrated agent to the mechanic and explicitly add that Lira the courier did not place the seal in the tray at 08:00.",
+          "semantic_label": "contradicted",
+          "reason": "The additional explicit same-agent, same-action, same-time negation contradicts the claim."
+        }
+      ],
+      "semantic_label": null
+    }
+  ],
+  "revision": "scope_development_v1"
+}

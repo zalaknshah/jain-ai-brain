@@ -1,0 +1,569 @@
+{
+  "artifact_kind": "original_exposed_annotation_development_fixture",
+  "status": "independently_reviewed_development_proposal",
+  "contract": "docs/CLAIM_SUPPORT_SCOPE.md",
+  "created_date": "2026-11-10",
+  "purpose": "Pedagogical distinctions for annotation scope, not a new unseen performance benchmark.",
+  "provenance": "Original fictional teaching text authored after inspecting the paired trial and label review, then revised through one independent reviewer's initial label-free review and two targeted rechecks. Later reviews were informed by earlier findings. This is development agreement, not expert gold validation or a fresh held-out evaluation. No candidate was run on these examples.",
+  "usage_limits": [
+    "Do not treat labels as externally validated gold.",
+    "Do not use these examples to claim model improvement or qualification.",
+    "Do not silently relabel the frozen paired trial.",
+    "All reasoning-critical context is repeated in each case.",
+    "This review-sidecar format is not a change to the frozen evaluator schema.",
+    "P01B and P02A deliberately reuse one context-claim anchor; the 30 rows contain 29 unique inputs and are not independent observations.",
+    "The three draft semantic classes are unchanged. Material ambiguity or same-target conflict receives a separate review_needed disposition and no semantic label."
+  ],
+  "pair_count": 15,
+  "case_count": 30,
+  "pairs": [
+    {
+      "pair_id": "P01",
+      "topic": "Direct narration versus reported world fact",
+      "controlled_change": "Replace the direct assertion with an attributed report.",
+      "case_ids": [
+        "P01A",
+        "P01B"
+      ]
+    },
+    {
+      "pair_id": "P02",
+      "topic": "World versus source scoped target",
+      "controlled_change": "Keep the context identical and change only the claim target.",
+      "case_ids": [
+        "P02A",
+        "P02B"
+      ]
+    },
+    {
+      "pair_id": "P03",
+      "topic": "Transcription fidelity versus proposition truth",
+      "controlled_change": "Add an explicit guarantee about the quoted proposition.",
+      "case_ids": [
+        "P03A",
+        "P03B"
+      ]
+    },
+    {
+      "pair_id": "P04",
+      "topic": "Source authority versus proposition truth",
+      "controlled_change": "Add an explicit guarantee about the reported lever state.",
+      "case_ids": [
+        "P04A",
+        "P04B"
+      ]
+    },
+    {
+      "pair_id": "P05",
+      "topic": "Reported negation versus direct contradiction",
+      "controlled_change": "Remove only the report wrapper around the negative proposition.",
+      "case_ids": [
+        "P05A",
+        "P05B"
+      ]
+    },
+    {
+      "pair_id": "P06",
+      "topic": "Time limited truth guarantee",
+      "controlled_change": "Change the exact proposition guaranteed true and explicitly leave the other time assertion unaddressed.",
+      "case_ids": [
+        "P06A",
+        "P06B"
+      ]
+    },
+    {
+      "pair_id": "P07",
+      "topic": "Mixed direct facts and reported event",
+      "controlled_change": "Add a truth bridge for the report of two pen-removal events.",
+      "case_ids": [
+        "P07A",
+        "P07B"
+      ]
+    },
+    {
+      "pair_id": "P08",
+      "topic": "Reported starting quantity versus direct quantity",
+      "controlled_change": "Change only the starting quantity from report to narration.",
+      "case_ids": [
+        "P08A",
+        "P08B"
+      ]
+    },
+    {
+      "pair_id": "P09",
+      "topic": "Missing geographic membership",
+      "controlled_change": "Add the marker's membership at the required time.",
+      "case_ids": [
+        "P09A",
+        "P09B"
+      ]
+    },
+    {
+      "pair_id": "P10",
+      "topic": "Outside the domain is not a negative conclusion",
+      "controlled_change": "Change only K's location relative to the rule domain.",
+      "case_ids": [
+        "P10A",
+        "P10B"
+      ]
+    },
+    {
+      "pair_id": "P11",
+      "topic": "Whole day versus subsequent interval",
+      "controlled_change": "Keep the context identical and narrow only the claim's time interval.",
+      "case_ids": [
+        "P11A",
+        "P11B"
+      ]
+    },
+    {
+      "pair_id": "P12",
+      "topic": "Agent nonmovement versus object persistence",
+      "controlled_change": "Add an explicit unchanged-location premise.",
+      "case_ids": [
+        "P12A",
+        "P12B"
+      ]
+    },
+    {
+      "pair_id": "P13",
+      "topic": "Role assignment persistence",
+      "controlled_change": "Add that the same person held the role throughout the interval.",
+      "case_ids": [
+        "P13A",
+        "P13B"
+      ]
+    },
+    {
+      "pair_id": "P14",
+      "topic": "Joined reported accounts versus world conclusion",
+      "controlled_change": "Keep the context identical and change only the target to a consequence of both accounts.",
+      "case_ids": [
+        "P14A",
+        "P14B"
+      ]
+    },
+    {
+      "pair_id": "P15",
+      "topic": "Nested attribution",
+      "controlled_change": "Keep the context identical and change only the target attribution level.",
+      "case_ids": [
+        "P15A",
+        "P15B"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "P01A",
+      "pair_id": "P01",
+      "context": "Fictional scenario. The violet lamp is lit at noon.",
+      "claim": "The violet lamp is lit at noon.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The violet lamp is lit at noon."
+      ],
+      "rationale": "The unqualified narrator assertion supplies the requested noon fact."
+    },
+    {
+      "case_id": "P01B",
+      "pair_id": "P01",
+      "context": "Fictional scenario. The wall notice says, \"The violet lamp is lit at noon.\"",
+      "claim": "The violet lamp is lit at noon.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The wall notice says, \"The violet lamp is lit at noon.\""
+      ],
+      "rationale": "The notice reports the state, but no premise makes its content true or false."
+    },
+    {
+      "case_id": "P02A",
+      "pair_id": "P02",
+      "context": "Fictional scenario. The wall notice says, \"The violet lamp is lit at noon.\"",
+      "claim": "The violet lamp is lit at noon.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The wall notice says, \"The violet lamp is lit at noon.\""
+      ],
+      "rationale": "The report does not establish the actual lamp state."
+    },
+    {
+      "case_id": "P02B",
+      "pair_id": "P02",
+      "context": "Fictional scenario. The wall notice says, \"The violet lamp is lit at noon.\"",
+      "claim": "The wall notice says that the violet lamp is lit at noon.",
+      "draft_label": "supported",
+      "target_scope": "wall_notice_content",
+      "evidence_spans": [
+        "The wall notice says, \"The violet lamp is lit at noon.\""
+      ],
+      "rationale": "The claim preserves the report attribution and faithfully paraphrases its content."
+    },
+    {
+      "case_id": "P03A",
+      "pair_id": "P03",
+      "context": "Fictional scenario. The transcript reproduces the speaker exactly: \"The east gate is locked at 09:00.\"",
+      "claim": "The east gate is locked at 09:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The transcript reproduces the speaker exactly:"
+      ],
+      "rationale": "Exact reproduction establishes what was said, not whether the gate is locked."
+    },
+    {
+      "case_id": "P03B",
+      "pair_id": "P03",
+      "context": "Fictional scenario. The transcript reproduces the speaker exactly: \"The east gate is locked at 09:00.\" Narrator fact: The quoted statement about the east gate is true in this scenario.",
+      "claim": "The east gate is locked at 09:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The transcript reproduces the speaker exactly: \"The east gate is locked at 09:00.\"",
+        "The quoted statement about the east gate is true in this scenario."
+      ],
+      "rationale": "The narrator supplies a truth bridge for the specific quoted proposition."
+    },
+    {
+      "case_id": "P04A",
+      "pair_id": "P04",
+      "context": "Fictional scenario. The official authorized inspection notice says, \"The silver lever is down at 11:00.\"",
+      "claim": "The silver lever is down at 11:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The official authorized inspection notice says,"
+      ],
+      "rationale": "Official authorization does not itself establish the reported state."
+    },
+    {
+      "case_id": "P04B",
+      "pair_id": "P04",
+      "context": "Fictional scenario. The official authorized inspection notice says, \"The silver lever is down at 11:00.\" Narrator fact: The notice's statement about the silver lever at 11:00 is true.",
+      "claim": "The silver lever is down at 11:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The official authorized inspection notice says, \"The silver lever is down at 11:00.\"",
+        "The notice's statement about the silver lever at 11:00 is true."
+      ],
+      "rationale": "The guarantee covers this notice, proposition, and time."
+    },
+    {
+      "case_id": "P05A",
+      "pair_id": "P05",
+      "context": "Fictional scenario. The receipt note says, \"Ivo did not receive the red envelope on Tuesday.\"",
+      "claim": "Ivo received the red envelope on Tuesday.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "The receipt note says,"
+      ],
+      "rationale": "Reported nonreceipt does not establish actual nonreceipt or receipt."
+    },
+    {
+      "case_id": "P05B",
+      "pair_id": "P05",
+      "context": "Fictional scenario. Ivo did not receive the red envelope on Tuesday.",
+      "claim": "Ivo received the red envelope on Tuesday.",
+      "draft_label": "contradicted",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Ivo did not receive the red envelope on Tuesday."
+      ],
+      "rationale": "The narrator supplies the same-agent, same-object, same-day negation."
+    },
+    {
+      "case_id": "P06A",
+      "pair_id": "P06",
+      "context": "Fictional scenario. The meter sheet says, \"The cistern held six liters at 08:00 and nine liters at 10:00.\" Narrator fact: The proposition 'The cistern held six liters at 08:00' is true in this scenario. This stipulation does not address the 10:00 assertion.",
+      "claim": "The cistern held nine liters at 10:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Narrator fact: The proposition 'The cistern held six liters at 08:00' is true in this scenario. This stipulation does not address the 10:00 assertion."
+      ],
+      "rationale": "The exact 08:00 proposition is stipulated true, and the stipulation expressly leaves the 10:00 assertion unaddressed. The report alone neither establishes nor negates the 10:00 quantity."
+    },
+    {
+      "case_id": "P06B",
+      "pair_id": "P06",
+      "context": "Fictional scenario. The meter sheet says, \"The cistern held six liters at 08:00 and nine liters at 10:00.\" Narrator fact: The proposition 'The cistern held nine liters at 10:00' is true in this scenario. This stipulation does not address the 08:00 assertion.",
+      "claim": "The cistern held nine liters at 10:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Narrator fact: The proposition 'The cistern held nine liters at 10:00' is true in this scenario. This stipulation does not address the 08:00 assertion."
+      ],
+      "rationale": "The narrator explicitly stipulates the exact 10:00 proposition in the claim. The separate 08:00 assertion is not needed."
+    },
+    {
+      "case_id": "P07A",
+      "pair_id": "P07",
+      "context": "Fictional scenario. Narrator fact: At 12:00 the desk held exactly nine pens. Narrator fact: The accounting interval covers every inventory change after the initial count at 12:00 up to and including the final count at 13:00. The final count at 13:00 is taken after all inventory changes occurring at 13:00, and all of those changes are included in the accounting interval. In this scenario, the count at 13:00 means that final count. A note says, \"During the whole accounting interval defined above, exactly two distinct pens were removed from the desk, each exactly once.\" The quoted note ends here. Narrator fact: No pens were added to the desk at any time during the whole accounting interval, including no return of any removed pen. At most two pen-removal events occurred during that whole interval, each removing one pen. Narrator fact: Throughout the whole accounting interval, counted pens retain their identities and remain pens, and the desk's pen count changes only through additions or removals.",
+      "claim": "The desk held exactly seven pens at 13:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Narrator fact: At 12:00 the desk held exactly nine pens.",
+        "Narrator fact: The accounting interval covers every inventory change after the initial count at 12:00 up to and including the final count at 13:00. The final count at 13:00 is taken after all inventory changes occurring at 13:00, and all of those changes are included in the accounting interval. In this scenario, the count at 13:00 means that final count.",
+        "A note says, \"During the whole accounting interval defined above, exactly two distinct pens were removed from the desk, each exactly once.\" The quoted note ends here.",
+        "Narrator fact: No pens were added to the desk at any time during the whole accounting interval, including no return of any removed pen. At most two pen-removal events occurred during that whole interval, each removing one pen.",
+        "Narrator fact: Throughout the whole accounting interval, counted pens retain their identities and remain pens, and the desk's pen count changes only through additions or removals."
+      ],
+      "rationale": "The initial count is nine. All changes through the final count are covered; no additions and at most two one-pen removals are stipulated. The note alone cannot establish exactly two actual removals, so seven, eight, or nine pens can remain."
+    },
+    {
+      "case_id": "P07B",
+      "pair_id": "P07",
+      "context": "Fictional scenario. Narrator fact: At 12:00 the desk held exactly nine pens. Narrator fact: The accounting interval covers every inventory change after the initial count at 12:00 up to and including the final count at 13:00. The final count at 13:00 is taken after all inventory changes occurring at 13:00, and all of those changes are included in the accounting interval. In this scenario, the count at 13:00 means that final count. A note says, \"During the whole accounting interval defined above, exactly two distinct pens were removed from the desk, each exactly once.\" The quoted note ends here. Narrator fact: No pens were added to the desk at any time during the whole accounting interval, including no return of any removed pen. At most two pen-removal events occurred during that whole interval, each removing one pen. Narrator fact: Throughout the whole accounting interval, counted pens retain their identities and remain pens, and the desk's pen count changes only through additions or removals. Narrator fact: The note's exact assertion about the two pen removals during the whole accounting interval is true in this scenario.",
+      "claim": "The desk held exactly seven pens at 13:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Narrator fact: At 12:00 the desk held exactly nine pens.",
+        "Narrator fact: The accounting interval covers every inventory change after the initial count at 12:00 up to and including the final count at 13:00. The final count at 13:00 is taken after all inventory changes occurring at 13:00, and all of those changes are included in the accounting interval. In this scenario, the count at 13:00 means that final count.",
+        "A note says, \"During the whole accounting interval defined above, exactly two distinct pens were removed from the desk, each exactly once.\" The quoted note ends here.",
+        "Narrator fact: No pens were added to the desk at any time during the whole accounting interval, including no return of any removed pen. At most two pen-removal events occurred during that whole interval, each removing one pen.",
+        "Narrator fact: Throughout the whole accounting interval, counted pens retain their identities and remain pens, and the desk's pen count changes only through additions or removals.",
+        "Narrator fact: The note's exact assertion about the two pen removals during the whole accounting interval is true in this scenario."
+      ],
+      "rationale": "The exact note assertion establishes two distinct, one-time pen removals. The same complete interval covers all final-timestamp changes, forbids every addition or return, and permits at most those two removal events. Fixed identities/category and exhaustive count transitions yield nine minus two, or seven."
+    },
+    {
+      "case_id": "P08A",
+      "pair_id": "P08",
+      "context": "Fictional scenario. A label says, \"There are exactly eight beads in the jar at 14:00.\" The quoted label ends here. Narrator fact: The accounting interval covers every inventory change after the initial count at 14:00 up to and including the final count at 15:00. The final count at 15:00 is taken after all inventory changes occurring at 15:00, and all of those changes are included in the accounting interval. In this scenario, the count at 15:00 means that final count. Narrator fact: During the whole accounting interval, exactly three distinct beads were removed from the jar, each in a single one-bead removal event. No bead-removal events occurred anywhere in that whole interval besides these three events. Narrator fact: No beads were added to the jar at any time during the whole accounting interval, including no return of any of the three removed beads. Narrator fact: Throughout the whole accounting interval, counted beads retain their identities and remain beads, and the jar's bead count changes only through additions or removals.",
+      "claim": "There were exactly five beads in the jar at 15:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "A label says, \"There are exactly eight beads in the jar at 14:00.\" The quoted label ends here.",
+        "Narrator fact: The accounting interval covers every inventory change after the initial count at 14:00 up to and including the final count at 15:00. The final count at 15:00 is taken after all inventory changes occurring at 15:00, and all of those changes are included in the accounting interval. In this scenario, the count at 15:00 means that final count.",
+        "Narrator fact: During the whole accounting interval, exactly three distinct beads were removed from the jar, each in a single one-bead removal event. No bead-removal events occurred anywhere in that whole interval besides these three events.",
+        "Narrator fact: No beads were added to the jar at any time during the whole accounting interval, including no return of any of the three removed beads.",
+        "Narrator fact: Throughout the whole accounting interval, counted beads retain their identities and remain beads, and the jar's bead count changes only through additions or removals."
+      ],
+      "rationale": "Exactly three one-bead removal events, no additions or returns, and exhaustive transitions cover every change through the final count. They do not establish the actual starting count from the unendorsed label; for example, eight initially yields five finally, while nine initially yields six."
+    },
+    {
+      "case_id": "P08B",
+      "pair_id": "P08",
+      "context": "Fictional scenario. Narrator fact: There are exactly eight beads in the jar at 14:00. Narrator fact: The accounting interval covers every inventory change after the initial count at 14:00 up to and including the final count at 15:00. The final count at 15:00 is taken after all inventory changes occurring at 15:00, and all of those changes are included in the accounting interval. In this scenario, the count at 15:00 means that final count. Narrator fact: During the whole accounting interval, exactly three distinct beads were removed from the jar, each in a single one-bead removal event. No bead-removal events occurred anywhere in that whole interval besides these three events. Narrator fact: No beads were added to the jar at any time during the whole accounting interval, including no return of any of the three removed beads. Narrator fact: Throughout the whole accounting interval, counted beads retain their identities and remain beads, and the jar's bead count changes only through additions or removals.",
+      "claim": "There were exactly five beads in the jar at 15:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Narrator fact: There are exactly eight beads in the jar at 14:00.",
+        "Narrator fact: The accounting interval covers every inventory change after the initial count at 14:00 up to and including the final count at 15:00. The final count at 15:00 is taken after all inventory changes occurring at 15:00, and all of those changes are included in the accounting interval. In this scenario, the count at 15:00 means that final count.",
+        "Narrator fact: During the whole accounting interval, exactly three distinct beads were removed from the jar, each in a single one-bead removal event. No bead-removal events occurred anywhere in that whole interval besides these three events.",
+        "Narrator fact: No beads were added to the jar at any time during the whole accounting interval, including no return of any of the three removed beads.",
+        "Narrator fact: Throughout the whole accounting interval, counted beads retain their identities and remain beads, and the jar's bead count changes only through additions or removals."
+      ],
+      "rationale": "The actual initial count is eight. Exactly three distinct one-bead removals are the only removal events, and no additions or returns occur anywhere through the final count, including at its timestamp. Fixed identities/category and exhaustive transitions establish five beads."
+    },
+    {
+      "case_id": "P09A",
+      "pair_id": "P09",
+      "context": "Fictional scenario. Every marker in the courtyard at noon is blue at noon. Marker K exists.",
+      "claim": "Marker K is blue at noon.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Every marker in the courtyard at noon is blue at noon.",
+        "Marker K exists."
+      ],
+      "rationale": "Existence does not place K in the rule's geographic domain."
+    },
+    {
+      "case_id": "P09B",
+      "pair_id": "P09",
+      "context": "Fictional scenario. Every marker in the courtyard at noon is blue at noon. Marker K exists. Marker K is in the courtyard at noon.",
+      "claim": "Marker K is blue at noon.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Every marker in the courtyard at noon is blue at noon.",
+        "Marker K is in the courtyard at noon."
+      ],
+      "rationale": "Explicit same-time membership licenses application of the local rule."
+    },
+    {
+      "case_id": "P10A",
+      "pair_id": "P10",
+      "context": "Fictional scenario. Every marker in the courtyard at noon is blue at noon. Marker K is outside the courtyard at noon.",
+      "claim": "Marker K is not blue at noon.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Every marker in the courtyard at noon is blue at noon.",
+        "Marker K is outside the courtyard at noon."
+      ],
+      "rationale": "The local rule says nothing about K outside the courtyard; K could be blue or not blue."
+    },
+    {
+      "case_id": "P10B",
+      "pair_id": "P10",
+      "context": "Fictional scenario. Every marker in the courtyard at noon is blue at noon. Marker K is in the courtyard at noon.",
+      "claim": "Marker K is not blue at noon.",
+      "draft_label": "contradicted",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Every marker in the courtyard at noon is blue at noon.",
+        "Marker K is in the courtyard at noon."
+      ],
+      "rationale": "K is blue under the supplied rule, contradicting the claim's negation of that property."
+    },
+    {
+      "case_id": "P11A",
+      "pair_id": "P11",
+      "context": "Fictional scenario. On Wednesday, Dena placed the token in the drawer at 14:00. Dena did not move the token at any time after 14:00 through the end of Wednesday.",
+      "claim": "Dena moved the token from the drawer to the desk at some time on Wednesday.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "On Wednesday, Dena placed the token in the drawer at 14:00. Dena did not move the token at any time after 14:00 through the end of Wednesday."
+      ],
+      "rationale": "Such a move before 14:00 remains possible, followed by the narrated placement in the drawer."
+    },
+    {
+      "case_id": "P11B",
+      "pair_id": "P11",
+      "context": "Fictional scenario. On Wednesday, Dena placed the token in the drawer at 14:00. Dena did not move the token at any time after 14:00 through the end of Wednesday.",
+      "claim": "Dena moved the token from the drawer to the desk after 14:00 on Wednesday.",
+      "draft_label": "contradicted",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Dena did not move the token at any time after 14:00 through the end of Wednesday."
+      ],
+      "rationale": "The claim's entire interval is covered by the explicit same-agent nonmovement."
+    },
+    {
+      "case_id": "P12A",
+      "pair_id": "P12",
+      "context": "Fictional scenario. At 13:00 Mara placed the token in the cupboard. Mara did not move the token again between 13:00 and 18:00.",
+      "claim": "The token was in the cupboard at 18:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "At 13:00 Mara placed the token in the cupboard.",
+        "Mara did not move the token again between 13:00 and 18:00."
+      ],
+      "rationale": "Another agent or another mechanism could change its location; only Mara's actions are constrained."
+    },
+    {
+      "case_id": "P12B",
+      "pair_id": "P12",
+      "context": "Fictional scenario. At 13:00 Mara placed the token in the cupboard. Mara did not move the token again between 13:00 and 18:00. The token's location did not change from 13:00 through 18:00.",
+      "claim": "The token was in the cupboard at 18:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "At 13:00 Mara placed the token in the cupboard.",
+        "The token's location did not change from 13:00 through 18:00."
+      ],
+      "rationale": "Direct object-level persistence extends the known location to 18:00."
+    },
+    {
+      "case_id": "P13A",
+      "pair_id": "P13",
+      "context": "Fictional scenario. At 09:00 Reni was the sole oven technician. At 15:00 the sole oven technician reset the timer.",
+      "claim": "Reni reset the timer at 15:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "At 09:00 Reni was the sole oven technician.",
+        "At 15:00 the sole oven technician reset the timer."
+      ],
+      "rationale": "The role holder at 15:00 need not be the person holding it at 09:00."
+    },
+    {
+      "case_id": "P13B",
+      "pair_id": "P13",
+      "context": "Fictional scenario. At 09:00 Reni was the sole oven technician. At 15:00 the sole oven technician reset the timer. The same person continuously held the sole oven technician role from 09:00 through 15:00.",
+      "claim": "Reni reset the timer at 15:00.",
+      "draft_label": "supported",
+      "target_scope": "world",
+      "evidence_spans": [
+        "At 09:00 Reni was the sole oven technician. At 15:00 the sole oven technician reset the timer.",
+        "The same person continuously held the sole oven technician role from 09:00 through 15:00."
+      ],
+      "rationale": "Role persistence links Reni to the later narrated action."
+    },
+    {
+      "case_id": "P14A",
+      "pair_id": "P14",
+      "context": "Fictional scenario. Narrator fact: Sheet A and Sheet B refer to the same bowl on the same day. Sheet A says, \"The bowl contains exactly twelve buttons at 10:00.\" Sheet B says, \"The accounting interval covers every inventory change after the initial count at 10:00 up to and including the final count at 11:00. The final count at 11:00 is taken after all inventory changes occurring at 11:00, and all of those changes are included in the accounting interval. In this account, the count at 11:00 means that final count. During the whole accounting interval, exactly four distinct buttons were removed from the bowl, each in a single one-button removal event. No button-removal events occurred anywhere in that whole interval besides these four events. No buttons were added to the bowl at any time during the whole accounting interval, including no return of any of the four removed buttons. Throughout the whole accounting interval, counted buttons retain their identities and remain buttons, and the bowl's button count changes only through additions or removals.\"",
+      "claim": "The bowl contained exactly eight buttons at 11:00.",
+      "draft_label": "not_established",
+      "target_scope": "world",
+      "evidence_spans": [
+        "Narrator fact: Sheet A and Sheet B refer to the same bowl on the same day.",
+        "Sheet A says, \"The bowl contains exactly twelve buttons at 10:00.\"",
+        "Sheet B says, \"The accounting interval covers every inventory change after the initial count at 10:00 up to and including the final count at 11:00. The final count at 11:00 is taken after all inventory changes occurring at 11:00, and all of those changes are included in the accounting interval. In this account, the count at 11:00 means that final count. During the whole accounting interval, exactly four distinct buttons were removed from the bowl, each in a single one-button removal event. No button-removal events occurred anywhere in that whole interval besides these four events. No buttons were added to the bowl at any time during the whole accounting interval, including no return of any of the four removed buttons. Throughout the whole accounting interval, counted buttons retain their identities and remain buttons, and the bowl's button count changes only through additions or removals.\""
+      ],
+      "rationale": "The narrator establishes only the shared bowl and day. The starting count and every interval, event, exclusion, and transition premise remain within the two reported accounts. No applicable truth guarantee establishes the world's final count."
+    },
+    {
+      "case_id": "P14B",
+      "pair_id": "P14",
+      "context": "Fictional scenario. Narrator fact: Sheet A and Sheet B refer to the same bowl on the same day. Sheet A says, \"The bowl contains exactly twelve buttons at 10:00.\" Sheet B says, \"The accounting interval covers every inventory change after the initial count at 10:00 up to and including the final count at 11:00. The final count at 11:00 is taken after all inventory changes occurring at 11:00, and all of those changes are included in the accounting interval. In this account, the count at 11:00 means that final count. During the whole accounting interval, exactly four distinct buttons were removed from the bowl, each in a single one-button removal event. No button-removal events occurred anywhere in that whole interval besides these four events. No buttons were added to the bowl at any time during the whole accounting interval, including no return of any of the four removed buttons. Throughout the whole accounting interval, counted buttons retain their identities and remain buttons, and the bowl's button count changes only through additions or removals.\"",
+      "claim": "Taken together, the accounts in Sheet A and Sheet B imply that the bowl contained exactly eight buttons at 11:00.",
+      "draft_label": "supported",
+      "target_scope": "joint_source_account",
+      "evidence_spans": [
+        "Narrator fact: Sheet A and Sheet B refer to the same bowl on the same day.",
+        "Sheet A says, \"The bowl contains exactly twelve buttons at 10:00.\"",
+        "Sheet B says, \"The accounting interval covers every inventory change after the initial count at 10:00 up to and including the final count at 11:00. The final count at 11:00 is taken after all inventory changes occurring at 11:00, and all of those changes are included in the accounting interval. In this account, the count at 11:00 means that final count. During the whole accounting interval, exactly four distinct buttons were removed from the bowl, each in a single one-button removal event. No button-removal events occurred anywhere in that whole interval besides these four events. No buttons were added to the bowl at any time during the whole accounting interval, including no return of any of the four removed buttons. Throughout the whole accounting interval, counted buttons retain their identities and remain buttons, and the bowl's button count changes only through additions or removals.\""
+      ],
+      "rationale": "Within the joint account, Sheet A supplies twelve initially. Sheet B covers every change through the final count, permits exactly four distinct one-button removal events, forbids all additions including returns, and preserves identities/category. Those account-scoped premises imply eight finally without becoming world facts."
+    },
+    {
+      "case_id": "P15A",
+      "pair_id": "P15",
+      "context": "Fictional scenario. Memo A says, \"Memo B says the purple dial points left at 16:00.\"",
+      "claim": "Memo B says that the purple dial points left at 16:00.",
+      "draft_label": "not_established",
+      "target_scope": "memo_b_content",
+      "evidence_spans": [
+        "Memo A says, \"Memo B says the purple dial points left at 16:00.\""
+      ],
+      "rationale": "Only A's account of B is supplied; A could misdescribe B."
+    },
+    {
+      "case_id": "P15B",
+      "pair_id": "P15",
+      "context": "Fictional scenario. Memo A says, \"Memo B says the purple dial points left at 16:00.\"",
+      "claim": "Memo A says that Memo B says the purple dial points left at 16:00.",
+      "draft_label": "supported",
+      "target_scope": "memo_a_content_about_memo_b",
+      "evidence_spans": [
+        "Memo A says, \"Memo B says the purple dial points left at 16:00.\""
+      ],
+      "rationale": "The claim preserves both levels of attribution."
+    }
+  ],
+  "unique_context_claim_inputs": 29,
+  "revision": "scope_development_v1",
+  "revision_summary": {
+    "truth_guarantee_repairs": [
+      "P06A",
+      "P06B"
+    ],
+    "inventory_identity_interval_and_event_repairs": [
+      "P07A",
+      "P07B",
+      "P08A",
+      "P08B",
+      "P14A",
+      "P14B"
+    ],
+    "claims_changed": [],
+    "draft_semantic_label_changes": [],
+    "review_record": "evals/support_scope_development_review.json",
+    "P14_scope": "All interval, event, and transition premises remain inside Sheet B's quoted account."
+  }
+}

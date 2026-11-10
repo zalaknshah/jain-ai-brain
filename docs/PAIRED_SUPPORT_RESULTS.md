@@ -183,3 +183,7 @@ contract with fresh independently reviewed cases. Candidate tuning, thresholds
 or ensembles on this exposed set would require a new held-out evaluation. Merely
 trying a larger model does not establish source truth, Jain scholarship, reliable
 reasoning or a safe production gate.
+
+A subsequent [annotation-scope proposal](CLAIM_SUPPORT_SCOPE.md) and 30 exposed
+teaching rows now make these boundaries explicit. Their development review is
+not a new model evaluation and does not revise any result above.
