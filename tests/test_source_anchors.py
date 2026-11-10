@@ -72,6 +72,37 @@ class SourceAnchorTests(unittest.TestCase):
         result = anchors.find_source_anchors((a + ' ' + b).encode(), [b + ' ' + a])
         self.assertEqual(result['pages'][0]['status'], 'unresolved')
 
+    def test_ocr_difference_can_make_a_repeated_phrase_spuriously_unique_elsewhere(self):
+        repeated = 'review this synthetic placeholder phrase before moving forward'
+        noisy = repeated.replace('review', 'rev1ew')
+        left, right = passage('targetleft'), passage('targetright')
+        earlier = passage('earlier') + ' ' + repeated + ' ' + passage('earlierend')
+        source = (earlier + ' ' + left + ' ' + noisy + ' ' + right).encode()
+        page = left + ' ' + repeated + ' ' + right
+        result = anchors.find_source_anchors(source, [page])
+        self.assertGreater(result['pages'][0]['unique_exact_anchor_matches'], 20)
+        self.assertEqual(result['pages'][0]['status'], 'unresolved')
+        self.assertNotIn('source_byte_start', result['pages'][0])
+        # Retaining the original OCR version restores ordered literal agreement.
+        literal = anchors.find_source_anchors(source, [left + ' ' + noisy + ' ' + right])
+        self.assertEqual(literal['pages'][0]['status'], 'interior_span_candidate')
+
+    def test_unique_matches_do_not_certify_intended_scan_page_identity(self):
+        intended_print = passage('repeat')
+        intended_ocr = intended_print.replace('repeat', 'repea7')
+        prefix = intended_ocr + ' separator '
+        source = (prefix + intended_print).encode()
+        result = anchors.find_source_anchors(source, [intended_print])
+        row = result['pages'][0]
+        # Without the scan, the helper cannot know whether the page actually
+        # belongs to the noisy first copy. It must not certify this coincidence.
+        self.assertEqual(row['status'], 'interior_span_candidate')
+        self.assertEqual(row['source_byte_start'], len(prefix.encode()))
+        self.assertFalse(row['scan_accuracy_reviewed'])
+        self.assertFalse(row['source_layers_separated'])
+        self.assertFalse(row['runtime_admitted'])
+        self.assertFalse(row['training_admitted'])
+
     def test_wide_source_gap_does_not_join_distant_passages(self):
         a, b = passage('a', 8), passage('b', 8)
         raw = (a + ' ' + passage('gap', 100) + ' ' + b).encode()

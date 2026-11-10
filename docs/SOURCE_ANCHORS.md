@@ -30,6 +30,15 @@ correct scan, establish page identity and content layers, retain correction
 provenance and complete separate scholarly/rights review before further use.
 All scan-review, layer-separation, runtime and training flags remain false.
 
+Uniqueness is relative to the supplied OCR words, not the printed edition. A
+repeated printed phrase can look unique elsewhere when one OCR copy contains a
+spelling error. If such a match jumps against surrounding anchors, the page
+stays unresolved even when most other words match; do not discard inconvenient
+anchors just to obtain a candidate. Entire consistently matching fragments can
+also coincide with the wrong occurrence without triggering an ordering conflict.
+The helper has no scan or page-identity oracle, so even a clean candidate still
+requires visual page verification before it can support a citation.
+
 Bounds: source bytes 1 through 1 MiB, at most 200,000 source words, 1 through
 1,000 page strings, each at most 20,000 characters, and at most 2 MiB combined
 UTF-8 page text. Invalid types/UTF-8 or exceeded bounds reject the whole call.
@@ -40,4 +49,6 @@ not publish it without appropriate permission merely because text is omitted.
 Synthetic regressions cover exact hashes/offsets, multibyte characters and CRLF,
 duplicates, missing/short pages, reordered anchors/pages, distant spans,
 nonadjacent conflicts, input limits, unchanged original inputs and non-admission.
+Additional original synthetic cases preserve the repeated-phrase/OCR-variation
+failure mode and demonstrate that uniqueness never certifies scan-page identity.
 They do not establish real-corpus or semantic accuracy.
