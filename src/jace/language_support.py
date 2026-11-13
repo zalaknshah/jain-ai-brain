@@ -40,8 +40,20 @@ _HARM = frozenset({
 })
 
 
-def native_harm_cue(text: str) -> bool:
+def _guard_terms(text: str) -> set[str]:
+    """Include compound components only for conservative negative guards.
+
+    The retrieval tokenizer intentionally preserves ASCII hyphens/underscores.
+    A listed cue must not disappear merely because it is joined to another
+    word with either separator. This may decline benign compound mentions;
+    it does not interpret meaning, negation or unlisted spellings.
+    """
     words = lexical_terms(text)
+    return words | {part for word in words for part in re.split(r"[-_]", word) if part}
+
+
+def native_harm_cue(text: str) -> bool:
+    words = _guard_terms(text)
     return bool(words & _HARM) or ({'મારી', 'નાખો'} <= words) or ({'મારી', 'નાખવું'} <= words)
 
 
@@ -115,7 +127,7 @@ def native_plan_key(request: str) -> str | None:
     if response_language(request) == 'en':
         return None
     words = lexical_terms(request)
-    if words & (_NEGATION | _TECHNICAL | _POETRY) or not _simple_alias_request(request, words):
+    if _guard_terms(request) & (_NEGATION | _TECHNICAL | _POETRY) or not _simple_alias_request(request, words):
         return None
     # Whole-word aliases only: do not strip suffixes or infer a missing subject.
     # A disagreement still needs explicit business, partner and conflict cues.
