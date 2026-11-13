@@ -52,6 +52,7 @@
 !src/jace/retrieval_limits.py
 !src/jace/review_document.py
 !src/jace/simulator.py
+!src/jace/source_answer_eval.py
 !src/jace/source_bundle.py
 !src/jace/source_review.py
 !src/jace/syadvada.py
