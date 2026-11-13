@@ -79,3 +79,11 @@ The runner's nine focused selection checks passed. The full local suite ran
 application evaluation passed. Repeating the frozen holdout invocation produced
 byte-identical output. No test outcome turns this failed candidate into a
 qualified routing or safety policy.
+
+Independent review found no blocking result discrepancy and reran all nine
+selection tests. One provenance limitation remains: `--selection` reports the
+loaded selection's hash but does not require an externally supplied expected
+selection hash, nor authenticate its development summary. The CLI alone therefore
+does not enforce that a rule was frozen before holdout exposure. This experiment's
+separately recorded selection hash above establishes which file was used; future
+runs must preserve that external record rather than infer a freeze from the CLI.
