@@ -12,6 +12,7 @@ import unicodedata
 from pathlib import Path
 
 MAX_DATA_BYTES = 2 * 1024 * 1024
+MAX_DATASET_MANIFEST_BYTES = 16 * 1024 * 1024
 MAX_MODEL_BYTES = 64 * 1024 * 1024
 MAX_STEPS = 20
 MAX_SEQUENCE = 256
@@ -143,23 +144,39 @@ def _language(value) -> None:
 
 
 def admit_dataset(train_path: str | Path, evaluation_path: str | Path, manifest_path: str | Path) -> dict:
-    """Only explicit synthetic datasets are admitted in this initial lane."""
+    """Admit synthetic fixtures or separately reviewed exact-byte Prakrit inputs."""
     raw = [_read(Path(path), MAX_DATA_BYTES) for path in (train_path, evaluation_path)]
-    manifest_raw = _read(Path(manifest_path), 16384)
+    manifest_raw = _read(Path(manifest_path), MAX_DATASET_MANIFEST_BYTES)
     manifest = _json(manifest_raw)
     required = {'schema_version', 'data_kind', 'source', 'license', 'rights_reviewed', 'content_reviewed',
                 'contains_personal_data', 'train_sha256', 'evaluation_sha256', 'provenance', 'review'}
-    if not isinstance(manifest, dict) or set(manifest) != required or type(manifest['schema_version']) is not int or manifest['schema_version'] != 2:
-        raise ValueError('dataset manifest schema 2 with reviewed per-record provenance is required')
-    if manifest['data_kind'] != 'synthetic' or manifest['rights_reviewed'] is not True or manifest['content_reviewed'] is not True or manifest['contains_personal_data'] is not False:
-        raise ValueError('only explicitly reviewed synthetic, non-personal data is supported; memory and collected corpora are not admitted')
+    if not isinstance(manifest, dict) or set(manifest) != required or type(manifest['schema_version']) is not int or manifest['schema_version'] not in (2, 3):
+        raise ValueError('dataset manifest schema 2 (synthetic) or 3 (reviewed Prakrit) with per-record provenance is required')
+    if manifest['schema_version'] == 2:
+        if len(manifest_raw) > 16384:
+            raise ValueError('synthetic manifest exceeds size limit')
+        if manifest['data_kind'] != 'synthetic' or manifest['rights_reviewed'] is not True or manifest['content_reviewed'] is not True or manifest['contains_personal_data'] is not False:
+            raise ValueError('schema 2 admits only explicitly reviewed synthetic, non-personal data')
     for name in ('source', 'license'):
         _text(manifest[name], name, 512)
     if [manifest['train_sha256'], manifest['evaluation_sha256']] != [_sha(value) for value in raw]:
         raise ValueError('dataset hashes do not match the reviewed manifest')
+    splits = _parse_splits(raw)
+    if manifest['schema_version'] == 2:
+        _admit_lineage(manifest, splits)
+    else:
+        from .training_review import validate_admitted
+        validate_admitted(manifest, splits)
+    return {'train': splits[0], 'evaluation': splits[1], 'manifest': manifest,
+            'manifest_sha256': _sha(manifest_raw)}
+
+
+def _parse_splits(raw: list[bytes]) -> list[list[dict]]:
     splits = []
     seen_ids, seen_prompts = set(), set()
     for payload in raw:
+        if len(payload) > MAX_DATA_BYTES:
+            raise ValueError('dataset split exceeds size limit')
         rows = []
         for line in payload.splitlines():
             if not line.strip():
@@ -179,9 +196,7 @@ def admit_dataset(train_path: str | Path, evaluation_path: str | Path, manifest_
         if not rows:
             raise ValueError('both training and held-out evaluation must be nonempty')
         splits.append(rows)
-    _admit_lineage(manifest, splits)
-    return {'train': splits[0], 'evaluation': splits[1], 'manifest': manifest,
-            'manifest_sha256': _sha(manifest_raw)}
+    return splits
 
 
 def admit_model(model_path: str | Path, manifest_path: str | Path) -> dict:

@@ -90,7 +90,7 @@ The route requires an owner path with no query, path parameters or fragment; abs
 - `src/jace/api.py` — standard-library HTTP API.
 - `integrations/` — optional voice and ROS 2 boundaries; hardware is never enabled by default.
 - `web/index.html` — dependency-free browser voice console using the Web Speech API.
-- `scripts/train_qlora.py` — explicit offline synthetic-only training preflight and bounded run interface; real backend execution remains unverified.
+- `scripts/train_qlora.py` — explicit offline reviewed-input training preflight and bounded run interface; real backend execution remains unverified.
 - `scripts/ingest_corpus.py` — convert reviewed text files into canonical records.
 - `scripts/evaluate.py` — run checked-in safety regression cases.
 
@@ -104,7 +104,7 @@ The canonical store is read-only at runtime and contains principles and referenc
 2. Only an accepted, sanitised memory is written to SQLite and added as a dynamic graph node.
 3. Shared terms create weighted `aligned_with` edges to canonical principles; canonical nodes and edges cannot be changed by dialogue.
 4. A later query activates matching seeds, expands through related principles and memories for at most two hops, and reranks the result.
-5. The reasoner receives only selected context. No automatic model-weight training occurs in production; the separate `scripts/train_qlora.py` interface currently admits only explicitly reviewed synthetic fixtures and requires explicit run consent.
+5. The reasoner receives only selected context. No automatic model-weight training occurs in production; the separate `scripts/train_qlora.py` interface admits reviewed synthetic fixtures or separately reviewed Prakrit examples and requires explicit run consent. [Private training review](docs/PRAKRIT_TRAINING_REVIEW.md) requires edition-specific rights, exact source spans and qualified human review for Gujarati/Hindi/English translations. Pending or rejected examples are blocked; review metadata is not proof of rights or scholarship.
 
 ### Corpus ingestion
 
@@ -246,7 +246,7 @@ Use `remember USER "temporary preference" --expires-at 2026-12-01T18:00:00Z` or 
 
 ### Offline training preparation
 
-The old print-only trainer is replaced by a bounded, explicit-consent implementation with synthetic train/held-out admission, local safetensors restrictions, resource caps, diagnostic evaluation and adapter-only export. Default invocation performs preflight only. No GPU/model training has been validated, and no collected texts or private memories are admitted. See [requirements, evidence and unverified backend limits](docs/OFFLINE_TRAINING.md).
+The old print-only trainer is replaced by a bounded, explicit-consent implementation with reviewed train/held-out admission, local safetensors restrictions, resource caps, diagnostic evaluation and adapter-only export. Default invocation performs preflight only. Synthetic inputs remain supported; [Prakrit training review](docs/PRAKRIT_TRAINING_REVIEW.md) adds separate rights/content/translation decisions bound to exact books and examples. No real book or translation was admitted by this implementation work, no GPU/model training has been validated, and private memories remain unsupported. See [requirements, evidence and unverified backend limits](docs/OFFLINE_TRAINING.md).
 
 ### Model response checks
 

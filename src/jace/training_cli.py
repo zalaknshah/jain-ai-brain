@@ -1,4 +1,4 @@
-"""Offline synthetic-only QLoRA plan/run interface. No auto-install or downloads."""
+"""Offline explicitly reviewed QLoRA plan/run interface. No downloads."""
 import argparse
 import json
 
@@ -6,10 +6,10 @@ from .training import prepare_training, run_training
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Plan or explicitly run bounded offline synthetic-only QLoRA')
-    parser.add_argument('dataset', help='Local synthetic training JSONL')
+    parser = argparse.ArgumentParser(description='Plan or explicitly run bounded offline reviewed-data QLoRA')
+    parser.add_argument('dataset', help='Local synthetic or separately reviewed Prakrit training JSONL')
     parser.add_argument('--evaluation', required=True, help='Separate held-out JSONL')
-    parser.add_argument('--dataset-manifest', required=True, help='Schema-2 synthetic-data hashes, source/translation lineage and revision-bound human review declarations')
+    parser.add_argument('--dataset-manifest', required=True, help='Schema-2 synthetic or schema-3 reviewed Prakrit provenance and revision-bound human review declarations')
     parser.add_argument('--model', required=True, help='Local built-in Llama safetensors directory, never a Hub ID')
     parser.add_argument('--model-manifest', required=True, help='Reviewed model provenance, rights and file hashes')
     parser.add_argument('--output', help='New private output directory; required to run')

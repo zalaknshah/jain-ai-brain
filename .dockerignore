@@ -59,6 +59,8 @@
 !src/jace/text.py
 !src/jace/training.py
 !src/jace/training_cli.py
+!src/jace/training_review.py
+!src/jace/training_review_cli.py
 !src/jace/training_worker.py
 !src/jace/wardrobe.py
 !src/jace/worker_accounting.py

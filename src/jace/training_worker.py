@@ -10,7 +10,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from .training import ADDRESS_BYTES, CPU_SECONDS, WALL_SECONDS, MAX_DATA_BYTES, MAX_MODEL_BYTES, FILES, _json, _read, _sha, prepare_training
+from .training import ADDRESS_BYTES, CPU_SECONDS, WALL_SECONDS, MAX_DATA_BYTES, MAX_MODEL_BYTES, MAX_DATASET_MANIFEST_BYTES, FILES, _json, _read, _sha, prepare_training
 
 
 def _limits() -> dict:
@@ -183,7 +183,8 @@ def execute(job: dict) -> dict:
         staged = {}
         for key in ('train', 'evaluation', 'dataset_manifest', 'model_manifest'):
             staged[key] = inputs / (key + '.json')
-            staged[key].write_bytes(_read(Path(job[key]), MAX_DATA_BYTES if key in ('train', 'evaluation') else 16384))
+            limit = MAX_DATASET_MANIFEST_BYTES if key == 'dataset_manifest' else (MAX_DATA_BYTES if key in ('train', 'evaluation') else 16384)
+            staged[key].write_bytes(_read(Path(job[key]), limit))
         local_model = inputs / 'model'; local_model.mkdir(mode=0o700)
         for name in FILES:
             (local_model / name).write_bytes(_read(Path(job['model']) / name, MAX_MODEL_BYTES if name.endswith('.safetensors') else MAX_DATA_BYTES))
@@ -206,7 +207,8 @@ def execute(job: dict) -> dict:
                   'train_records': len(plan['data']['train']), 'held_out_records': len(plan['data']['evaluation']),
                   'dataset_manifest_sha256': plan['data']['manifest_sha256'], 'model_manifest_sha256': plan['model']['manifest_sha256'],
                   'base_files': plan['model']['files'], 'adapter_files': artifacts,
-                  'scope': 'Synthetic-only bounded adapter experiment; no Jain reasoning, safety or corpus qualification',
+                  'scope': 'Bounded offline adapter experiment; no Jain reasoning, safety or corpus qualification',
+                  'dataset_kind': plan['data']['manifest']['data_kind'],
                   'remote_published': False}
         encoded = json.dumps(report, indent=2, allow_nan=False) + '\n'
         # Root is an exclusively created private directory. Incomplete runs lack manifest.json.

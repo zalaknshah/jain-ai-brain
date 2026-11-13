@@ -2,7 +2,7 @@
 
 The former `train_qlora.py` script only printed suggested steps. It is now an explicit preflight/run interface with dataset admission, an offline NF4/LoRA training implementation, held-out loss measurement and guarded adapter export. **Actual model training has not been validated.** The development machine has no CUDA GPU or installed Torch/Transformers/PEFT/bitsandbytes stack. Tests validate admission and orchestration with synthetic fixtures and mocks; a real capped subprocess verifies only the early missing-dependency failure path.
 
-No model weights were downloaded, dependencies installed, private conversations used, or collected Jain texts admitted. This slice accepts only datasets explicitly declared synthetic. A compatible, rights-reviewed local base checkpoint and a separately provisioned, tested GPU environment are still needed before a real run can qualify this implementation.
+No model weights were downloaded, dependencies installed, private conversations used, or collected Jain texts admitted during development. Schema 2 accepts explicitly declared synthetic fixtures; schema 3 adds a separate [Prakrit book and translation review workflow](PRAKRIT_TRAINING_REVIEW.md) with exact bytes and human rights/content/translation decisions. No real book or translation was cleared by these tests. A compatible, rights-reviewed local base checkpoint and a separately provisioned, tested GPU environment are still needed before a real run can qualify this implementation.
 
 ## Default: inspect without training
 
@@ -32,11 +32,11 @@ The separate dataset manifest requires:
 - exact `train_sha256` and `evaluation_sha256` values.
 - required `provenance` and `review` objects as described below.
 
-These are operator attestations tied to exact bytes, not independent legal, scholarly or privacy verification. The software cannot prove that falsely labeled data is synthetic. Memory exports and collected source corpora must not be relabeled to bypass this boundary. Admission of non-synthetic material remains a separate future gate requiring actual rights and content review.
+These are operator attestations tied to exact bytes, not independent legal, scholarly or privacy verification. The software cannot prove that falsely labeled data is synthetic. Memory exports and collected source corpora must not be relabeled to bypass this boundary. Prakrit books require the separate schema-3 human rights/content/translation review workflow; other non-synthetic datasets remain unsupported.
 
 ### Required source and translation lineage
 
-Schema 2 is required by the existing `admit_dataset` consumer, CLI preflight,
+Schema 2 synthetic provenance is checked by the existing `admit_dataset` consumer, CLI preflight,
 worker snapshot validation and final pre-publication recheck. It does not add
 a source-study export or permit private books to enter training. Source-study
 and source-review local-retrieval permission is not training permission.
@@ -87,11 +87,14 @@ when incompatible admission requirements change. These self-asserted metadata
 and digests are editable by any writer; they prove neither reviewer identity,
 ownership, permission nor semantic accuracy. Do not auto-approve machine output.
 
-Real Prakrit editions remain blocked: this synthetic-only path has no qualified
-edition admission, source-file byte-span proof, authenticated translator review,
-rights-chain verification or revocation service. Local retrieval review and
-repository collaboration do not supply those missing approvals. No religious
-corpus or model is included or released by these fixtures.
+Real Prakrit editions remain blocked from schema 2. The separate schema-3
+[training review workflow](PRAKRIT_TRAINING_REVIEW.md) requires exact original
+book hashes and spans plus explicit rights, qualified content and translation
+review. It retains whole books privately; only approved rows enter optimization.
+Authenticated review, rights-chain verification and central revocation remain
+unimplemented. Local retrieval review and repository collaboration alone do not
+provide training approvals. No religious corpus or model is included or released
+by these fixtures.
 
 Duplicate IDs and Unicode-normalized, case-folded, whitespace-normalized duplicate prompts are rejected across and within the splits. This catches exact normalized leakage, not paraphrases or semantic overlap. Held-out prompts never enter the optimization loop. Any response-token loss is diagnostic only; no improvement in quality, factuality or safety is inferred.
 
