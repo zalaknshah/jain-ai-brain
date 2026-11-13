@@ -56,3 +56,39 @@ explicitly redirects stdout. It cannot discover undeclared omitted cases.
 annotations do not establish doctrinal accuracy, expert identity, general Jain
 reasoning, robot safety, complete coverage or fitness for deployment. This slice
 was tested with original synthetic records, not Agamas or a newly trained model.
+
+## Paired baseline versus candidate comparison
+
+Use `python scripts/evaluate_source_answers.py --compare comparison.json` for a
+local file containing exactly `cases`, `baseline`, and `candidate`. Both runs
+contain `outputs` and optional `reviews` in the formats above. One shared case
+list prevents silently comparing different source passages or questions. This
+command inspects saved answers; it does not generate or train them.
+
+Every declared case appears in both reports and in `pairs`, including generation
+failures and unreviewed answers. `coverage` reports paired outputs and paired
+reviews against that fixed denominator. `loss_counts` surfaces individual losses
+of output, mechanical acceptance, citation requirement, or a supplied supported
+annotation, even when another case improves. These counts overlap and must not be
+summed as independent failures. Losing a supported annotation can mean a missing
+review, not proven semantic degradation; inspect the annotation transition and
+per-case results. Human annotation transitions are descriptive, not verified
+quality scores. There is deliberately no automatic winner or promotion decision.
+
+`declared_case_set_sha256` binds the full shared question/source/requirement set,
+independent of case list order. Keep the original comparison input locally: the
+hash does not establish that the set was frozen before training, is independent
+of training, is complete, or represents the full Jain canon. Use a separately
+held-out, predeclared evaluation set to assess model changes. Reviews remain bound
+to the exact raw answer in their own run; reusing a baseline review for a changed
+candidate is rejected. Identical outputs may legitimately share a review binding.
+
+### Paired-comparison verification (2026-11-13)
+
+On the saved-answer evaluator baseline `e4398ee`, the comparison addition passed
+24 focused source-answer tests (12 new paired tests), the existing 8-case reference
+evaluation, and the full unittest run: 833 discovered, 779 passed, 54 optional tests
+skipped. Synthetic tests cover missing outputs, offsetting gains/losses, missing
+or changed reviews, stale bindings, schema rejection, case-set identity, text
+redaction, and CLI mode selection. These are local code checks, not independent
+scholarly review, model training, broad Jain reasoning or robot qualification.

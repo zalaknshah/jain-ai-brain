@@ -106,3 +106,50 @@ def evaluate_source_answers(cases, outputs, reviews=None):
             'complete_review_coverage': len(reviews) == len(rows),
             'semantic_quality_verified': False, 'runtime_admitted': False,
             'cases': rows, 'scope': SCOPE}
+
+
+def compare_source_answers(cases, baseline, candidate):
+    """Paired, offline comparison using exactly one common declared case set.
+
+    Each run contains outputs and optional reviews. This deliberately accepts raw
+    inputs, not summary reports, so mismatched cases cannot silently be joined.
+    Changes in supplied human verdicts are not independently verified gains.
+    """
+    for run in (baseline, candidate):
+        if not isinstance(run, dict) or set(run) not in ({'outputs'}, {'outputs', 'reviews'}):
+            raise ValueError('each run requires outputs and optional reviews only')
+    before = evaluate_source_answers(cases, baseline['outputs'], baseline.get('reviews'))
+    after = evaluate_source_answers(cases, candidate['outputs'], candidate.get('reviews'))
+    pairs = []
+    for left, right in zip(before['cases'], after['cases']):
+        pairs.append({
+            'id': left['id'],
+            'baseline': left,
+            'candidate': right,
+            'output_lost': left['mechanical'] != 'missing' and right['mechanical'] == 'missing',
+            'mechanical_acceptance_lost': left['mechanical'] == 'accepted' and right['mechanical'] != 'accepted',
+            'citation_requirement_lost': left['citation_requirement_met'] and not right['citation_requirement_met'],
+            'supported_annotation_lost': left['human_verdict'] == 'supported' and right['human_verdict'] != 'supported',
+        })
+    # Canonical ordering makes the declared-case binding independent of list order,
+    # while any change in a question, source or requirement changes the binding.
+    case_set_hash = _digest(sorted(cases, key=lambda case: case['id']))
+    transitions = {}
+    for pair in pairs:
+        left = pair['baseline']['human_verdict'] or 'unreviewed'
+        right = pair['candidate']['human_verdict'] or 'unreviewed'
+        key = left + '_to_' + right
+        transitions[key] = transitions.get(key, 0) + 1
+    return {
+        'case_count': len(cases), 'declared_case_set_sha256': case_set_hash,
+        'baseline': before, 'candidate': after, 'pairs': pairs,
+        'coverage': {
+            'paired_outputs': sum(p['baseline']['mechanical'] != 'missing' and p['candidate']['mechanical'] != 'missing' for p in pairs),
+            'paired_reviews': sum(p['baseline']['human_verdict'] is not None and p['candidate']['human_verdict'] is not None for p in pairs),
+        },
+        'loss_counts': {key: sum(p[key] for p in pairs) for key in (
+            'output_lost', 'mechanical_acceptance_lost', 'citation_requirement_lost', 'supported_annotation_lost')},
+        'human_annotation_transitions': transitions,
+        'semantic_quality_verified': False, 'runtime_admitted': False,
+        'winner_selected': False, 'scope': SCOPE,
+    }
