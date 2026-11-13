@@ -73,6 +73,53 @@ def prepare(source: bytes, specification: dict) -> dict:
             'public_release_approved': False, 'scope': SCOPE}
 
 
+
+def prepare_with_scans(source: bytes, specification: dict, scans: dict, bindings: dict) -> dict:
+    """Bind supplied scan bytes to every span; never attest visual correspondence.
+
+    Scans map stable IDs to bytes. Bindings map span IDs to scan_id, sha256,
+    locator, source_url. This function performs no filesystem or network IO.
+    """
+    packet = prepare(source, specification)
+    if not isinstance(scans, dict) or not 1 <= len(scans) <= 64:
+        raise ValueError('one to 64 scan inputs required')
+    for identity, data in scans.items():
+        if not isinstance(identity, str) or not re.fullmatch('[A-Za-z0-9_-]{1,80}', identity):
+            raise ValueError('invalid scan ID')
+        if not isinstance(data, bytes) or not 0 < len(data) <= 8 * 1024 * 1024:
+            raise ValueError('invalid scan bytes')
+    if sum(map(len, scans.values())) > 32 * 1024 * 1024:
+        raise ValueError('aggregate scans exceed limit')
+    if not isinstance(bindings, dict) or set(bindings) != {t['id'] for t in packet['tasks']}:
+        raise ValueError('exactly one scan binding per source span required')
+    used = set()
+    for task in packet['tasks']:
+        binding = bindings[task['id']]
+        if not isinstance(binding, dict) or set(binding) != {'scan_id', 'sha256', 'locator', 'source_url'}:
+            raise ValueError('invalid scan binding fields')
+        for value in binding.values():
+            if not isinstance(value, str) or not value.strip() or len(value) > 4000:
+                raise ValueError('invalid scan binding text')
+            value.encode('utf-8', errors='strict')
+        scan_id = binding['scan_id']
+        if scan_id not in scans or hashlib.sha256(scans[scan_id]).hexdigest() != binding['sha256']:
+            raise ValueError('scan bytes or digest mismatch')
+        used.add(scan_id)
+        # Copy declarations: later caller mutations must not invalidate evidence.
+        evidence = {'source_binding_sha256': task['source_binding_sha256'],
+                    'scan': dict(binding)}
+        task['scan_evidence'] = evidence
+        task['scan_binding_sha256'] = digest(evidence)
+        task['source_review']['scan_correspondence'] = 'pending'
+    if used != set(scans):
+        raise ValueError('unreferenced scan input')
+    packet['format'] = 'jace-private-scan-linked-translation-work-v1'
+    packet['scan_scope'] = ('Byte identity only. Inputs are not decoded as images; no scan/source '
+                            'correspondence, authenticity, OCR accuracy or language is verified. '
+                            'All translation slots and admission gates remain unchanged.')
+    return packet
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)

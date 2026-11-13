@@ -87,4 +87,78 @@ class TranslationPreparationTests(unittest.TestCase):
             self.assertFalse(output.exists())
 
 
+class ScanLineageTests(unittest.TestCase):
+    def setUp(self):
+        self.source = b'Synthetic page one. Synthetic page two.'
+        self.request = {'source_sha256': hashlib.sha256(self.source).hexdigest(),
+                        'metadata': {k: 'Synthetic ' + k for k in module.METADATA},
+                        'spans': [{'id': 'one', 'byte_start': 0, 'byte_end': 19, 'locator': 'page 1'},
+                                  {'id': 'two', 'byte_start': 19, 'byte_end': len(self.source), 'locator': 'page 2'}]}
+        self.scans = {'scan1': b'not an image: synthetic bytes', 'scan2': b'other synthetic bytes'}
+        self.bindings = {key: {'scan_id': scan, 'sha256': hashlib.sha256(self.scans[scan]).hexdigest(),
+                               'locator': key, 'source_url': 'https://example.invalid/' + key}
+                         for key, scan in [('one', 'scan1'), ('two', 'scan2')]}
+
+    def prepare(self):
+        return module.prepare_with_scans(self.source, self.request, self.scans, self.bindings)
+
+    def test_two_pages_remain_unreviewed(self):
+        p = self.prepare()
+        self.assertEqual(len(p['tasks']), 2)
+        for t in p['tasks']:
+            self.assertEqual(t['source_review']['scan_correspondence'], 'pending')
+            self.assertEqual(t['scan_binding_sha256'], module.digest(t['scan_evidence']))
+            self.assertTrue(all(x['draft'] is None for x in t['translations'].values()))
+        for key in ('training_admitted', 'runtime_admitted', 'public_release_approved'):
+            self.assertIs(p[key], False)
+
+    def test_source_drift_rejected(self):
+        self.source += b'x'
+        with self.assertRaises(ValueError): self.prepare()
+
+    def test_scan_drift_rejected(self):
+        self.scans['scan1'] += b'x'
+        with self.assertRaises(ValueError): self.prepare()
+
+    def test_missing_extra_binding_or_scan_rejected(self):
+        for where, key in [(self.bindings, 'one'), (self.scans, 'scan1')]:
+            old = where.pop(key)
+            with self.assertRaises(ValueError): self.prepare()
+            where[key] = old
+        self.scans['unused'] = b'x'
+        with self.assertRaises(ValueError): self.prepare()
+
+    def test_admission_injection_rejected(self):
+        self.bindings['one']['training_admitted'] = True
+        with self.assertRaises(ValueError): self.prepare()
+
+    def test_scan_bounds(self):
+        for value in (b'', bytearray(b'a'), b'x' * (8 * 1024 * 1024 + 1)):
+            self.scans['scan1'] = value
+            with self.assertRaises(ValueError): self.prepare()
+
+    def test_aggregate_scan_limit(self):
+        self.scans = {str(i): b'x' * (7 * 1024 * 1024) for i in range(5)}
+        with self.assertRaises(ValueError): self.prepare()
+
+    def test_unknown_and_extra_binding_rejected(self):
+        self.bindings['one']['scan_id'] = 'unknown'
+        with self.assertRaises(ValueError): self.prepare()
+        self.bindings['one']['scan_id'] = 'scan1'
+        self.bindings['extra'] = dict(self.bindings['one'])
+        with self.assertRaises(ValueError): self.prepare()
+
+    def test_detached_metadata_and_binding_drift(self):
+        first = self.prepare(); before = json.dumps(first, sort_keys=True)
+        self.bindings['one']['locator'] = 'changed'
+        second = self.prepare()
+        self.assertEqual(json.dumps(first, sort_keys=True), before)
+        self.assertNotEqual(first['tasks'][0]['scan_binding_sha256'], second['tasks'][0]['scan_binding_sha256'])
+
+    def test_same_scan_multiple_spans_allowed(self):
+        self.bindings['two'] = dict(self.bindings['one'])
+        del self.scans['scan2']
+        self.assertEqual(len(self.prepare()['tasks']), 2)
+
+
 if __name__ == '__main__': unittest.main()
