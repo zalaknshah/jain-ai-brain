@@ -26,12 +26,72 @@ Each JSONL record has exactly `id`, `instruction` and `response`. Both train and
 
 The separate dataset manifest requires:
 
-- `schema_version: 1` and `data_kind: "synthetic"`;
+- `schema_version: 2` and `data_kind: "synthetic"` (version 1 is rejected);
 - nonempty `source` and `license`;
 - `rights_reviewed: true`, `content_reviewed: true`, `contains_personal_data: false`;
 - exact `train_sha256` and `evaluation_sha256` values.
+- required `provenance` and `review` objects as described below.
 
 These are operator attestations tied to exact bytes, not independent legal, scholarly or privacy verification. The software cannot prove that falsely labeled data is synthetic. Memory exports and collected source corpora must not be relabeled to bypass this boundary. Admission of non-synthetic material remains a separate future gate requiring actual rights and content review.
+
+### Required source and translation lineage
+
+Schema 2 is required by the existing `admit_dataset` consumer, CLI preflight,
+worker snapshot validation and final pre-publication recheck. It does not add
+a source-study export or permit private books to enter training. Source-study
+and source-review local-retrieval permission is not training permission.
+
+`provenance` contains exactly `purpose`, `sources`, and `records`. Purpose must
+be `local_offline_training_and_evaluation`. The checked-in synthetic manifest
+is a complete example. Each source ID maps to exactly:
+
+- `kind: "original_synthetic"`, original response `text`, declared `language`;
+- nonempty `license` and `attribution`, and `rights_for_training: true`.
+
+The entire manifest remains limited to 16 KiB, including embedded originals;
+the per-split record cap does not guarantee all records fit that smaller limit.
+
+Each train/evaluation record ID must have exactly one lineage entry containing
+`split` (`train` or `evaluation`), `source_id`, `source_language`,
+`target_language`, `kind`, nonempty human `reviewer` declaration and
+`decision: "approved"`. Missing/extra entries, unknown fields or sources,
+unused originals and originals shared across splits are rejected. Sharing an
+original across translated variants cannot evade split isolation. Aliases with
+different IDs and semantic duplication are not detected.
+
+Lineage kind `original` requires the response to equal the embedded source text
+and both declared languages to match. `machine_translation` represents an
+unreviewed translation and is rejected even with approved flags.
+`human_reviewed_translation` requires distinct source and target language tags
+and explicit human review. This category may describe human translation or
+human review/correction of a machine draft; it does not identify the translating
+tool. Language tags such as `pra`, `pra-Deva`, `gu`, `hi`, and `en` have bounded
+syntax checks only. Tests use invented synthetic labels, not Prakrit passages
+or actual Gujarati/Hindi/English translations. No language identification,
+translation fidelity, instruction grounding or scholarly correctness is checked.
+
+The top-level `review` contains exactly `policy: "jace-synthetic-lineage-v1"`,
+nonempty human `reviewer` declaration, `decision: "approved"`, and
+`subject_sha256`. The digest covers canonical UTF-8 JSON of every manifest field
+except `review`, using sorted keys, no ASCII escaping, no NaN and compact
+separators. It therefore binds both split byte hashes and all lineage, rights,
+language and attribution metadata. Changed data with refreshed split hashes
+still fails until the review declaration is renewed. Obsolete policy IDs fail.
+This is revision binding, not time expiry, revocation or authenticated review.
+
+For migration, prepare complete provenance, obtain the required human rights
+and content/translation review, then record that decision and its digest using
+`jace.training.dataset_review_digest(manifest)`. The helper calculates identity
+only; calling it never conducts or grants review. The policy ID must be revised
+when incompatible admission requirements change. These self-asserted metadata
+and digests are editable by any writer; they prove neither reviewer identity,
+ownership, permission nor semantic accuracy. Do not auto-approve machine output.
+
+Real Prakrit editions remain blocked: this synthetic-only path has no qualified
+edition admission, source-file byte-span proof, authenticated translator review,
+rights-chain verification or revocation service. Local retrieval review and
+repository collaboration do not supply those missing approvals. No religious
+corpus or model is included or released by these fixtures.
 
 Duplicate IDs and Unicode-normalized, case-folded, whitespace-normalized duplicate prompts are rejected across and within the splits. This catches exact normalized leakage, not paraphrases or semantic overlap. Held-out prompts never enter the optimization loop. Any response-token loss is diagnostic only; no improvement in quality, factuality or safety is inferred.
 
@@ -58,6 +118,16 @@ The implementation uses 4-bit NF4 base loading, rank-4 LoRA on query/value proje
 Exports are limited to adapter safetensors and an adapter configuration. Base weights and tokenizer files are not exported. Local base paths are removed from adapter metadata; base identity is recorded by hashes. A new private output directory contains staged work, then a validated `adapter` directory. The completed `manifest.json` is published last via atomic replacement and is the success marker. A normal failure leaves no completed manifest and records `FAILED.json`; interrupted/killed runs may leave private incomplete staging files. Never treat those as completed adapters. Private input copies are removed on normal success or handled exceptions. No existing user output is overwritten.
 
 ## Evidence and remaining gate
+
+The 2026-11-13 schema-2 admission checkpoint passed all 30 focused training
+tests under WSL Ubuntu/Python 3.14.4, including mocked execution/export and a
+real capped missing-dependency rejection (no model training). Its 13 provenance
+tests also passed under native Windows/Python 3.10. Full discovery on an
+isolated copy with repository line endings ran 820 tests: OK, 270 skipped.
+The skipped optional/platform tests are not qualifications. SQLite resource
+warnings remained. The initial Windows-checkout aggregate had two hash errors
+in unchanged router/robot fixtures after CRLF conversion; the exact-byte copy
+passed. Input hashes intentionally do not normalize altered source bytes.
 
 Run the dependency-free tests with:
 

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "data_kind": "synthetic",
   "source": "Original repository smoke fixtures, not private memory or religious source texts.",
   "license": "MIT",
@@ -7,5 +7,103 @@
   "content_reviewed": true,
   "contains_personal_data": false,
   "train_sha256": "7574a27048a1a9453d0e84c4489425fcaf06cbce2559c0c40548bea035a2c6a4",
-  "evaluation_sha256": "98d5496f017c2a377f140114719403790327a66069a427c11ff932d5a780c8a0"
+  "evaluation_sha256": "98d5496f017c2a377f140114719403790327a66069a427c11ff932d5a780c8a0",
+  "provenance": {
+    "purpose": "local_offline_training_and_evaluation",
+    "sources": {
+      "train-alpha": {
+        "kind": "original_synthetic",
+        "text": "blue",
+        "language": "en",
+        "license": "MIT",
+        "attribution": "Original repository arbitrary-color smoke fixture; no religious source.",
+        "rights_for_training": true
+      },
+      "train-beta": {
+        "kind": "original_synthetic",
+        "text": "green",
+        "language": "en",
+        "license": "MIT",
+        "attribution": "Original repository arbitrary-color smoke fixture; no religious source.",
+        "rights_for_training": true
+      },
+      "train-gamma": {
+        "kind": "original_synthetic",
+        "text": "amber",
+        "language": "en",
+        "license": "MIT",
+        "attribution": "Original repository arbitrary-color smoke fixture; no religious source.",
+        "rights_for_training": true
+      },
+      "heldout-delta": {
+        "kind": "original_synthetic",
+        "text": "violet",
+        "language": "en",
+        "license": "MIT",
+        "attribution": "Original repository arbitrary-color smoke fixture; no religious source.",
+        "rights_for_training": true
+      },
+      "heldout-epsilon": {
+        "kind": "original_synthetic",
+        "text": "white",
+        "language": "en",
+        "license": "MIT",
+        "attribution": "Original repository arbitrary-color smoke fixture; no religious source.",
+        "rights_for_training": true
+      }
+    },
+    "records": {
+      "train-alpha": {
+        "split": "train",
+        "source_id": "train-alpha",
+        "source_language": "en",
+        "target_language": "en",
+        "kind": "original",
+        "reviewer": "Synthetic test declaration only; no scholarly reviewer authenticated",
+        "decision": "approved"
+      },
+      "train-beta": {
+        "split": "train",
+        "source_id": "train-beta",
+        "source_language": "en",
+        "target_language": "en",
+        "kind": "original",
+        "reviewer": "Synthetic test declaration only; no scholarly reviewer authenticated",
+        "decision": "approved"
+      },
+      "train-gamma": {
+        "split": "train",
+        "source_id": "train-gamma",
+        "source_language": "en",
+        "target_language": "en",
+        "kind": "original",
+        "reviewer": "Synthetic test declaration only; no scholarly reviewer authenticated",
+        "decision": "approved"
+      },
+      "heldout-delta": {
+        "split": "evaluation",
+        "source_id": "heldout-delta",
+        "source_language": "en",
+        "target_language": "en",
+        "kind": "original",
+        "reviewer": "Synthetic test declaration only; no scholarly reviewer authenticated",
+        "decision": "approved"
+      },
+      "heldout-epsilon": {
+        "split": "evaluation",
+        "source_id": "heldout-epsilon",
+        "source_language": "en",
+        "target_language": "en",
+        "kind": "original",
+        "reviewer": "Synthetic test declaration only; no scholarly reviewer authenticated",
+        "decision": "approved"
+      }
+    }
+  },
+  "review": {
+    "policy": "jace-synthetic-lineage-v1",
+    "reviewer": "Synthetic fixture author declaration; no independent rights verification",
+    "decision": "approved",
+    "subject_sha256": "6f91f11bbdfadc15e0be2644ad49cf8c406c629a2442275667a46ceb962a1152"
+  }
 }

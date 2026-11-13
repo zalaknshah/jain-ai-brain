@@ -236,6 +236,20 @@ class OfflineTrainingTests(unittest.TestCase):
         self.assertTrue((self.root/'run'/'FAILED.json').exists())
         self.assertFalse((self.root/'run'/'.inputs').exists())
 
+    def test_lineage_change_during_mock_backend_prevents_completed_export(self):
+        def backend(plan, model, stage):
+            path = self.root / 'manifest.json'
+            manifest = json.loads(path.read_bytes())
+            manifest['provenance']['sources']['train-alpha']['attribution'] = 'Changed declaration'
+            path.write_text(json.dumps(manifest))
+            return {'mock_only': True}
+        with patch.object(training_worker, '_limits', return_value={}), patch.object(training_worker, '_train_qlora', side_effect=backend), patch.dict(os.environ, {}, clear=False):
+            with self.assertRaisesRegex(ValueError, 'stale'):
+                training_worker.execute(self.job())
+        self.assertFalse((self.root/'run'/'manifest.json').exists())
+        self.assertTrue((self.root/'run'/'FAILED.json').exists())
+        self.assertFalse((self.root/'run'/'.inputs').exists())
+
     def test_actual_capped_worker_fails_without_optional_dependencies(self):
         # Real subprocess/limits and failure path, never a model-training test.
         import importlib.util

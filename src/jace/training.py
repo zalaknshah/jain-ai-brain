@@ -19,6 +19,7 @@ WALL_SECONDS = 180
 ADDRESS_BYTES = 4 * 1024**3
 CPU_SECONDS = 120
 FILES = {'config.json', 'tokenizer.json', 'model.safetensors'}
+DATASET_POLICY = 'jace-synthetic-lineage-v1'
 
 
 def _read(path: Path, limit: int) -> bytes:
@@ -65,15 +66,91 @@ def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def dataset_review_digest(manifest: dict) -> str:
+    """Bind all dataset bytes/hashes and metadata except the review itself.
+
+    This is an inert digest calculation, never approval or validation evidence.
+    """
+    subject = {key: value for key, value in manifest.items() if key != 'review'}
+    return _sha(json.dumps(subject, sort_keys=True, ensure_ascii=False,
+                           separators=(',', ':'), allow_nan=False).encode('utf-8'))
+
+
+def _admit_lineage(manifest: dict, splits: list[list[dict]]) -> None:
+    provenance = manifest['provenance']
+    if (not isinstance(provenance, dict) or set(provenance) != {'purpose', 'sources', 'records'}
+            or provenance['purpose'] != 'local_offline_training_and_evaluation'):
+        raise ValueError('explicit training/evaluation provenance purpose is required')
+    sources, records = provenance['sources'], provenance['records']
+    if not isinstance(sources, dict) or not 1 <= len(sources) <= 512 or not isinstance(records, dict):
+        raise ValueError('bounded source and per-record lineage inventories are required')
+    for source_id, source in sources.items():
+        if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', source_id):
+            raise ValueError('invalid provenance source ID')
+        if (not isinstance(source, dict) or set(source) != {'kind', 'text', 'language', 'license', 'attribution', 'rights_for_training'}
+                or source['kind'] != 'original_synthetic' or source['rights_for_training'] is not True):
+            raise ValueError('only original synthetic sources with explicit training rights declarations are admitted')
+        _text(source['text'], 'original synthetic source text')
+        _text(source['license'], 'source license', 512)
+        _text(source['attribution'], 'source attribution', 512)
+        _language(source['language'])
+    expected_ids = {row['id'] for split in splits for row in split}
+    if set(records) != expected_ids:
+        raise ValueError('lineage must cover exactly every train/evaluation record')
+    used = set()
+    source_splits = {}
+    for split_name, rows in zip(('train', 'evaluation'), splits):
+        for row in rows:
+            lineage = records[row['id']]
+            if (not isinstance(lineage, dict) or set(lineage) != {'split', 'source_id', 'source_language', 'target_language', 'kind', 'reviewer', 'decision'}
+                    or lineage['split'] != split_name or not isinstance(lineage['source_id'], str)
+                    or lineage['source_id'] not in sources):
+                raise ValueError('invalid record source/split lineage')
+            source = sources[lineage['source_id']]
+            used.add(lineage['source_id'])
+            prior_split = source_splits.setdefault(lineage['source_id'], split_name)
+            if prior_split != split_name:
+                raise ValueError('one original source cannot cross train/evaluation through translation lineage')
+            _language(lineage['source_language']); _language(lineage['target_language'])
+            if lineage['source_language'] != source['language']:
+                raise ValueError('source language does not match the declared original')
+            if lineage['kind'] == 'original':
+                if lineage['target_language'] != source['language'] or row['response'] != source['text']:
+                    raise ValueError('original response must equal the declared source text and language')
+            elif lineage['kind'] == 'human_reviewed_translation':
+                if lineage['source_language'] == lineage['target_language']:
+                    raise ValueError('translation requires distinct declared source and target languages')
+            else:
+                raise ValueError('unreviewed machine translations and unknown derivations are not admitted')
+            _text(lineage['reviewer'], 'record human reviewer declaration', 512)
+            if lineage['decision'] != 'approved':
+                raise ValueError('every record requires explicit human approval')
+    if used != set(sources):
+        raise ValueError('unreferenced provenance sources are not accepted')
+    review = manifest['review']
+    if (not isinstance(review, dict) or set(review) != {'policy', 'reviewer', 'decision', 'subject_sha256'}
+            or review['policy'] != DATASET_POLICY or review['decision'] != 'approved'):
+        raise ValueError('current admission-policy human review declaration is required')
+    _text(review['reviewer'], 'dataset human reviewer declaration', 512)
+    if review['subject_sha256'] != dataset_review_digest(manifest):
+        raise ValueError('dataset review is stale: content hashes or provenance metadata changed')
+
+
+def _language(value) -> None:
+    # Bounded language-tag syntax only; never language identification/translation.
+    if not isinstance(value, str) or not re.fullmatch(r'[a-z]{2,3}(?:-[A-Za-z0-9]{2,8}){0,3}', value):
+        raise ValueError('an explicit bounded language tag is required')
+
+
 def admit_dataset(train_path: str | Path, evaluation_path: str | Path, manifest_path: str | Path) -> dict:
     """Only explicit synthetic datasets are admitted in this initial lane."""
     raw = [_read(Path(path), MAX_DATA_BYTES) for path in (train_path, evaluation_path)]
     manifest_raw = _read(Path(manifest_path), 16384)
     manifest = _json(manifest_raw)
     required = {'schema_version', 'data_kind', 'source', 'license', 'rights_reviewed', 'content_reviewed',
-                'contains_personal_data', 'train_sha256', 'evaluation_sha256'}
-    if not isinstance(manifest, dict) or set(manifest) != required or type(manifest['schema_version']) is not int or manifest['schema_version'] != 1:
-        raise ValueError('unsupported dataset manifest schema')
+                'contains_personal_data', 'train_sha256', 'evaluation_sha256', 'provenance', 'review'}
+    if not isinstance(manifest, dict) or set(manifest) != required or type(manifest['schema_version']) is not int or manifest['schema_version'] != 2:
+        raise ValueError('dataset manifest schema 2 with reviewed per-record provenance is required')
     if manifest['data_kind'] != 'synthetic' or manifest['rights_reviewed'] is not True or manifest['content_reviewed'] is not True or manifest['contains_personal_data'] is not False:
         raise ValueError('only explicitly reviewed synthetic, non-personal data is supported; memory and collected corpora are not admitted')
     for name in ('source', 'license'):
@@ -102,6 +179,7 @@ def admit_dataset(train_path: str | Path, evaluation_path: str | Path, manifest_
         if not rows:
             raise ValueError('both training and held-out evaluation must be nonempty')
         splits.append(rows)
+    _admit_lineage(manifest, splits)
     return {'train': splits[0], 'evaluation': splits[1], 'manifest': manifest,
             'manifest_sha256': _sha(manifest_raw)}
 

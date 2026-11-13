@@ -9,7 +9,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description='Plan or explicitly run bounded offline synthetic-only QLoRA')
     parser.add_argument('dataset', help='Local synthetic training JSONL')
     parser.add_argument('--evaluation', required=True, help='Separate held-out JSONL')
-    parser.add_argument('--dataset-manifest', required=True, help='Reviewed synthetic-data attestations and hashes')
+    parser.add_argument('--dataset-manifest', required=True, help='Schema-2 synthetic-data hashes, source/translation lineage and revision-bound human review declarations')
     parser.add_argument('--model', required=True, help='Local built-in Llama safetensors directory, never a Hub ID')
     parser.add_argument('--model-manifest', required=True, help='Reviewed model provenance, rights and file hashes')
     parser.add_argument('--output', help='New private output directory; required to run')
