@@ -68,3 +68,18 @@ PYTHONPATH=src python -m unittest discover -s tests -p test_training.py -v
 Successful worker/export flow tests explicitly mock training and export verification. The inert safetensors header fixture in tests is not a compatible base model and is never passed to a real ML loader. No real gradients, GPU quantization, optimizer compatibility, learned answers, convergence, adapter reload or model-quality evaluation have been demonstrated. A genuine run plus independent artifact reload and held-out behavior evaluation remain required. Until then, this is a guarded implementation awaiting backend qualification, not a working trained JACE model.
 
 Implementation references: [PEFT quantization guide](https://huggingface.co/docs/peft/developer_guides/quantization), [Transformers offline loading](https://huggingface.co/docs/transformers/main/installation#offline-mode), and [Transformers artifact security guidance](https://github.com/huggingface/transformers/blob/main/SECURITY.md). The installed dependency versions must be selected and qualified together in the eventual training environment; none is silently installed by this tool.
+
+### Exact tokenized split collisions
+
+The worker checks the actual encoded prompt sequences before loading the model.
+Different text can become the same model input through tokenizer normalization or
+unknown tokens. Such a collision, within either split or between training and
+held-out evaluation, now rejects the experiment even if the answers differ.
+Encoded prompt and response token IDs must also lie within the model vocabulary.
+Answer tokens and EOS still contribute to loss; prompt tokens remain masked, and
+examples exceeding the sequence budget are rejected rather than truncated.
+
+These are exact token-input checks, not a semantic independence test. Paraphrases,
+related source passages, reused answer templates and broader dataset contamination
+still require separate evaluation design. No new model was trained or qualified by
+this change. Validation uses a synthetic tokenizer and no optional ML packages.

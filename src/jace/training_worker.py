@@ -22,6 +22,37 @@ def _limits() -> dict:
             'file_bytes': resource.getrlimit(resource.RLIMIT_FSIZE)[0]}
 
 
+def encode_training_splits(plan: dict, tokenizer, eos_token_id: int, vocab_size: int):
+    """Validate actual model inputs before allocation; never truncate or hide collisions.
+
+    Text-level split checks cannot detect unknown-token or tokenizer-normalizer
+    collisions. This check compares the complete prompt token sequence, not the
+    answer, so different answers cannot conceal train/evaluation prompt leakage.
+    It detects exact token collisions only, not paraphrases or semantic leakage.
+    """
+    seen_prompts = set()
+    splits = []
+    for split in ('train', 'evaluation'):
+        examples = []
+        for row in plan['data'][split]:
+            prompt = tokenizer.encode('Instruction:\n' + row['instruction'] + '\nResponse:\n', add_special_tokens=False)
+            answer = tokenizer.encode(row['response'], add_special_tokens=False)
+            if not isinstance(prompt, list) or not isinstance(answer, list) or not prompt or not answer:
+                raise ValueError('each example must contain prompt and response tokens')
+            if any(type(token) is not int or not 0 <= token < vocab_size for token in prompt + answer):
+                raise ValueError('encoded token IDs exceed model vocabulary')
+            key = tuple(prompt)
+            if key in seen_prompts:
+                raise ValueError('duplicate tokenized prompt across/within training and evaluation splits')
+            seen_prompts.add(key)
+            ids = prompt + answer + [eos_token_id]
+            if len(ids) > plan['sequence_length']:
+                raise ValueError('example exceeds token budget; no automatic truncation')
+            examples.append((ids, [-100] * len(prompt) + answer + [eos_token_id]))
+        splits.append(examples)
+    return tuple(splits)
+
+
 def _train_qlora(plan: dict, model_path: Path, stage: Path) -> dict:
     try:
         import torch
@@ -45,18 +76,7 @@ def _train_qlora(plan: dict, model_path: Path, stage: Path) -> dict:
         raise ValueError('tokenizer IDs exceed model vocabulary')
     if type(config.eos_token_id) is not int or not 0 <= config.eos_token_id < config.vocab_size:
         raise ValueError('one valid EOS token ID is required')
-    # Encode every example before allocating the model; never silently truncate answers.
-    def encode(row):
-        prompt = tokenizer.encode('Instruction:\n' + row['instruction'] + '\nResponse:\n', add_special_tokens=False)
-        answer = tokenizer.encode(row['response'], add_special_tokens=False)
-        if not prompt or not answer:
-            raise ValueError('each example must contain prompt and response tokens')
-        ids = prompt + answer + [config.eos_token_id]
-        if len(ids) > plan['sequence_length']:
-            raise ValueError('example exceeds token budget; no automatic truncation')
-        return ids, [-100] * len(prompt) + answer + [config.eos_token_id]
-    train = [encode(row) for row in plan['data']['train']]
-    evaluation = [encode(row) for row in plan['data']['evaluation']]
+    train, evaluation = encode_training_splits(plan, tokenizer, config.eos_token_id, config.vocab_size)
     model, loading = LlamaForCausalLM.from_pretrained(
         str(model_path), config=config, local_files_only=True, trust_remote_code=False,
         use_safetensors=True, output_loading_info=True, device_map={'': 0}, torch_dtype=torch.float16,
