@@ -8,7 +8,8 @@ LANGUAGES = ('en', 'gu', 'hi', 'pra', 'other', 'mixed', 'none', 'undeclared')
 def _bucket(evidence):
     if not evidence:
         return 'none'
-    declared = {entry.get('language') for entry in evidence}
+    declared = {('pra' if entry.get('language') in ('pra', 'pra-Deva', 'pra-Latn')
+                 else entry.get('language')) for entry in evidence}
     if len(declared) != 1:
         return 'mixed'
     value = next(iter(declared))

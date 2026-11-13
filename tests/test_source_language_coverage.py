@@ -54,6 +54,16 @@ class LanguageCoverageTests(unittest.TestCase):
                 'review_binding_sha256': '0'*64, 'verdict': 'supported',
                 'reviewer': 'test', 'rationale': 'test'}})
 
+    def test_mixed_prakrit_scripts_share_language_bucket(self):
+        case, _ = fixture('pra-Deva')
+        extra = copy.deepcopy(case['evidence'][0])
+        extra['entry_id'] = 'second'
+        extra['language'] = 'pra-Latn'
+        case['evidence'].append(extra)
+        result = evaluate_source_language_coverage([case], {})
+        self.assertEqual(result['source_language_groups']['pra']['case_count'], 1)
+        self.assertEqual(result['source_language_groups']['mixed']['case_count'], 0)
+
     def test_omitted_language_is_not_claimed_as_declared_english(self):
         case, output = fixture('en')
         del case['evidence'][0]['language']
