@@ -314,6 +314,71 @@ class PrakritTrainingReviewTests(unittest.TestCase):
         self.assertTrue(report['metrics']['mock_only'])
 
 
+class ExactPassageSplitTests(unittest.TestCase):
+    """Pure synthetic provenance tests, including native platforms without safe IO."""
+    def fixture(self, separate_book=True, translated=False, second_text=None):
+        text = 'Invented café α fixture.'
+        second_text = text if second_text is None else second_text
+        originals = [text + '\nfirst edition', 'second edition\n' + second_text]
+        if not separate_book:
+            originals = [text + '\n' + second_text]
+        books = {}
+        for original in originals:
+            digest = hashlib.sha256(original.encode()).hexdigest()
+            books[digest] = dict(text=original, language='pra', **{key: 'Synthetic declaration'
+                for key in ('work', 'edition', 'source', 'license', 'attribution', 'rights_evidence')})
+        digests = list(books)
+        records = {}
+        for index, split in enumerate(('train', 'evaluation')):
+            digest = digests[min(index, len(digests)-1)]
+            raw = books[digest]['text'].encode()
+            excerpt = text if index == 0 else second_text
+            start = raw.index(excerpt.encode()) if index == 0 else raw.rindex(excerpt.encode())
+            key = 'example' + str(index)
+            records[key] = dict(row=dict(id=key, instruction='Distinct prompt ' + key,
+                response=('Distinct translation ' + key) if translated else excerpt),
+                split=split, book_sha256=digest, start=start, end=start+len(excerpt.encode()),
+                source_text=excerpt, target_language=('gu' if index == 0 else 'hi') if translated else 'pra',
+                origin='machine_translation' if translated else 'original',
+                **{field: 'Synthetic declaration' if translated else '' for field in
+                    ('translator', 'translation_license', 'translation_attribution', 'translation_rights_evidence')})
+        return dict(purpose=tr.PURPOSE, books=books, records=records)
+
+    def test_same_passage_in_different_editions_is_not_held_out(self):
+        for translated in (False, True):
+            for reverse in (False, True):
+                with self.subTest(translated=translated, reverse=reverse):
+                    value = self.fixture(translated=translated)
+                    if reverse:
+                        value['records'] = dict(reversed(list(value['records'].items())))
+                    with self.assertRaisesRegex(ValueError, 'identical original passages'):
+                        tr.review_template(value)
+
+    def test_same_passage_at_disjoint_offsets_is_not_held_out(self):
+        with self.assertRaisesRegex(ValueError, 'identical original passages'):
+            tr.review_template(self.fixture(separate_book=False))
+
+    def test_translations_of_same_passage_may_share_one_split(self):
+        value = self.fixture(translated=True)
+        value['records']['example1']['split'] = 'train'
+        report = tr.review_template(value)
+        self.assertEqual(len(report['records']), 2)
+        self.assertTrue(all(item['content']['decision'] == 'pending' for item in report['records'].values()))
+
+    def test_distinct_passages_and_unicode_variants_are_not_semantic_checks(self):
+        for text in ('Different invented fixture.', 'Invented cafe\u0301 α fixture.'):
+            tr.review_template(self.fixture(second_text=text))
+
+    def test_training_consumer_rechecks_old_duplicate_exports_before_receipts(self):
+        manifest = dict(schema_version=3, data_kind='reviewed_prakrit',
+            rights_reviewed=True, content_reviewed=True, contains_personal_data=False,
+            source='Synthetic', license='Synthetic', train_sha256='0'*64,
+            evaluation_sha256='0'*64, provenance=self.fixture(translated=True), review={})
+        with patch.object(tr, '_selected', side_effect=AssertionError('must reject before review receipts')):
+            with self.assertRaisesRegex(ValueError, 'identical original passages'):
+                tr.validate_admitted(manifest, [[], []])
+
+
 class UnsupportedTrainingReviewTests(unittest.TestCase):
     def test_unsupported_platform_fails_before_private_reads(self):
         with patch.object(sb, '_safe_io_missing', return_value=['posix_os']), patch.object(tr, 'read_json', side_effect=AssertionError('no private read')):
