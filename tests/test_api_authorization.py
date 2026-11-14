@@ -102,6 +102,28 @@ class ApiAuthorizationTests(unittest.TestCase):
         self.assertEqual(self.request('/v1/think', 'POST', {'input':None}, ALICE_TOKEN)[0], 400)
         self.assertEqual(self.request('/v1/memory', 'POST', {'content':'x'*70000}, ALICE_TOKEN)[0], 400)
 
+    def test_canonical_search_rejects_ambiguous_and_unsupported_queries(self):
+        from unittest.mock import patch
+        paths = [
+            '/v1/canonical/search?q=quiet&q=harm',
+            '/v1/canonical/search?q=&q=quiet',
+            '/v1/canonical/search?q=quiet&unexpected=ignored',
+            '/v1/canonical/search;ignored?q=quiet',
+            '/v1/canonical/search?' + '&'.join('q=quiet' for _ in range(13)),
+        ]
+        with patch.object(self.engine.canonical, 'search') as search:
+            for path in paths:
+                with self.subTest(path=path):
+                    self.assertEqual(self.request(path, token=ALICE_TOKEN)[0], 400)
+            search.assert_not_called()
+
+    def test_canonical_search_preserves_single_and_empty_queries(self):
+        from unittest.mock import patch
+        with patch.object(self.engine.canonical, 'search', return_value=[]) as search:
+            for suffix, expected in [('?q=quiet+rooms', 'quiet rooms'), ('?q=', ''), ('', '')]:
+                self.assertEqual(self.request('/v1/canonical/search' + suffix, token=ALICE_TOKEN)[0], 200)
+                search.assert_called_with(expected)
+
     def test_configuration_errors_do_not_echo_tokens(self):
         for value in ['{', '[]', '{"secret":"alice"}', '{"'+ ALICE_TOKEN +'":null}']:
             with self.subTest(value_type=type(value).__name__):

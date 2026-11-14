@@ -292,7 +292,7 @@ class JaceHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == '/v1/canonical/search':
             try:
-                query = parse_qs(parsed.query).get('q', [''])[0]
+                query = self._scope_query(parsed, {'q'}).get('q', '')
                 self._send(200, {'entries': [item.to_dict() for item in self.engine.canonical.search(query)]})
             except ValueError as error:
                 self._send(400, {'error': str(error)})
