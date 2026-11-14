@@ -205,6 +205,26 @@ class HttpModelBoundaryTests(unittest.TestCase):
         finally:
             server.shutdown();server.server_close();thread.join()
 
+    def test_engine_detaches_validated_action_from_reasoner_owned_parameters(self):
+        with tempfile.TemporaryDirectory() as directory:
+            parameters = {'route': {'waypoints': ['start', 'finish']}, 'speed': 1.0}
+            proposal = ActionProposal('propose_safe_navigation', parameters)
+            reasoner = Mock()
+            reasoner.respond.return_value = ('Synthetic bounded response.', proposal)
+            engine = CognitiveEngine(db_path=Path(directory)/'db', reasoner=reasoner)
+            try:
+                result = engine.think('synthetic', 'Hello')
+                expected = result.action.to_dict()
+                parameters['route']['waypoints'].append('changed after validation')
+                parameters['speed'] = float('nan')
+                parameters['oversized'] = 'x' * 5000
+                self.assertEqual(result.action.to_dict(), expected)
+                self.assertIsNot(result.action, proposal)
+                json.dumps(result.to_dict(), allow_nan=False)
+                self.assertTrue(result.action.requires_confirmation)
+            finally:
+                engine.close()
+
     def test_engine_rejects_malformed_custom_output_and_ungated_actions(self):
         bad=[(None,None),('',None),('x'*32769,None),('Synthetic valid answer',{'execute':True}),
              ('Synthetic valid answer',ActionProposal('move',{},False)),

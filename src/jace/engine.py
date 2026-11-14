@@ -5,6 +5,7 @@ import json
 import re
 import uuid
 from contextlib import contextmanager
+from dataclasses import asdict
 from functools import wraps
 from threading import RLock
 from pathlib import Path
@@ -124,6 +125,9 @@ class CognitiveEngine:
             if action is not None:
                 if not isinstance(action, ActionProposal) or action.requires_confirmation is not True or not isinstance(action.parameters, dict):
                     raise ValueError('reasoner actions must remain explicit confirmation-gated proposals')
+                # Validate and return the same detached snapshot. A frozen
+                # dataclass alone does not freeze its caller-owned nested dict.
+                action = ActionProposal(**asdict(action))
                 checked_text(action.action, 'action name', 128)
                 if len(json.dumps(action.to_dict(), allow_nan=False).encode()) > 4096:
                     raise ValueError('action proposal exceeds size limit')
