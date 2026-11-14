@@ -124,6 +124,21 @@ class ApiAuthorizationTests(unittest.TestCase):
                 self.assertEqual(self.request('/v1/canonical/search' + suffix, token=ALICE_TOKEN)[0], 200)
                 search.assert_called_with(expected)
 
+    def test_sensor_integer_overflow_returns_halt_not_internal_error(self):
+        for observation in ({'distance_m': 10**400}, {'distance_m': 3, 'uncertainty': -(10**400)}):
+            status, body, _ = self.request('/v1/simulate/motion', 'POST',
+                                           {'observation': observation}, ALICE_TOKEN)
+            self.assertEqual(status, 200)
+            self.assertEqual(body['decision']['action'], 'HALT_AND_REROUTE')
+            self.assertEqual(body['decision']['velocity'], 0)
+            self.assertFalse(body['decision']['executable'])
+            self.assertTrue(body['decision']['requires_confirmation'])
+        status, body, _ = self.request('/v1/simulate/motion', 'POST',
+                                       {'observation': {'distance_m': 3}}, ALICE_TOKEN)
+        self.assertEqual(status, 200)
+        self.assertEqual(body['decision']['action'], 'PROCEED_SLOWLY')
+        self.assertFalse(body['decision']['executable'])
+
     def test_configuration_errors_do_not_echo_tokens(self):
         for value in ['{', '[]', '{"secret":"alice"}', '{"'+ ALICE_TOKEN +'":null}']:
             with self.subTest(value_type=type(value).__name__):

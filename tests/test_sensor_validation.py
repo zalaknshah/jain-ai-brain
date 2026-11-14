@@ -18,6 +18,14 @@ class SensorValidationTests(unittest.TestCase):
                 self.assertFalse(decision.executable)
                 self.assertTrue(decision.requires_confirmation)
 
+    def test_integer_sensor_overflow_returns_unknown_halt(self):
+        for field in ('distance_m', 'uncertainty'):
+            for value in (10**400, -(10**400)):
+                with self.subTest(field=field, sign=value > 0):
+                    observation = {'distance_m': 3, 'uncertainty': 0}
+                    observation[field] = value
+                    self.assertEqual(decide_motion(observation), decide_motion({}))
+
     def test_valid_clear_path_remains_proposal_only(self):
         decision = decide_motion({'distance_m':3.0,'living_entity':False,'fragile_object':False,'uncertainty':0.1})
         self.assertEqual(decision.action,'PROCEED_SLOWLY')

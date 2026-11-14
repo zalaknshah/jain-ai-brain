@@ -36,8 +36,12 @@ def decide_motion(observation: dict[str, Any]) -> SimulationDecision:
     if (isinstance(raw_distance, bool) or not isinstance(raw_distance, (int, float))
             or isinstance(raw_uncertainty, bool) or not isinstance(raw_uncertainty, (int, float))):
         return unknown()
-    distance = float(raw_distance)
-    uncertainty = float(raw_uncertainty)
+    try:
+        distance = float(raw_distance)
+        uncertainty = float(raw_uncertainty)
+    except OverflowError:
+        # JSON integers can be finite but outside the float sensor range.
+        return unknown()
     if not math.isfinite(distance) or distance < 0 or not math.isfinite(uncertainty) or not 0 <= uncertainty <= 1:
         return unknown()
     living = observation.get("living_entity", False)
