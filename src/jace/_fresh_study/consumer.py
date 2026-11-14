@@ -160,6 +160,24 @@ def _literal_locations(record, query):
             'interpretation': 'literal_match_not_semantic_support'}
 
 
+def _pending_review_item(record):
+    domains = []
+    if record['citation_status'] in ('incomplete_or_unsupported_identifier_syntax',
+                                     'missing_or_unrecognized_identifier'):
+        domains.append('edition_citation_identity')
+    if record['category'] == 'quotation_markup':
+        domains.extend(('quotation_language', 'quotation_speaker_and_source',
+                        'quotation_relation_to_commentary'))
+    if not domains:
+        return None
+    return {'record_id': record['id'], 'xml_id': record['source_xml_id'],
+        'xml_path': record['source_xml_path'], 'parsed_text_sha256': record['parsed_text_sha256'],
+        'category': record['category'], 'inherited_language_not_verified': record['inherited_xml_lang'],
+        'containing_record_ids': record['containing_record_ids'],
+        'required_review_domains': domains, 'status': 'pending', 'reviewer': None,
+        'evidence': None, 'scholarly_verified': False, 'training_admitted': False}
+
+
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
             xml_id=None, before=0, after=0, reviewed_noncandidates=False,
             query=None, limit=None, offset=None, xml_ids=None, category=None, required_terms=None):
@@ -184,7 +202,7 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
     if (type(before) is not int or type(after) is not int or
             not 0 <= before <= MAX_CONTEXT or not 0 <= after <= MAX_CONTEXT):
         raise ConsumerError('Context bounds must be integers from zero through eight')
-    if operation not in ('inventory', 'lookup', 'search', 'browse', 'select'):
+    if operation not in ('inventory', 'lookup', 'search', 'browse', 'select', 'review_queue'):
         raise ConsumerError('Unsupported operation')
     if category is not None:
         if operation not in ('search', 'browse') or type(category) is not str or category not in CATEGORIES:
@@ -202,7 +220,7 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
         raise ConsumerError('Inventory does not accept lookup or disclosure options')
     if operation == 'lookup' and (type(xml_id) is not str or not xml_id or len(xml_id) > 256):
         raise ConsumerError('An exact bounded XML ID is required')
-    if operation not in ('search', 'browse') and (query is not None or limit is not None or offset is not None):
+    if operation not in ('search', 'browse', 'review_queue') and (query is not None or limit is not None or offset is not None):
         raise ConsumerError('Search options require the search operation')
     if required_terms is not None:
         if (operation != 'search' or type(required_terms) is not list or
@@ -218,10 +236,12 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 any(ord(c) < 32 or 127 <= ord(c) <= 159 or 0xD800 <= ord(c) <= 0xDFFF for c in query) or
                 type(limit) is not int or not 1 <= limit <= 8):
             raise ConsumerError('Search requires a bounded literal query and integer limit one through eight')
-    if operation == 'browse' and (xml_id is not None or before or after or query is not None or
+    if operation == 'review_queue' and not reviewed_noncandidates:
+        raise ConsumerError('Review queue requires separate explicit review opt-in')
+    if operation in ('browse', 'review_queue') and (xml_id is not None or before or after or query is not None or
             type(limit) is not int or not 1 <= limit <= 8 or offset is None):
         raise ConsumerError('Browse requires explicit offset and limit without lookup/search options')
-    if operation in ('search', 'browse'):
+    if operation in ('search', 'browse', 'review_queue'):
         if offset is None:
             offset = 0
         if type(offset) is not int or not 0 <= offset <= fresh.MAX_RECORDS:
@@ -254,6 +274,20 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 'parser_contract': manifest['parser_contract'],
                 'change_notice': fresh.CHANGE_NOTICE,
             }
+            if operation == 'review_queue':
+                items = [_pending_review_item(json.loads(line)) for line in raw['records.jsonl'].splitlines()]
+                items = [item for item in items if item is not None]
+                if offset > len(items):
+                    raise ConsumerError('Page offset exceeds the pending review queue')
+                end = min(offset + limit, len(items))
+                result.update(review_items=items[offset:end], total_count=len(items),
+                    offset=offset, limit=limit, next_offset=end if end < len(items) else None,
+                    truncated=end < len(items), reviewed_noncandidates=True,
+                    queue_scope='selected_citation_and_quotation_flags_not_all_review_requirements',
+                    review_status='pending_not_a_decision_or_admission',
+                    reviewer_identity_authenticated=False,
+                    attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
+                    accession_notice=raw['accession.json'].decode('utf-8'))
             if operation == 'select':
                 records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
                 selected = []

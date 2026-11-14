@@ -36,7 +36,7 @@ def run_request(raw, *, bundle_directory, confirmed=False,
                 expected.add('offset')
         elif req.get('operation') == 'select':
             expected = {'operation', 'pins', 'declaration', 'xml_ids'}
-        elif req.get('operation') == 'browse':
+        elif req.get('operation') in ('browse', 'review_queue'):
             expected = {'operation', 'pins', 'declaration', 'offset', 'limit'}
         else:
             expected = {'operation', 'pins', 'declaration', 'xml_id'}
@@ -63,7 +63,7 @@ def run_request(raw, *, bundle_directory, confirmed=False,
         elif req['operation'] == 'lookup':
             if not allow_local_disclosure or type(req['xml_id']) is not str or not 0 < len(req['xml_id']) <= 256:
                 raise ValueError()
-        elif req['operation'] in ('search', 'browse', 'select'):
+        elif req['operation'] in ('search', 'browse', 'select', 'review_queue'):
             if not allow_local_disclosure:
                 raise ValueError()
         else:
