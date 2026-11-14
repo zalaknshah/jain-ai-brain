@@ -1,0 +1,17 @@
+{
+  "created_at_utc": "2026-11-14T02:45:03.780002+00:00",
+  "sha256": "5d4184d9b477bfc43c17c3b227819b74129e52f89dbe55723ac19d15ac70bbfd",
+  "file": "heldout.json",
+  "rows": 36,
+  "matched_language_families": 12,
+  "supported": 18,
+  "unsupported": 18,
+  "model_protocol_sha256_received_before_authoring": "b8a9086cc92d1c8fe1c6ec350a9bf42006cef265f0d2da51233d4ff9d23521f1",
+  "limitations": [
+    "Original assistant-authored synthetic cases and translations; no scholarly or native-speaker validation.",
+    "Author knew prior experiment and centering outcomes, but did not inspect new train/dev data or previous heldout files during this assignment.",
+    "Training data and runner freeze pending; contents withheld from model author until confirmation.",
+    "Labels are advisory-routing expectations, not exhaustive ethics, general Jain reasoning, or robot safety qualification.",
+    "No private corpus used. No tuning on this set."
+  ]
+}

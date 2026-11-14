@@ -1,0 +1,1203 @@
+{
+  "scope": "Unchanged earlier raw and centered six-class heads on the same new independent test, trained/calibrated on their original train/dev only. No test tuning. New seven-class system also changes dataset richness; not an isolated causal ablation.",
+  "dataset_sha256": {
+    "old_train": "c1fcc7fb4925bccd645afcba2dc42a56d633fdd7b6d7593b7d610e50071b1b41",
+    "old_dev": "59f9f965f61546407af629c77157b9f98a2a9d1af21614d2e325ccce4cda092f",
+    "fresh_heldout": "5d4184d9b477bfc43c17c3b227819b74129e52f89dbe55723ac19d15ac70bbfd"
+  },
+  "methods": {
+    "old_raw": {
+      "dev_cutoff": [
+        0.3,
+        0.1
+      ],
+      "dev": {
+        "overall": {
+          "total": 27,
+          "known": 18,
+          "correct_known_accepts": 14,
+          "wrong_known_accepts": 0,
+          "unsupported_false_accepts": 0,
+          "abstentions": 13,
+          "correct_decisions": 23
+        },
+        "per_language": {
+          "en": {
+            "total": 9,
+            "known": 6,
+            "correct_known_accepts": 6,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 3,
+            "correct_decisions": 9
+          },
+          "hi": {
+            "total": 9,
+            "known": 6,
+            "correct_known_accepts": 4,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 5,
+            "correct_decisions": 7
+          },
+          "gu": {
+            "total": 9,
+            "known": 6,
+            "correct_known_accepts": 4,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 5,
+            "correct_decisions": 7
+          }
+        },
+        "predictions": [
+          {
+            "id": "dev-noninjury-en",
+            "language": "en",
+            "expected": "noninjury",
+            "selected": "noninjury",
+            "score": 0.4088744524981821,
+            "margin": 0.2604715483279614
+          },
+          {
+            "id": "dev-noninjury-hi",
+            "language": "hi",
+            "expected": "noninjury",
+            "selected": "noninjury",
+            "score": 0.49109032839224503,
+            "margin": 0.371288862435501
+          },
+          {
+            "id": "dev-noninjury-gu",
+            "language": "gu",
+            "expected": "noninjury",
+            "selected": "noninjury",
+            "score": 0.4566005593941242,
+            "margin": 0.31720946664238114
+          },
+          {
+            "id": "dev-restraint-en",
+            "language": "en",
+            "expected": "restraint",
+            "selected": "restraint",
+            "score": 0.34838872522865916,
+            "margin": 0.1904076452047121
+          },
+          {
+            "id": "dev-restraint-hi",
+            "language": "hi",
+            "expected": "restraint",
+            "selected": "restraint",
+            "score": 0.3311594678500505,
+            "margin": 0.16676499388029087
+          },
+          {
+            "id": "dev-restraint-gu",
+            "language": "gu",
+            "expected": "restraint",
+            "selected": "restraint",
+            "score": 0.3772254786459687,
+            "margin": 0.21525384230250438
+          },
+          {
+            "id": "dev-perspectives-en",
+            "language": "en",
+            "expected": "perspectives",
+            "selected": "perspectives",
+            "score": 0.36454102637954217,
+            "margin": 0.19914469804505555
+          },
+          {
+            "id": "dev-perspectives-hi",
+            "language": "hi",
+            "expected": "perspectives",
+            "selected": "perspectives",
+            "score": 0.34252724478370483,
+            "margin": 0.16111866535098582
+          },
+          {
+            "id": "dev-perspectives-gu",
+            "language": "gu",
+            "expected": "perspectives",
+            "selected": "perspectives",
+            "score": 0.3295390910329441,
+            "margin": 0.1487556299385465
+          },
+          {
+            "id": "dev-conditional-en",
+            "language": "en",
+            "expected": "conditional",
+            "selected": "conditional",
+            "score": 0.3327312615441031,
+            "margin": 0.11375183574100955
+          },
+          {
+            "id": "dev-conditional-hi",
+            "language": "hi",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.29365938888109855,
+            "margin": 0.07126213363065378
+          },
+          {
+            "id": "dev-conditional-gu",
+            "language": "gu",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.28570841754079623,
+            "margin": 0.09617060969548413
+          },
+          {
+            "id": "dev-provenance-en",
+            "language": "en",
+            "expected": "provenance",
+            "selected": "provenance",
+            "score": 0.3045878841284864,
+            "margin": 0.139125221861857
+          },
+          {
+            "id": "dev-provenance-hi",
+            "language": "hi",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.25222565331788455,
+            "margin": 0.030832866280997295
+          },
+          {
+            "id": "dev-provenance-gu",
+            "language": "gu",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.24036913969064366,
+            "margin": 0.024378427053256102
+          },
+          {
+            "id": "dev-consent-en",
+            "language": "en",
+            "expected": "consent",
+            "selected": "consent",
+            "score": 0.3102123729651458,
+            "margin": 0.13059846841297837
+          },
+          {
+            "id": "dev-consent-hi",
+            "language": "hi",
+            "expected": "consent",
+            "selected": "consent",
+            "score": 0.30998947817870987,
+            "margin": 0.15139942684863553
+          },
+          {
+            "id": "dev-consent-gu",
+            "language": "gu",
+            "expected": "consent",
+            "selected": "consent",
+            "score": 0.3032136231010006,
+            "margin": 0.13707842679982338
+          },
+          {
+            "id": "dev-unknown1-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.26733756745282616,
+            "margin": 0.08374184622870412
+          },
+          {
+            "id": "dev-unknown1-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.2728766522886043,
+            "margin": 0.11076414124359993
+          },
+          {
+            "id": "dev-unknown1-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.25246736181883755,
+            "margin": 0.08268362665042409
+          },
+          {
+            "id": "dev-unknown2-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.20142798901788533,
+            "margin": 0.0005090031542822615
+          },
+          {
+            "id": "dev-unknown2-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.22432745896510517,
+            "margin": 0.016666978430033674
+          },
+          {
+            "id": "dev-unknown2-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.20694999523250937,
+            "margin": 0.0032744113319384816
+          },
+          {
+            "id": "dev-unknown3-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.24885332725345477,
+            "margin": 0.04994712964765813
+          },
+          {
+            "id": "dev-unknown3-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.2482810966325532,
+            "margin": 0.07027238015768039
+          },
+          {
+            "id": "dev-unknown3-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.23404748819440335,
+            "margin": 0.05623358003887474
+          }
+        ]
+      },
+      "heldout": {
+        "overall": {
+          "total": 36,
+          "known": 18,
+          "correct_known_accepts": 0,
+          "wrong_known_accepts": 0,
+          "unsupported_false_accepts": 0,
+          "abstentions": 36,
+          "correct_decisions": 18
+        },
+        "per_language": {
+          "en": {
+            "total": 12,
+            "known": 6,
+            "correct_known_accepts": 0,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 12,
+            "correct_decisions": 6
+          },
+          "hi": {
+            "total": 12,
+            "known": 6,
+            "correct_known_accepts": 0,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 12,
+            "correct_decisions": 6
+          },
+          "gu": {
+            "total": 12,
+            "known": 6,
+            "correct_known_accepts": 0,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 12,
+            "correct_decisions": 6
+          }
+        },
+        "predictions": [
+          {
+            "id": "intent-independent-01-en",
+            "language": "en",
+            "expected": "noninjury",
+            "selected": null,
+            "score": 0.2593279724395757,
+            "margin": 0.10325069366858919
+          },
+          {
+            "id": "intent-independent-01-hi",
+            "language": "hi",
+            "expected": "noninjury",
+            "selected": null,
+            "score": 0.25285317016922215,
+            "margin": 0.06423784372107957
+          },
+          {
+            "id": "intent-independent-01-gu",
+            "language": "gu",
+            "expected": "noninjury",
+            "selected": null,
+            "score": 0.24719729726762993,
+            "margin": 0.056678086719493204
+          },
+          {
+            "id": "intent-independent-02-en",
+            "language": "en",
+            "expected": "restraint",
+            "selected": null,
+            "score": 0.21269335127517267,
+            "margin": 0.026273438225467433
+          },
+          {
+            "id": "intent-independent-02-hi",
+            "language": "hi",
+            "expected": "restraint",
+            "selected": null,
+            "score": 0.19883680140541035,
+            "margin": 0.00749467093102299
+          },
+          {
+            "id": "intent-independent-02-gu",
+            "language": "gu",
+            "expected": "restraint",
+            "selected": null,
+            "score": 0.19706623588434324,
+            "margin": 0.0072166646135446155
+          },
+          {
+            "id": "intent-independent-03-en",
+            "language": "en",
+            "expected": "perspectives",
+            "selected": null,
+            "score": 0.19794144771802788,
+            "margin": 0.013580113301839614
+          },
+          {
+            "id": "intent-independent-03-hi",
+            "language": "hi",
+            "expected": "perspectives",
+            "selected": null,
+            "score": 0.18959551980319508,
+            "margin": 0.015131038446326045
+          },
+          {
+            "id": "intent-independent-03-gu",
+            "language": "gu",
+            "expected": "perspectives",
+            "selected": null,
+            "score": 0.1940883226962656,
+            "margin": 0.0031133096001237093
+          },
+          {
+            "id": "intent-independent-04-en",
+            "language": "en",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.21261614177689994,
+            "margin": 0.03974713004240571
+          },
+          {
+            "id": "intent-independent-04-hi",
+            "language": "hi",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.22838626172886278,
+            "margin": 0.052042137347418305
+          },
+          {
+            "id": "intent-independent-04-gu",
+            "language": "gu",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.205737774464467,
+            "margin": 0.00990900516347501
+          },
+          {
+            "id": "intent-independent-05-en",
+            "language": "en",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.28915387733973213,
+            "margin": 0.10951642745263451
+          },
+          {
+            "id": "intent-independent-05-hi",
+            "language": "hi",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.26927172714432696,
+            "margin": 0.07307734970993918
+          },
+          {
+            "id": "intent-independent-05-gu",
+            "language": "gu",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.2758071241102708,
+            "margin": 0.08690353843976889
+          },
+          {
+            "id": "intent-independent-06-en",
+            "language": "en",
+            "expected": "consent",
+            "selected": null,
+            "score": 0.1963945296089392,
+            "margin": 5.925574655210597e-05
+          },
+          {
+            "id": "intent-independent-06-hi",
+            "language": "hi",
+            "expected": "consent",
+            "selected": null,
+            "score": 0.19052249075631733,
+            "margin": 0.002731987388937235
+          },
+          {
+            "id": "intent-independent-06-gu",
+            "language": "gu",
+            "expected": "consent",
+            "selected": null,
+            "score": 0.20248424105366003,
+            "margin": 0.00772875619030311
+          },
+          {
+            "id": "intent-independent-07-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.21510337281706712,
+            "margin": 0.010560281327693988
+          },
+          {
+            "id": "intent-independent-07-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.21577405770411168,
+            "margin": 0.021033804274255913
+          },
+          {
+            "id": "intent-independent-07-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.2176874120922677,
+            "margin": 0.010292830647667228
+          },
+          {
+            "id": "intent-independent-08-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.19338845374943214,
+            "margin": 0.004561269025072284
+          },
+          {
+            "id": "intent-independent-08-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.20554205232872216,
+            "margin": 0.01934946179930025
+          },
+          {
+            "id": "intent-independent-08-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.22819457753929237,
+            "margin": 0.0504475424996724
+          },
+          {
+            "id": "intent-independent-09-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.22616836444352,
+            "margin": 0.009985762699533884
+          },
+          {
+            "id": "intent-independent-09-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.2227491321333091,
+            "margin": 0.020246315183649943
+          },
+          {
+            "id": "intent-independent-09-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.2233872188736896,
+            "margin": 0.010275736516458411
+          },
+          {
+            "id": "intent-independent-10-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.23235289281526908,
+            "margin": 0.05673061810407362
+          },
+          {
+            "id": "intent-independent-10-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.20472175449709798,
+            "margin": 0.02328093715809068
+          },
+          {
+            "id": "intent-independent-10-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.20149482854557216,
+            "margin": 0.018883906819810697
+          },
+          {
+            "id": "intent-independent-11-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.1988574450798844,
+            "margin": 0.02828407573575814
+          },
+          {
+            "id": "intent-independent-11-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.20927883917754875,
+            "margin": 0.017613372731069527
+          },
+          {
+            "id": "intent-independent-11-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.21719769205437234,
+            "margin": 0.03223804569966268
+          },
+          {
+            "id": "intent-independent-12-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.20418484679583218,
+            "margin": 0.021695691620514074
+          },
+          {
+            "id": "intent-independent-12-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.20685473273049423,
+            "margin": 0.010674255781079084
+          },
+          {
+            "id": "intent-independent-12-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.2198979998199034,
+            "margin": 0.031082506125345938
+          }
+        ]
+      }
+    },
+    "old_centered": {
+      "dev_cutoff": [
+        0.5,
+        0.3
+      ],
+      "dev": {
+        "overall": {
+          "total": 27,
+          "known": 18,
+          "correct_known_accepts": 16,
+          "wrong_known_accepts": 0,
+          "unsupported_false_accepts": 0,
+          "abstentions": 11,
+          "correct_decisions": 25
+        },
+        "per_language": {
+          "en": {
+            "total": 9,
+            "known": 6,
+            "correct_known_accepts": 6,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 3,
+            "correct_decisions": 9
+          },
+          "hi": {
+            "total": 9,
+            "known": 6,
+            "correct_known_accepts": 5,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 4,
+            "correct_decisions": 8
+          },
+          "gu": {
+            "total": 9,
+            "known": 6,
+            "correct_known_accepts": 5,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 4,
+            "correct_decisions": 8
+          }
+        },
+        "predictions": [
+          {
+            "id": "dev-noninjury-en",
+            "language": "en",
+            "expected": "noninjury",
+            "selected": "noninjury",
+            "score": 0.7347534413772473,
+            "margin": 0.6563728802502502
+          },
+          {
+            "id": "dev-noninjury-hi",
+            "language": "hi",
+            "expected": "noninjury",
+            "selected": "noninjury",
+            "score": 0.8895115637536661,
+            "margin": 0.8546313532617436
+          },
+          {
+            "id": "dev-noninjury-gu",
+            "language": "gu",
+            "expected": "noninjury",
+            "selected": "noninjury",
+            "score": 0.8235519044444956,
+            "margin": 0.7558327516122836
+          },
+          {
+            "id": "dev-restraint-en",
+            "language": "en",
+            "expected": "restraint",
+            "selected": "restraint",
+            "score": 0.653252330652687,
+            "margin": 0.545699493153262
+          },
+          {
+            "id": "dev-restraint-hi",
+            "language": "hi",
+            "expected": "restraint",
+            "selected": "restraint",
+            "score": 0.7168474716298023,
+            "margin": 0.6113379259865748
+          },
+          {
+            "id": "dev-restraint-gu",
+            "language": "gu",
+            "expected": "restraint",
+            "selected": "restraint",
+            "score": 0.7892190928886369,
+            "margin": 0.6994261249355509
+          },
+          {
+            "id": "dev-perspectives-en",
+            "language": "en",
+            "expected": "perspectives",
+            "selected": "perspectives",
+            "score": 0.7220127269700038,
+            "margin": 0.6308493799938861
+          },
+          {
+            "id": "dev-perspectives-hi",
+            "language": "hi",
+            "expected": "perspectives",
+            "selected": "perspectives",
+            "score": 0.788411686309573,
+            "margin": 0.7048323092521402
+          },
+          {
+            "id": "dev-perspectives-gu",
+            "language": "gu",
+            "expected": "perspectives",
+            "selected": "perspectives",
+            "score": 0.7500643202063476,
+            "margin": 0.6617516692769161
+          },
+          {
+            "id": "dev-conditional-en",
+            "language": "en",
+            "expected": "conditional",
+            "selected": "conditional",
+            "score": 0.5814761576731611,
+            "margin": 0.3694709736228509
+          },
+          {
+            "id": "dev-conditional-hi",
+            "language": "hi",
+            "expected": "conditional",
+            "selected": "conditional",
+            "score": 0.5739426813630496,
+            "margin": 0.34866423111608613
+          },
+          {
+            "id": "dev-conditional-gu",
+            "language": "gu",
+            "expected": "conditional",
+            "selected": "conditional",
+            "score": 0.6125179346644648,
+            "margin": 0.4632113589964453
+          },
+          {
+            "id": "dev-provenance-en",
+            "language": "en",
+            "expected": "provenance",
+            "selected": "provenance",
+            "score": 0.5552580220572869,
+            "margin": 0.4307827838576448
+          },
+          {
+            "id": "dev-provenance-hi",
+            "language": "hi",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.4405676714638898,
+            "margin": 0.16943537226587274
+          },
+          {
+            "id": "dev-provenance-gu",
+            "language": "gu",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.38134384014798356,
+            "margin": 0.07239147369465954
+          },
+          {
+            "id": "dev-consent-en",
+            "language": "en",
+            "expected": "consent",
+            "selected": "consent",
+            "score": 0.6301289089239449,
+            "margin": 0.49395341723992164
+          },
+          {
+            "id": "dev-consent-hi",
+            "language": "hi",
+            "expected": "consent",
+            "selected": "consent",
+            "score": 0.6951754249185789,
+            "margin": 0.6043656972684881
+          },
+          {
+            "id": "dev-consent-gu",
+            "language": "gu",
+            "expected": "consent",
+            "selected": "consent",
+            "score": 0.656206008656127,
+            "margin": 0.5495056263079808
+          },
+          {
+            "id": "dev-unknown1-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.40959063321222533,
+            "margin": 0.2245871621159736
+          },
+          {
+            "id": "dev-unknown1-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.49991957100883583,
+            "margin": 0.3773437616288031
+          },
+          {
+            "id": "dev-unknown1-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.4189549799083159,
+            "margin": 0.25896636900431597
+          },
+          {
+            "id": "dev-unknown2-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.2449450643355475,
+            "margin": 0.004621230399696086
+          },
+          {
+            "id": "dev-unknown2-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.34138547434377503,
+            "margin": 0.09339757152322062
+          },
+          {
+            "id": "dev-unknown2-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.28669682555148024,
+            "margin": 0.022380029879690455
+          },
+          {
+            "id": "dev-unknown3-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.3213991188261877,
+            "margin": 0.09317636377974992
+          },
+          {
+            "id": "dev-unknown3-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.3151687271463194,
+            "margin": 0.12722342712295998
+          },
+          {
+            "id": "dev-unknown3-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.30314677469806445,
+            "margin": 0.08175469256064472
+          }
+        ]
+      },
+      "heldout": {
+        "overall": {
+          "total": 36,
+          "known": 18,
+          "correct_known_accepts": 1,
+          "wrong_known_accepts": 0,
+          "unsupported_false_accepts": 0,
+          "abstentions": 35,
+          "correct_decisions": 19
+        },
+        "per_language": {
+          "en": {
+            "total": 12,
+            "known": 6,
+            "correct_known_accepts": 1,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 11,
+            "correct_decisions": 7
+          },
+          "hi": {
+            "total": 12,
+            "known": 6,
+            "correct_known_accepts": 0,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 12,
+            "correct_decisions": 6
+          },
+          "gu": {
+            "total": 12,
+            "known": 6,
+            "correct_known_accepts": 0,
+            "wrong_known_accepts": 0,
+            "unsupported_false_accepts": 0,
+            "abstentions": 12,
+            "correct_decisions": 6
+          }
+        },
+        "predictions": [
+          {
+            "id": "intent-independent-01-en",
+            "language": "en",
+            "expected": "noninjury",
+            "selected": null,
+            "score": 0.4024309266251385,
+            "margin": 0.2678564296668978
+          },
+          {
+            "id": "intent-independent-01-hi",
+            "language": "hi",
+            "expected": "noninjury",
+            "selected": null,
+            "score": 0.36426166350516015,
+            "margin": 0.1631459933674958
+          },
+          {
+            "id": "intent-independent-01-gu",
+            "language": "gu",
+            "expected": "noninjury",
+            "selected": null,
+            "score": 0.33368915345169575,
+            "margin": 0.13095332318795186
+          },
+          {
+            "id": "intent-independent-02-en",
+            "language": "en",
+            "expected": "restraint",
+            "selected": null,
+            "score": 0.2917969268627653,
+            "margin": 0.08067723447186542
+          },
+          {
+            "id": "intent-independent-02-hi",
+            "language": "hi",
+            "expected": "restraint",
+            "selected": null,
+            "score": 0.24218301711741805,
+            "margin": 0.008212253748664217
+          },
+          {
+            "id": "intent-independent-02-gu",
+            "language": "gu",
+            "expected": "restraint",
+            "selected": null,
+            "score": 0.24943054061572187,
+            "margin": 0.039596112307682924
+          },
+          {
+            "id": "intent-independent-03-en",
+            "language": "en",
+            "expected": "perspectives",
+            "selected": null,
+            "score": 0.25447117150464726,
+            "margin": 0.05688466189831043
+          },
+          {
+            "id": "intent-independent-03-hi",
+            "language": "hi",
+            "expected": "perspectives",
+            "selected": null,
+            "score": 0.23448946503189438,
+            "margin": 0.054825234414245666
+          },
+          {
+            "id": "intent-independent-03-gu",
+            "language": "gu",
+            "expected": "perspectives",
+            "selected": null,
+            "score": 0.23379397366589252,
+            "margin": 0.01161171841002187
+          },
+          {
+            "id": "intent-independent-04-en",
+            "language": "en",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.3157479324445048,
+            "margin": 0.14719760168393273
+          },
+          {
+            "id": "intent-independent-04-hi",
+            "language": "hi",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.3557831298212332,
+            "margin": 0.17890229033653168
+          },
+          {
+            "id": "intent-independent-04-gu",
+            "language": "gu",
+            "expected": "conditional",
+            "selected": null,
+            "score": 0.28808584075895377,
+            "margin": 0.07579661979207242
+          },
+          {
+            "id": "intent-independent-05-en",
+            "language": "en",
+            "expected": "provenance",
+            "selected": "provenance",
+            "score": 0.5280686943546093,
+            "margin": 0.3723753933742427
+          },
+          {
+            "id": "intent-independent-05-hi",
+            "language": "hi",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.42758628780104146,
+            "margin": 0.22455000170410416
+          },
+          {
+            "id": "intent-independent-05-gu",
+            "language": "gu",
+            "expected": "provenance",
+            "selected": null,
+            "score": 0.4458185811328952,
+            "margin": 0.2592148401695542
+          },
+          {
+            "id": "intent-independent-06-en",
+            "language": "en",
+            "expected": "consent",
+            "selected": null,
+            "score": 0.23534880518535847,
+            "margin": 0.010558529319556753
+          },
+          {
+            "id": "intent-independent-06-hi",
+            "language": "hi",
+            "expected": "consent",
+            "selected": null,
+            "score": 0.21288640987265628,
+            "margin": 0.001496737467916509
+          },
+          {
+            "id": "intent-independent-06-gu",
+            "language": "gu",
+            "expected": "consent",
+            "selected": null,
+            "score": 0.24882064974251783,
+            "margin": 0.02857787048623281
+          },
+          {
+            "id": "intent-independent-07-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.2882693842988785,
+            "margin": 0.059934827799524915
+          },
+          {
+            "id": "intent-independent-07-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.31166663165125286,
+            "margin": 0.1037451071677793
+          },
+          {
+            "id": "intent-independent-07-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.31514184293110825,
+            "margin": 0.08778211078853004
+          },
+          {
+            "id": "intent-independent-08-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.2353780559132231,
+            "margin": 0.018641990707755074
+          },
+          {
+            "id": "intent-independent-08-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.25205343042552564,
+            "margin": 0.04302251052986636
+          },
+          {
+            "id": "intent-independent-08-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.2993900718096349,
+            "margin": 0.12113337339622315
+          },
+          {
+            "id": "intent-independent-09-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.3067104337437736,
+            "margin": 0.016449708985885103
+          },
+          {
+            "id": "intent-independent-09-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.31421933945123603,
+            "margin": 0.06506793494645813
+          },
+          {
+            "id": "intent-independent-09-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.2990126394589016,
+            "margin": 0.013472738119123973
+          },
+          {
+            "id": "intent-independent-10-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.3533912951114319,
+            "margin": 0.18739187840380167
+          },
+          {
+            "id": "intent-independent-10-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.29258524472236624,
+            "margin": 0.10417576550498836
+          },
+          {
+            "id": "intent-independent-10-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.277954799671186,
+            "margin": 0.09067871401803729
+          },
+          {
+            "id": "intent-independent-11-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.2482473983730962,
+            "margin": 0.0746432418397181
+          },
+          {
+            "id": "intent-independent-11-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.25114079616753493,
+            "margin": 0.018956423449399545
+          },
+          {
+            "id": "intent-independent-11-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.26577220685923203,
+            "margin": 0.05229107041500866
+          },
+          {
+            "id": "intent-independent-12-en",
+            "language": "en",
+            "expected": null,
+            "selected": null,
+            "score": 0.24712050415714037,
+            "margin": 0.043601384347064176
+          },
+          {
+            "id": "intent-independent-12-hi",
+            "language": "hi",
+            "expected": null,
+            "selected": null,
+            "score": 0.2819261738263852,
+            "margin": 0.046127242440106464
+          },
+          {
+            "id": "intent-independent-12-gu",
+            "language": "gu",
+            "expected": null,
+            "selected": null,
+            "score": 0.3020480785353793,
+            "margin": 0.0866248567703844
+          }
+        ]
+      }
+    }
+  },
+  "resources": {
+    "wall_seconds": 6.527756183000747,
+    "peak_rss_kib": 788524,
+    "threads": 2
+  }
+}

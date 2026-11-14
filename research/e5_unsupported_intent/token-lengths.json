@@ -1,0 +1,548 @@
+{
+  "train": {
+    "max_tokens": 44,
+    "truncated": 0,
+    "records": [
+      {
+        "id": "intent-train-n1-en",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-n1-hi",
+        "tokens": 32
+      },
+      {
+        "id": "intent-train-n1-gu",
+        "tokens": 36
+      },
+      {
+        "id": "intent-train-n2-en",
+        "tokens": 27
+      },
+      {
+        "id": "intent-train-n2-hi",
+        "tokens": 31
+      },
+      {
+        "id": "intent-train-n2-gu",
+        "tokens": 35
+      },
+      {
+        "id": "intent-train-r1-en",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-r1-hi",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-r1-gu",
+        "tokens": 33
+      },
+      {
+        "id": "intent-train-r2-en",
+        "tokens": 30
+      },
+      {
+        "id": "intent-train-r2-hi",
+        "tokens": 37
+      },
+      {
+        "id": "intent-train-r2-gu",
+        "tokens": 41
+      },
+      {
+        "id": "intent-train-p1-en",
+        "tokens": 25
+      },
+      {
+        "id": "intent-train-p1-hi",
+        "tokens": 34
+      },
+      {
+        "id": "intent-train-p1-gu",
+        "tokens": 32
+      },
+      {
+        "id": "intent-train-p2-en",
+        "tokens": 28
+      },
+      {
+        "id": "intent-train-p2-hi",
+        "tokens": 32
+      },
+      {
+        "id": "intent-train-p2-gu",
+        "tokens": 44
+      },
+      {
+        "id": "intent-train-c1-en",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-c1-hi",
+        "tokens": 31
+      },
+      {
+        "id": "intent-train-c1-gu",
+        "tokens": 37
+      },
+      {
+        "id": "intent-train-c2-en",
+        "tokens": 36
+      },
+      {
+        "id": "intent-train-c2-hi",
+        "tokens": 35
+      },
+      {
+        "id": "intent-train-c2-gu",
+        "tokens": 41
+      },
+      {
+        "id": "intent-train-v1-en",
+        "tokens": 30
+      },
+      {
+        "id": "intent-train-v1-hi",
+        "tokens": 31
+      },
+      {
+        "id": "intent-train-v1-gu",
+        "tokens": 37
+      },
+      {
+        "id": "intent-train-v2-en",
+        "tokens": 31
+      },
+      {
+        "id": "intent-train-v2-hi",
+        "tokens": 36
+      },
+      {
+        "id": "intent-train-v2-gu",
+        "tokens": 44
+      },
+      {
+        "id": "intent-train-cns1-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-train-cns1-hi",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-cns1-gu",
+        "tokens": 33
+      },
+      {
+        "id": "intent-train-cns2-en",
+        "tokens": 28
+      },
+      {
+        "id": "intent-train-cns2-hi",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-cns2-gu",
+        "tokens": 27
+      },
+      {
+        "id": "intent-train-u1-en",
+        "tokens": 19
+      },
+      {
+        "id": "intent-train-u1-hi",
+        "tokens": 18
+      },
+      {
+        "id": "intent-train-u1-gu",
+        "tokens": 22
+      },
+      {
+        "id": "intent-train-u2-en",
+        "tokens": 18
+      },
+      {
+        "id": "intent-train-u2-hi",
+        "tokens": 20
+      },
+      {
+        "id": "intent-train-u2-gu",
+        "tokens": 26
+      },
+      {
+        "id": "intent-train-u3-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-train-u3-hi",
+        "tokens": 27
+      },
+      {
+        "id": "intent-train-u3-gu",
+        "tokens": 30
+      },
+      {
+        "id": "intent-train-u4-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-train-u4-hi",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-u4-gu",
+        "tokens": 30
+      },
+      {
+        "id": "intent-train-u5-en",
+        "tokens": 25
+      },
+      {
+        "id": "intent-train-u5-hi",
+        "tokens": 25
+      },
+      {
+        "id": "intent-train-u5-gu",
+        "tokens": 28
+      },
+      {
+        "id": "intent-train-u6-en",
+        "tokens": 23
+      },
+      {
+        "id": "intent-train-u6-hi",
+        "tokens": 30
+      },
+      {
+        "id": "intent-train-u6-gu",
+        "tokens": 29
+      },
+      {
+        "id": "intent-train-u7-en",
+        "tokens": 20
+      },
+      {
+        "id": "intent-train-u7-hi",
+        "tokens": 23
+      },
+      {
+        "id": "intent-train-u7-gu",
+        "tokens": 25
+      },
+      {
+        "id": "intent-train-u8-en",
+        "tokens": 22
+      },
+      {
+        "id": "intent-train-u8-hi",
+        "tokens": 19
+      },
+      {
+        "id": "intent-train-u8-gu",
+        "tokens": 26
+      }
+    ]
+  },
+  "dev": {
+    "max_tokens": 44,
+    "truncated": 0,
+    "records": [
+      {
+        "id": "intent-dev-d1-en",
+        "tokens": 28
+      },
+      {
+        "id": "intent-dev-d1-hi",
+        "tokens": 31
+      },
+      {
+        "id": "intent-dev-d1-gu",
+        "tokens": 32
+      },
+      {
+        "id": "intent-dev-d2-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-dev-d2-hi",
+        "tokens": 27
+      },
+      {
+        "id": "intent-dev-d2-gu",
+        "tokens": 32
+      },
+      {
+        "id": "intent-dev-d3-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-dev-d3-hi",
+        "tokens": 30
+      },
+      {
+        "id": "intent-dev-d3-gu",
+        "tokens": 44
+      },
+      {
+        "id": "intent-dev-d4-en",
+        "tokens": 36
+      },
+      {
+        "id": "intent-dev-d4-hi",
+        "tokens": 32
+      },
+      {
+        "id": "intent-dev-d4-gu",
+        "tokens": 37
+      },
+      {
+        "id": "intent-dev-d5-en",
+        "tokens": 32
+      },
+      {
+        "id": "intent-dev-d5-hi",
+        "tokens": 27
+      },
+      {
+        "id": "intent-dev-d5-gu",
+        "tokens": 35
+      },
+      {
+        "id": "intent-dev-d6-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-dev-d6-hi",
+        "tokens": 22
+      },
+      {
+        "id": "intent-dev-d6-gu",
+        "tokens": 31
+      },
+      {
+        "id": "intent-dev-du1-en",
+        "tokens": 20
+      },
+      {
+        "id": "intent-dev-du1-hi",
+        "tokens": 24
+      },
+      {
+        "id": "intent-dev-du1-gu",
+        "tokens": 25
+      },
+      {
+        "id": "intent-dev-du2-en",
+        "tokens": 26
+      },
+      {
+        "id": "intent-dev-du2-hi",
+        "tokens": 28
+      },
+      {
+        "id": "intent-dev-du2-gu",
+        "tokens": 37
+      },
+      {
+        "id": "intent-dev-du3-en",
+        "tokens": 19
+      },
+      {
+        "id": "intent-dev-du3-hi",
+        "tokens": 26
+      },
+      {
+        "id": "intent-dev-du3-gu",
+        "tokens": 23
+      },
+      {
+        "id": "intent-dev-du4-en",
+        "tokens": 16
+      },
+      {
+        "id": "intent-dev-du4-hi",
+        "tokens": 16
+      },
+      {
+        "id": "intent-dev-du4-gu",
+        "tokens": 20
+      },
+      {
+        "id": "intent-dev-du5-en",
+        "tokens": 18
+      },
+      {
+        "id": "intent-dev-du5-hi",
+        "tokens": 20
+      },
+      {
+        "id": "intent-dev-du5-gu",
+        "tokens": 21
+      },
+      {
+        "id": "intent-dev-du6-en",
+        "tokens": 20
+      },
+      {
+        "id": "intent-dev-du6-hi",
+        "tokens": 27
+      },
+      {
+        "id": "intent-dev-du6-gu",
+        "tokens": 28
+      }
+    ]
+  },
+  "heldout": {
+    "max_tokens": 59,
+    "truncated": 0,
+    "records": [
+      {
+        "id": "intent-independent-01-en",
+        "tokens": 38
+      },
+      {
+        "id": "intent-independent-01-hi",
+        "tokens": 50
+      },
+      {
+        "id": "intent-independent-01-gu",
+        "tokens": 47
+      },
+      {
+        "id": "intent-independent-02-en",
+        "tokens": 37
+      },
+      {
+        "id": "intent-independent-02-hi",
+        "tokens": 48
+      },
+      {
+        "id": "intent-independent-02-gu",
+        "tokens": 49
+      },
+      {
+        "id": "intent-independent-03-en",
+        "tokens": 45
+      },
+      {
+        "id": "intent-independent-03-hi",
+        "tokens": 52
+      },
+      {
+        "id": "intent-independent-03-gu",
+        "tokens": 56
+      },
+      {
+        "id": "intent-independent-04-en",
+        "tokens": 35
+      },
+      {
+        "id": "intent-independent-04-hi",
+        "tokens": 43
+      },
+      {
+        "id": "intent-independent-04-gu",
+        "tokens": 49
+      },
+      {
+        "id": "intent-independent-05-en",
+        "tokens": 39
+      },
+      {
+        "id": "intent-independent-05-hi",
+        "tokens": 48
+      },
+      {
+        "id": "intent-independent-05-gu",
+        "tokens": 59
+      },
+      {
+        "id": "intent-independent-06-en",
+        "tokens": 37
+      },
+      {
+        "id": "intent-independent-06-hi",
+        "tokens": 44
+      },
+      {
+        "id": "intent-independent-06-gu",
+        "tokens": 50
+      },
+      {
+        "id": "intent-independent-07-en",
+        "tokens": 27
+      },
+      {
+        "id": "intent-independent-07-hi",
+        "tokens": 30
+      },
+      {
+        "id": "intent-independent-07-gu",
+        "tokens": 38
+      },
+      {
+        "id": "intent-independent-08-en",
+        "tokens": 25
+      },
+      {
+        "id": "intent-independent-08-hi",
+        "tokens": 32
+      },
+      {
+        "id": "intent-independent-08-gu",
+        "tokens": 36
+      },
+      {
+        "id": "intent-independent-09-en",
+        "tokens": 41
+      },
+      {
+        "id": "intent-independent-09-hi",
+        "tokens": 44
+      },
+      {
+        "id": "intent-independent-09-gu",
+        "tokens": 55
+      },
+      {
+        "id": "intent-independent-10-en",
+        "tokens": 27
+      },
+      {
+        "id": "intent-independent-10-hi",
+        "tokens": 35
+      },
+      {
+        "id": "intent-independent-10-gu",
+        "tokens": 43
+      },
+      {
+        "id": "intent-independent-11-en",
+        "tokens": 25
+      },
+      {
+        "id": "intent-independent-11-hi",
+        "tokens": 29
+      },
+      {
+        "id": "intent-independent-11-gu",
+        "tokens": 26
+      },
+      {
+        "id": "intent-independent-12-en",
+        "tokens": 27
+      },
+      {
+        "id": "intent-independent-12-hi",
+        "tokens": 25
+      },
+      {
+        "id": "intent-independent-12-gu",
+        "tokens": 34
+      }
+    ]
+  }
+}

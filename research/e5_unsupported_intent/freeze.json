@@ -1,0 +1,7 @@
+{
+  "train.json": "dee5729b7f8ac8d04ab9531c689cf331a63382cf240f1b983fae1dfb5a42e853",
+  "dev.json": "3e365cca4eabe92f9a02f4dec7c573bdd77fbe760f19df78a8a6d8c12d35319c",
+  "protocol.json": "b8a9086cc92d1c8fe1c6ec350a9bf42006cef265f0d2da51233d4ff9d23521f1",
+  "experiment.py": "d5aa88e8f11639e9de93250b46da8e233dc49a03efda95763a8965a90dd8708d",
+  "test_experiment.py": "b8a4df50b15171d616114937c4ec4b47dd140deba6a12889b28b36dc7171bf5c"
+}

@@ -1,0 +1,16 @@
+{
+  "deterministic_fields_equal": true,
+  "excluded_fields": [
+    "resources"
+  ],
+  "first": {
+    "wall_seconds": 7.490951248000783,
+    "peak_rss_kib": 808388,
+    "threads": 2
+  },
+  "repeat": {
+    "wall_seconds": 7.803502712005866,
+    "peak_rss_kib": 813704,
+    "threads": 2
+  }
+}

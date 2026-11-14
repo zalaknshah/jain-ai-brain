@@ -1,0 +1,776 @@
+{
+  "scope": "Original synthetic advisory/unsupported-intent classifier research only, no private sources or runtime promotion.",
+  "encoder_frozen": true,
+  "updates": 400,
+  "classes": [
+    "noninjury",
+    "restraint",
+    "perspectives",
+    "conditional",
+    "provenance",
+    "consent",
+    "unsupported"
+  ],
+  "loss_initial_final_preupdate": [
+    1.9459101490553061,
+    0.28295854633089734
+  ],
+  "dev_selected_cutoff": [
+    0,
+    0.1
+  ],
+  "dev": {
+    "overall": {
+      "total": 36,
+      "known": 18,
+      "correct_known_accepts": 12,
+      "wrong_known_accepts": 0,
+      "unsupported_false_accepts": 0,
+      "abstentions": 24,
+      "top1_unsupported": 17,
+      "correct_decisions": 30
+    },
+    "per_language": {
+      "en": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 3,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 9,
+        "top1_unsupported": 6,
+        "correct_decisions": 9
+      },
+      "hi": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 5,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 7,
+        "top1_unsupported": 6,
+        "correct_decisions": 11
+      },
+      "gu": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 8,
+        "top1_unsupported": 5,
+        "correct_decisions": 10
+      }
+    },
+    "predictions": [
+      {
+        "id": "intent-dev-d1-en",
+        "language": "en",
+        "expected": "noninjury",
+        "top1": "noninjury",
+        "selected": "noninjury",
+        "score": 0.43727462763620106,
+        "margin": 0.1727979368849884
+      },
+      {
+        "id": "intent-dev-d1-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "top1": "noninjury",
+        "selected": null,
+        "score": 0.33273138294512294,
+        "margin": 0.09380009246753848
+      },
+      {
+        "id": "intent-dev-d1-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "top1": "noninjury",
+        "selected": null,
+        "score": 0.3549480341323976,
+        "margin": 0.08652258629812043
+      },
+      {
+        "id": "intent-dev-d2-en",
+        "language": "en",
+        "expected": "restraint",
+        "top1": "restraint",
+        "selected": "restraint",
+        "score": 0.3523783482628533,
+        "margin": 0.15208583707796236
+      },
+      {
+        "id": "intent-dev-d2-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "top1": "restraint",
+        "selected": "restraint",
+        "score": 0.6140873154284114,
+        "margin": 0.5180731186851183
+      },
+      {
+        "id": "intent-dev-d2-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "top1": "restraint",
+        "selected": "restraint",
+        "score": 0.6477324205967006,
+        "margin": 0.5408908048107512
+      },
+      {
+        "id": "intent-dev-d3-en",
+        "language": "en",
+        "expected": "perspectives",
+        "top1": "perspectives",
+        "selected": null,
+        "score": 0.2539977377152559,
+        "margin": 0.0019175102048145098
+      },
+      {
+        "id": "intent-dev-d3-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "top1": "perspectives",
+        "selected": "perspectives",
+        "score": 0.3945880728871152,
+        "margin": 0.26634093710543916
+      },
+      {
+        "id": "intent-dev-d3-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "top1": "perspectives",
+        "selected": "perspectives",
+        "score": 0.4486758566006781,
+        "margin": 0.2876533305491126
+      },
+      {
+        "id": "intent-dev-d4-en",
+        "language": "en",
+        "expected": "conditional",
+        "top1": "conditional",
+        "selected": null,
+        "score": 0.2732883556682544,
+        "margin": 0.06305709492998068
+      },
+      {
+        "id": "intent-dev-d4-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "top1": "conditional",
+        "selected": "conditional",
+        "score": 0.29760631751692035,
+        "margin": 0.12034825365128982
+      },
+      {
+        "id": "intent-dev-d4-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "top1": "conditional",
+        "selected": null,
+        "score": 0.2862133032818757,
+        "margin": 0.09022549443317798
+      },
+      {
+        "id": "intent-dev-d5-en",
+        "language": "en",
+        "expected": "provenance",
+        "top1": "provenance",
+        "selected": "provenance",
+        "score": 0.5057199400072814,
+        "margin": 0.27879090931746825
+      },
+      {
+        "id": "intent-dev-d5-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "top1": "provenance",
+        "selected": "provenance",
+        "score": 0.4850796404209012,
+        "margin": 0.2726399900145253
+      },
+      {
+        "id": "intent-dev-d5-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "top1": "provenance",
+        "selected": "provenance",
+        "score": 0.5435427568746078,
+        "margin": 0.428095447824292
+      },
+      {
+        "id": "intent-dev-d6-en",
+        "language": "en",
+        "expected": "consent",
+        "top1": "consent",
+        "selected": null,
+        "score": 0.33873737357276346,
+        "margin": 0.055932399515298936
+      },
+      {
+        "id": "intent-dev-d6-hi",
+        "language": "hi",
+        "expected": "consent",
+        "top1": "consent",
+        "selected": "consent",
+        "score": 0.3837697430799136,
+        "margin": 0.1437843217068199
+      },
+      {
+        "id": "intent-dev-d6-gu",
+        "language": "gu",
+        "expected": "consent",
+        "top1": "consent",
+        "selected": "consent",
+        "score": 0.41175519191382537,
+        "margin": 0.13484724336663656
+      },
+      {
+        "id": "intent-dev-du1-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.6447322925416149,
+        "margin": 0.558686084283388
+      },
+      {
+        "id": "intent-dev-du1-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8402455951879358,
+        "margin": 0.7695499571562628
+      },
+      {
+        "id": "intent-dev-du1-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8325184586112633,
+        "margin": 0.7553320676477148
+      },
+      {
+        "id": "intent-dev-du2-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.5497523163581483,
+        "margin": 0.3385235470793676
+      },
+      {
+        "id": "intent-dev-du2-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.36811470714339,
+        "margin": 0.05518917484727598
+      },
+      {
+        "id": "intent-dev-du2-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "provenance",
+        "selected": null,
+        "score": 0.35272425993380035,
+        "margin": 0.06734222525964395
+      },
+      {
+        "id": "intent-dev-du3-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.43975583868461665,
+        "margin": 0.25003017419617635
+      },
+      {
+        "id": "intent-dev-du3-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.34721823933216844,
+        "margin": 0.18184981279111925
+      },
+      {
+        "id": "intent-dev-du3-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.35431168291266274,
+        "margin": 0.16171316115603446
+      },
+      {
+        "id": "intent-dev-du4-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.6592164153157638,
+        "margin": 0.5778405911825943
+      },
+      {
+        "id": "intent-dev-du4-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.9163280031433979,
+        "margin": 0.897032593649559
+      },
+      {
+        "id": "intent-dev-du4-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.9176842398630635,
+        "margin": 0.89658165819487
+      },
+      {
+        "id": "intent-dev-du5-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8336973812861715,
+        "margin": 0.7996177042595518
+      },
+      {
+        "id": "intent-dev-du5-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.9072752846446869,
+        "margin": 0.8877367093757634
+      },
+      {
+        "id": "intent-dev-du5-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8826511153064224,
+        "margin": 0.8576223603724566
+      },
+      {
+        "id": "intent-dev-du6-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.7422362968973941,
+        "margin": 0.6828969047743617
+      },
+      {
+        "id": "intent-dev-du6-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.9156446475719934,
+        "margin": 0.8974624433663032
+      },
+      {
+        "id": "intent-dev-du6-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.879613652246956,
+        "margin": 0.8503485389760435
+      }
+    ]
+  },
+  "dataset_sha256": {
+    "train.json": "dee5729b7f8ac8d04ab9531c689cf331a63382cf240f1b983fae1dfb5a42e853",
+    "dev.json": "3e365cca4eabe92f9a02f4dec7c573bdd77fbe760f19df78a8a6d8c12d35319c",
+    "heldout.json": "5d4184d9b477bfc43c17c3b227819b74129e52f89dbe55723ac19d15ac70bbfd"
+  },
+  "train_mean_sha256": "2201d65231052d9bcfa6b5d5b0555c66a28683b3b913dd1332e4de9577bec353",
+  "source_sha256": "d5aa88e8f11639e9de93250b46da8e233dc49a03efda95763a8965a90dd8708d",
+  "protocol_sha256": "b8a9086cc92d1c8fe1c6ec350a9bf42006cef265f0d2da51233d4ff9d23521f1",
+  "promoted": false,
+  "heldout": {
+    "overall": {
+      "total": 36,
+      "known": 18,
+      "correct_known_accepts": 11,
+      "wrong_known_accepts": 0,
+      "unsupported_false_accepts": 0,
+      "abstentions": 25,
+      "top1_unsupported": 21,
+      "correct_decisions": 29
+    },
+    "per_language": {
+      "en": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 8,
+        "top1_unsupported": 7,
+        "correct_decisions": 10
+      },
+      "hi": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 8,
+        "top1_unsupported": 7,
+        "correct_decisions": 10
+      },
+      "gu": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 3,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 9,
+        "top1_unsupported": 7,
+        "correct_decisions": 9
+      }
+    },
+    "predictions": [
+      {
+        "id": "intent-independent-01-en",
+        "language": "en",
+        "expected": "noninjury",
+        "top1": "noninjury",
+        "selected": "noninjury",
+        "score": 0.4585209323793008,
+        "margin": 0.13250668027093432
+      },
+      {
+        "id": "intent-independent-01-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "top1": "noninjury",
+        "selected": null,
+        "score": 0.36737915528682896,
+        "margin": 0.031880142576091064
+      },
+      {
+        "id": "intent-independent-01-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "top1": "noninjury",
+        "selected": null,
+        "score": 0.3815457085191027,
+        "margin": 0.0763691450472973
+      },
+      {
+        "id": "intent-independent-02-en",
+        "language": "en",
+        "expected": "restraint",
+        "top1": "restraint",
+        "selected": null,
+        "score": 0.30137737286552635,
+        "margin": 0.007274632598265607
+      },
+      {
+        "id": "intent-independent-02-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "top1": "restraint",
+        "selected": "restraint",
+        "score": 0.4256541349300788,
+        "margin": 0.17315738200577518
+      },
+      {
+        "id": "intent-independent-02-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "top1": "restraint",
+        "selected": null,
+        "score": 0.31283493585293437,
+        "margin": 0.07413920174048605
+      },
+      {
+        "id": "intent-independent-03-en",
+        "language": "en",
+        "expected": "perspectives",
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.4389275057950702,
+        "margin": 0.2752559427721345
+      },
+      {
+        "id": "intent-independent-03-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.27336036523738977,
+        "margin": 0.07266911120350969
+      },
+      {
+        "id": "intent-independent-03-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.24467281481955913,
+        "margin": 0.06559471670612788
+      },
+      {
+        "id": "intent-independent-04-en",
+        "language": "en",
+        "expected": "conditional",
+        "top1": "conditional",
+        "selected": "conditional",
+        "score": 0.37745025734376025,
+        "margin": 0.16684093867684294
+      },
+      {
+        "id": "intent-independent-04-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "top1": "conditional",
+        "selected": "conditional",
+        "score": 0.37636105962446165,
+        "margin": 0.14815044802595762
+      },
+      {
+        "id": "intent-independent-04-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "top1": "conditional",
+        "selected": "conditional",
+        "score": 0.40173910495885334,
+        "margin": 0.23163019333272666
+      },
+      {
+        "id": "intent-independent-05-en",
+        "language": "en",
+        "expected": "provenance",
+        "top1": "provenance",
+        "selected": "provenance",
+        "score": 0.4155558498545472,
+        "margin": 0.1188751567790311
+      },
+      {
+        "id": "intent-independent-05-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "top1": "provenance",
+        "selected": "provenance",
+        "score": 0.47215511584029035,
+        "margin": 0.2971780783853309
+      },
+      {
+        "id": "intent-independent-05-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "top1": "provenance",
+        "selected": "provenance",
+        "score": 0.5313733543146536,
+        "margin": 0.38953687237716383
+      },
+      {
+        "id": "intent-independent-06-en",
+        "language": "en",
+        "expected": "consent",
+        "top1": "consent",
+        "selected": "consent",
+        "score": 0.564159342823951,
+        "margin": 0.46186065418399824
+      },
+      {
+        "id": "intent-independent-06-hi",
+        "language": "hi",
+        "expected": "consent",
+        "top1": "consent",
+        "selected": "consent",
+        "score": 0.5739042783003868,
+        "margin": 0.44086423743486963
+      },
+      {
+        "id": "intent-independent-06-gu",
+        "language": "gu",
+        "expected": "consent",
+        "top1": "consent",
+        "selected": "consent",
+        "score": 0.5828860886781535,
+        "margin": 0.4518104310138152
+      },
+      {
+        "id": "intent-independent-07-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.7271552936937913,
+        "margin": 0.6574830169078385
+      },
+      {
+        "id": "intent-independent-07-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8234390427911237,
+        "margin": 0.7469121801221382
+      },
+      {
+        "id": "intent-independent-07-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.765137327366002,
+        "margin": 0.6485093433814082
+      },
+      {
+        "id": "intent-independent-08-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.7798908578590396,
+        "margin": 0.7270668504123825
+      },
+      {
+        "id": "intent-independent-08-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8380889231834071,
+        "margin": 0.7749534506499002
+      },
+      {
+        "id": "intent-independent-08-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.7206758229289713,
+        "margin": 0.6050582803053504
+      },
+      {
+        "id": "intent-independent-09-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.6692749805789439,
+        "margin": 0.505781965242834
+      },
+      {
+        "id": "intent-independent-09-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.5620854883520864,
+        "margin": 0.36420481592267784
+      },
+      {
+        "id": "intent-independent-09-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.6459053350601832,
+        "margin": 0.5189759644270454
+      },
+      {
+        "id": "intent-independent-10-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.47720424853572624,
+        "margin": 0.3361778549151102
+      },
+      {
+        "id": "intent-independent-10-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.3782901974240189,
+        "margin": 0.12061564689721155
+      },
+      {
+        "id": "intent-independent-10-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.4434069911070276,
+        "margin": 0.260337858420629
+      },
+      {
+        "id": "intent-independent-11-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.6760551822506886,
+        "margin": 0.6095312237567
+      },
+      {
+        "id": "intent-independent-11-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8534960278903756,
+        "margin": 0.8186615221691715
+      },
+      {
+        "id": "intent-independent-11-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8687013536620279,
+        "margin": 0.8355132452862847
+      },
+      {
+        "id": "intent-independent-12-en",
+        "language": "en",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.6029840808954119,
+        "margin": 0.514541000072494
+      },
+      {
+        "id": "intent-independent-12-hi",
+        "language": "hi",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.8442911193096378,
+        "margin": 0.7977912208360416
+      },
+      {
+        "id": "intent-independent-12-gu",
+        "language": "gu",
+        "expected": null,
+        "top1": "unsupported",
+        "selected": null,
+        "score": 0.7321036675574191,
+        "margin": 0.6473535431489112
+      }
+    ]
+  },
+  "resources": {
+    "wall_seconds": 7.803502712005866,
+    "peak_rss_kib": 813704,
+    "threads": 2
+  }
+}

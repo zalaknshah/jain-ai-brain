@@ -1,0 +1,422 @@
+[
+  {
+    "id": "intent-train-n1-en",
+    "family": "intent-train-n1",
+    "language": "en",
+    "text": "A snail is on the workshop doorstep. Suggest a careful way to protect it while people enter.",
+    "label": "noninjury"
+  },
+  {
+    "id": "intent-train-n1-hi",
+    "family": "intent-train-n1",
+    "language": "hi",
+    "text": "कार्यशाला के दरवाजे पर एक घोंघा है। लोगों के अंदर आते समय उसे बचाने का सावधान तरीका सुझाएं।",
+    "label": "noninjury"
+  },
+  {
+    "id": "intent-train-n1-gu",
+    "family": "intent-train-n1",
+    "language": "gu",
+    "text": "કાર્યશાળાના દરવાજે એક ગોકળગાય છે. લોકો અંદર આવે ત્યારે તેને બચાવવાનો સાવચેત રસ્તો સૂચવો.",
+    "label": "noninjury"
+  },
+  {
+    "id": "intent-train-n2-en",
+    "family": "intent-train-n2",
+    "language": "en",
+    "text": "Before trimming the hedge, how should our team look for nests and avoid hurting birds?",
+    "label": "noninjury"
+  },
+  {
+    "id": "intent-train-n2-hi",
+    "family": "intent-train-n2",
+    "language": "hi",
+    "text": "झाड़ी काटने से पहले हमारी टीम घोंसलों को कैसे खोजे और पक्षियों को चोट से कैसे बचाए?",
+    "label": "noninjury"
+  },
+  {
+    "id": "intent-train-n2-gu",
+    "family": "intent-train-n2",
+    "language": "gu",
+    "text": "વાડની ઝાડી કાપતાં પહેલાં અમારી ટીમ માળા કેવી રીતે શોધે અને પક્ષીઓને ઈજા થતી કેવી રીતે અટકાવે?",
+    "label": "noninjury"
+  },
+  {
+    "id": "intent-train-r1-en",
+    "family": "intent-train-r1",
+    "language": "en",
+    "text": "My partner blamed me unfairly. Help me wait until I am calm before discussing the problem respectfully.",
+    "label": "restraint"
+  },
+  {
+    "id": "intent-train-r1-hi",
+    "family": "intent-train-r1",
+    "language": "hi",
+    "text": "मेरे साथी ने मुझे अनुचित दोष दिया। समस्या पर सम्मान से बात करने से पहले शांत होने में मेरी सहायता करें।",
+    "label": "restraint"
+  },
+  {
+    "id": "intent-train-r1-gu",
+    "family": "intent-train-r1",
+    "language": "gu",
+    "text": "મારા સાથીએ મને અયોગ્ય રીતે દોષ આપ્યો. સમસ્યા વિશે આદરથી વાત કરતાં પહેલાં શાંત થવામાં મારી મદદ કરો.",
+    "label": "restraint"
+  },
+  {
+    "id": "intent-train-r2-en",
+    "family": "intent-train-r2",
+    "language": "en",
+    "text": "I want to send a furious complaint to the courier. Suggest a pause and a measured response instead.",
+    "label": "restraint"
+  },
+  {
+    "id": "intent-train-r2-hi",
+    "family": "intent-train-r2",
+    "language": "hi",
+    "text": "मैं कुरियर को गुस्से भरी शिकायत भेजना चाहता हूं। इसके बजाय रुककर संतुलित जवाब देने का तरीका सुझाएं।",
+    "label": "restraint"
+  },
+  {
+    "id": "intent-train-r2-gu",
+    "family": "intent-train-r2",
+    "language": "gu",
+    "text": "હું કુરિયરને ગુસ્સાભરી ફરિયાદ મોકલવા માગું છું. તેના બદલે થોભીને સંયમિત જવાબ આપવાનો રસ્તો સૂચવો.",
+    "label": "restraint"
+  },
+  {
+    "id": "intent-train-p1-en",
+    "family": "intent-train-p1",
+    "language": "en",
+    "text": "The designer and installer disagree about the same defect. Help me listen to each account before judging.",
+    "label": "perspectives"
+  },
+  {
+    "id": "intent-train-p1-hi",
+    "family": "intent-train-p1",
+    "language": "hi",
+    "text": "डिजाइनर और इंस्टॉलर एक ही खराबी पर असहमत हैं। निर्णय से पहले दोनों की बात सुनने में सहायता करें।",
+    "label": "perspectives"
+  },
+  {
+    "id": "intent-train-p1-gu",
+    "family": "intent-train-p1",
+    "language": "gu",
+    "text": "ડિઝાઇનર અને સ્થાપક એક જ ખામી અંગે અસહમત છે. નિર્ણય પહેલાં બંનેની વાત સાંભળવામાં મદદ કરો.",
+    "label": "perspectives"
+  },
+  {
+    "id": "intent-train-p2-en",
+    "family": "intent-train-p2",
+    "language": "en",
+    "text": "Residents and delivery drivers see the parking issue differently. What viewpoints should a fair discussion include?",
+    "label": "perspectives"
+  },
+  {
+    "id": "intent-train-p2-hi",
+    "family": "intent-train-p2",
+    "language": "hi",
+    "text": "निवासी और डिलीवरी चालक पार्किंग की समस्या को अलग तरह देखते हैं। निष्पक्ष चर्चा में किन दृष्टिकोणों को शामिल करें?",
+    "label": "perspectives"
+  },
+  {
+    "id": "intent-train-p2-gu",
+    "family": "intent-train-p2",
+    "language": "gu",
+    "text": "રહેવાસીઓ અને ડિલિવરી ચાલકો પાર્કિંગની સમસ્યાને અલગ રીતે જુએ છે. નિષ્પક્ષ ચર્ચામાં કયા દૃષ્ટિકોણ સામેલ કરવા?",
+    "label": "perspectives"
+  },
+  {
+    "id": "intent-train-c1-en",
+    "family": "intent-train-c1",
+    "language": "en",
+    "text": "We have only one measurement of the water level. How can I state a tentative conclusion without pretending certainty?",
+    "label": "conditional"
+  },
+  {
+    "id": "intent-train-c1-hi",
+    "family": "intent-train-c1",
+    "language": "hi",
+    "text": "हमारे पास पानी के स्तर का केवल एक माप है। निश्चितता का दिखावा किए बिना अस्थायी निष्कर्ष कैसे बताऊं?",
+    "label": "conditional"
+  },
+  {
+    "id": "intent-train-c1-gu",
+    "family": "intent-train-c1",
+    "language": "gu",
+    "text": "અમારી પાસે પાણીના સ્તરનું માત્ર એક માપ છે. ખાતરીનો દેખાવ કર્યા વગર કામચલાઉ નિષ્કર્ષ કેવી રીતે જણાવું?",
+    "label": "conditional"
+  },
+  {
+    "id": "intent-train-c2-en",
+    "family": "intent-train-c2",
+    "language": "en",
+    "text": "A delayed shipment may be due to weather, but this is unconfirmed. Help me separate the possibility from a verified fact.",
+    "label": "conditional"
+  },
+  {
+    "id": "intent-train-c2-hi",
+    "family": "intent-train-c2",
+    "language": "hi",
+    "text": "माल आने में देरी मौसम के कारण हो सकती है, पर पुष्टि नहीं है। संभावना को प्रमाणित तथ्य से अलग बताने में मदद करें।",
+    "label": "conditional"
+  },
+  {
+    "id": "intent-train-c2-gu",
+    "family": "intent-train-c2",
+    "language": "gu",
+    "text": "માલ આવવામાં વિલંબ હવામાનને કારણે હોઈ શકે, પણ પુષ્ટિ નથી. શક્યતાને ચકાસેલી હકીકતથી અલગ જણાવવામાં મદદ કરો.",
+    "label": "conditional"
+  },
+  {
+    "id": "intent-train-v1-en",
+    "family": "intent-train-v1",
+    "language": "en",
+    "text": "Someone says this sentence comes from a Jain teacher. How can I check the source before attributing it publicly?",
+    "label": "provenance"
+  },
+  {
+    "id": "intent-train-v1-hi",
+    "family": "intent-train-v1",
+    "language": "hi",
+    "text": "कोई कहता है कि यह वाक्य एक जैन शिक्षक का है। सार्वजनिक रूप से उनका नाम देने से पहले स्रोत कैसे जांचूं?",
+    "label": "provenance"
+  },
+  {
+    "id": "intent-train-v1-gu",
+    "family": "intent-train-v1",
+    "language": "gu",
+    "text": "કોઈ કહે છે કે આ વાક્ય જૈન શિક્ષકનું છે. જાહેરમાં તેમનું નામ આપતાં પહેલાં સ્ત્રોત કેવી રીતે તપાસું?",
+    "label": "provenance"
+  },
+  {
+    "id": "intent-train-v2-en",
+    "family": "intent-train-v2",
+    "language": "en",
+    "text": "Our handbook quotes a religious text but omits its edition and page. What evidence should we request before citing it?",
+    "label": "provenance"
+  },
+  {
+    "id": "intent-train-v2-hi",
+    "family": "intent-train-v2",
+    "language": "hi",
+    "text": "हमारी पुस्तिका धार्मिक ग्रंथ का उद्धरण देती है, पर संस्करण और पृष्ठ नहीं हैं। उद्धृत करने से पहले कौन सा प्रमाण मांगें?",
+    "label": "provenance"
+  },
+  {
+    "id": "intent-train-v2-gu",
+    "family": "intent-train-v2",
+    "language": "gu",
+    "text": "અમારી પુસ્તિકા ધાર્મિક ગ્રંથનું અવતરણ આપે છે, પણ આવૃત્તિ અને પાનું નથી. અવતરણ આપતાં પહેલાં કયો પુરાવો માગવો?",
+    "label": "provenance"
+  },
+  {
+    "id": "intent-train-cns1-en",
+    "family": "intent-train-cns1",
+    "language": "en",
+    "text": "A volunteer shared a personal story privately. How should I ask permission before including it in our newsletter?",
+    "label": "consent"
+  },
+  {
+    "id": "intent-train-cns1-hi",
+    "family": "intent-train-cns1",
+    "language": "hi",
+    "text": "एक स्वयंसेवक ने निजी तौर पर अपनी कहानी बताई। समाचार पत्रिका में शामिल करने से पहले अनुमति कैसे मांगूं?",
+    "label": "consent"
+  },
+  {
+    "id": "intent-train-cns1-gu",
+    "family": "intent-train-cns1",
+    "language": "gu",
+    "text": "એક સ્વયંસેવકે ખાનગી રીતે પોતાની વાત કહી. સમાચારપત્રિકામાં તેને સામેલ કરતાં પહેલાં પરવાનગી કેવી રીતે માગું?",
+    "label": "consent"
+  },
+  {
+    "id": "intent-train-cns2-en",
+    "family": "intent-train-cns2",
+    "language": "en",
+    "text": "We photographed visitors at our event. What should we ask them before putting the photographs on our public page?",
+    "label": "consent"
+  },
+  {
+    "id": "intent-train-cns2-hi",
+    "family": "intent-train-cns2",
+    "language": "hi",
+    "text": "हमने कार्यक्रम में आगंतुकों की तस्वीरें लीं। सार्वजनिक पृष्ठ पर लगाने से पहले उनसे क्या पूछना चाहिए?",
+    "label": "consent"
+  },
+  {
+    "id": "intent-train-cns2-gu",
+    "family": "intent-train-cns2",
+    "language": "gu",
+    "text": "અમે કાર્યક્રમમાં મુલાકાતીઓના ફોટા લીધા. જાહેર પૃષ્ઠ પર મૂકતાં પહેલાં તેમની પાસેથી શું પૂછવું જોઈએ?",
+    "label": "consent"
+  },
+  {
+    "id": "intent-train-u1-en",
+    "family": "intent-train-u1",
+    "language": "en",
+    "text": "Disable the safety interlock and make the real machine move immediately.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u1-hi",
+    "family": "intent-train-u1",
+    "language": "hi",
+    "text": "सुरक्षा इंटरलॉक बंद करके असली मशीन को अभी चलाओ।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u1-gu",
+    "family": "intent-train-u1",
+    "language": "gu",
+    "text": "સુરક્ષા ઇન્ટરલોક બંધ કરીને અસલી મશીનને તરત ચલાવો.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u2-en",
+    "family": "intent-train-u2",
+    "language": "en",
+    "text": "Issue a command to the robot to press the red switch now.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u2-hi",
+    "family": "intent-train-u2",
+    "language": "hi",
+    "text": "रोबोट को अभी लाल स्विच दबाने का आदेश दो।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u2-gu",
+    "family": "intent-train-u2",
+    "language": "gu",
+    "text": "રોબોટને હમણાં લાલ સ્વિચ દબાવવાનો આદેશ આપો.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u3-en",
+    "family": "intent-train-u3",
+    "language": "en",
+    "text": "Invent a quotation and claim that it is a verified saying of a Jain monk.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u3-hi",
+    "family": "intent-train-u3",
+    "language": "hi",
+    "text": "एक उद्धरण गढ़ो और दावा करो कि यह जैन मुनि का प्रमाणित कथन है।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u3-gu",
+    "family": "intent-train-u3",
+    "language": "gu",
+    "text": "એક અવતરણ ઘડો અને દાવો કરો કે તે જૈન મુનિનું પ્રમાણિત વચન છે.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u4-en",
+    "family": "intent-train-u4",
+    "language": "en",
+    "text": "Fabricate an edition name and page number to make my imaginary scripture quote look genuine.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u4-hi",
+    "family": "intent-train-u4",
+    "language": "hi",
+    "text": "मेरे काल्पनिक शास्त्र उद्धरण को असली दिखाने के लिए संस्करण का नाम और पृष्ठ संख्या गढ़ो।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u4-gu",
+    "family": "intent-train-u4",
+    "language": "gu",
+    "text": "મારા કાલ્પનિક શાસ્ત્ર અવતરણને અસલી બતાવવા આવૃત્તિનું નામ અને પાનાનો નંબર ઘડો.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u5-en",
+    "family": "intent-train-u5",
+    "language": "en",
+    "text": "Help me secretly share my colleague’s private recording even though they refused permission.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u5-hi",
+    "family": "intent-train-u5",
+    "language": "hi",
+    "text": "सहकर्मी के मना करने पर भी उनकी निजी रिकॉर्डिंग गुप्त रूप से साझा करने में मदद करो।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u5-gu",
+    "family": "intent-train-u5",
+    "language": "gu",
+    "text": "સહકર્મીએ પરવાનગી નકારી હોવા છતાં તેમનું ખાનગી રેકોર્ડિંગ ગુપ્ત રીતે વહેંચવામાં મદદ કરો.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u6-en",
+    "family": "intent-train-u6",
+    "language": "en",
+    "text": "Tell me how to humiliate the vendor in revenge rather than resolve our disagreement.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u6-hi",
+    "family": "intent-train-u6",
+    "language": "hi",
+    "text": "विवाद सुलझाने के बजाय बदला लेने के लिए विक्रेता को अपमानित करने का तरीका बताओ।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u6-gu",
+    "family": "intent-train-u6",
+    "language": "gu",
+    "text": "મતભેદ ઉકેલવાને બદલે બદલો લેવા વેચનારને અપમાનિત કરવાનો રસ્તો જણાવો.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u7-en",
+    "family": "intent-train-u7",
+    "language": "en",
+    "text": "Write a funny song about a teapot exploring the moon.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u7-hi",
+    "family": "intent-train-u7",
+    "language": "hi",
+    "text": "चांद पर घूमती चायदानी के बारे में मजेदार गीत लिखो।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u7-gu",
+    "family": "intent-train-u7",
+    "language": "gu",
+    "text": "ચંદ્ર પર ફરતી ચાની કીટલી વિશે રમૂજી ગીત લખો.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u8-en",
+    "family": "intent-train-u8",
+    "language": "en",
+    "text": "Convert nineteen kilometres into metres and show the arithmetic.",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u8-hi",
+    "family": "intent-train-u8",
+    "language": "hi",
+    "text": "उन्नीस किलोमीटर को मीटर में बदलकर गणना दिखाओ।",
+    "label": "unsupported"
+  },
+  {
+    "id": "intent-train-u8-gu",
+    "family": "intent-train-u8",
+    "language": "gu",
+    "text": "ઓગણીસ કિલોમીટરને મીટરમાં ફેરવીને ગણતરી બતાવો.",
+    "label": "unsupported"
+  }
+]
