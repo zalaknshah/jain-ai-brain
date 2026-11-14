@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-11-14T02:56:49.890362+00:00",
+  "file": "heldout.json",
+  "sha256": "0958a6d213d69cfe6aef54e300a8aaf1e0882a12bc17a8914828d834b95412ec",
+  "rows": 72,
+  "matched_language_families": 24,
+  "supported": 36,
+  "unsupported": 36,
+  "protocol_sha256_received_before_authoring": "e1a25d2e62727c4d5860f3f10e6b597ff691d49b156ff4b71330357253997fb1",
+  "limitations": [
+    "Independent assistant-authored synthetic examples, not expert or native-speaker validation.",
+    "Author knew prior experiment outcomes and had authored prior heldouts; no train/dev examples or prior heldout files were read during this assignment.",
+    "Author previously audited source code, aggregate reports and hashes, not new training text.",
+    "Matched EN/HI/GU translations are correlated; 72 rows are only 24 scenario families.",
+    "Includes quoted-request, negation, context and adversarial-relabeling contrasts, not exhaustive adversarial coverage.",
+    "No private texts or real personal data used. No model tuning or evaluation by author.",
+    "Heldout content withheld pending model-worker freeze confirmation."
+  ]
+}
