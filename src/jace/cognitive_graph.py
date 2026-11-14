@@ -116,12 +116,21 @@ class CognitiveGraph:
                     continue
                 overlap = terms(" ".join(left.tags)) & terms(" ".join(right.tags))
                 if overlap or frozenset({left.entry_id, right.entry_id}) in related_pairs:
-                    weight = 0.5 + 0.1 * len(overlap)
+                    legacy_weight = 0.5 + 0.1 * len(overlap)
+                    weight = min(1.0, legacy_weight)
                     for first, second in [(left.entry_id, right.entry_id), (right.entry_id, left.entry_id)]:
                         self._connection.execute(
                             "INSERT OR IGNORE INTO graph_edges(from_id, to_id, relation, weight) VALUES (?, ?, 'related_principle', ?)",
                             (node_ids[first], node_ids[second], weight),
                         )
+                        if legacy_weight > 1.0:
+                            # Repair only this deterministic historical seed bug.
+                            # Unexpected stored weights still fail closed on read.
+                            self._connection.execute(
+                                "UPDATE graph_edges SET weight = ? WHERE from_id = ? AND to_id = ? "
+                                "AND relation = 'related_principle' AND weight = ?",
+                                (weight, node_ids[first], node_ids[second], legacy_weight),
+                            )
 
     def add_memory(self, memory: Memory, canonical: list[CanonicalEntry], *, commit: bool = True) -> None:
         node_id = f"memory:{memory.memory_id}"
