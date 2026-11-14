@@ -128,6 +128,35 @@ def _validate(pins, declaration):
         raise ConsumerError('Exact version, source, license and private purpose opt-in required')
 
 
+def _literal_locations(record, query):
+    """Bounded code-point ranges in parsed text, never original XML byte spans."""
+    ranges = []
+    cursor = 0
+    for index, part in enumerate(record['parsed_text_parts']):
+        end = cursor + len(part['text'])
+        ranges.append((cursor, end, index, part))
+        cursor = end
+    locations = []
+    start = record['parsed_text'].find(query)
+    while start >= 0 and len(locations) < 32:
+        end = start + len(query)
+        fragments = []
+        for left, right, index, part in ranges:
+            if left < right and left < end and right > start:
+                fragments.append({'part_index': index, 'part_start': max(start, left)-left,
+                    'part_end': min(end, right)-left, 'xml_path': part['xml_path'],
+                    'slot': part['slot'], 'inherited_xml_lang': part['inherited_xml_lang'],
+                    'within_note_markup': part['within_note_markup'],
+                    'within_quotation_markup': part['within_quotation_markup']})
+        locations.append({'start': start, 'end': end, 'fragments': fragments,
+                          'crosses_part_boundary': len(fragments) > 1})
+        start = record['parsed_text'].find(query, start + 1)
+    return {'record_id': record['id'], 'locations': locations,
+            'more_locations': start >= 0, 'location_limit': 32,
+            'offset_units': 'unicode_code_points_in_parsed_text_not_original_xml_bytes',
+            'interpretation': 'literal_match_not_semantic_support'}
+
+
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
             xml_id=None, before=0, after=0, reviewed_noncandidates=False,
             query=None, limit=None, offset=None, xml_ids=None):
@@ -248,7 +277,8 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                     attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
                     accession_notice=raw['accession.json'].decode('utf-8'))
                 if operation == 'search':
-                    result.update(match_count=len(matches), matching='exact_case_sensitive_unicode_substring_no_normalization')
+                    result.update(match_count=len(matches), matching='exact_case_sensitive_unicode_substring_no_normalization',
+                        match_locations=[_literal_locations(r, query) for r in matches[offset:end]])
             snapshot.check()
             return result
     except OSError:

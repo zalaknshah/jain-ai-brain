@@ -84,3 +84,5 @@ Lookup can additionally request bounded neighboring extracted units with optiona
 commentary/support relations and do not relax disclosure or review permission.
 
 Explicit nonadjacent comparative reading is documented in fresh-source-selection.md.
+
+Search hit positions and quotation/note-part boundaries are documented in fresh-search-locations.md.
