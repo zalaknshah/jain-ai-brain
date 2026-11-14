@@ -23,6 +23,9 @@ class ContainerRecipeTests(unittest.TestCase):
         expected = {
             '!Dockerfile', '!pyproject.toml', '!README.md', '!LICENSE',
             '!src/jace_study_query.py',
+            '!src/jace/_fresh_study/__init__.py',
+            '!src/jace/_fresh_study/consumer.py',
+            '!src/jace/_fresh_study/preparation.py',
             *('!' + path.relative_to(ROOT).as_posix()
               for path in (ROOT / 'src/jace').glob('*.py')),
             *('!src/jace/data/' + name for name in ASSETS),
@@ -56,6 +59,9 @@ class ContainerRecipeTests(unittest.TestCase):
             'build/lib/jace/private.json', 'dist/jace.whl',
             'src/jace.egg-info/SOURCES.txt', 'src/jace/__pycache__/cli.pyc',
             'src/jace/.env', 'src/jace/private.sqlite3',
+            'src/jace/_fresh_study/private.txt',
+            'src/jace/_fresh_study/records.jsonl',
+            'src/jace/_fresh_study/original.xml',
             'src/jace/data/private.json', 'src/jace/data/canonical.json.bak',
             'web/index.html', 'tests/test_jace.py',
         ):

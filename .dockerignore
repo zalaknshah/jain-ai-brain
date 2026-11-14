@@ -73,3 +73,7 @@
 !src/jace/data/unitree_g1_headless.xml
 !src/jace/data/unitree_g1_scene.xml
 !src/jace/data/unitree_g1_source.json
+!src/jace/fresh_private_study.py
+!src/jace/_fresh_study/__init__.py
+!src/jace/_fresh_study/consumer.py
+!src/jace/_fresh_study/preparation.py

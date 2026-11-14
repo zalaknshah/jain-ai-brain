@@ -41,3 +41,21 @@ From a complete checkout after applying the additive files:
 The consumer uses POSIX descriptor-relative IO and private owned file modes.
 Windows support is not claimed. Do not add an unsafe fallback for unsupported
 platforms. Existing held corpus publications and translations are unaffected.
+
+## Main integration check, 14 November 2026
+
+Rebuilt the candidate from current public main
+`aba465eedfa95974164532ed52eaf9103787d12f` plus the eight feature files.
+The first full suite ran 888 tests with 54 skips and one failure: the exact
+Docker context allowlist omitted the new package. Added only four exact Python
+file exceptions and corresponding explicit container regression expectations;
+private source descendants remain excluded. The corrected full documented
+unittest suite ran 888 tests in 69.362 seconds: OK, 54 optional skips.
+Independent review reran all five static container checks and reviewed the
+exact source-only diff. Package discovery and syntax checks also passed.
+
+This is not a Docker build/run qualification; no image, service, real source
+bundle, robot, trained model or Windows test was run. No GitHub CI check runs
+were present on the feature commit at inspection. The prior failed run is not
+counted as a pass. Legacy private-study code and pins remain byte-identical to
+main. No held evaluator or split-guard feature is included in this integration.
