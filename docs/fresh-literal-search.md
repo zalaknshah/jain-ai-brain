@@ -41,3 +41,7 @@ Validation: full documented unittest suite ran 913 tests in 68.682 seconds,
 OK with 54 optional skips. Independent review passed 42 focused tests including
 12 new search checks. Frozen preparation and legacy study code are unchanged.
 No actual private corpus, model, Windows or Docker-runtime test was performed.
+
+The subsequent pagination extension (fresh-source-browsing.md) adds an optional
+explicit offset and total/next-page metadata, so later matches are reachable.
+The first-page behavior and match semantics described above are unchanged.

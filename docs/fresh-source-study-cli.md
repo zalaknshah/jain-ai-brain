@@ -74,3 +74,6 @@ optional skips. Independent review passed 13 request and five static container
 checks and exercised three separate-process synthetic CLI journeys (inventory,
 denied lookup without disclosure, permitted lookup). No actual source corpus
 was used. These checks are not native Windows or container-build qualification.
+
+Bounded browsing and later search pages are documented in fresh-source-browsing.md.
+Browse has a distinct exact JSON schema and the same explicit disclosure gates.
