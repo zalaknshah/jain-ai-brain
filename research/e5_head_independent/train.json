@@ -1,0 +1,254 @@
+[
+  {
+    "id": "train-noninjury-en-0",
+    "family": "train-noninjury-0",
+    "language": "en",
+    "text": "Avoid injury to animals when cleaning the floor.",
+    "label": "noninjury"
+  },
+  {
+    "id": "train-noninjury-en-1",
+    "family": "train-noninjury-1",
+    "language": "en",
+    "text": "Reduce harm to living beings during repairs.",
+    "label": "noninjury"
+  },
+  {
+    "id": "train-noninjury-hi-0",
+    "family": "train-noninjury-0",
+    "language": "hi",
+    "text": "फर्श साफ करते समय जीवों को चोट से बचाएं।",
+    "label": "noninjury"
+  },
+  {
+    "id": "train-noninjury-hi-1",
+    "family": "train-noninjury-1",
+    "language": "hi",
+    "text": "मरम्मत करते समय जीवों की हानि कम करें।",
+    "label": "noninjury"
+  },
+  {
+    "id": "train-noninjury-gu-0",
+    "family": "train-noninjury-0",
+    "language": "gu",
+    "text": "ફર્શ સાફ કરતી વખતે જીવોને ઈજાથી બચાવો.",
+    "label": "noninjury"
+  },
+  {
+    "id": "train-noninjury-gu-1",
+    "family": "train-noninjury-1",
+    "language": "gu",
+    "text": "સમારકામ કરતી વખતે જીવોની હાનિ ઓછી કરો.",
+    "label": "noninjury"
+  },
+  {
+    "id": "train-restraint-en-0",
+    "family": "train-restraint-0",
+    "language": "en",
+    "text": "Repair belongings rather than buying unnecessary replacements.",
+    "label": "restraint"
+  },
+  {
+    "id": "train-restraint-en-1",
+    "family": "train-restraint-1",
+    "language": "en",
+    "text": "Reduce consumption and reuse existing possessions.",
+    "label": "restraint"
+  },
+  {
+    "id": "train-restraint-hi-0",
+    "family": "train-restraint-0",
+    "language": "hi",
+    "text": "अनावश्यक नई चीजें खरीदने के बजाय पुरानी वस्तुओं की मरम्मत करें।",
+    "label": "restraint"
+  },
+  {
+    "id": "train-restraint-hi-1",
+    "family": "train-restraint-1",
+    "language": "hi",
+    "text": "खपत कम करें और उपलब्ध वस्तुओं का दोबारा उपयोग करें।",
+    "label": "restraint"
+  },
+  {
+    "id": "train-restraint-gu-0",
+    "family": "train-restraint-0",
+    "language": "gu",
+    "text": "બિનજરૂરી નવી વસ્તુઓ ખરીદવાને બદલે જૂની વસ્તુઓનું સમારકામ કરો.",
+    "label": "restraint"
+  },
+  {
+    "id": "train-restraint-gu-1",
+    "family": "train-restraint-1",
+    "language": "gu",
+    "text": "વપરાશ ઓછો કરો અને ઉપલબ્ધ વસ્તુઓનો ફરી ઉપયોગ કરો.",
+    "label": "restraint"
+  },
+  {
+    "id": "train-perspectives-en-0",
+    "family": "train-perspectives-0",
+    "language": "en",
+    "text": "Compare different accounts of the dispute with evidence.",
+    "label": "perspectives"
+  },
+  {
+    "id": "train-perspectives-en-1",
+    "family": "train-perspectives-1",
+    "language": "en",
+    "text": "Hear both participants before judging competing explanations.",
+    "label": "perspectives"
+  },
+  {
+    "id": "train-perspectives-hi-0",
+    "family": "train-perspectives-0",
+    "language": "hi",
+    "text": "विवाद में अलग अलग पक्षों की बातों की साक्ष्य से तुलना करें।",
+    "label": "perspectives"
+  },
+  {
+    "id": "train-perspectives-hi-1",
+    "family": "train-perspectives-1",
+    "language": "hi",
+    "text": "निर्णय से पहले दोनों पक्षों के विवरण सुनें।",
+    "label": "perspectives"
+  },
+  {
+    "id": "train-perspectives-gu-0",
+    "family": "train-perspectives-0",
+    "language": "gu",
+    "text": "વિવાદમાં જુદા જુદા પક્ષોની વાતોની પુરાવા સાથે સરખામણી કરો.",
+    "label": "perspectives"
+  },
+  {
+    "id": "train-perspectives-gu-1",
+    "family": "train-perspectives-1",
+    "language": "gu",
+    "text": "નિર્ણય પહેલાં બંને પક્ષોના વર્ણન સાંભળો.",
+    "label": "perspectives"
+  },
+  {
+    "id": "train-conditional-en-0",
+    "family": "train-conditional-0",
+    "language": "en",
+    "text": "State the limits and conditions of this conclusion.",
+    "label": "conditional"
+  },
+  {
+    "id": "train-conditional-en-1",
+    "family": "train-conditional-1",
+    "language": "en",
+    "text": "Explain uncertainty rather than making a universal claim.",
+    "label": "conditional"
+  },
+  {
+    "id": "train-conditional-hi-0",
+    "family": "train-conditional-0",
+    "language": "hi",
+    "text": "इस निष्कर्ष की सीमाएं और शर्तें बताएं।",
+    "label": "conditional"
+  },
+  {
+    "id": "train-conditional-hi-1",
+    "family": "train-conditional-1",
+    "language": "hi",
+    "text": "सार्वभौमिक दावा करने के बजाय अनिश्चितता स्पष्ट करें।",
+    "label": "conditional"
+  },
+  {
+    "id": "train-conditional-gu-0",
+    "family": "train-conditional-0",
+    "language": "gu",
+    "text": "આ નિષ્કર્ષની મર્યાદાઓ અને શરતો જણાવો.",
+    "label": "conditional"
+  },
+  {
+    "id": "train-conditional-gu-1",
+    "family": "train-conditional-1",
+    "language": "gu",
+    "text": "સાર્વત્રિક દાવો કરવાને બદલે અનિશ્ચિતતા સ્પષ્ટ કરો.",
+    "label": "conditional"
+  },
+  {
+    "id": "train-provenance-en-0",
+    "family": "train-provenance-0",
+    "language": "en",
+    "text": "Check the edition and page before quoting a religious text.",
+    "label": "provenance"
+  },
+  {
+    "id": "train-provenance-en-1",
+    "family": "train-provenance-1",
+    "language": "en",
+    "text": "Verify the source passage instead of inventing a verse.",
+    "label": "provenance"
+  },
+  {
+    "id": "train-provenance-hi-0",
+    "family": "train-provenance-0",
+    "language": "hi",
+    "text": "धार्मिक पाठ उद्धृत करने से पहले संस्करण और पृष्ठ जांचें।",
+    "label": "provenance"
+  },
+  {
+    "id": "train-provenance-hi-1",
+    "family": "train-provenance-1",
+    "language": "hi",
+    "text": "श्लोक गढ़ने के बजाय मूल पाठ का स्रोत सत्यापित करें।",
+    "label": "provenance"
+  },
+  {
+    "id": "train-provenance-gu-0",
+    "family": "train-provenance-0",
+    "language": "gu",
+    "text": "ધાર્મિક પાઠ ટાંકતાં પહેલાં આવૃત્તિ અને પાનું તપાસો.",
+    "label": "provenance"
+  },
+  {
+    "id": "train-provenance-gu-1",
+    "family": "train-provenance-1",
+    "language": "gu",
+    "text": "શ્લોક બનાવવાને બદલે મૂળ પાઠનો સ્રોત ચકાસો.",
+    "label": "provenance"
+  },
+  {
+    "id": "train-consent-en-0",
+    "family": "train-consent-0",
+    "language": "en",
+    "text": "Ask permission before changing another person’s belongings.",
+    "label": "consent"
+  },
+  {
+    "id": "train-consent-en-1",
+    "family": "train-consent-1",
+    "language": "en",
+    "text": "Obtain explicit agreement before making an external commitment.",
+    "label": "consent"
+  },
+  {
+    "id": "train-consent-hi-0",
+    "family": "train-consent-0",
+    "language": "hi",
+    "text": "दूसरे की वस्तु बदलने से पहले अनुमति मांगें।",
+    "label": "consent"
+  },
+  {
+    "id": "train-consent-hi-1",
+    "family": "train-consent-1",
+    "language": "hi",
+    "text": "बाहरी प्रतिबद्धता से पहले स्पष्ट सहमति प्राप्त करें।",
+    "label": "consent"
+  },
+  {
+    "id": "train-consent-gu-0",
+    "family": "train-consent-0",
+    "language": "gu",
+    "text": "બીજાની વસ્તુ બદલતાં પહેલાં પરવાનગી માંગો.",
+    "label": "consent"
+  },
+  {
+    "id": "train-consent-gu-1",
+    "family": "train-consent-1",
+    "language": "gu",
+    "text": "બાહ્ય પ્રતિબદ્ધતા પહેલાં સ્પષ્ટ સંમતિ મેળવો.",
+    "label": "consent"
+  }
+]

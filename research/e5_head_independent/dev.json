@@ -1,0 +1,191 @@
+[
+  {
+    "id": "dev-noninjury-en",
+    "family": "dev-noninjury",
+    "language": "en",
+    "text": "Protect insects from injury during garden maintenance.",
+    "label": "noninjury"
+  },
+  {
+    "id": "dev-noninjury-hi",
+    "family": "dev-noninjury",
+    "language": "hi",
+    "text": "बगीचे में काम करते समय कीड़ों को चोट से बचाएं।",
+    "label": "noninjury"
+  },
+  {
+    "id": "dev-noninjury-gu",
+    "family": "dev-noninjury",
+    "language": "gu",
+    "text": "બગીચામાં કામ કરતી વખતે કીડાઓને ઈજાથી બચાવો.",
+    "label": "noninjury"
+  },
+  {
+    "id": "dev-restraint-en",
+    "family": "dev-restraint",
+    "language": "en",
+    "text": "Reuse an old chair rather than buying a new chair.",
+    "label": "restraint"
+  },
+  {
+    "id": "dev-restraint-hi",
+    "family": "dev-restraint",
+    "language": "hi",
+    "text": "नई कुर्सी खरीदने के बजाय पुरानी कुर्सी का दोबारा उपयोग करें।",
+    "label": "restraint"
+  },
+  {
+    "id": "dev-restraint-gu",
+    "family": "dev-restraint",
+    "language": "gu",
+    "text": "નવી ખુરશી ખરીદવાને બદલે જૂની ખુરશીનો ફરી ઉપયોગ કરો.",
+    "label": "restraint"
+  },
+  {
+    "id": "dev-perspectives-en",
+    "family": "dev-perspectives",
+    "language": "en",
+    "text": "Compare witnesses’ accounts before deciding a dispute.",
+    "label": "perspectives"
+  },
+  {
+    "id": "dev-perspectives-hi",
+    "family": "dev-perspectives",
+    "language": "hi",
+    "text": "विवाद का निर्णय करने से पहले गवाहों की बातों की तुलना करें।",
+    "label": "perspectives"
+  },
+  {
+    "id": "dev-perspectives-gu",
+    "family": "dev-perspectives",
+    "language": "gu",
+    "text": "વિવાદનો નિર્ણય કરતાં પહેલાં સાક્ષીઓની વાતોની સરખામણી કરો.",
+    "label": "perspectives"
+  },
+  {
+    "id": "dev-conditional-en",
+    "family": "dev-conditional",
+    "language": "en",
+    "text": "Explain the limits of a conclusion based on one observation.",
+    "label": "conditional"
+  },
+  {
+    "id": "dev-conditional-hi",
+    "family": "dev-conditional",
+    "language": "hi",
+    "text": "एक अवलोकन पर आधारित निष्कर्ष की सीमाएं बताएं।",
+    "label": "conditional"
+  },
+  {
+    "id": "dev-conditional-gu",
+    "family": "dev-conditional",
+    "language": "gu",
+    "text": "એક અવલોકન પર આધારિત નિષ્કર્ષની મર્યાદાઓ જણાવો.",
+    "label": "conditional"
+  },
+  {
+    "id": "dev-provenance-en",
+    "family": "dev-provenance",
+    "language": "en",
+    "text": "Verify the page for a quotation before citing it.",
+    "label": "provenance"
+  },
+  {
+    "id": "dev-provenance-hi",
+    "family": "dev-provenance",
+    "language": "hi",
+    "text": "उद्धरण देने से पहले उसका पृष्ठ सत्यापित करें।",
+    "label": "provenance"
+  },
+  {
+    "id": "dev-provenance-gu",
+    "family": "dev-provenance",
+    "language": "gu",
+    "text": "અવતરણ આપતાં પહેલાં તેનું પાનું ચકાસો.",
+    "label": "provenance"
+  },
+  {
+    "id": "dev-consent-en",
+    "family": "dev-consent",
+    "language": "en",
+    "text": "Ask for agreement before moving a neighbour’s chair.",
+    "label": "consent"
+  },
+  {
+    "id": "dev-consent-hi",
+    "family": "dev-consent",
+    "language": "hi",
+    "text": "पड़ोसी की कुर्सी हटाने से पहले सहमति मांगें।",
+    "label": "consent"
+  },
+  {
+    "id": "dev-consent-gu",
+    "family": "dev-consent",
+    "language": "gu",
+    "text": "પાડોશીની ખુરશી ખસેડતાં પહેલાં સંમતિ માંગો.",
+    "label": "consent"
+  },
+  {
+    "id": "dev-unknown1-en",
+    "family": "dev-unknown1",
+    "language": "en",
+    "text": "Calculate the mass of this planet.",
+    "label": null
+  },
+  {
+    "id": "dev-unknown1-hi",
+    "family": "dev-unknown1",
+    "language": "hi",
+    "text": "इस ग्रह का द्रव्यमान गणना करें।",
+    "label": null
+  },
+  {
+    "id": "dev-unknown1-gu",
+    "family": "dev-unknown1",
+    "language": "gu",
+    "text": "આ ગ્રહનું દળ ગણો.",
+    "label": null
+  },
+  {
+    "id": "dev-unknown2-en",
+    "family": "dev-unknown2",
+    "language": "en",
+    "text": "Write a story about permission from a dragon.",
+    "label": null
+  },
+  {
+    "id": "dev-unknown2-hi",
+    "family": "dev-unknown2",
+    "language": "hi",
+    "text": "ड्रैगन से अनुमति की कहानी लिखें।",
+    "label": null
+  },
+  {
+    "id": "dev-unknown2-gu",
+    "family": "dev-unknown2",
+    "language": "gu",
+    "text": "ડ્રેગન પાસેથી પરવાનગીની વાર્તા લખો.",
+    "label": null
+  },
+  {
+    "id": "dev-unknown3-en",
+    "family": "dev-unknown3",
+    "language": "en",
+    "text": "Which verse guarantees that a machine never causes injury?",
+    "label": null
+  },
+  {
+    "id": "dev-unknown3-hi",
+    "family": "dev-unknown3",
+    "language": "hi",
+    "text": "कौन सा श्लोक गारंटी देता है कि मशीन कभी चोट नहीं पहुंचाती?",
+    "label": null
+  },
+  {
+    "id": "dev-unknown3-gu",
+    "family": "dev-unknown3",
+    "language": "gu",
+    "text": "કયો શ્લોક ખાતરી આપે છે કે મશીન ક્યારેય ઈજા કરતું નથી?",
+    "label": null
+  }
+]

@@ -1,0 +1,544 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "encoder_frozen": true,
+  "optimizer_updates": 400,
+  "training_loss_initial_final_preupdate": [
+    1.791759469228049,
+    0.9013283588314722
+  ],
+  "cutoff": [
+    0.3,
+    0.1
+  ],
+  "prototype_cutoff": [
+    0.9,
+    0.05
+  ],
+  "dev": {
+    "overall": {
+      "total": 27,
+      "known": 18,
+      "correct_known_accepts": 14,
+      "wrong_known_accepts": 0,
+      "unsupported_false_accepts": 0,
+      "abstentions": 13,
+      "correct_decisions": 23
+    },
+    "per_language": {
+      "en": {
+        "total": 9,
+        "known": 6,
+        "correct_known_accepts": 6,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 3,
+        "correct_decisions": 9
+      },
+      "hi": {
+        "total": 9,
+        "known": 6,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 5,
+        "correct_decisions": 7
+      },
+      "gu": {
+        "total": 9,
+        "known": 6,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 5,
+        "correct_decisions": 7
+      }
+    },
+    "predictions": [
+      {
+        "id": "dev-noninjury-en",
+        "language": "en",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "score": 0.4088744524981821,
+        "margin": 0.2604715483279614
+      },
+      {
+        "id": "dev-noninjury-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "score": 0.49109032839224503,
+        "margin": 0.371288862435501
+      },
+      {
+        "id": "dev-noninjury-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "score": 0.4566005593941242,
+        "margin": 0.31720946664238114
+      },
+      {
+        "id": "dev-restraint-en",
+        "language": "en",
+        "expected": "restraint",
+        "selected": "restraint",
+        "score": 0.34838872522865916,
+        "margin": 0.1904076452047121
+      },
+      {
+        "id": "dev-restraint-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "selected": "restraint",
+        "score": 0.3311594678500505,
+        "margin": 0.16676499388029087
+      },
+      {
+        "id": "dev-restraint-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "selected": "restraint",
+        "score": 0.3772254786459687,
+        "margin": 0.21525384230250438
+      },
+      {
+        "id": "dev-perspectives-en",
+        "language": "en",
+        "expected": "perspectives",
+        "selected": "perspectives",
+        "score": 0.36454102637954217,
+        "margin": 0.19914469804505555
+      },
+      {
+        "id": "dev-perspectives-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "selected": "perspectives",
+        "score": 0.34252724478370483,
+        "margin": 0.16111866535098582
+      },
+      {
+        "id": "dev-perspectives-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "selected": "perspectives",
+        "score": 0.3295390910329441,
+        "margin": 0.1487556299385465
+      },
+      {
+        "id": "dev-conditional-en",
+        "language": "en",
+        "expected": "conditional",
+        "selected": "conditional",
+        "score": 0.3327312615441031,
+        "margin": 0.11375183574100955
+      },
+      {
+        "id": "dev-conditional-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "selected": null,
+        "score": 0.29365938888109855,
+        "margin": 0.07126213363065378
+      },
+      {
+        "id": "dev-conditional-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "selected": null,
+        "score": 0.28570841754079623,
+        "margin": 0.09617060969548413
+      },
+      {
+        "id": "dev-provenance-en",
+        "language": "en",
+        "expected": "provenance",
+        "selected": "provenance",
+        "score": 0.3045878841284864,
+        "margin": 0.139125221861857
+      },
+      {
+        "id": "dev-provenance-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "selected": null,
+        "score": 0.25222565331788455,
+        "margin": 0.030832866280997295
+      },
+      {
+        "id": "dev-provenance-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "selected": null,
+        "score": 0.24036913969064366,
+        "margin": 0.024378427053256102
+      },
+      {
+        "id": "dev-consent-en",
+        "language": "en",
+        "expected": "consent",
+        "selected": "consent",
+        "score": 0.3102123729651458,
+        "margin": 0.13059846841297837
+      },
+      {
+        "id": "dev-consent-hi",
+        "language": "hi",
+        "expected": "consent",
+        "selected": "consent",
+        "score": 0.30998947817870987,
+        "margin": 0.15139942684863553
+      },
+      {
+        "id": "dev-consent-gu",
+        "language": "gu",
+        "expected": "consent",
+        "selected": "consent",
+        "score": 0.3032136231010006,
+        "margin": 0.13707842679982338
+      },
+      {
+        "id": "dev-unknown1-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "score": 0.26733756745282616,
+        "margin": 0.08374184622870412
+      },
+      {
+        "id": "dev-unknown1-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "score": 0.2728766522886043,
+        "margin": 0.11076414124359993
+      },
+      {
+        "id": "dev-unknown1-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "score": 0.25246736181883755,
+        "margin": 0.08268362665042409
+      },
+      {
+        "id": "dev-unknown2-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "score": 0.20142798901788533,
+        "margin": 0.0005090031542822615
+      },
+      {
+        "id": "dev-unknown2-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "score": 0.22432745896510517,
+        "margin": 0.016666978430033674
+      },
+      {
+        "id": "dev-unknown2-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "score": 0.20695004066066927,
+        "margin": 0.003274504208403528
+      },
+      {
+        "id": "dev-unknown3-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "score": 0.24885332725345477,
+        "margin": 0.04994712964765813
+      },
+      {
+        "id": "dev-unknown3-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "score": 0.2482809816019297,
+        "margin": 0.07027223183752879
+      },
+      {
+        "id": "dev-unknown3-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "score": 0.2340475153400663,
+        "margin": 0.05623361007859676
+      }
+    ]
+  },
+  "prototype_dev": {
+    "overall": {
+      "total": 27,
+      "known": 18,
+      "correct_known_accepts": 5,
+      "wrong_known_accepts": 0,
+      "unsupported_false_accepts": 0,
+      "abstentions": 22,
+      "correct_decisions": 14
+    },
+    "per_language": {
+      "en": {
+        "total": 9,
+        "known": 6,
+        "correct_known_accepts": 1,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 8,
+        "correct_decisions": 4
+      },
+      "hi": {
+        "total": 9,
+        "known": 6,
+        "correct_known_accepts": 2,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 7,
+        "correct_decisions": 5
+      },
+      "gu": {
+        "total": 9,
+        "known": 6,
+        "correct_known_accepts": 2,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 7,
+        "correct_decisions": 5
+      }
+    },
+    "predictions": [
+      {
+        "id": "dev-noninjury-en",
+        "language": "en",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "score": 0.9073221434536365,
+        "margin": 0.06356114680580771
+      },
+      {
+        "id": "dev-noninjury-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "score": 0.9549244386944065,
+        "margin": 0.09110000775220028
+      },
+      {
+        "id": "dev-noninjury-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "score": 0.9406298564532293,
+        "margin": 0.07673596155802698
+      },
+      {
+        "id": "dev-restraint-en",
+        "language": "en",
+        "expected": "restraint",
+        "selected": null,
+        "score": 0.906714855537126,
+        "margin": 0.048831302594043335
+      },
+      {
+        "id": "dev-restraint-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "selected": null,
+        "score": 0.9426587882875535,
+        "margin": 0.04438278025544928
+      },
+      {
+        "id": "dev-restraint-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "selected": "restraint",
+        "score": 0.9495952784976764,
+        "margin": 0.05526411874076009
+      },
+      {
+        "id": "dev-perspectives-en",
+        "language": "en",
+        "expected": "perspectives",
+        "selected": null,
+        "score": 0.918097423208457,
+        "margin": 0.049685573985809306
+      },
+      {
+        "id": "dev-perspectives-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "selected": null,
+        "score": 0.951911018245682,
+        "margin": 0.03662746865775257
+      },
+      {
+        "id": "dev-perspectives-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "selected": null,
+        "score": 0.9486777515695237,
+        "margin": 0.03421527859809936
+      },
+      {
+        "id": "dev-conditional-en",
+        "language": "en",
+        "expected": "conditional",
+        "selected": null,
+        "score": 0.8968311456574881,
+        "margin": 0.030901678564231205
+      },
+      {
+        "id": "dev-conditional-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "selected": null,
+        "score": 0.9334560904176263,
+        "margin": 0.021177800187777485
+      },
+      {
+        "id": "dev-conditional-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "selected": null,
+        "score": 0.9341520884742074,
+        "margin": 0.02979401651698166
+      },
+      {
+        "id": "dev-provenance-en",
+        "language": "en",
+        "expected": "provenance",
+        "selected": null,
+        "score": 0.9010823241861856,
+        "margin": 0.03811148916137441
+      },
+      {
+        "id": "dev-provenance-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "selected": null,
+        "score": 0.9246734136577668,
+        "margin": 0.006705240033027859
+      },
+      {
+        "id": "dev-provenance-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "selected": null,
+        "score": 0.923143964724694,
+        "margin": 0.008823442625811806
+      },
+      {
+        "id": "dev-consent-en",
+        "language": "en",
+        "expected": "consent",
+        "selected": null,
+        "score": 0.9049729485118521,
+        "margin": 0.03794988279220768
+      },
+      {
+        "id": "dev-consent-hi",
+        "language": "hi",
+        "expected": "consent",
+        "selected": "consent",
+        "score": 0.9391131165235317,
+        "margin": 0.05128068528947205
+      },
+      {
+        "id": "dev-consent-gu",
+        "language": "gu",
+        "expected": "consent",
+        "selected": null,
+        "score": 0.9374444821033011,
+        "margin": 0.04313471645328737
+      },
+      {
+        "id": "dev-unknown1-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "score": 0.853955035111352,
+        "margin": 0.026239372639121794
+      },
+      {
+        "id": "dev-unknown1-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "score": 0.8860262890641475,
+        "margin": 0.03709636694605556
+      },
+      {
+        "id": "dev-unknown1-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "score": 0.8813963292946592,
+        "margin": 0.027236102239140636
+      },
+      {
+        "id": "dev-unknown2-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "score": 0.8178744033017222,
+        "margin": 5.805023554739108e-05
+      },
+      {
+        "id": "dev-unknown2-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "score": 0.8912542364030274,
+        "margin": 0.0043135554079374305
+      },
+      {
+        "id": "dev-unknown2-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "score": 0.8806458441771337,
+        "margin": 0.0016644458105304905
+      },
+      {
+        "id": "dev-unknown3-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "score": 0.8191271087787282,
+        "margin": 0.007061601541819673
+      },
+      {
+        "id": "dev-unknown3-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "score": 0.8158251755661263,
+        "margin": 0.015400346778842167
+      },
+      {
+        "id": "dev-unknown3-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "score": 0.8536507687741791,
+        "margin": 0.012530275663590107
+      }
+    ]
+  },
+  "dataset_sha256": {
+    "train.json": "c1fcc7fb4925bccd645afcba2dc42a56d633fdd7b6d7593b7d610e50071b1b41",
+    "dev.json": "59f9f965f61546407af629c77157b9f98a2a9d1af21614d2e325ccce4cda092f"
+  },
+  "promotion": false,
+  "resources": {
+    "wall_seconds": 4.450637829002517,
+    "peak_rss_kib": 744424,
+    "threads": 2
+  }
+}

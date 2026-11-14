@@ -1,0 +1,515 @@
+{
+  "train": {
+    "max_tokens": 26,
+    "truncated_rows": 0,
+    "records": [
+      {
+        "id": "train-noninjury-en-0",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-noninjury-en-1",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-noninjury-hi-0",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-noninjury-hi-1",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-noninjury-gu-0",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-noninjury-gu-1",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-restraint-en-0",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-restraint-en-1",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-restraint-hi-0",
+        "tokens": 26,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-restraint-hi-1",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-restraint-gu-0",
+        "tokens": 25,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-restraint-gu-1",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-perspectives-en-0",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-perspectives-en-1",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-perspectives-hi-0",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-perspectives-hi-1",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-perspectives-gu-0",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-perspectives-gu-1",
+        "tokens": 14,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-conditional-en-0",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-conditional-en-1",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-conditional-hi-0",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-conditional-hi-1",
+        "tokens": 22,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-conditional-gu-0",
+        "tokens": 22,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-conditional-gu-1",
+        "tokens": 22,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-provenance-en-0",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-provenance-en-1",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-provenance-hi-0",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-provenance-hi-1",
+        "tokens": 21,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-provenance-gu-0",
+        "tokens": 21,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-provenance-gu-1",
+        "tokens": 22,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-consent-en-0",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-consent-en-1",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-consent-hi-0",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-consent-hi-1",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-consent-gu-0",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "train-consent-gu-1",
+        "tokens": 20,
+        "truncated_at_128": false
+      }
+    ]
+  },
+  "dev": {
+    "max_tokens": 26,
+    "truncated_rows": 0,
+    "records": [
+      {
+        "id": "dev-noninjury-en",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-noninjury-hi",
+        "tokens": 19,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-noninjury-gu",
+        "tokens": 21,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-restraint-en",
+        "tokens": 17,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-restraint-hi",
+        "tokens": 23,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-restraint-gu",
+        "tokens": 23,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-perspectives-en",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-perspectives-hi",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-perspectives-gu",
+        "tokens": 19,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-conditional-en",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-conditional-hi",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-conditional-gu",
+        "tokens": 26,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-provenance-en",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-provenance-hi",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-provenance-gu",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-consent-en",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-consent-hi",
+        "tokens": 19,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-consent-gu",
+        "tokens": 23,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown1-en",
+        "tokens": 13,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown1-hi",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown1-gu",
+        "tokens": 14,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown2-en",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown2-hi",
+        "tokens": 15,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown2-gu",
+        "tokens": 18,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown3-en",
+        "tokens": 16,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown3-hi",
+        "tokens": 21,
+        "truncated_at_128": false
+      },
+      {
+        "id": "dev-unknown3-gu",
+        "tokens": 26,
+        "truncated_at_128": false
+      }
+    ]
+  },
+  "heldout": {
+    "max_tokens": 51,
+    "truncated_rows": 0,
+    "records": [
+      {
+        "id": "independent-01-en",
+        "tokens": 31,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-01-hi",
+        "tokens": 31,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-01-gu",
+        "tokens": 36,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-02-en",
+        "tokens": 30,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-02-hi",
+        "tokens": 36,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-02-gu",
+        "tokens": 36,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-03-en",
+        "tokens": 31,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-03-hi",
+        "tokens": 38,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-03-gu",
+        "tokens": 40,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-04-en",
+        "tokens": 37,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-04-hi",
+        "tokens": 45,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-04-gu",
+        "tokens": 51,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-05-en",
+        "tokens": 34,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-05-hi",
+        "tokens": 38,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-05-gu",
+        "tokens": 47,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-06-en",
+        "tokens": 32,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-06-hi",
+        "tokens": 34,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-06-gu",
+        "tokens": 38,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-07-en",
+        "tokens": 19,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-07-hi",
+        "tokens": 27,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-07-gu",
+        "tokens": 28,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-08-en",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-08-hi",
+        "tokens": 27,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-08-gu",
+        "tokens": 33,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-09-en",
+        "tokens": 27,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-09-hi",
+        "tokens": 27,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-09-gu",
+        "tokens": 29,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-10-en",
+        "tokens": 33,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-10-hi",
+        "tokens": 41,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-10-gu",
+        "tokens": 51,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-11-en",
+        "tokens": 21,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-11-hi",
+        "tokens": 20,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-11-gu",
+        "tokens": 22,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-12-en",
+        "tokens": 27,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-12-hi",
+        "tokens": 29,
+        "truncated_at_128": false
+      },
+      {
+        "id": "independent-12-gu",
+        "tokens": 35,
+        "truncated_at_128": false
+      }
+    ]
+  }
+}
