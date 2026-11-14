@@ -1,0 +1,52 @@
+{
+  "repeat_count": 1,
+  "regression_assertions_passed": true,
+  "failures": [],
+  "results": [
+    {
+      "scenario": "neutral_posture",
+      "terminal_reason": "step_budget_reached",
+      "sustained_probe_accepted": true,
+      "final_worker_cpu_seconds_used": 6.340964,
+      "outer_elapsed_wall_seconds": 6.387419374004821,
+      "observed_resource_budget_satisfied": true,
+      "resource_budget_violations": [],
+      "net_pelvis_advance_m": 0.1947829426938574,
+      "settled_tail_s": 4.0280000000000005
+    },
+    {
+      "scenario": "initial_tilt",
+      "terminal_reason": "posture_guard_triggered",
+      "sustained_probe_accepted": false,
+      "final_worker_cpu_seconds_used": 0.23671599999999998,
+      "outer_elapsed_wall_seconds": 0.2367250259994762,
+      "observed_resource_budget_satisfied": true,
+      "resource_budget_violations": [],
+      "net_pelvis_advance_m": 0.0,
+      "settled_tail_s": 0.0
+    },
+    {
+      "scenario": "sensor_dropout",
+      "terminal_reason": "sensor_guard_triggered",
+      "sustained_probe_accepted": false,
+      "final_worker_cpu_seconds_used": 0.319824,
+      "outer_elapsed_wall_seconds": 0.3195706560072722,
+      "observed_resource_budget_satisfied": true,
+      "resource_budget_violations": [],
+      "net_pelvis_advance_m": -0.013538861266942455,
+      "settled_tail_s": 0.0
+    },
+    {
+      "scenario": "strong_forward_third_swing",
+      "terminal_reason": "controller_feasibility_guard_triggered",
+      "sustained_probe_accepted": false,
+      "final_worker_cpu_seconds_used": 2.5855319999999997,
+      "outer_elapsed_wall_seconds": 2.595721791993128,
+      "observed_resource_budget_satisfied": true,
+      "resource_budget_violations": [],
+      "net_pelvis_advance_m": 0.5350935508139086,
+      "settled_tail_s": 0.0
+    }
+  ],
+  "limits": "Two observed suite runs including prior evidence, not reliability qualification or general walking/balance/hardware validation. CPU is direct child only. Prior historical signal9 and CPU overage not erased."
+}
