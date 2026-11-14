@@ -1,0 +1,1187 @@
+{
+  "scope": "Architectural probe on previously seen regression. Not independent validation, model promotion or brain qualification.",
+  "protocol_sha256": "d27ab012440b3a89e41705f2aaaf388978d8c2abc3a0938b475180dee0299c6c",
+  "source_sha256": "00e21ad6817c9b32e77fcf430dac8f777af24075f02828044757e116f8998e52",
+  "dataset_sha256": {
+    "train": "dee5729b7f8ac8d04ab9531c689cf331a63382cf240f1b983fae1dfb5a42e853",
+    "dev": "3e365cca4eabe92f9a02f4dec7c573bdd77fbe760f19df78a8a6d8c12d35319c",
+    "seen_regression": "0958a6d213d69cfe6aef54e300a8aaf1e0882a12bc17a8914828d834b95412ec"
+  },
+  "train_mean_sha256": "2201d65231052d9bcfa6b5d5b0555c66a28683b3b913dd1332e4de9577bec353",
+  "head_sha256": "e97ef3e15a13cbf8207465ac0f9c80411db0d1b3a80fb7b505ac9e74cf3ddd57",
+  "gate_loss_initial_final": [
+    0.6931471805599434,
+    0.10030922333781657
+  ],
+  "topic_loss_initial_final": [
+    1.791759469228049,
+    0.17279926368568338
+  ],
+  "cutoff": [
+    0.9,
+    0.3,
+    0.1
+  ],
+  "dev": {
+    "overall": {
+      "total": 36,
+      "known": 18,
+      "correct_known_accepts": 8,
+      "wrong_known_accepts": 0,
+      "unsupported_false_accepts": 0,
+      "abstentions": 28
+    },
+    "per_language": {
+      "en": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 1,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 11
+      },
+      "hi": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 3,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 9
+      },
+      "gu": {
+        "total": 12,
+        "known": 6,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 8
+      }
+    },
+    "predictions": [
+      {
+        "id": "intent-dev-d1-en",
+        "language": "en",
+        "expected": "noninjury",
+        "selected": null,
+        "support_probability": 0.8029533093032466,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.6653399885410592,
+        "topic_margin": 0.5841800319592529
+      },
+      {
+        "id": "intent-dev-d1-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "selected": null,
+        "support_probability": 0.8669122071305337,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.49516959094251817,
+        "topic_margin": 0.34739418801397826
+      },
+      {
+        "id": "intent-dev-d1-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "selected": null,
+        "support_probability": 0.8193330512960448,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.5382577087721427,
+        "topic_margin": 0.3982174218714926
+      },
+      {
+        "id": "intent-dev-d2-en",
+        "language": "en",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.8987429107363473,
+        "top1_topic": "restraint",
+        "topic_probability": 0.4984521642437942,
+        "topic_margin": 0.36986101644702696
+      },
+      {
+        "id": "intent-dev-d2-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "selected": "restraint",
+        "support_probability": 0.9472901998987645,
+        "top1_topic": "restraint",
+        "topic_probability": 0.7487618934001622,
+        "topic_margin": 0.6846600479497568
+      },
+      {
+        "id": "intent-dev-d2-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "selected": "restraint",
+        "support_probability": 0.9301523332155247,
+        "top1_topic": "restraint",
+        "topic_probability": 0.7926524165843067,
+        "topic_margin": 0.7415936864294432
+      },
+      {
+        "id": "intent-dev-d3-en",
+        "language": "en",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.858183005001976,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.3724821426961494,
+        "topic_margin": 0.19788756485392484
+      },
+      {
+        "id": "intent-dev-d3-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "selected": "perspectives",
+        "support_probability": 0.9436943194529136,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.5209516924533049,
+        "topic_margin": 0.40310751128691347
+      },
+      {
+        "id": "intent-dev-d3-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "selected": "perspectives",
+        "support_probability": 0.9033840519934109,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.6179212016799671,
+        "topic_margin": 0.5249116821927409
+      },
+      {
+        "id": "intent-dev-d4-en",
+        "language": "en",
+        "expected": "conditional",
+        "selected": "conditional",
+        "support_probability": 0.9084068916515634,
+        "top1_topic": "conditional",
+        "topic_probability": 0.37149244689377003,
+        "topic_margin": 0.21421878344650627
+      },
+      {
+        "id": "intent-dev-d4-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "selected": "conditional",
+        "support_probability": 0.9242517462482709,
+        "top1_topic": "conditional",
+        "topic_probability": 0.39657247123298994,
+        "topic_margin": 0.20244724525121377
+      },
+      {
+        "id": "intent-dev-d4-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "selected": "conditional",
+        "support_probability": 0.9309849787719322,
+        "top1_topic": "conditional",
+        "topic_probability": 0.3620533982457784,
+        "topic_margin": 0.10093841514426971
+      },
+      {
+        "id": "intent-dev-d5-en",
+        "language": "en",
+        "expected": "provenance",
+        "selected": null,
+        "support_probability": 0.803555153275899,
+        "top1_topic": "provenance",
+        "topic_probability": 0.759939230003989,
+        "topic_margin": 0.6821186879221242
+      },
+      {
+        "id": "intent-dev-d5-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "selected": null,
+        "support_probability": 0.8391239489553014,
+        "top1_topic": "provenance",
+        "topic_probability": 0.7091693641442609,
+        "topic_margin": 0.6365582716590035
+      },
+      {
+        "id": "intent-dev-d5-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "selected": "provenance",
+        "support_probability": 0.933160947745163,
+        "top1_topic": "provenance",
+        "topic_probability": 0.7128814544413316,
+        "topic_margin": 0.6379076329723441
+      },
+      {
+        "id": "intent-dev-d6-en",
+        "language": "en",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.7861221262558784,
+        "top1_topic": "consent",
+        "topic_probability": 0.5340204223967473,
+        "topic_margin": 0.3413522042465092
+      },
+      {
+        "id": "intent-dev-d6-hi",
+        "language": "hi",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.8244235125160271,
+        "top1_topic": "consent",
+        "topic_probability": 0.5705467764274407,
+        "topic_margin": 0.4139387694543406
+      },
+      {
+        "id": "intent-dev-d6-gu",
+        "language": "gu",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.7775662777524289,
+        "top1_topic": "consent",
+        "topic_probability": 0.6485177068624317,
+        "topic_margin": 0.5558005564334872
+      },
+      {
+        "id": "intent-dev-du1-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.41632915901774653,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.266639031926871,
+        "topic_margin": 0.06205261511945284
+      },
+      {
+        "id": "intent-dev-du1-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.12682689481009696,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.5074940678747767,
+        "topic_margin": 0.34803323380440493
+      },
+      {
+        "id": "intent-dev-du1-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.13318246074095857,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.5277288380781495,
+        "topic_margin": 0.4015952532530468
+      },
+      {
+        "id": "intent-dev-du2-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.45690784551426805,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5722476740005003,
+        "topic_margin": 0.42255384846715816
+      },
+      {
+        "id": "intent-dev-du2-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.7202097966444042,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5928416186162373,
+        "topic_margin": 0.46707124904127684
+      },
+      {
+        "id": "intent-dev-du2-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.8018466552659395,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5930253885738078,
+        "topic_margin": 0.4471213272944681
+      },
+      {
+        "id": "intent-dev-du3-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6447981875179327,
+        "top1_topic": "consent",
+        "topic_probability": 0.3795043577401986,
+        "topic_margin": 0.1964628165924345
+      },
+      {
+        "id": "intent-dev-du3-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.7644840474810563,
+        "top1_topic": "consent",
+        "topic_probability": 0.27182015111108004,
+        "topic_margin": 0.0010294680851714033
+      },
+      {
+        "id": "intent-dev-du3-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.7641202328117268,
+        "top1_topic": "consent",
+        "topic_probability": 0.3314685017126446,
+        "topic_margin": 0.04689800939561667
+      },
+      {
+        "id": "intent-dev-du4-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.37298278226327264,
+        "top1_topic": "conditional",
+        "topic_probability": 0.25378224159658697,
+        "topic_margin": 0.01935922834746684
+      },
+      {
+        "id": "intent-dev-du4-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.06148840156892616,
+        "top1_topic": "restraint",
+        "topic_probability": 0.2470642922025584,
+        "topic_margin": 0.017312258203972364
+      },
+      {
+        "id": "intent-dev-du4-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.06053453929564705,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.2786739968371114,
+        "topic_margin": 0.08149525811962807
+      },
+      {
+        "id": "intent-dev-du5-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.15058131489809282,
+        "top1_topic": "restraint",
+        "topic_probability": 0.21879014351925763,
+        "topic_margin": 0.009191214470986808
+      },
+      {
+        "id": "intent-dev-du5-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.07733756427805982,
+        "top1_topic": "restraint",
+        "topic_probability": 0.2215099207749077,
+        "topic_margin": 0.014620796132169933
+      },
+      {
+        "id": "intent-dev-du5-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.10596081530826981,
+        "top1_topic": "provenance",
+        "topic_probability": 0.2453305180544605,
+        "topic_margin": 0.06017353080071369
+      },
+      {
+        "id": "intent-dev-du6-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.2751189861192747,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.24935011720393865,
+        "topic_margin": 0.013429831693580058
+      },
+      {
+        "id": "intent-dev-du6-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.069165781943927,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.23596542900325093,
+        "topic_margin": 0.019993264329187133
+      },
+      {
+        "id": "intent-dev-du6-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.11035071796154111,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.25984625869875366,
+        "topic_margin": 0.011914608185087133
+      }
+    ]
+  },
+  "seen_regression": {
+    "overall": {
+      "total": 72,
+      "known": 36,
+      "correct_known_accepts": 7,
+      "wrong_known_accepts": 0,
+      "unsupported_false_accepts": 0,
+      "abstentions": 65
+    },
+    "per_language": {
+      "en": {
+        "total": 24,
+        "known": 12,
+        "correct_known_accepts": 1,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 23
+      },
+      "hi": {
+        "total": 24,
+        "known": 12,
+        "correct_known_accepts": 2,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 22
+      },
+      "gu": {
+        "total": 24,
+        "known": 12,
+        "correct_known_accepts": 4,
+        "wrong_known_accepts": 0,
+        "unsupported_false_accepts": 0,
+        "abstentions": 20
+      }
+    },
+    "predictions": [
+      {
+        "id": "broad-independent-01-en",
+        "language": "en",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "support_probability": 0.917506628736056,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.6219517349400154,
+        "topic_margin": 0.5088292481717157
+      },
+      {
+        "id": "broad-independent-01-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "selected": null,
+        "support_probability": 0.8909597784578003,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.6210048532777193,
+        "topic_margin": 0.4806803760338494
+      },
+      {
+        "id": "broad-independent-01-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "selected": null,
+        "support_probability": 0.8651938576731079,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.7052500326951989,
+        "topic_margin": 0.6143293000493809
+      },
+      {
+        "id": "broad-independent-02-en",
+        "language": "en",
+        "expected": "noninjury",
+        "selected": null,
+        "support_probability": 0.9514423408302948,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.29290034600383097,
+        "topic_margin": 0.08748359204926698
+      },
+      {
+        "id": "broad-independent-02-hi",
+        "language": "hi",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "support_probability": 0.9822308238480046,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.4217883449966089,
+        "topic_margin": 0.25631702481015534
+      },
+      {
+        "id": "broad-independent-02-gu",
+        "language": "gu",
+        "expected": "noninjury",
+        "selected": "noninjury",
+        "support_probability": 0.9790393200900344,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.33755625111825655,
+        "topic_margin": 0.12582312818368452
+      },
+      {
+        "id": "broad-independent-03-en",
+        "language": "en",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.7423274964287538,
+        "top1_topic": "restraint",
+        "topic_probability": 0.6418388717685282,
+        "topic_margin": 0.5513044122287517
+      },
+      {
+        "id": "broad-independent-03-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.8814692057225825,
+        "top1_topic": "restraint",
+        "topic_probability": 0.6379708619579578,
+        "topic_margin": 0.5319787575590977
+      },
+      {
+        "id": "broad-independent-03-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.8320080483845578,
+        "top1_topic": "restraint",
+        "topic_probability": 0.6649318076167089,
+        "topic_margin": 0.5631182709668214
+      },
+      {
+        "id": "broad-independent-04-en",
+        "language": "en",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.7686299885675869,
+        "top1_topic": "restraint",
+        "topic_probability": 0.6284161762860484,
+        "topic_margin": 0.5239740816054784
+      },
+      {
+        "id": "broad-independent-04-hi",
+        "language": "hi",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.8432833869342111,
+        "top1_topic": "restraint",
+        "topic_probability": 0.6875912186001946,
+        "topic_margin": 0.5951283821475687
+      },
+      {
+        "id": "broad-independent-04-gu",
+        "language": "gu",
+        "expected": "restraint",
+        "selected": null,
+        "support_probability": 0.8684775983708114,
+        "top1_topic": "restraint",
+        "topic_probability": 0.690631558723015,
+        "topic_margin": 0.6042037986866374
+      },
+      {
+        "id": "broad-independent-05-en",
+        "language": "en",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.9310588249052549,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.17877311679326252,
+        "topic_margin": 0.0007209792977133922
+      },
+      {
+        "id": "broad-independent-05-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.9691679765369287,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.20680086822016439,
+        "topic_margin": 0.021793796390536163
+      },
+      {
+        "id": "broad-independent-05-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.9591187827944232,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.20852539306197812,
+        "topic_margin": 0.027289772440156068
+      },
+      {
+        "id": "broad-independent-06-en",
+        "language": "en",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.6492803412227275,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.2879348865114386,
+        "topic_margin": 0.06550178749059593
+      },
+      {
+        "id": "broad-independent-06-hi",
+        "language": "hi",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.8699156429125828,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.26526414278270427,
+        "topic_margin": 0.06077721404686401
+      },
+      {
+        "id": "broad-independent-06-gu",
+        "language": "gu",
+        "expected": "perspectives",
+        "selected": null,
+        "support_probability": 0.8681668481182421,
+        "top1_topic": "perspectives",
+        "topic_probability": 0.23787935237673868,
+        "topic_margin": 0.04351170185863931
+      },
+      {
+        "id": "broad-independent-07-en",
+        "language": "en",
+        "expected": "conditional",
+        "selected": null,
+        "support_probability": 0.7404923607024373,
+        "top1_topic": "conditional",
+        "topic_probability": 0.4297288934444795,
+        "topic_margin": 0.2279520196450846
+      },
+      {
+        "id": "broad-independent-07-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "selected": null,
+        "support_probability": 0.873975680926343,
+        "top1_topic": "conditional",
+        "topic_probability": 0.4190444536192271,
+        "topic_margin": 0.13319432997873276
+      },
+      {
+        "id": "broad-independent-07-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "selected": null,
+        "support_probability": 0.8527606505461037,
+        "top1_topic": "conditional",
+        "topic_probability": 0.6482438389192917,
+        "topic_margin": 0.5307063672069846
+      },
+      {
+        "id": "broad-independent-08-en",
+        "language": "en",
+        "expected": "conditional",
+        "selected": null,
+        "support_probability": 0.8386932234199188,
+        "top1_topic": "conditional",
+        "topic_probability": 0.4532251603222047,
+        "topic_margin": 0.2775279576601728
+      },
+      {
+        "id": "broad-independent-08-hi",
+        "language": "hi",
+        "expected": "conditional",
+        "selected": null,
+        "support_probability": 0.7836598346760686,
+        "top1_topic": "conditional",
+        "topic_probability": 0.43507108511632014,
+        "topic_margin": 0.18944955117832168
+      },
+      {
+        "id": "broad-independent-08-gu",
+        "language": "gu",
+        "expected": "conditional",
+        "selected": null,
+        "support_probability": 0.8343710671177635,
+        "top1_topic": "conditional",
+        "topic_probability": 0.4237829719468985,
+        "topic_margin": 0.2136564958381141
+      },
+      {
+        "id": "broad-independent-09-en",
+        "language": "en",
+        "expected": "provenance",
+        "selected": null,
+        "support_probability": 0.747342158279894,
+        "top1_topic": "provenance",
+        "topic_probability": 0.49642540971106996,
+        "topic_margin": 0.36748567331639304
+      },
+      {
+        "id": "broad-independent-09-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "selected": null,
+        "support_probability": 0.8850554857083351,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5139311171127924,
+        "topic_margin": 0.34673796226132647
+      },
+      {
+        "id": "broad-independent-09-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "selected": "provenance",
+        "support_probability": 0.9195769266068146,
+        "top1_topic": "provenance",
+        "topic_probability": 0.4702863600029457,
+        "topic_margin": 0.3005360751474324
+      },
+      {
+        "id": "broad-independent-10-en",
+        "language": "en",
+        "expected": "provenance",
+        "selected": null,
+        "support_probability": 0.6504065011872613,
+        "top1_topic": "provenance",
+        "topic_probability": 0.6151674508090886,
+        "topic_margin": 0.49901787851398777
+      },
+      {
+        "id": "broad-independent-10-hi",
+        "language": "hi",
+        "expected": "provenance",
+        "selected": "provenance",
+        "support_probability": 0.9035970862073226,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5557646757751815,
+        "topic_margin": 0.4374648029952287
+      },
+      {
+        "id": "broad-independent-10-gu",
+        "language": "gu",
+        "expected": "provenance",
+        "selected": "provenance",
+        "support_probability": 0.9564820551337186,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5020204676225813,
+        "topic_margin": 0.3487992464148243
+      },
+      {
+        "id": "broad-independent-11-en",
+        "language": "en",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.5922766482661259,
+        "top1_topic": "consent",
+        "topic_probability": 0.5148390486161628,
+        "topic_margin": 0.3924150372566816
+      },
+      {
+        "id": "broad-independent-11-hi",
+        "language": "hi",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.7023331922978349,
+        "top1_topic": "consent",
+        "topic_probability": 0.356478829628255,
+        "topic_margin": 0.17231101839503435
+      },
+      {
+        "id": "broad-independent-11-gu",
+        "language": "gu",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.8342346389708257,
+        "top1_topic": "consent",
+        "topic_probability": 0.414682691971011,
+        "topic_margin": 0.20829934170986886
+      },
+      {
+        "id": "broad-independent-12-en",
+        "language": "en",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.9450271775585084,
+        "top1_topic": "consent",
+        "topic_probability": 0.24447562107738763,
+        "topic_margin": 0.04310919652015743
+      },
+      {
+        "id": "broad-independent-12-hi",
+        "language": "hi",
+        "expected": "consent",
+        "selected": null,
+        "support_probability": 0.9429068201056251,
+        "top1_topic": "consent",
+        "topic_probability": 0.2292985521078881,
+        "topic_margin": 0.01871322109557405
+      },
+      {
+        "id": "broad-independent-12-gu",
+        "language": "gu",
+        "expected": "consent",
+        "selected": "consent",
+        "support_probability": 0.9669218004334887,
+        "top1_topic": "consent",
+        "topic_probability": 0.32382249540871066,
+        "topic_margin": 0.1467556143305184
+      },
+      {
+        "id": "broad-independent-13-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.4020123580452599,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.2927938980374242,
+        "topic_margin": 0.0622133832872421
+      },
+      {
+        "id": "broad-independent-13-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.2995908982561522,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.3152031117099029,
+        "topic_margin": 0.08329838813618778
+      },
+      {
+        "id": "broad-independent-13-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.4837800687157887,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.32123677388367883,
+        "topic_margin": 0.11463272171253183
+      },
+      {
+        "id": "broad-independent-14-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.2460731693830704,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.3333062093807341,
+        "topic_margin": 0.14177086900078717
+      },
+      {
+        "id": "broad-independent-14-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.09720274558327134,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.4333971447878146,
+        "topic_margin": 0.3052395601143057
+      },
+      {
+        "id": "broad-independent-14-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.145992265166276,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.4531939461559829,
+        "topic_margin": 0.2828529740524718
+      },
+      {
+        "id": "broad-independent-15-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.45370064676423044,
+        "top1_topic": "restraint",
+        "topic_probability": 0.2524097191844487,
+        "topic_margin": 0.05244441254549717
+      },
+      {
+        "id": "broad-independent-15-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.40746027771120796,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.2835492079733915,
+        "topic_margin": 0.07241516029157255
+      },
+      {
+        "id": "broad-independent-15-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.5786998041905151,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.27334102611786065,
+        "topic_margin": 0.07444385149616864
+      },
+      {
+        "id": "broad-independent-16-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.4685021231772931,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.5431468679852856,
+        "topic_margin": 0.3504630295477818
+      },
+      {
+        "id": "broad-independent-16-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.39919095203008287,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.5057152530523552,
+        "topic_margin": 0.3074908641894513
+      },
+      {
+        "id": "broad-independent-16-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6599500529398755,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.4734429151198486,
+        "topic_margin": 0.2821385054406874
+      },
+      {
+        "id": "broad-independent-17-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6407303321361103,
+        "top1_topic": "conditional",
+        "topic_probability": 0.3366396532783496,
+        "topic_margin": 0.0315945295397988
+      },
+      {
+        "id": "broad-independent-17-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6546135104524704,
+        "top1_topic": "provenance",
+        "topic_probability": 0.3384727207187492,
+        "topic_margin": 0.07848430726412714
+      },
+      {
+        "id": "broad-independent-17-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6906098936387647,
+        "top1_topic": "provenance",
+        "topic_probability": 0.3026957095898918,
+        "topic_margin": 0.04207450751599412
+      },
+      {
+        "id": "broad-independent-18-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.32883036184350645,
+        "top1_topic": "provenance",
+        "topic_probability": 0.5715866405097064,
+        "topic_margin": 0.4581240613932601
+      },
+      {
+        "id": "broad-independent-18-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.5065522098100246,
+        "top1_topic": "provenance",
+        "topic_probability": 0.532111369595608,
+        "topic_margin": 0.3939700630293492
+      },
+      {
+        "id": "broad-independent-18-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.5067309569992108,
+        "top1_topic": "provenance",
+        "topic_probability": 0.4955531784337901,
+        "topic_margin": 0.36779061018619974
+      },
+      {
+        "id": "broad-independent-19-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.48562112356178794,
+        "top1_topic": "consent",
+        "topic_probability": 0.2819046408358378,
+        "topic_margin": 0.03269419821518005
+      },
+      {
+        "id": "broad-independent-19-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.45423854309309375,
+        "top1_topic": "consent",
+        "topic_probability": 0.2903222640727918,
+        "topic_margin": 0.04172196577594728
+      },
+      {
+        "id": "broad-independent-19-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6300738019518475,
+        "top1_topic": "consent",
+        "topic_probability": 0.27509983166730784,
+        "topic_margin": 0.05005091363652983
+      },
+      {
+        "id": "broad-independent-20-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.44951765354346906,
+        "top1_topic": "restraint",
+        "topic_probability": 0.45965789148333813,
+        "topic_margin": 0.325546181984386
+      },
+      {
+        "id": "broad-independent-20-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6773342469716565,
+        "top1_topic": "restraint",
+        "topic_probability": 0.3543978550472506,
+        "topic_margin": 0.19055711571785183
+      },
+      {
+        "id": "broad-independent-20-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.649098331329692,
+        "top1_topic": "restraint",
+        "topic_probability": 0.2833264771593816,
+        "topic_margin": 0.10514832589462461
+      },
+      {
+        "id": "broad-independent-21-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.6634368022041616,
+        "top1_topic": "conditional",
+        "topic_probability": 0.2028950749590882,
+        "topic_margin": 0.015337684043934624
+      },
+      {
+        "id": "broad-independent-21-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.37414278566852344,
+        "top1_topic": "provenance",
+        "topic_probability": 0.22328985402528692,
+        "topic_margin": 0.04929981666463709
+      },
+      {
+        "id": "broad-independent-21-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.3191311775211852,
+        "top1_topic": "provenance",
+        "topic_probability": 0.2357680818097125,
+        "topic_margin": 0.039795490955584545
+      },
+      {
+        "id": "broad-independent-22-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.29758127316433747,
+        "top1_topic": "conditional",
+        "topic_probability": 0.26929285668115455,
+        "topic_margin": 0.06450459736331896
+      },
+      {
+        "id": "broad-independent-22-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.23703830981370214,
+        "top1_topic": "conditional",
+        "topic_probability": 0.2857017187348039,
+        "topic_margin": 0.03830135131816051
+      },
+      {
+        "id": "broad-independent-22-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.20590067885091476,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.3789536205540036,
+        "topic_margin": 0.1457261998968645
+      },
+      {
+        "id": "broad-independent-23-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.38483070461400193,
+        "top1_topic": "noninjury",
+        "topic_probability": 0.23768153263733482,
+        "topic_margin": 0.03276785847883232
+      },
+      {
+        "id": "broad-independent-23-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.5618766645056098,
+        "top1_topic": "restraint",
+        "topic_probability": 0.3321146123278299,
+        "topic_margin": 0.14983423406598245
+      },
+      {
+        "id": "broad-independent-23-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.603321847049921,
+        "top1_topic": "provenance",
+        "topic_probability": 0.27910407274629745,
+        "topic_margin": 0.023068157105261333
+      },
+      {
+        "id": "broad-independent-24-en",
+        "language": "en",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.43221175009173723,
+        "top1_topic": "conditional",
+        "topic_probability": 0.39995407362640306,
+        "topic_margin": 0.2227220231930616
+      },
+      {
+        "id": "broad-independent-24-hi",
+        "language": "hi",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.5913985655836922,
+        "top1_topic": "conditional",
+        "topic_probability": 0.3781327688442436,
+        "topic_margin": 0.17953563097354372
+      },
+      {
+        "id": "broad-independent-24-gu",
+        "language": "gu",
+        "expected": null,
+        "selected": null,
+        "support_probability": 0.5313135454784036,
+        "top1_topic": "conditional",
+        "topic_probability": 0.3466112837309475,
+        "topic_margin": 0.11018076133031504
+      }
+    ]
+  },
+  "promoted": false,
+  "resources": {
+    "wall_seconds": 8.008826702003716,
+    "peak_rss_kib": 828400,
+    "threads": 2
+  }
+}

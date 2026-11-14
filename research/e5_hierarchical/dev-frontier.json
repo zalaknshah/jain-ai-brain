@@ -1,0 +1,35 @@
+{
+  "scope": "Dev-only exploratory grid tradeoff. No policy change, no test data, no validation claim.",
+  "points": [
+    {
+      "false_accepts": 0,
+      "correct_supported_accepts": 8
+    },
+    {
+      "false_accepts": 1,
+      "correct_supported_accepts": 16
+    },
+    {
+      "false_accepts": 2,
+      "correct_supported_accepts": 18
+    },
+    {
+      "false_accepts": 3,
+      "correct_supported_accepts": 18
+    },
+    {
+      "false_accepts": 4,
+      "correct_supported_accepts": 18
+    },
+    {
+      "false_accepts": 5,
+      "correct_supported_accepts": 18
+    }
+  ],
+  "frozen_selected_cutoff": [
+    0.9,
+    0.3,
+    0.1
+  ],
+  "source_report_sha256": "3ed5944ce020a8fa5ca74176f98823210e5d9464c7435a332a1a1a6ff53f63df"
+}
