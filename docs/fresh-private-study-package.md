@@ -61,3 +61,8 @@ bundle, robot, trained model or Windows test was run. No GitHub CI check runs
 were present on the feature commit at inspection. The prior failed run is not
 counted as a pass. Legacy private-study code and pins remain byte-identical to
 main. No held evaluator or split-guard feature is included in this integration.
+
+The subsequent literal-search extension is described in fresh-literal-search.md.
+It adds an explicit search operation without changing preparation bytes or
+legacy pins. The import-only consumer diff above describes the API-only milestone,
+not the later search extension.

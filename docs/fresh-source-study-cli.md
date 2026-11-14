@@ -2,7 +2,8 @@
 
 `python -m jace.cli fresh-source-study --stdin --bundle-directory /absolute/private/bundle --confirm-private-study`
 
-Reads at most 8 KiB JSON on stdin. It requires exactly these keys:
+Reads at most 8 KiB JSON on stdin. Inventory and lookup require exactly these keys. The subsequent bounded literal
+search uses its own exact request schema documented in fresh-literal-search.md:
 
 - `operation`: `inventory` or `lookup`.
 - `xml_id`: null for inventory; one exact selected XML identifier for lookup.

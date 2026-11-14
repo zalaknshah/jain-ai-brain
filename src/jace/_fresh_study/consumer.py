@@ -129,7 +129,8 @@ def _validate(pins, declaration):
 
 
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
-            xml_id=None, before=0, after=0, reviewed_noncandidates=False):
+            xml_id=None, before=0, after=0, reviewed_noncandidates=False,
+            query=None, limit=None):
     """Verify the complete bundle each call; return separate records, never an answer.
 
     Inventory contains aggregate metadata only. Lookup matches one exact selected
@@ -143,12 +144,20 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
     if (type(before) is not int or type(after) is not int or
             not 0 <= before <= MAX_CONTEXT or not 0 <= after <= MAX_CONTEXT):
         raise ConsumerError('Context bounds must be integers from zero through eight')
-    if operation not in ('inventory', 'lookup'):
+    if operation not in ('inventory', 'lookup', 'search'):
         raise ConsumerError('Unsupported operation')
     if operation == 'inventory' and (xml_id is not None or before or after or reviewed_noncandidates):
         raise ConsumerError('Inventory does not accept lookup or disclosure options')
     if operation == 'lookup' and (type(xml_id) is not str or not xml_id or len(xml_id) > 256):
         raise ConsumerError('An exact bounded XML ID is required')
+    if operation != 'search' and (query is not None or limit is not None):
+        raise ConsumerError('Search options require the search operation')
+    if operation == 'search':
+        if (xml_id is not None or before or after or type(query) is not str or
+                not 1 <= len(query) <= 128 or not query.strip() or
+                any(ord(c) < 32 or 127 <= ord(c) <= 159 or 0xD800 <= ord(c) <= 0xDFFF for c in query) or
+                type(limit) is not int or not 1 <= limit <= 8):
+            raise ConsumerError('Search requires a bounded literal query and integer limit one through eight')
     try:
         with _Snapshot(bundle_directory) as (snapshot, raw):
             hashes = {
@@ -189,6 +198,17 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 if not reviewed_noncandidates and any(not r['candidate_for_literal_study'] for r in selected):
                     raise ConsumerError('Noncandidate disclosure requires separate explicit review opt-in')
                 result.update(records=selected, target_record_id=records[index]['id'],
+                    reviewed_noncandidates=reviewed_noncandidates,
+                    attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
+                    accession_notice=raw['accession.json'].decode('utf-8'))
+            if operation == 'search':
+                records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
+                eligible = [r for r in records if reviewed_noncandidates or r['candidate_for_literal_study']]
+                matches = [r for r in eligible if query in r['parsed_text']]
+                result.update(records=matches[:limit], match_count=len(matches),
+                    truncated=len(matches)>limit, limit=limit,
+                    matching='exact_case_sensitive_unicode_substring_no_normalization',
+                    search_scope='all_selected_units' if reviewed_noncandidates else 'literal_candidates_only',
                     reviewed_noncandidates=reviewed_noncandidates,
                     attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
                     accession_notice=raw['accession.json'].decode('utf-8'))

@@ -37,7 +37,7 @@ def main() -> None:
     fresh.add_argument('--stdin', action='store_true', required=True)
     fresh.add_argument('--bundle-directory', required=True)
     fresh.add_argument('--confirm-private-study', action='store_true', required=True)
-    fresh.add_argument('--allow-local-disclosure', action='store_true', help='allow exact lookup text/notices on stdout; terminal may retain them')
+    fresh.add_argument('--allow-local-disclosure', action='store_true', help='allow lookup/search text and notices on stdout; terminal may retain them')
     fresh.add_argument('--review-noncandidates', action='store_true', help='allow private review of noncandidate units; not scholarly validation')
     dispute = sub.add_parser('prepare-dispute', help='stateless local discussion worksheet from bounded JSON stdin; no memory or provider')
     dispute.add_argument('--stdin', action='store_true', required=True, help='read an explicit JSON worksheet from stdin; input/output may be retained by your terminal')

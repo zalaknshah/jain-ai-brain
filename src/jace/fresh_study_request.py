@@ -24,7 +24,10 @@ def run_request(raw, *, bundle_directory, confirmed=False,
         raise ConsumerError('Invalid bounded fresh-study request')
     try:
         req = strict_json(raw)
-        if type(req) is not dict or set(req) != {'operation', 'pins', 'declaration', 'xml_id'}:
+        if type(req) is not dict:
+            raise ValueError()
+        expected = {'operation', 'pins', 'declaration', 'query', 'limit'} if req.get('operation') == 'search' else {'operation', 'pins', 'declaration', 'xml_id'}
+        if set(req) != expected:
             raise ValueError()
         if type(req['pins']) is not dict or set(req['pins']) != {f.name for f in fields(ExpectedPins)}:
             raise ValueError()
@@ -35,6 +38,9 @@ def run_request(raw, *, bundle_directory, confirmed=False,
                 raise ValueError()
         elif req['operation'] == 'lookup':
             if not allow_local_disclosure or type(req['xml_id']) is not str or not 0 < len(req['xml_id']) <= 256:
+                raise ValueError()
+        elif req['operation'] == 'search':
+            if not allow_local_disclosure:
                 raise ValueError()
         else:
             raise ValueError()
@@ -48,8 +54,9 @@ def run_request(raw, *, bundle_directory, confirmed=False,
             os.stat not in os.supports_follow_symlinks):
         raise ConsumerError('Fresh-study secure local IO requires POSIX primitives')
     result = consume(bundle_directory, pins=pins, declaration=declaration,
-                     operation=req['operation'], xml_id=req['xml_id'],
-                     reviewed_noncandidates=review_noncandidates)
+                     operation=req['operation'], xml_id=req.get('xml_id'),
+                     reviewed_noncandidates=review_noncandidates,
+                     query=req.get('query'), limit=req.get('limit'))
     wire = json.dumps(result, ensure_ascii=True, allow_nan=False, separators=(',', ':')) + '\n'
     if len(wire.encode('ascii')) > MAX_OUTPUT_BYTES:
         raise ConsumerError('Fresh-study output exceeds bounded limit')
