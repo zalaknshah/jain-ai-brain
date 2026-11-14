@@ -20,6 +20,7 @@ from .memory_scope import DEFAULT_SCOPE, validate_memory_scope
 from .models import ActionProposal, ThoughtResult, utc_now
 from .model_output import checked_text
 from .practical import plan_for
+from .retrieval_limits import query_terms
 from .reasoner import HttpJsonReasoner, LocalReasoner, Reasoner, configured_reasoner
 from .syadvada import evaluate
 from .temporal import recall_time, eligible_for_recall
@@ -92,7 +93,18 @@ class CognitiveEngine:
         context_time = recall_time()
         graph_hits = self.graph.retrieve(request, user_id, max_hops=2, max_nodes=12, at=context_time, memory_scope=memory_scope)
         plan = plan_for(request)
-        retrieval_query = request + (" " + plan.retrieval_terms if plan else "")
+        retrieval_query = request
+        if plan:
+            expanded = request + " " + plan.retrieval_terms
+            try:
+                query_terms(expanded)
+            except ValueError:
+                # The original query already passed graph retrieval validation.
+                # Omit only optional authored terms, never truncate user input
+                # or relax the shared character/distinct-term budgets.
+                pass
+            else:
+                retrieval_query = expanded
         evidence = self.canonical.search(retrieval_query, limit=5)
         # Preserve direct relevance order, then supplement from active graph
         # hits. Do not replace the whole result with file-order graph entries.
