@@ -9,14 +9,16 @@ MAX_OFFSETS_PER_GROUP = 64
 MAX_OFFSETS_TOTAL = 512
 
 
-def locate(source: bytes, expected_sha256: str, query: str, *, limit: int = 50) -> dict:
-    """Find case-sensitive, unnormalised substrings in parsed TEI body verses.
+def locate(source: bytes, expected_sha256: str, query: str, *, limit: int = 50, scope: str = "verse-groups") -> dict:
+    """Find literal substrings in TEI body verse groups or marked base-text quotes.
 
     Results contain no source text. Character offsets refer to the precisely
-    defined parsed verse string, NOT original XML bytes. This is discovery only.
+    defined parsed selected-unit string, NOT original XML bytes. This is discovery only.
     """
     if not isinstance(source, bytes) or not 1 <= len(source) <= 2 * 1024 * 1024:
         raise ValueError('source must be 1 byte to 2 MiB')
+    if scope not in ('verse-groups', 'marked-base-text-quotes'):
+        raise ValueError('unsupported locator scope')
     actual = hashlib.sha256(source).hexdigest()
     if not isinstance(expected_sha256, str) or not re.fullmatch('[0-9a-f]{64}', expected_sha256) or actual != expected_sha256:
         raise ValueError('source digest mismatch')
@@ -40,7 +42,9 @@ def locate(source: bytes, expected_sha256: str, query: str, *, limit: int = 50) 
         if depth > 128:
             raise ValueError('XML nesting exceeds limit')
         in_body = in_body or node.tag == TEI + 'body'
-        if in_body and node.tag == TEI + 'lg':
+        selected = (node.tag == TEI + 'lg') if scope == 'verse-groups' else (
+            node.tag == TEI + 'quote' and node.get('type') == 'base-text')
+        if in_body and selected:
             groups += 1
             # Include each descendant text slot once; no whitespace folding.
             parsed = ''.join(node.itertext())
@@ -61,8 +65,18 @@ def locate(source: bytes, expected_sha256: str, query: str, *, limit: int = 50) 
         for child in node:
             visit(child, in_body, depth + 1)
     visit(root)
-    return {'format': 'jace-literal-tei-locator-v1', 'source_sha256': actual,
+    result = {'format': 'jace-literal-tei-locator-v1', 'source_sha256': actual,
         'query_sha256': hashlib.sha256(query.encode('utf-8')).hexdigest(), 'normalization': 'none', 'match_mode': 'literal-substring',
         'groups_examined': groups, 'matching_groups': total, 'truncated': total > limit,
         'matches': found, 'semantic_equivalence_verified': False,
         'translation_verified': False, 'training_admitted': False, 'runtime_admitted': False}
+
+    if scope == 'marked-base-text-quotes':
+        result['format'] = 'jace-literal-tei-marked-quotes-v1'
+        result['scope'] = scope
+        result['source_markup_verified'] = False
+        result['units_examined'] = result.pop('groups_examined')
+        result['matching_units'] = result.pop('matching_groups')
+        for match in result['matches']:
+            match['unit_index'] = match.pop('group_index')
+    return result

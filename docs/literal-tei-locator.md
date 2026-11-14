@@ -13,3 +13,32 @@ Input is bounded to 2 MiB UTF-8, depth 128, query 128 characters and 100 returne
 Eight synthetic unit tests cover source binding, body scope, overlapping/literal matches, duplicate labels, truncation, numeric entities, DTD rejection, bounds and depth, repeated-character amplification, and source-attribute/query non-disclosure. A local read-only check on the independently acquired licensed Pāiyalacchīnāmamālā reference identified 279 groups and the same previously recorded candidate locators for three search strings. No corpus was added to this public code change and no external model saw it.
 
 Initial aggregate invocation omitted the README-required `PYTHONPATH=src` and failed import-dependent cases; that result is not a product regression pass. See final execution report for corrected aggregate results. This helper is research/reviewer tooling only, not trained Jain reasoning or a robot safety gate.
+
+## Opt-in marked base-text quotes
+
+`locate(source_bytes, expected_sha256, query, scope="marked-base-text-quotes")`
+searches only TEI body `quote` elements whose exact `type` attribute is
+`base-text`. It returns `jace-literal-tei-marked-quotes-v1`, with `units_examined`,
+`matching_units` and per-hit `unit_index` instead of the default group fields.
+Default verse-group behavior and response format are unchanged. This gives
+reviewers a structural way to exclude commentary and unmarked quotations in
+mixed lexicon files. It does not infer language or establish that the publisher's
+markup is correct: `source_markup_verified` remains false. Nested marked quotes
+count separately and may overlap; counts are not unique lexical entry counts.
+
+All existing literal-match, digest, private-output and resource bounds apply.
+A marked quote's entire parsed descendant text is searched, including any inline
+notes: this is an explicit XML boundary, not an independently verified root-text
+extraction. No marked units or no hit establishes neither corpus completeness nor
+absence of a word. This is not translation, definition extraction or training.
+
+Six added synthetic tests cover scope exclusion, default compatibility, nested
+unit overlap, fail-closed scope/digest, bounded output and no marked units. Private
+reference smoke checks must disclose only structural counts, never source text.
+
+This increment's local verification: 14 locator tests passed; the aggregate
+`PYTHONPATH=src python -m unittest discover -s tests -q` ran 875 tests with 54
+optional skips (821 executed). Count-only private smoke checks observed 279 verse
+groups and no marked quotes in Pāiyalacchīnāmamālā, and 1,425 verse groups and 781
+marked quotes in Dēśīnāmamālā. These are XML structure observations only. No
+private source passages or derived matches are included in the public tests.
