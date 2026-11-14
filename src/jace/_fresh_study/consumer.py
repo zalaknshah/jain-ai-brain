@@ -9,6 +9,9 @@ from . import preparation as fresh
 CONSUMER_VERSION = 'jace-fresh-private-consumer-v1'
 PURPOSE = 'fresh-private-source-study'
 MAX_CONTEXT = 8
+CATEGORIES = frozenset(('heading_markup', 'verse_group_markup', 'note_markup',
+    'commentary_label', 'quotation_markup', 'root_text_label', 'trailer_markup',
+    'unclassified_paragraph', 'list_item_markup'))
 LIMITS = {
     'original.xml': fresh.MAX_SOURCE_BYTES,
     'ATTRIBUTION.md': fresh.MAX_NOTICE_BYTES,
@@ -159,7 +162,7 @@ def _literal_locations(record, query):
 
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
             xml_id=None, before=0, after=0, reviewed_noncandidates=False,
-            query=None, limit=None, offset=None, xml_ids=None):
+            query=None, limit=None, offset=None, xml_ids=None, category=None):
     """Verify the complete bundle each call; return separate records, never an answer.
 
     Inventory contains aggregate metadata only. Lookup matches one exact selected
@@ -175,6 +178,11 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
         raise ConsumerError('Context bounds must be integers from zero through eight')
     if operation not in ('inventory', 'lookup', 'search', 'browse', 'select'):
         raise ConsumerError('Unsupported operation')
+    if category is not None:
+        if operation not in ('search', 'browse') or type(category) is not str or category not in CATEGORIES:
+            raise ConsumerError('Category filter requires search/browse and an exact source layer')
+        if category not in ('root_text_label', 'commentary_label') and not reviewed_noncandidates:
+            raise ConsumerError('This source layer requires separate explicit review opt-in')
     if operation == 'select':
         if (type(xml_ids) is not list or not 2 <= len(xml_ids) <= 5 or
                 any(type(x) is not str or not x or len(x) > 256 for x in xml_ids) or
@@ -264,12 +272,15 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                     accession_notice=raw['accession.json'].decode('utf-8'))
             if operation in ('search', 'browse'):
                 records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
-                eligible = [r for r in records if reviewed_noncandidates or r['candidate_for_literal_study']]
+                eligible = [r for r in records if (reviewed_noncandidates or r['candidate_for_literal_study'])
+                            and (category is None or r['category'] == category)]
                 matches = [r for r in eligible if query in r['parsed_text']] if operation == 'search' else eligible
                 if offset > len(matches):
                     raise ConsumerError('Page offset exceeds the selected result set')
                 end = min(offset+limit, len(matches))
-                result.update(records=matches[offset:end], total_count=len(matches), offset=offset,
+                result.update(records=matches[offset:end], category_filter=category,
+                    category_semantics='source_markup_label_not_scholarly_validation',
+                    total_count=len(matches), offset=offset,
                     next_offset=end if end < len(matches) else None,
                     truncated=end < len(matches), limit=limit,
                     search_scope='all_selected_units' if reviewed_noncandidates else 'literal_candidates_only',
