@@ -1,0 +1,15 @@
+{
+  "scope": "Post-run diagnostic counts, not semantic validation or new selection",
+  "source_report_sha256": "d77bf746d69c4ad88019d3144c5d3ab052e62105a8f2f8beccbdfc802092a5ef",
+  "schema_valid": 6,
+  "decision_only_matches": 3,
+  "rule_only_matches": 3,
+  "decision_and_rule_matches": 0,
+  "total": 6,
+  "manual_assistant_observation": {
+    "all_reasons_are_English": true,
+    "requested_Hindi_or_Gujarati_cases": 4,
+    "requested_language_failures_observed": 4,
+    "not_native_speaker_or_scholarly_validation": true
+  }
+}
