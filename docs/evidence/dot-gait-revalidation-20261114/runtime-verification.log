@@ -1,0 +1,4 @@
+3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]
+mujoco 3.17.0
+numpy 2.5.4
+Frozen implementation digests matched: 20
