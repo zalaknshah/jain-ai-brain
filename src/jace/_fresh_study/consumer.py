@@ -171,6 +171,14 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
     No caller pin is derived from the bundle. No files are written or logged.
     """
     _validate(pins, declaration)
+    # Own bounded option containers before validation and any bundle IO. Their
+    # elements must subsequently validate as immutable strings. Include one
+    # overflow item so existing bounds refuse oversized snapshots without copying
+    # an unbounded list or retaining caller ownership of an accepted list.
+    if type(xml_ids) is list:
+        xml_ids = xml_ids[:6]
+    if type(required_terms) is list:
+        required_terms = required_terms[:5]
     if type(reviewed_noncandidates) is not bool:
         raise ConsumerError('Review opt-in must be a boolean')
     if (type(before) is not int or type(after) is not int or
