@@ -206,6 +206,8 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 if not reviewed_noncandidates and any(not r['candidate_for_literal_study'] for r in selected):
                     raise ConsumerError('Noncandidate disclosure requires separate explicit review opt-in')
                 result.update(records=selected, target_record_id=records[index]['id'],
+                    context_units_before=before, context_units_after=after,
+                    context_relation='adjacent_extracted_units_not_inferred_support',
                     reviewed_noncandidates=reviewed_noncandidates,
                     attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
                     accession_notice=raw['accession.json'].decode('utf-8'))

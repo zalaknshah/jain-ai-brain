@@ -2,8 +2,9 @@
 
 `python -m jace.cli fresh-source-study --stdin --bundle-directory /absolute/private/bundle --confirm-private-study`
 
-Reads at most 8 KiB JSON on stdin. Inventory and lookup require exactly these keys. The subsequent bounded literal
-search uses its own exact request schema documented in fresh-literal-search.md:
+Reads at most 8 KiB JSON on stdin. Inventory requires exactly these keys. Lookup requires these keys and permits
+only the optional before/after context fields documented below. Bounded literal
+search uses its own request schema documented in fresh-literal-search.md:
 
 - `operation`: `inventory` or `lookup`.
 - `xml_id`: null for inventory; one exact selected XML identifier for lookup.
@@ -77,3 +78,7 @@ was used. These checks are not native Windows or container-build qualification.
 
 Bounded browsing and later search pages are documented in fresh-source-browsing.md.
 Browse has a distinct exact JSON schema and the same explicit disclosure gates.
+
+Lookup can additionally request bounded neighboring extracted units with optional
+`before`/`after` fields; see fresh-source-context.md. They are not inferred
+commentary/support relations and do not relax disclosure or review permission.

@@ -34,10 +34,15 @@ def run_request(raw, *, bundle_directory, confirmed=False,
             expected = {'operation', 'pins', 'declaration', 'offset', 'limit'}
         else:
             expected = {'operation', 'pins', 'declaration', 'xml_id'}
+            if req.get('operation') == 'lookup':
+                expected.update(k for k in ('before', 'after') if k in req)
         if set(req) != expected:
             raise ValueError()
         if 'offset' in req and type(req['offset']) is not int:
             raise ValueError()
+        for key in ('before', 'after'):
+            if key in req and (type(req[key]) is not int or not 0 <= req[key] <= 8):
+                raise ValueError()
         if type(req['pins']) is not dict or set(req['pins']) != {f.name for f in fields(ExpectedPins)}:
             raise ValueError()
         if type(req['declaration']) is not dict or set(req['declaration']) != {f.name for f in fields(StudyDeclaration)}:
@@ -65,7 +70,8 @@ def run_request(raw, *, bundle_directory, confirmed=False,
     result = consume(bundle_directory, pins=pins, declaration=declaration,
                      operation=req['operation'], xml_id=req.get('xml_id'),
                      reviewed_noncandidates=review_noncandidates,
-                     query=req.get('query'), limit=req.get('limit'), offset=req.get('offset'))
+                     query=req.get('query'), limit=req.get('limit'), offset=req.get('offset'),
+                     before=req.get('before', 0), after=req.get('after', 0))
     wire = json.dumps(result, ensure_ascii=True, allow_nan=False, separators=(',', ':')) + '\n'
     if len(wire.encode('ascii')) > MAX_OUTPUT_BYTES:
         raise ConsumerError('Fresh-study output exceeds bounded limit')
