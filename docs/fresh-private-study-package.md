@@ -1,9 +1,9 @@
 # Fresh private-study package integration
 
-This separately named API packages the reviewed standalone fresh-v1 consumer
-inside JACE. It does not replace `jace.private_study`, change legacy pins, convert
+At the API-only checkpoint 6f81e7c, this separately named API packaged the reviewed standalone fresh-v1 consumer
+inside JACE. It did not replace `jace.private_study`, change legacy pins, convert
 fresh records into the legacy schema, or connect study results to the engine,
-CLI, browser, model training or robot decisions.
+CLI, browser, model training or robot decisions at that checkpoint.
 
 Import `ExpectedPins`, `StudyDeclaration`, `ConsumerError`, and `consume` from
 `jace.fresh_private_study`. Every invocation requires independently trusted six
@@ -17,7 +17,9 @@ separate explicit review opt-in; that opt-in does not mean scholarly validation.
 Callers must not print or transmit real return values or exception locals without
 separate appropriate authorization. No corpus is included. All rights, source
 validation, translation, runtime and training admission gates remain unchanged.
-This is a Python API integration, not a user-facing study experience.
+That checkpoint was a Python API integration, not a user-facing study experience.
+The subsequent explicit local CLI is documented in fresh-source-study-cli.md;
+it adds no engine, web, model-training or robot-decision linkage.
 
 Implementation lineage:
 - Standalone consumer checkpoint 85f39f0, consumer SHA-256

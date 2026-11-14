@@ -33,6 +33,12 @@ def main() -> None:
     study.add_argument('--opt-in-source', required=True, help='explicitly accept this source SHA256 for this invocation')
     study.add_argument('--opt-in-records', required=True, help='explicitly accept this prepared-record SHA256 for this invocation')
     study.add_argument('--accept-license', required=True, choices=['CC-BY-SA-4.0'])
+    fresh = sub.add_parser('fresh-source-study', help='local fresh-v1 study from bounded JSON stdin; not training or an answer engine')
+    fresh.add_argument('--stdin', action='store_true', required=True)
+    fresh.add_argument('--bundle-directory', required=True)
+    fresh.add_argument('--confirm-private-study', action='store_true', required=True)
+    fresh.add_argument('--allow-local-disclosure', action='store_true', help='allow exact lookup text/notices on stdout; terminal may retain them')
+    fresh.add_argument('--review-noncandidates', action='store_true', help='allow private review of noncandidate units; not scholarly validation')
     dispute = sub.add_parser('prepare-dispute', help='stateless local discussion worksheet from bounded JSON stdin; no memory or provider')
     dispute.add_argument('--stdin', action='store_true', required=True, help='read an explicit JSON worksheet from stdin; input/output may be retained by your terminal')
     ask = sub.add_parser("ask")
@@ -133,6 +139,17 @@ def main() -> None:
     gait.add_argument("--trace", action="store_true")
     args = parser.parse_args()
 
+    if args.command == 'fresh-source-study':
+        from .fresh_study_request import MAX_INPUT_BYTES, ConsumerError, run_request
+        try:
+            serialized = run_request(sys.stdin.buffer.read(MAX_INPUT_BYTES + 1),
+                bundle_directory=args.bundle_directory, confirmed=args.confirm_private_study,
+                allow_local_disclosure=args.allow_local_disclosure,
+                review_noncandidates=args.review_noncandidates)
+        except ConsumerError as error:
+            parser.exit(2, 'Fresh source-study denied: ' + str(error) + '\n')
+        sys.stdout.write(serialized)
+        return
     if args.command == 'source-study':
         from .private_study import Consent, MAX_INPUT_BYTES, StudyError, run_request
         try:

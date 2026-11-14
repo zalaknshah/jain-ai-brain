@@ -77,3 +77,4 @@
 !src/jace/_fresh_study/__init__.py
 !src/jace/_fresh_study/consumer.py
 !src/jace/_fresh_study/preparation.py
+!src/jace/fresh_study_request.py

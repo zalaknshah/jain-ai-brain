@@ -1,0 +1,56 @@
+"""Bounded local fresh-study request serialization, never model/engine input."""
+import json
+import os
+from dataclasses import fields
+from .model_output import strict_json
+from .fresh_private_study import ConsumerError, ExpectedPins, StudyDeclaration, consume
+
+MAX_INPUT_BYTES = 8192
+MAX_OUTPUT_BYTES = 1024 * 1024
+
+
+def run_request(raw, *, bundle_directory, confirmed=False,
+                allow_local_disclosure=False, review_noncandidates=False):
+    """No IO before exact request/consent validation; no partial serialization.
+
+    Expected pins are provided independently by the operator, not read from the
+    bundle. Disclosure goes to the caller only; terminal retention is possible.
+    Review opt-in is permission to inspect, never scholarly verification.
+    """
+    if (confirmed is not True or type(allow_local_disclosure) is not bool or
+            type(review_noncandidates) is not bool):
+        raise ConsumerError('Explicit private study confirmation required')
+    if type(raw) is not bytes or not raw or len(raw) > MAX_INPUT_BYTES:
+        raise ConsumerError('Invalid bounded fresh-study request')
+    try:
+        req = strict_json(raw)
+        if type(req) is not dict or set(req) != {'operation', 'pins', 'declaration', 'xml_id'}:
+            raise ValueError()
+        if type(req['pins']) is not dict or set(req['pins']) != {f.name for f in fields(ExpectedPins)}:
+            raise ValueError()
+        if type(req['declaration']) is not dict or set(req['declaration']) != {f.name for f in fields(StudyDeclaration)}:
+            raise ValueError()
+        if req['operation'] == 'inventory':
+            if req['xml_id'] is not None or allow_local_disclosure or review_noncandidates:
+                raise ValueError()
+        elif req['operation'] == 'lookup':
+            if not allow_local_disclosure or type(req['xml_id']) is not str or not 0 < len(req['xml_id']) <= 256:
+                raise ValueError()
+        else:
+            raise ValueError()
+        pins = ExpectedPins(**req['pins'])
+        declaration = StudyDeclaration(**req['declaration'])
+    except (ValueError, TypeError, RecursionError):
+        raise ConsumerError('Invalid request or missing local disclosure permission') from None
+    if (os.name != 'posix' or any(not hasattr(os, n) for n in
+            ('O_NOFOLLOW', 'O_DIRECTORY', 'O_CLOEXEC', 'O_NONBLOCK', 'geteuid')) or
+            os.open not in os.supports_dir_fd or os.stat not in os.supports_dir_fd or
+            os.stat not in os.supports_follow_symlinks):
+        raise ConsumerError('Fresh-study secure local IO requires POSIX primitives')
+    result = consume(bundle_directory, pins=pins, declaration=declaration,
+                     operation=req['operation'], xml_id=req['xml_id'],
+                     reviewed_noncandidates=review_noncandidates)
+    wire = json.dumps(result, ensure_ascii=True, allow_nan=False, separators=(',', ':')) + '\n'
+    if len(wire.encode('ascii')) > MAX_OUTPUT_BYTES:
+        raise ConsumerError('Fresh-study output exceeds bounded limit')
+    return wire
