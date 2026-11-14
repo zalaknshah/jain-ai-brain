@@ -179,7 +179,7 @@ def _pending_review_item(record):
 
 
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
-            xml_id=None, before=0, after=0, reviewed_noncandidates=False,
+            xml_id=None, record_id=None, before=0, after=0, reviewed_noncandidates=False,
             query=None, limit=None, offset=None, xml_ids=None, category=None, required_terms=None):
     """Verify the complete bundle each call; return separate records, never an answer.
 
@@ -202,7 +202,7 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
     if (type(before) is not int or type(after) is not int or
             not 0 <= before <= MAX_CONTEXT or not 0 <= after <= MAX_CONTEXT):
         raise ConsumerError('Context bounds must be integers from zero through eight')
-    if operation not in ('inventory', 'lookup', 'search', 'browse', 'select', 'review_queue'):
+    if operation not in ('inventory', 'lookup', 'lookup_record', 'search', 'browse', 'select', 'review_queue'):
         raise ConsumerError('Unsupported operation')
     if category is not None:
         if operation not in ('search', 'browse') or type(category) is not str or category not in CATEGORIES:
@@ -220,6 +220,12 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
         raise ConsumerError('Inventory does not accept lookup or disclosure options')
     if operation == 'lookup' and (type(xml_id) is not str or not xml_id or len(xml_id) > 256):
         raise ConsumerError('An exact bounded XML ID is required')
+    if operation == 'lookup_record':
+        if (xml_id is not None or type(record_id) is not str or
+                not record_id or len(record_id) > 256):
+            raise ConsumerError('An exact bounded preparation record ID is required')
+    elif record_id is not None:
+        raise ConsumerError('Preparation record ID requires lookup_record operation')
     if operation not in ('search', 'browse', 'review_queue') and (query is not None or limit is not None or offset is not None):
         raise ConsumerError('Search options require the search operation')
     if required_terms is not None:
@@ -303,11 +309,13 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                     reviewed_noncandidates=reviewed_noncandidates,
                     attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
                     accession_notice=raw['accession.json'].decode('utf-8'))
-            if operation == 'lookup':
+            if operation in ('lookup', 'lookup_record'):
                 records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
-                hits = [i for i, r in enumerate(records) if r['source_xml_id'] == xml_id]
+                key, identifier = ('id', record_id) if operation == 'lookup_record' else ('source_xml_id', xml_id)
+                hits = [i for i, r in enumerate(records) if r[key] == identifier]
                 if len(hits) != 1:
-                    raise ConsumerError('XML ID is missing or ambiguous among selected study units')
+                    raise ConsumerError('XML ID is missing or ambiguous among selected study units' if operation == 'lookup' else
+                                        'Preparation record ID is missing or ambiguous among selected study units')
                 index = hits[0]
                 if index - before < 0 or index + after >= len(records):
                     raise ConsumerError('Context window exceeds available records')
@@ -320,6 +328,8 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                     reviewed_noncandidates=reviewed_noncandidates,
                     attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
                     accession_notice=raw['accession.json'].decode('utf-8'))
+                if operation == 'lookup_record':
+                    result['identifier_semantics'] = 'preparation_local_record_id_not_scholarly_citation'
             if operation in ('search', 'browse'):
                 records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
                 eligible = [r for r in records if (reviewed_noncandidates or r['candidate_for_literal_study'])

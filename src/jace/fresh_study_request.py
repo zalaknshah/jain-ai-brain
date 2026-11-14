@@ -34,6 +34,9 @@ def run_request(raw, *, bundle_directory, confirmed=False,
                     raise ValueError()
             if 'offset' in req:
                 expected.add('offset')
+        elif req.get('operation') == 'lookup_record':
+            expected = {'operation', 'pins', 'declaration', 'record_id'}
+            expected.update(k for k in ('before', 'after') if k in req)
         elif req.get('operation') == 'select':
             expected = {'operation', 'pins', 'declaration', 'xml_ids'}
         elif req.get('operation') in ('browse', 'review_queue'):
@@ -63,6 +66,9 @@ def run_request(raw, *, bundle_directory, confirmed=False,
         elif req['operation'] == 'lookup':
             if not allow_local_disclosure or type(req['xml_id']) is not str or not 0 < len(req['xml_id']) <= 256:
                 raise ValueError()
+        elif req['operation'] == 'lookup_record':
+            if not allow_local_disclosure or type(req['record_id']) is not str or not 0 < len(req['record_id']) <= 256:
+                raise ValueError()
         elif req['operation'] in ('search', 'browse', 'select', 'review_queue'):
             if not allow_local_disclosure:
                 raise ValueError()
@@ -78,7 +84,7 @@ def run_request(raw, *, bundle_directory, confirmed=False,
             os.stat not in os.supports_follow_symlinks):
         raise ConsumerError('Fresh-study secure local IO requires POSIX primitives')
     result = consume(bundle_directory, pins=pins, declaration=declaration,
-                     operation=req['operation'], xml_id=req.get('xml_id'),
+                     operation=req['operation'], xml_id=req.get('xml_id'), record_id=req.get('record_id'),
                      reviewed_noncandidates=review_noncandidates,
                      query=req.get('query'), limit=req.get('limit'), offset=req.get('offset'),
                      before=req.get('before', 0), after=req.get('after', 0), xml_ids=req.get('xml_ids'), category=req.get('category'), required_terms=req.get('required_terms'))
