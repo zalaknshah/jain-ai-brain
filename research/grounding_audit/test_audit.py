@@ -56,4 +56,45 @@ class AuditTests(unittest.TestCase):
         s,r=fixture(); s['s1']['bytes']=b'a'*(1024*1024+1)
         self.assertIn('missing_or_oversized_source_bytes',audit(s,[r])['rows'][0]['structural_errors'])
 
+class BindingTests(unittest.TestCase):
+    def bind(self):
+        s, r = fixture()
+        r['review_binding_sha256'] = audit(s, [r])['rows'][0]['review_binding_sha256']
+        return s, r
+    def test_missing_binding_is_flag(self):
+        s,r=fixture(); self.assertIn('missing_review_binding',audit(s,[r])['rows'][0]['review_flags'])
+    def test_exact_binding_not_admission(self):
+        s,r=self.bind(); out=audit(s,[r])['rows'][0]
+        self.assertNotIn('review_binding_mismatch',out['review_flags'])
+        self.assertFalse(out['training_admitted']); self.assertFalse(out['review_identity_verified'])
+    def test_changed_claim_invalidates(self):
+        s,r=self.bind(); r['claim']='Different proposed conclusion.'
+        self.assertIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+    def test_changed_edition_invalidates(self):
+        s,r=self.bind(); s['s1']['edition']='Other edition'
+        self.assertIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+    def test_normalization_invalidates(self):
+        s,r=self.bind(); r['normalized_candidate']='A revised interpretation.'
+        self.assertIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+    def test_rights_declaration_invalidates(self):
+        s,r=self.bind(); s['s1']['edition_training_scope_reference']='Other scope'
+        self.assertIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+    def test_review_reference_does_not_change_target(self):
+        s,r=self.bind(); r['scholarly_review_reference']='New review note'
+        self.assertNotIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+    def test_invalid_span_no_binding(self):
+        s,r=self.bind(); r['end']=10000
+        self.assertIsNone(audit(s,[r])['rows'][0]['review_binding_sha256'])
+    def test_key_order_independent(self):
+        s,r=self.bind(); r=dict(reversed(list(r.items())))
+        self.assertNotIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+    def test_surrogate_claim_does_not_crash_fingerprint(self):
+        s,r=fixture(); r['claim']='synthetic '+chr(0xd800)
+        self.assertIsInstance(audit(s,[r])['rows'][0]['review_binding_sha256'],str)
+    def test_translation_change_invalidates(self):
+        s,r=fixture(); r.update(target_language='hi', origin='machine_translation', translator='synthetic engine')
+        r['review_binding_sha256']=audit(s,[r])['rows'][0]['review_binding_sha256']
+        r['translator']='different engine'
+        self.assertIn('review_binding_mismatch',audit(s,[r])['rows'][0]['review_flags'])
+
 if __name__=='__main__': unittest.main()

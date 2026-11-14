@@ -38,10 +38,31 @@ Run from this directory:
 python -m unittest -v
 ```
 
-Observed: 16 unit checks passed on original synthetic fixtures. This is component
+Observed: 27 unit checks passed on original synthetic fixtures. This is component
 validation only, not corpus, multilingual model or doctrinal quality validation.
 The fixture's Gujarati token is a byte-boundary test, not a translation lesson.
 No weights, private texts, dataset rows from third parties, training run, paid
 service or deployment are included. Next useful integration is a human-reviewed
 edition-linked source adapter, once appropriate rights and scholarly review exist;
 this helper must not be substituted for those decisions.
+
+## Review-target binding diagnostic
+
+Structurally aligned rows receive a versioned SHA-256 fingerprint of the exact
+source bytes, selected edition/acquisition/rights declarations, byte span, raw
+excerpt, claim, target language, translation origin/translator/rights declaration
+and optional normalization candidate. A caller may supply that earlier digest as
+`review_binding_sha256`; missing or mismatched digests produce review flags. This
+makes changes to a previously reviewed target visible without treating arbitrary
+review-reference strings as evidence that the current target was reviewed.
+
+Review-reference strings and candidate IDs are not included in the target digest.
+Adding a review note does not change the target. This is **not a signature**: a
+caller can compute a new digest without a review, and an exact digest never proves
+identity, expertise, rights or semantic entailment. Every admission/verification
+boolean remains false. Rows with structural errors receive no target binding. Only declared
+schema fields participate; unknown extension fields are not covered. Fingerprints
+can reveal equality and permit guessing attacks, so they are not anonymization.
+Eleven additional synthetic checks cover stale claim, edition, rights declaration,
+normalization and translator metadata, plus surrogate-safe canonical ordering and unchanged
+review-note targets. No genuine literature or reviewer record is processed.

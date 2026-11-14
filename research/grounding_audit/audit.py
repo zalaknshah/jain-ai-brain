@@ -1,6 +1,7 @@
 """Research-only alignment diagnostics; never rights, scholarly or training admission."""
 from __future__ import annotations
 import hashlib
+import json
 
 MAX_BYTES = 1024 * 1024
 MAX_ROWS = 512
@@ -10,6 +11,26 @@ def sha(raw: bytes) -> str:
 
 def nonempty(value):
     return isinstance(value, str) and bool(value.strip()) and len(value) <= 4096
+
+def review_binding(source: dict, row: dict) -> str:
+    """Fingerprint content/declarations, not reviewer identity or correctness.
+
+    Called only for structurally aligned rows. Review references and the supplied
+    binding itself are excluded so adding a review does not alter its target.
+    """
+    source_fields = ('work', 'edition', 'language', 'acquisition_reference',
+                     'edition_rights_reference', 'edition_training_scope_reference')
+    row_fields = ('source_id', 'start', 'end', 'raw_excerpt', 'claim',
+                  'target_language', 'origin', 'normalized_candidate', 'translator',
+                  'translation_rights_reference')
+    def declared(value):
+        return value if (isinstance(value, str) and len(value) <= MAX_BYTES) or type(value) is int else None
+    payload = {'format': 'jace-grounding-review-binding-v1',
+               'source_sha256': sha(source['bytes']),
+               'source': {k: declared(source.get(k)) for k in source_fields},
+               'candidate': {k: declared(row.get(k)) for k in row_fields}}
+    return sha(json.dumps(payload, ensure_ascii=True, sort_keys=True,
+                          separators=(',', ':')).encode('utf-8'))
 
 def audit(sources: dict, rows: list) -> dict:
     """Audit caller-supplied candidates without file/network IO or text in output.
@@ -85,7 +106,14 @@ def audit(sources: dict, rows: list) -> dict:
         for field in ('rights_review_reference', 'scholarly_review_reference', 'entailment_review_reference'):
             if not nonempty(row.get(field)):
                 review.append('missing_' + field)
-        results.append({'id': rid, 'structural_errors': errors, 'review_flags': review,
+        binding = review_binding(source, row) if not errors else None
+        if binding is not None:
+            supplied = row.get('review_binding_sha256')
+            if supplied is None:
+                review.append('missing_review_binding')
+            elif supplied != binding:
+                review.append('review_binding_mismatch')
+        results.append({'id': rid, 'review_binding_sha256': binding, 'structural_errors': errors, 'review_flags': review,
                         'alignment': 'blocked' if errors else 'exact_span_only',
                         'training_admitted': False, 'semantic_entailment_verified': False,
                         'review_identity_verified': False})
