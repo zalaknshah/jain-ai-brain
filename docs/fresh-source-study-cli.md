@@ -82,3 +82,5 @@ Browse has a distinct exact JSON schema and the same explicit disclosure gates.
 Lookup can additionally request bounded neighboring extracted units with optional
 `before`/`after` fields; see fresh-source-context.md. They are not inferred
 commentary/support relations and do not relax disclosure or review permission.
+
+Explicit nonadjacent comparative reading is documented in fresh-source-selection.md.

@@ -30,6 +30,8 @@ def run_request(raw, *, bundle_directory, confirmed=False,
             expected = {'operation', 'pins', 'declaration', 'query', 'limit'}
             if 'offset' in req:
                 expected.add('offset')
+        elif req.get('operation') == 'select':
+            expected = {'operation', 'pins', 'declaration', 'xml_ids'}
         elif req.get('operation') == 'browse':
             expected = {'operation', 'pins', 'declaration', 'offset', 'limit'}
         else:
@@ -53,7 +55,7 @@ def run_request(raw, *, bundle_directory, confirmed=False,
         elif req['operation'] == 'lookup':
             if not allow_local_disclosure or type(req['xml_id']) is not str or not 0 < len(req['xml_id']) <= 256:
                 raise ValueError()
-        elif req['operation'] in ('search', 'browse'):
+        elif req['operation'] in ('search', 'browse', 'select'):
             if not allow_local_disclosure:
                 raise ValueError()
         else:
@@ -71,7 +73,7 @@ def run_request(raw, *, bundle_directory, confirmed=False,
                      operation=req['operation'], xml_id=req.get('xml_id'),
                      reviewed_noncandidates=review_noncandidates,
                      query=req.get('query'), limit=req.get('limit'), offset=req.get('offset'),
-                     before=req.get('before', 0), after=req.get('after', 0))
+                     before=req.get('before', 0), after=req.get('after', 0), xml_ids=req.get('xml_ids'))
     wire = json.dumps(result, ensure_ascii=True, allow_nan=False, separators=(',', ':')) + '\n'
     if len(wire.encode('ascii')) > MAX_OUTPUT_BYTES:
         raise ConsumerError('Fresh-study output exceeds bounded limit')

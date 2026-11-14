@@ -130,7 +130,7 @@ def _validate(pins, declaration):
 
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
             xml_id=None, before=0, after=0, reviewed_noncandidates=False,
-            query=None, limit=None, offset=None):
+            query=None, limit=None, offset=None, xml_ids=None):
     """Verify the complete bundle each call; return separate records, never an answer.
 
     Inventory contains aggregate metadata only. Lookup matches one exact selected
@@ -144,8 +144,15 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
     if (type(before) is not int or type(after) is not int or
             not 0 <= before <= MAX_CONTEXT or not 0 <= after <= MAX_CONTEXT):
         raise ConsumerError('Context bounds must be integers from zero through eight')
-    if operation not in ('inventory', 'lookup', 'search', 'browse'):
+    if operation not in ('inventory', 'lookup', 'search', 'browse', 'select'):
         raise ConsumerError('Unsupported operation')
+    if operation == 'select':
+        if (type(xml_ids) is not list or not 2 <= len(xml_ids) <= 5 or
+                any(type(x) is not str or not x or len(x) > 256 for x in xml_ids) or
+                len(set(xml_ids)) != len(xml_ids) or xml_id is not None or before or after):
+            raise ConsumerError('Select requires two through five distinct exact XML IDs')
+    elif xml_ids is not None:
+        raise ConsumerError('Multiple XML IDs require select operation')
     if operation == 'inventory' and (xml_id is not None or before or after or reviewed_noncandidates):
         raise ConsumerError('Inventory does not accept lookup or disclosure options')
     if operation == 'lookup' and (type(xml_id) is not str or not xml_id or len(xml_id) > 256):
@@ -194,6 +201,21 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 'parser_contract': manifest['parser_contract'],
                 'change_notice': fresh.CHANGE_NOTICE,
             }
+            if operation == 'select':
+                records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
+                selected = []
+                for identifier in xml_ids:
+                    hits = [r for r in records if r['source_xml_id'] == identifier]
+                    if len(hits) != 1:
+                        raise ConsumerError('Selected XML ID is missing or ambiguous')
+                    selected.append(hits[0])
+                if not reviewed_noncandidates and any(not r['candidate_for_literal_study'] for r in selected):
+                    raise ConsumerError('Noncandidate disclosure requires separate explicit review opt-in')
+                result.update(records=selected, selection_order='caller_supplied',
+                    selection_relation='explicit_selection_not_inferred_support',
+                    reviewed_noncandidates=reviewed_noncandidates,
+                    attribution_notice=raw['ATTRIBUTION.md'].decode('utf-8'),
+                    accession_notice=raw['accession.json'].decode('utf-8'))
             if operation == 'lookup':
                 records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
                 hits = [i for i, r in enumerate(records) if r['source_xml_id'] == xml_id]
