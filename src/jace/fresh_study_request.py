@@ -28,6 +28,10 @@ def run_request(raw, *, bundle_directory, confirmed=False,
             raise ValueError()
         if req.get('operation') == 'search':
             expected = {'operation', 'pins', 'declaration', 'query', 'limit'}
+            if 'required_terms' in req:
+                expected.add('required_terms')
+                if type(req['required_terms']) is not list:
+                    raise ValueError()
             if 'offset' in req:
                 expected.add('offset')
         elif req.get('operation') == 'select':
@@ -77,7 +81,7 @@ def run_request(raw, *, bundle_directory, confirmed=False,
                      operation=req['operation'], xml_id=req.get('xml_id'),
                      reviewed_noncandidates=review_noncandidates,
                      query=req.get('query'), limit=req.get('limit'), offset=req.get('offset'),
-                     before=req.get('before', 0), after=req.get('after', 0), xml_ids=req.get('xml_ids'), category=req.get('category'))
+                     before=req.get('before', 0), after=req.get('after', 0), xml_ids=req.get('xml_ids'), category=req.get('category'), required_terms=req.get('required_terms'))
     wire = json.dumps(result, ensure_ascii=True, allow_nan=False, separators=(',', ':')) + '\n'
     if len(wire.encode('ascii')) > MAX_OUTPUT_BYTES:
         raise ConsumerError('Fresh-study output exceeds bounded limit')

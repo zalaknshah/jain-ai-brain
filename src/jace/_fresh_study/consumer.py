@@ -162,7 +162,7 @@ def _literal_locations(record, query):
 
 def consume(bundle_directory, *, pins, declaration, operation='inventory',
             xml_id=None, before=0, after=0, reviewed_noncandidates=False,
-            query=None, limit=None, offset=None, xml_ids=None, category=None):
+            query=None, limit=None, offset=None, xml_ids=None, category=None, required_terms=None):
     """Verify the complete bundle each call; return separate records, never an answer.
 
     Inventory contains aggregate metadata only. Lookup matches one exact selected
@@ -196,6 +196,14 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
         raise ConsumerError('An exact bounded XML ID is required')
     if operation not in ('search', 'browse') and (query is not None or limit is not None or offset is not None):
         raise ConsumerError('Search options require the search operation')
+    if required_terms is not None:
+        if (operation != 'search' or type(required_terms) is not list or
+                not 1 <= len(required_terms) <= 4 or
+                any(type(term) is not str or not 1 <= len(term) <= 128 or
+                    not term.strip() or any(ord(c) < 32 or 127 <= ord(c) <= 159 or
+                    0xD800 <= ord(c) <= 0xDFFF for c in term) for term in required_terms) or
+                len(set(required_terms)) != len(required_terms) or query in required_terms):
+            raise ConsumerError('Additional terms require one through four distinct bounded search literals')
     if operation == 'search':
         if (xml_id is not None or before or after or type(query) is not str or
                 not 1 <= len(query) <= 128 or not query.strip() or
@@ -274,7 +282,8 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 records = [json.loads(line) for line in raw['records.jsonl'].splitlines()]
                 eligible = [r for r in records if (reviewed_noncandidates or r['candidate_for_literal_study'])
                             and (category is None or r['category'] == category)]
-                matches = [r for r in eligible if query in r['parsed_text']] if operation == 'search' else eligible
+                matches = [r for r in eligible if query in r['parsed_text'] and
+                           all(term in r['parsed_text'] for term in (required_terms or []))] if operation == 'search' else eligible
                 if offset > len(matches):
                     raise ConsumerError('Page offset exceeds the selected result set')
                 end = min(offset+limit, len(matches))
@@ -290,6 +299,12 @@ def consume(bundle_directory, *, pins, declaration, operation='inventory',
                 if operation == 'search':
                     result.update(match_count=len(matches), matching='exact_case_sensitive_unicode_substring_no_normalization',
                         match_locations=[_literal_locations(r, query) for r in matches[offset:end]])
+                if operation == 'search' and required_terms is not None:
+                    result.update(required_terms=list(required_terms),
+                        term_relation='same_extracted_record_not_semantic_relationship',
+                        required_term_locations=[{'term': term, 'matches':
+                            [_literal_locations(record, term) for record in matches[offset:end]]}
+                            for term in required_terms])
             snapshot.check()
             return result
     except OSError:
