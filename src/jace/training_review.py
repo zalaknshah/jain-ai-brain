@@ -88,7 +88,7 @@ def _validate_provenance(provenance):
             raise ValueError('whole-book byte budget exceeded')
         if hashlib.sha256(raw).hexdigest() != digest:
             raise ValueError('whole-book SHA256 mismatch')
-    used, spans = set(), {}
+    used, spans, passage_splits = set(), {}, {}
     for key, record in records.items():
         _id(key)
         _fields(record, 'row split book_sha256 start end source_text target_language origin translator translation_license translation_attribution translation_rights_evidence', 'training example')
@@ -119,6 +119,13 @@ def _validate_provenance(provenance):
             if start < prior_end and prior_start < end and prior_split != record['split']:
                 raise ValueError('overlapping original spans cross training/evaluation splits')
         spans[digest].append((start, end, record['split']))
+        # Identical excerpts can recur at different offsets or in different editions.
+        # Group by exact text before translation: differing target languages/prompts
+        # do not make such records independent held-out examples. Do not normalize
+        # or alter original text, or claim this detects semantic/near-duplicate leaks.
+        prior_split = passage_splits.setdefault(original, record['split'])
+        if prior_split != record['split']:
+            raise ValueError('identical original passages cross training/evaluation splits')
         if record['origin'] == 'original':
             if (record['target_language'] != book['language'] or row['response'] != original
                     or any(record[name] != '' for name in ('translator', 'translation_license', 'translation_attribution', 'translation_rights_evidence'))):

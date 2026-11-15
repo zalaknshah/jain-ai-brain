@@ -77,8 +77,12 @@ schema-3 manifest. JSON escaping can hit the manifest limit before the source
 byte budget. UTF-8 cuts, mismatched excerpts, duplicate keys and unknown fields
 fail closed. Overlapping source spans, including translated variants, cannot
 cross train/evaluation splits. Non-overlapping passages from one book are
-allowed in different splits; this is not a held-out-book evaluation. Semantic
-leakage and duplicated passages in different editions are not detected.
+allowed in different splits; this is not a held-out-book evaluation. Exact identical source excerpts also cannot cross splits, even at different
+offsets or in different books, or when their translations and prompts differ.
+This comparison preserves source text unchanged; Unicode variants, paraphrases,
+partial duplicate excerpts and other semantic leakage are not detected. It does
+not establish a held-out-book evaluation. Previously accepted exports with such
+exact duplicates will now fail admission and must be split and reviewed again.
 
 ```sh
 python -m jace.training_review_cli prepare \
