@@ -47,3 +47,8 @@ python scripts/evaluate_model_output.py
 Tests use original synthetic records, mocked chat-completion envelopes and a real loopback HTTP server with a synthetic token. They cover the three original practical examples, exact and altered quotations, unknown/unreviewed sources, source-metadata copying, malformed completion payloads, explicit refusal precedence, byte limits, redirect rejection and generic reasoner/action boundaries.
 
 The separate 12-case fixture evaluation checks mechanical admission, including an original Gujarati sentence. It does not contact a provider, use collected religious texts, measure scholarly accuracy or demonstrate multilingual reasoning. Successful fixture results must not be presented as real model performance or a completed grounded-answer product.
+
+For saved experimental answers, the [offline evaluation report](SAVED_ANSWER_EVALUATION.md)
+uses this same checker while keeping human semantic judgments separate and binding
+reviews to the exact source/question/output. Missing outputs and reviews remain
+visible; successful inspection is not a model-quality or robot-safety pass.
