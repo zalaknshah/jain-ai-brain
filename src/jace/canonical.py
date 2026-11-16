@@ -84,20 +84,22 @@ class CanonicalStore:
     def all(self) -> list[CanonicalEntry]:
         return list(self._entries)
 
-    def search_explained(self, query: str, limit: int = 5) -> list[LexicalSearchHit]:
+    def search_explained(self, query: str, limit: int = 5, *, passages_only: bool = False) -> list[LexicalSearchHit]:
         """Explain existing search results without broadening admission or ranking.
 
         A metadata match does not imply that the passage contains the term.
         Uses the same fail-closed scan and query budgets as ``search``; no
         partial explanations escape when the underlying search rejects a scan.
         """
-        entries = self.search(query, limit)
+        entries = self.search(query, limit, passages_only=passages_only)
         terms = query_terms(query)
         hits = []
         for entry in entries:
             fields = [(name, getattr(entry, name)) for name in
                       ('title', 'principle', 'guidance', 'source', 'work', 'edition', 'location')]
             fields.extend((f'tags[{index}]', tag) for index, tag in enumerate(entry.tags))
+            if passages_only:
+                fields = [('principle', entry.principle)]
             field_matches = []
             for name, value in fields:
                 overlap = terms & lexical_terms(value) if value else set()
@@ -108,7 +110,9 @@ class CanonicalStore:
             hits.append(LexicalSearchHit(entry, matched, matches))
         return hits
 
-    def search(self, query: str, limit: int = 5) -> list[CanonicalEntry]:
+    def search(self, query: str, limit: int = 5, *, passages_only: bool = False) -> list[CanonicalEntry]:
+        if type(passages_only) is not bool:
+            raise ValueError('passages_only must be a boolean')
         terms = query_terms(query)
         limit = result_limit(limit)
         if not terms:
@@ -119,7 +123,10 @@ class CanonicalStore:
                 fields = list(filter(None, [entry.title, entry.principle, entry.guidance, entry.source,
                               entry.work, entry.edition, entry.location, *entry.tags]))
                 budget.include(*fields)
-                score = len(terms & lexical_terms(" ".join(fields)))
+                # Count the same full record budget in either mode. Filter before
+                # top-k selection so metadata hits cannot crowd out passages.
+                text = entry.principle if passages_only else " ".join(fields)
+                score = len(terms & lexical_terms(text))
                 if score:
                     yield score, entry.entry_id, entry
         # Lower ID is the existing stable tie-breaker, with O(k) retained rows.
