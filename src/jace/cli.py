@@ -30,6 +30,7 @@ def main() -> None:
     query_input.add_argument('query', nargs='?', help='lexical query; command history may retain it')
     query_input.add_argument('--stdin', action='store_true', help='read a bounded JSON query from stdin instead of process arguments')
     explain.add_argument('--limit', default='5')
+    explain.add_argument('--passages-only', action='store_true', help='rank only principle-field lexical matches, not metadata')
     explain.add_argument('--corpus', help='explicit existing canonical corpus path; configuration is ignored')
     explain.add_argument('--allow-local-disclosure', action='store_true', required=True,
                          help='allow matched query terms and source IDs on stdout; terminal may retain them')
@@ -204,12 +205,14 @@ def main() -> None:
             if args.corpus is not None and not args.corpus.strip():
                 raise ValueError('empty explicit corpus path')
             corpus = CanonicalStore(args.corpus if args.corpus is not None else '')
-            hits = corpus.search_explained(args.query, args.limit)
+            hits = corpus.search_explained(args.query, args.limit, passages_only=args.passages_only)
             result = {'mode': 'lexical-only', 'semantic_support_verified': False,
                       'runtime_admitted': False,
                       'hits': [{'entry_id': hit.entry.entry_id, 'score': hit.score,
                                 'matched_terms': hit.matched_terms,
                                 'field_matches': dict(hit.field_matches)} for hit in hits]}
+            if args.passages_only:
+                result['search_fields'] = ['principle']
             serialized = json.dumps(result, ensure_ascii=False, indent=2) + '\n'
             if len(serialized.encode('utf-8')) > 1024 * 1024:
                 raise ValueError('explanation exceeds output budget')
