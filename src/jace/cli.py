@@ -25,6 +25,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(prog="jace", description="Jain AI Cognitive Engine")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("health")
+    explain = sub.add_parser('explain-search', help='stateless lexical match diagnostics; no answer, model or memory')
+    explain.add_argument('query', help='lexical query; command history may retain it')
+    explain.add_argument('--limit', default='5')
+    explain.add_argument('--corpus', help='explicit existing canonical corpus path; configuration is ignored')
+    explain.add_argument('--allow-local-disclosure', action='store_true', required=True,
+                         help='allow matched query terms and source IDs on stdout; terminal may retain them')
     sub.add_parser("source-capabilities", help="read-only source IO platform prerequisites; no engine, source files or database")
     study = sub.add_parser('source-study', help='private read-only source inspection from JSON stdin; no canonical admission, engine or provider')
     study.add_argument('--stdin', action='store_true', required=True, help='read a bounded lookup/search JSON request; terminal output may be retained')
@@ -176,6 +182,33 @@ def main() -> None:
     if args.command == "source-capabilities":
         from .source_bundle import source_platform_capabilities
         print(json.dumps(source_platform_capabilities(), indent=2))
+        return
+    if args.command == 'explain-search':
+        from .canonical import CanonicalStore
+        from .retrieval_limits import query_terms, result_limit
+        try:
+            query_terms(args.query)
+            args.limit = int(args.limit)
+            result_limit(args.limit)
+            if args.corpus is not None and not args.corpus.strip():
+                raise ValueError('empty explicit corpus path')
+            corpus = CanonicalStore(args.corpus if args.corpus is not None else '')
+            hits = corpus.search_explained(args.query, args.limit)
+            result = {'mode': 'lexical-only', 'semantic_support_verified': False,
+                      'runtime_admitted': False,
+                      'hits': [{'entry_id': hit.entry.entry_id, 'score': hit.score,
+                                'matched_terms': hit.matched_terms,
+                                'field_matches': dict(hit.field_matches)} for hit in hits]}
+            serialized = json.dumps(result, ensure_ascii=False, indent=2) + '\n'
+            if len(serialized.encode('utf-8')) > 1024 * 1024:
+                raise ValueError('explanation exceeds output budget')
+        except (ValueError, OSError, TypeError):
+            parser.exit(2, 'Invalid or unavailable retrieval input; no diagnostic output returned.\n')
+        try:
+            sys.stdout.write(serialized)
+            sys.stdout.flush()
+        except OSError:
+            parser.exit(2, 'Unable to write retrieval diagnostics; output may be incomplete.\n')
         return
     if args.command == "serve":
         serve()
