@@ -26,7 +26,9 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("health")
     explain = sub.add_parser('explain-search', help='stateless lexical match diagnostics; no answer, model or memory')
-    explain.add_argument('query', help='lexical query; command history may retain it')
+    query_input = explain.add_mutually_exclusive_group(required=True)
+    query_input.add_argument('query', nargs='?', help='lexical query; command history may retain it')
+    query_input.add_argument('--stdin', action='store_true', help='read a bounded JSON query from stdin instead of process arguments')
     explain.add_argument('--limit', default='5')
     explain.add_argument('--corpus', help='explicit existing canonical corpus path; configuration is ignored')
     explain.add_argument('--allow-local-disclosure', action='store_true', required=True,
@@ -186,7 +188,16 @@ def main() -> None:
     if args.command == 'explain-search':
         from .canonical import CanonicalStore
         from .retrieval_limits import query_terms, result_limit
+        from .model_output import strict_json
         try:
+            if args.stdin:
+                raw = sys.stdin.buffer.read(65537)
+                if len(raw) > 65536:
+                    raise ValueError('query input exceeds byte budget')
+                payload = strict_json(raw.decode('utf-8', errors='strict'))
+                if not isinstance(payload, dict) or set(payload) != {'query'}:
+                    raise ValueError('query input requires only query')
+                args.query = payload['query']
             query_terms(args.query)
             args.limit = int(args.limit)
             result_limit(args.limit)
