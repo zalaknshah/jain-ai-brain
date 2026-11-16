@@ -93,6 +93,26 @@ class SourceAnswerEvaluationTests(unittest.TestCase):
         with self.assertRaises(ValueError): evaluate_source_answers([],{})
         with self.assertRaises(ValueError): evaluate_source_answers([self.case]*257,{})
 
+    def test_duplicate_source_ids_are_invalid_cases_regardless_of_output(self):
+        for verified in (True, False):
+            for principle in (self.source['principle'], 'Different synthetic passage.'):
+                changed = copy.deepcopy(self.case)
+                changed['evidence'].append(dict(self.source, verified=verified, principle=principle))
+                for outputs in ({}, {'one': self.answer}, {'one': 'bad JSON'}):
+                    with self.subTest(verified=verified, principle=principle, outputs=outputs):
+                        with self.assertRaisesRegex(ValueError, 'duplicate source IDs'):
+                            self.run_case(cases=[changed], outputs=outputs)
+
+    def test_source_ids_can_be_reused_across_distinct_cases(self):
+        second = copy.deepcopy(self.case)
+        second['id'] = 'two'
+        report = self.run_case(cases=[self.case, second], outputs={'one': self.answer, 'two': self.answer})
+        self.assertEqual(report['mechanically_accepted'], 2)
+
+    def test_distinct_source_ids_in_one_case_remain_valid(self):
+        self.case['evidence'].append(dict(self.source, entry_id='another'))
+        self.assertEqual(self.run_case()['mechanically_accepted'], 1)
+
     def test_unicode_and_crlf_excerpts_keep_mechanical_contract(self):
         for passage in ('पहले जाँच करें।', 'પહેલાં તપાસ કરો.', 'First line.\r\nSecond line.'):
             self.source['principle'] = passage

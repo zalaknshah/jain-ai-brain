@@ -14,6 +14,9 @@ when generation failed or never ran; null is not a saved output.
 
 Case IDs are unique ASCII letters, digits, hyphens or underscores, at most 64
 characters. At most 256 cases and 20 evidence records per case are accepted.
+Evidence IDs must be unique within each case, including unreviewed records.
+Duplicate IDs invalidate the input before scoring, even when an answer is absent;
+they are not counted as model failures. Separate cases may reuse a source ID.
 The CLI accepts a bounded 8 MiB regular, no-symlink local input file on POSIX.
 Duplicate JSON keys and invalid inputs are rejected. Source review and rights
 fields remain declarations, not independently authenticated facts. Use only

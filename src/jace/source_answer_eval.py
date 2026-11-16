@@ -30,6 +30,7 @@ def _case(raw):
     if type(raw['require_citation']) is not bool or not isinstance(raw['evidence'], list) or len(raw['evidence']) > 20:
         raise ValueError('invalid citation requirement or evidence list')
     entries = []
+    source_ids = set()
     for value in raw['evidence']:
         if not isinstance(value, dict): raise ValueError('source must be an object')
         try:
@@ -40,6 +41,11 @@ def _case(raw):
         if len(serialized) > 40000: raise ValueError('source record exceeds limit')
         for name in ('entry_id', 'title', 'principle', 'guidance', 'source', 'language'):
             checked_text(getattr(entry, name), 'source ' + name, 20000, allow_crlf=name == 'principle')
+        # Ambiguous evidence is a malformed case, not an answer failure. Check
+        # even when the saved answer is missing or this source is unreviewed.
+        if entry.entry_id in source_ids:
+            raise ValueError('ambiguous duplicate source IDs within case')
+        source_ids.add(entry.entry_id)
         for name in ('work', 'edition', 'location', 'license', 'source_sha256'):
             value = getattr(entry, name)
             if value is not None: checked_text(value, 'source ' + name, 1000)
