@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import heapq
+from dataclasses import dataclass
 from pathlib import Path
 
 from .models import CanonicalEntry
@@ -8,6 +9,23 @@ from .model_output import checked_text, source_integrity_reference
 from .source_bundle import load_builtin_samples, load_corpus_snapshot
 from .text import lexical_terms
 from .retrieval_limits import ScanBudget, query_terms, result_limit
+
+
+@dataclass(frozen=True)
+class LexicalSearchHit:
+    """Lexical match diagnostics, not semantic support or review evidence.
+
+    Field matches are sorted normalized terms. Source text is never rewritten.
+    The entry retains its existing review and integrity declarations unchanged.
+    """
+
+    entry: CanonicalEntry
+    matched_terms: tuple[str, ...]
+    field_matches: tuple[tuple[str, tuple[str, ...]], ...]
+
+    @property
+    def score(self) -> int:
+        return len(self.matched_terms)
 
 
 class CanonicalStore:
@@ -65,6 +83,30 @@ class CanonicalStore:
 
     def all(self) -> list[CanonicalEntry]:
         return list(self._entries)
+
+    def search_explained(self, query: str, limit: int = 5) -> list[LexicalSearchHit]:
+        """Explain existing search results without broadening admission or ranking.
+
+        A metadata match does not imply that the passage contains the term.
+        Uses the same fail-closed scan and query budgets as ``search``; no
+        partial explanations escape when the underlying search rejects a scan.
+        """
+        entries = self.search(query, limit)
+        terms = query_terms(query)
+        hits = []
+        for entry in entries:
+            fields = [(name, getattr(entry, name)) for name in
+                      ('title', 'principle', 'guidance', 'source', 'work', 'edition', 'location')]
+            fields.extend((f'tags[{index}]', tag) for index, tag in enumerate(entry.tags))
+            field_matches = []
+            for name, value in fields:
+                overlap = terms & lexical_terms(value) if value else set()
+                if overlap:
+                    field_matches.append((name, tuple(sorted(overlap))))
+            matches = tuple(field_matches)
+            matched = tuple(sorted({term for _, values in matches for term in values}))
+            hits.append(LexicalSearchHit(entry, matched, matches))
+        return hits
 
     def search(self, query: str, limit: int = 5) -> list[CanonicalEntry]:
         terms = query_terms(query)
