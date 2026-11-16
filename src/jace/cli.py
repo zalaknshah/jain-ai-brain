@@ -50,6 +50,11 @@ def main() -> None:
     fresh.add_argument('--review-noncandidates', action='store_true', help='allow private review of noncandidate units; not scholarly validation')
     dispute = sub.add_parser('prepare-dispute', help='stateless local discussion worksheet from bounded JSON stdin; no memory or provider')
     dispute.add_argument('--stdin', action='store_true', required=True, help='read an explicit JSON worksheet from stdin; input/output may be retained by your terminal')
+    wardrobe_preview = sub.add_parser('preview-wardrobe', help='stateless review of an explicit inventory; no memory, corpus or model')
+    wardrobe_preview.add_argument('--stdin', action='store_true', required=True,
+                                  help='read a bounded JSON inventory from stdin')
+    wardrobe_preview.add_argument('--allow-local-disclosure', action='store_true', required=True,
+                                  help='allow inventory labels, declarations and checklist on stdout; terminal may retain them')
     ask = sub.add_parser("ask")
     ask.add_argument("input")
     ask.add_argument("--user", default="local-user")
@@ -181,6 +186,28 @@ def main() -> None:
         except ValueError as error:
             parser.exit(2, str(error) + '\n')
         sys.stdout.write(serialized)
+        return
+    if args.command == 'preview-wardrobe':
+        from .wardrobe import build_wardrobe_plan
+        from .model_output import strict_json
+        try:
+            raw = sys.stdin.buffer.read(65537)
+            if len(raw) > 65536:
+                raise ValueError('inventory input exceeds byte budget')
+            inventory = strict_json(raw.decode('utf-8', errors='strict'))
+            result = build_wardrobe_plan(inventory)
+            result['mode'] = 'stateless_preview'
+            result['inventory_saved'] = False
+            serialized = json.dumps(result, indent=2, ensure_ascii=False) + '\n'
+            if len(serialized.encode('utf-8')) > 131072:
+                raise ValueError('inventory preview exceeds output budget')
+        except (ValueError, OSError, TypeError):
+            parser.exit(2, 'Invalid or unavailable inventory input; no preview returned.\n')
+        try:
+            sys.stdout.write(serialized)
+            sys.stdout.flush()
+        except OSError:
+            parser.exit(2, 'Unable to write inventory preview; output may be incomplete.\n')
         return
     if args.command == "source-capabilities":
         from .source_bundle import source_platform_capabilities
