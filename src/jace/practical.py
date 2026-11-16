@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import re
 
-from .text import lexical_terms
+from .text import lexical_terms, normalize
 from .language_support import PLANS, native_plan_key, response_language, script_cues
 
 
@@ -67,6 +67,37 @@ def _english_plan_keys(words: set[str]) -> set[str]:
     return matches
 
 
+_CLOTHING = {'clothes', 'clothing', 'shirts', 'jackets', 'trousers', 'sweaters'}
+_ORGANIZE = {'organize', 'organise', 'sort', 'declutter', 'tidy'}
+
+
+def _clothing_request(request: str, words: set[str]) -> tuple[bool, bool]:
+    """Candidate and accepted status for a tiny explicit clothing grammar.
+
+    Extra clauses or instructions are not silently discarded. Candidate phrases
+    outside this grammar abstain rather than selecting another recognized task.
+    This is not paraphrase or intent understanding.
+    """
+    candidate = bool(words & _CLOTHING and
+                     (words & _ORGANIZE or ('keep' in words and words & {'what', 'which'})))
+    if not candidate:
+        return False, False
+    text = normalize(request).strip()
+    if '\n' in text or '\r' in text:
+        return True, False
+    clothing = r'(?:clothes|clothing|shirts|jackets|trousers|sweaters)'
+    question = r'how (?:can|should|do) i '
+    organize = r'(?:organize|organise|sort|declutter|tidy) my ' + clothing
+    decide = r'decide (?:what ' + clothing + r' to keep|which of my ' + clothing + r' to keep)'
+    direct = r'(?:' + question + r')?(?:' + organize + r')'
+    decision = question + decide
+    inventory = (r'i have (?:too many|a lot of) ' + clothing + r'(?: and ' + clothing + r')?'
+                 r'(?: in (?:my )?drawers)?\. ' + question +
+                 r'decide what to keep(?: without buying more)?')
+    accepted = re.fullmatch(r'(?:' + direct + '|' + decision + '|' + inventory + r')[.!?]?', text) is not None
+    return True, accepted
+
+
 def plan_for(request: str) -> PracticalPlan | None:
     """Recognize only the three bounded household/work examples in the brief."""
     words = lexical_terms(request)
@@ -78,6 +109,11 @@ def plan_for(request: str) -> PracticalPlan | None:
         return None
     plans = {'cleaning': _CLEANING, 'wardrobe': _WARDROBE, 'dispute': _DISPUTE}
     english_keys = _english_plan_keys(words)
+    clothing_candidate, clothing_accepted = _clothing_request(request, words)
+    if clothing_candidate:
+        if not clothing_accepted:
+            return None
+        english_keys.add('wardrobe')
     language = response_language(request)
     if language in PLANS:
         key = native_plan_key(request)
