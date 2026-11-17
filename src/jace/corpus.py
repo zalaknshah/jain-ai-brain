@@ -50,6 +50,7 @@ def ingest_files(
     if not draft and (verified is not True or not isinstance(license_name, str) or not license_name.strip()):
         raise ValueError("Runtime corpus ingestion requires human review and a recorded license; use draft=True for review-only output")
     records: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
     common_tags = tags or []
     for raw_path in paths:
         path = Path(raw_path)
@@ -60,9 +61,13 @@ def ingest_files(
             identity = {"work": work, "source": source, "language": language, "edition": edition,
                         "location": location or path.name, "chunk": index, "text": chunk}
             digest = hashlib.sha256(json.dumps(identity, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+            entry_id = f"corpus:{digest}"
+            if entry_id in seen_ids:
+                raise ValueError("Duplicate corpus entry identity; review repeated inputs or ambiguous source locations before ingestion")
+            seen_ids.add(entry_id)
             records.append(
                 {
-                    "entry_id": f"corpus:{digest}",
+                    "entry_id": entry_id,
                     "title": f"{work} — {path.stem} §{index}",
                     "principle": chunk,
                     "guidance": "Source passage retrieved for contextual analysis; interpretation must be clearly labelled.",

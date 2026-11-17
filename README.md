@@ -123,6 +123,8 @@ Runtime ingestion requires `--verified` and a recorded `--license`; these are hu
 
 Every generated chunk contains a hash stable across checkout paths, work, edition/source, location, language, licence, and review flag. A generated paraphrase is labelled as interpretation and is not presented as a quotation.
 
+Ingestion refuses duplicate generated entry IDs before creating or changing the output. Repeated input paths, or identical passages with the same work/source/language/edition/location and chunk number, can produce a collision. Review the inputs and provenance rather than silently discarding records. Distinct declared locations remain distinct records. This check does not establish source authenticity or review quality.
+
 Legacy list records support record-only excerpt matching: the older ingester normalizes whitespace and does not preserve a checked link to original file bytes. For newly prepared reviewed UTF-8 sources, `scripts/build_source_bundle.py` can instead create an explicit-consent private bundle with SHA-256 and exact byte spans. Runtime citations identify which level was checked. Rights and review remain human declarations; no real religious corpus has been qualified by this work. See [exact-source format, safe local build, limits and compatibility changes](docs/SOURCE_INTEGRITY.md).
 
 Before preparing external sources, run `python -m jace.cli source-capabilities` for a read-only platform check. Native Windows exact-source IO is not implemented; unsupported operations fail before source reads or staging. Available prerequisites are not a filesystem qualification. See [platform limits and Windows requirements](docs/SOURCE_PLATFORMS.md).
