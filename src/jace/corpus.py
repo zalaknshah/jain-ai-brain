@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import tempfile
 import re
 from pathlib import Path
 from typing import Any, Iterable
@@ -49,11 +51,17 @@ def ingest_files(
         raise ValueError("work, source and language are required")
     if not draft and (verified is not True or not isinstance(license_name, str) or not license_name.strip()):
         raise ValueError("Runtime corpus ingestion requires human review and a recorded license; use draft=True for review-only output")
+    output_path = Path(output)
+    input_paths = [Path(path) for path in paths]
+    for path in input_paths:
+        if output_path.resolve() == path.resolve() or (
+            output_path.exists() and path.exists() and output_path.samefile(path)
+        ):
+            raise ValueError("Corpus output must not alias an input source")
     records: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     common_tags = tags or []
-    for raw_path in paths:
-        path = Path(raw_path)
+    for path in input_paths:
         if path.suffix.lower() not in SUPPORTED_SUFFIXES:
             continue
         text = path.read_text(encoding="utf-8")
@@ -83,7 +91,22 @@ def ingest_files(
             )
     if not records:
         raise ValueError("No supported nonempty text or Markdown sources were provided")
-    output_path = Path(output)
+    # Encode before touching the destination: malformed metadata must not
+    # truncate an existing checkpoint. Stage on the same filesystem and replace
+    # only after a complete write. This is not a crash-durability guarantee.
+    payload = (json.dumps(records, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    staged = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="wb", dir=output_path.parent,
+                                         prefix=".jace-corpus-", delete=False) as stream:
+            staged = Path(stream.name)
+            if stream.write(payload) != len(payload):
+                raise OSError("Incomplete corpus staging write")
+            stream.flush()
+        os.replace(staged, output_path)
+        staged = None
+    finally:
+        if staged is not None:
+            staged.unlink(missing_ok=True)
     return len(records)
